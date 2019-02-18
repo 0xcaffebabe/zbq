@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.UserInfoMapper">
+
+
+    <insert id="insertUserInfo" useGeneratedKeys="true" keyProperty="userInfoId" parameterType="wang.ismy.zbq.entity.UserInfo">
+
+        INSERT INTO user_info(
+          nick_name, profile, birthday, pen_year, region, gender, description, create_time, update_time
+        ) VALUES (
+                #{nickName},#{profile},#{birthday},#{penYear},#{region},#{gender},#{description},NOW(),NOW()
+        )
+
+    </insert>
+</mapper>
