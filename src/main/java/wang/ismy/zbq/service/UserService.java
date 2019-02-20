@@ -24,14 +24,14 @@ public class UserService {
     private UserInfoService userInfoService;
 
     @Transactional
-    public int createNewUser(RegisterDTO dto){
+    public int createNewUser(RegisterDTO dto) {
 
 
         User user = User.builder()
-                    .username(dto.getUsername())
-                    .password(dto.getPassword().toUpperCase()).build();
+                .username(dto.getUsername())
+                .password(dto.getPassword().toUpperCase()).build();
 
-        if (userMapper.selectByUsername(dto.getUsername()) != null){
+        if (userMapper.selectByUsername(dto.getUsername()) != null) {
             throw new RuntimeException("用户名已被占用");
         }
         UserInfo userInfo = UserInfo.builder()
@@ -47,7 +47,7 @@ public class UserService {
                 .build();
         int userInfoId = userInfoService.insertUserInfo(userInfo);
 
-        if (userInfoId < 1){
+        if (userInfoId < 1) {
             throw new RuntimeException("未知错误");
         }
 
@@ -59,40 +59,52 @@ public class UserService {
         int ret = userMapper.insert(user);
 
         // 如果登录成功直接以当前用户登录
-        if (ret == 1){
+        if (ret == 1) {
             User currentUser = userMapper.selectByUsername(dto.getUsername());
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            request.getSession().setAttribute("user",currentUser);
+            request.getSession().setAttribute("user", currentUser);
         }
         return ret;
     }
 
-    public void login(String username,String password){
+    public void login(String username, String password) {
 
         User user = userMapper.selectByUsername(username);
-        if (user == null){
+        if (user == null) {
             throw new RuntimeException("登录失败,请检查用户名与密码");
         }
 
-        if (user.getPassword().equals(password)){
+        if (user.getPassword().equals(password)) {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("user", user);
 
-        }else{
+        } else {
             throw new RuntimeException("登录失败,请检查用户名与密码");
         }
     }
 
-    public User getCurrentUser(){
+    public void refreshCurrentUser() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        User user = userMapper.selectByUsername(getCurrentUser().getUsername());
+
+        request.getSession().setAttribute("user", user);
+    }
+
+    public User getCurrentUser() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Object user = request.getSession().getAttribute("user");
-        if (user == null){
+        if (user == null) {
             return null;
         }
 
-        if (user instanceof User){
-            return (User)user;
+        if (user instanceof User) {
+            return (User) user;
         }
         return null;
+    }
+
+    public boolean hasLogin() {
+        return getCurrentUser() != null;
     }
 }

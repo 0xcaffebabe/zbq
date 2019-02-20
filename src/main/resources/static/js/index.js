@@ -13,7 +13,7 @@ var app = new Vue({
     methods:{
        getState:function () {
            var that = this;
-           common.ajax.get("/user/state",function (response) {
+           common.ajax.get(common.data.getCurrentUserDataUrl,function (response) {
                if (response.data == null){
                    that.username = '未登录';
                }else{
@@ -26,7 +26,7 @@ var app = new Vue({
        ,
         logout:function () {
 
-           common.ajax.get("/user/logout",function (res) {
+           common.ajax.get(common.data.logoutUrl,function (res) {
                window.location = "";
            })
         }

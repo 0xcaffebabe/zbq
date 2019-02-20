@@ -17,7 +17,7 @@ public class ControllerResultAspect {
 
     @Around("pointCut()")
     public Object around(ProceedingJoinPoint joinPoint) throws Exception {
-        System.out.println(joinPoint);
+
         try {
             Result result = new Result();
             result.setMsg("success");

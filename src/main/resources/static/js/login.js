@@ -21,7 +21,7 @@ var app = new Vue({
                return 0;
            }
 
-           common.ajax.post("/user/login",function (response) {
+           common.ajax.post(common.data.loginUrl,function (response) {
                if (response.success){
                    window.location="/";
                }else{

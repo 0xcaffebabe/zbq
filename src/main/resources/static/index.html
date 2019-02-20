@@ -25,28 +25,30 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="index.html">Zbq</a>
-            <a class="navbar-brand">当前用户:{{nickName==''?'未登录':nickName}}</a>
+
+
+            <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">
+                <a href="/home">
+                    <img :src="profile"
+                         alt="" height="32" width="32" class="img-circle">
+                </a>
+            </div>
+
+            <a class="navbar-brand">{{nickName==''?'未登录':nickName}}</a>
             <div class="btn-group navbar navbar-btn" v-if="username == '未登录'">
                 <a v-show="username == '未登录'" href="/login.html" class="btn btn-primary">登录</a>
                 <a v-show="username == '未登录'" href="/register.html" class="btn btn-success">注册</a>
             </div>
 
 
-            <div class="btn btn-group navbar navbar-btn" v-if="username != '未登录'">
-                <button v-show="username != '未登录'" class="btn btn-danger " @click="logout">注销</button>
-            </div>
-
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="index.html">主页</a></li>
-                <li><a href="about.html">关于</a></li>
-                <li><a href="#works">联系</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
-
 
 
 <div id="headerwrap">
@@ -57,9 +59,11 @@
                 <h1>SPIN</h1>
 
             </div>
-        </div><! --/row -->
+        </div>
+        <! --/row -->
     </div> <!-- /container -->
-</div><! --/headerwrap -->
+</div>
+<! --/headerwrap -->
 
 <section id="works"></section>
 <div class="container">
@@ -67,18 +71,19 @@
         <h1>快速开始</h1>
 
         <div class="col-lg-4 col-md-4 col-sm-4 gallery">
-            <a href="work.html"><img src="/xs.jpg" class="img-responsive"></a>
+            <a href="#"><img src="img/xs.jpg" class="img-responsive"></a>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 gallery">
-            <a href="work.html"><img src="/rm.jpg" class="img-responsive"></a>
+            <a href="#"><img src="img/rm.jpg" class="img-responsive"></a>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 gallery">
-            <a href="work.html"><img src="/jj.jpg" class="img-responsive"></a>
+            <a href="#"><img src="img/jj.jpg" class="img-responsive"></a>
         </div>
 
-    </div><! --/row -->
-</div><! --/container -->
-
+    </div>
+    <! --/row -->
+</div>
+<! --/container -->
 
 
 <div id="footerwrap">
@@ -96,7 +101,8 @@
             </div>
         </div>
     </div>
-</div><! --/footerwrap -->
+</div>
+<! --/footerwrap -->
 
 
 </body>

@@ -5,4 +5,8 @@ import wang.ismy.zbq.entity.UserInfo;
 public interface UserInfoMapper {
 
     int insertUserInfo(UserInfo userInfo);
+
+    int updateUserInfo(UserInfo userInfo);
+
+    UserInfo selectByPrimaryKey(Integer key);
 }

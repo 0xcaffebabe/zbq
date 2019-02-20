@@ -10,25 +10,30 @@
         <result property="password" column="password"/>
 
         <association property="userInfo" javaType="wang.ismy.zbq.entity.UserInfo">
+            <id property="userInfoId" column="user_info_id"/>
             <result property="nickName" column="nick_name"/>
             <result property="profile" column="profile"/>
         </association>
     </resultMap>
 
     <insert id="insert" parameterType="wang.ismy.zbq.entity.User">
-        INSERT INTO user(username, password, user_info, create_time, update_time)
-                VALUES (#{username},#{password},#{userInfo.userInfoId},NOW(),NOW())
+        INSERT INTO user (username, password, user_info, create_time, update_time)
+        VALUES (#{username}, #{password}, #{userInfo.userInfoId}, NOW(), NOW())
     </insert>
 
     <select id="selectAll" resultType="wang.ismy.zbq.entity.User">
-        SELECT * FROM user
+        SELECT *
+        FROM user
     </select>
     <select id="selectByUsername" resultMap="userMap">
-        SELECT user.user_id,
+        SELECT
+            user.user_id,
             user.username,
             user.password,
+            user_info.user_info_id,
             user_info.nick_name,
             user_info.profile
-        FROM user,user_info WHERE user.username = #{username} AND user_info.user_info_id = user.user_info
+        FROM user, user_info
+        WHERE user.username = #{username} AND user_info.user_info_id = user.user_info
     </select>
 </mapper>

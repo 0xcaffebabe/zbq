@@ -1,6 +1,7 @@
 package wang.ismy.zbq.controller;
 
 
+import com.mysql.cj.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.ResultTarget;
@@ -53,6 +54,10 @@ public class UserController {
             userDTO.setUsername(user.getUsername());
             userDTO.setNickName(user.getUserInfo().getNickName());
             userDTO.setProfile(user.getUserInfo().getProfile());
+
+            if (StringUtils.isNullOrEmpty(userDTO.getProfile())){
+                userDTO.setProfile("img/anonymous.jpg");
+            }
             return userDTO;
         }
         return null;

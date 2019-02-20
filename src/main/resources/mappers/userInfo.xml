@@ -15,4 +15,21 @@
         )
 
     </insert>
+    <update id="updateUserInfo" parameterType="wang.ismy.zbq.entity.UserInfo">
+        UPDATE user_info
+        SET
+            nick_name = #{nickName},
+            profile = #{profile},
+            birthday = #{birthday},
+            pen_year = #{penYear},
+            region = #{region},
+            gender = #{gender},
+            description = #{description},
+            update_time = NOW()
+        WHERE
+            user_info_id = #{userInfoId}
+    </update>
+    <select id="selectByPrimaryKey" resultType="wang.ismy.zbq.entity.UserInfo">
+        SELECT * FROM user_info WHERE user_info_id = #{key}
+    </select>
 </mapper>

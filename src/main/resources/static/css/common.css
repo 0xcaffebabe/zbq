@@ -1,3 +1,11 @@
 .shadow{
     box-shadow: 2px 2px 13px #ccc;
 }
+.blank{
+    height:5px;
+}
+
+.hidden-input{
+    border:none;
+    border-bottom: 1px #ccc solid;
+}

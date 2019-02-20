@@ -41,9 +41,15 @@ function getCommonObject(){
                     }
                 });
             }
+        },
+        data:{
+            loginUrl:'/user/login',
+            registerUrl:'/user/register',
+            logoutUrl:'/user/logout',
+            getCurrentUserDataUrl:'/user/state',
+            getCurrentUserInfoUrl:"/userInfo/self",
+            updateUserInfoUrl:'/userInfo'
         }
-
-
     }
 }
 

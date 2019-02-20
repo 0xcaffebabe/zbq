@@ -22,7 +22,7 @@ var app = new Vue({
 
 
             if (this.password === this.repeatPassword){
-                common.ajax.put("/user/register",function (response) {
+                common.ajax.put(common.data.registerUrl,function (response) {
                     if (response.success){
                         alert(response.data);
                         window.location="/";
