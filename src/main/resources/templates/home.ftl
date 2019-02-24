@@ -43,6 +43,11 @@
         ::-webkit-scrollbar-thumb:window-inactive {
             background:rgba(255,0,0,0.4);
         }
+        .hiddenfile {
+            width: 0px;
+            height: 0px;
+            overflow: hidden;
+        }
     </style>
 </head>
 
@@ -150,12 +155,15 @@
                                         <img class="rounded-circle mx-auto d-block" height="72" width="72"
                                              :src="profile" alt="Card image cap">
                                         <h5 class="text-sm-center mt-2 mb-1">
-                                            <input type="text" class="hidden-input" style="width:90px;" name=""
+                                            <input type="text" class="hidden-input text-center" style="width:90px;" name=""
                                                    v-model="nickName">
                                         </h5>
 
                                         <h5 class="text-sm-center mt-2 mb-1">
-                                            <button class="btn btn-primary btn-sm">更换头像</button>
+                                            <div class="hiddenfile">
+                                                <input type="file" id="file" @change="uploadProfile"/>
+                                            </div>
+                                            <button class="btn btn-primary btn-sm" @click="changeProfile">更换头像</button>
                                         </h5>
                                     </div>
                                     <div class="col-md-8" style="">
@@ -191,7 +199,7 @@
                                     </div>
                                 </div>
                                 <div class="text-sm-center">
-                                    <input type="text" class="hidden-input" name="" v-model="description">
+                                    <input type="text" class="hidden-input text-center" name="" v-model="description">
                                 </div>
 
                             </div>

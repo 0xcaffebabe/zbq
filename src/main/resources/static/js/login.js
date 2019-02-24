@@ -33,5 +33,10 @@ var app = new Vue({
            });
 
        }
+       ,
+       enterEvent:function (e) {
+
+           this.login();
+       }
     }
 });

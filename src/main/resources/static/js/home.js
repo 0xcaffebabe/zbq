@@ -1,5 +1,5 @@
 var userCard = new Vue({
-    created: function(){
+    created: function () {
         this.getUserInfo();
     },
     el: "#userCard",
@@ -30,27 +30,52 @@ var userCard = new Vue({
             });
 
         },
-        saveUserInfo:function () {
+        saveUserInfo: function () {
 
             var obj = {
-                nickName:this.nickName,
-                profile:this.profile,
-                region:this.region,
-                birthday:this.birthday,
-                penYear:this.penYear,
-                gender:this.gender,
-                description:this.description
+                nickName: this.nickName,
+                profile: this.profile,
+                region: this.region,
+                birthday: this.birthday,
+                penYear: this.penYear,
+                gender: this.gender,
+                description: this.description
             };
 
-            common.ajax.post(common.data.updateUserInfoUrl,function (response) {
+            common.ajax.post(common.data.updateUserInfoUrl, function (response) {
 
-                if (response.success){
+                if (response.success) {
                     alert(response.data);
+                } else {
+                    alert(response.msg);
+                }
+            }, obj);
+
+        }
+        ,
+        changeProfile: function () {
+
+            $("#file").trigger("click");
+        }
+        ,
+        uploadProfile:function () {
+            var files = $('#file').prop('files');
+
+            var data = new FormData();
+            data.append('file', files[0]);
+
+            var that = this;
+            common.ajax.upload('/upload/profile',function (response) {
+                if (response.success){
+
+                    that.profile = response.data;
+                    alert("上传成功，请点击右上角保存资料！");
+
                 }else{
                     alert(response.msg);
                 }
-            },obj);
 
+            },data);
         }
     },
 

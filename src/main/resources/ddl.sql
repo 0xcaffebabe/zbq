@@ -4,6 +4,7 @@ CREATE TABLE user(
   username VARCHAR(20) NOT NULL UNIQUE ,
   password VARCHAR(32) NOT NULL ,
   user_info INT NOT NULL ,
+  permission INT NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 ) ENGINE=InnoDB CHARSET=utf8;
@@ -20,5 +21,11 @@ CREATE TABLE user_info(
   description VARCHAR(255) DEFAULT '',
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建权限表
+CREATE TABLE permission(
+  permission_id INT PRIMARY KEY  AUTO_INCREMENT,
+  content_publish VARCHAR(2) DEFAULT 'N' COMMENT '内容发布权限'
 )ENGINE=InnoDB CHARSET=utf8;
 

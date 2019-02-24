@@ -17,8 +17,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="wang.ismy.zbq.entity.User">
-        INSERT INTO user (username, password, user_info, create_time, update_time)
-        VALUES (#{username}, #{password}, #{userInfo.userInfoId}, NOW(), NOW())
+        INSERT INTO user (username, password, user_info, permission , create_time, update_time)
+        VALUES (#{username}, #{password}, #{userInfo.userInfoId},#{permission.permissionId}, NOW(), NOW())
     </insert>
 
     <select id="selectAll" resultType="wang.ismy.zbq.entity.User">

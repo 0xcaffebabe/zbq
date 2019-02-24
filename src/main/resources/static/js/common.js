@@ -41,6 +41,23 @@ function getCommonObject(){
                     }
                 });
             }
+            ,
+            upload:function (url,success,data) {
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success:success,
+                    error:function (response) {
+                        alert("数据请求出错");
+                        console.log(response);
+                    }
+                });
+            }
         },
         data:{
             loginUrl:'/user/login',

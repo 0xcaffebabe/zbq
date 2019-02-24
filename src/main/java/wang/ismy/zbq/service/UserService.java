@@ -7,6 +7,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import wang.ismy.zbq.dao.UserMapper;
 import wang.ismy.zbq.dto.RegisterDTO;
+import wang.ismy.zbq.entity.Permission;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
 
@@ -23,6 +24,9 @@ public class UserService {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private PermissionService permissionService;
+
     @Transactional
     public int createNewUser(RegisterDTO dto) {
 
@@ -36,7 +40,7 @@ public class UserService {
         }
         UserInfo userInfo = UserInfo.builder()
                 .nickName("佚名")
-                .profile("")
+                .profile("img/anonymous.jpg")
                 .birthday(LocalDate.now())
                 .penYear(1)
                 .region("中国")
@@ -55,6 +59,12 @@ public class UserService {
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         user.setUserInfo(userInfo);
+
+        // 创建一条用户权限记录
+        Permission permission = new Permission();
+        permission.setContentPublish("N");
+        int PermissionId = permissionService.insertPermission(permission);
+        user.setPermission(permission);
 
         int ret = userMapper.insert(user);
 

@@ -21,6 +21,8 @@ public class User {
 
     private UserInfo userInfo;
 
+    private Permission permission;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
