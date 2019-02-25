@@ -31,24 +31,12 @@ public class UserService {
     public int createNewUser(RegisterDTO dto) {
 
 
-        User user = User.builder()
-                .username(dto.getUsername())
-                .password(dto.getPassword().toUpperCase()).build();
+        User user = generateUser(dto);
 
         if (userMapper.selectByUsername(dto.getUsername()) != null) {
             throw new RuntimeException("用户名已被占用");
         }
-        UserInfo userInfo = UserInfo.builder()
-                .nickName("佚名")
-                .profile("img/anonymous.jpg")
-                .birthday(LocalDate.now())
-                .penYear(1)
-                .region("中国")
-                .gender(0)
-                .description("这个人很懒，没有留下介绍")
-                .createTime(LocalDateTime.now())
-                .updateTime(LocalDateTime.now())
-                .build();
+        UserInfo userInfo = getDefaultUserInfo();
         int userInfoId = userInfoService.insertUserInfo(userInfo);
 
         if (userInfoId < 1) {
@@ -60,10 +48,9 @@ public class UserService {
         user.setUpdateTime(LocalDateTime.now());
         user.setUserInfo(userInfo);
 
-        // 创建一条用户权限记录
-        Permission permission = new Permission();
-        permission.setContentPublish("N");
-        int PermissionId = permissionService.insertPermission(permission);
+
+        Permission permission = getDefaultPermission();
+        permissionService.insertPermission(permission);
         user.setPermission(permission);
 
         int ret = userMapper.insert(user);
@@ -71,10 +58,40 @@ public class UserService {
         // 如果登录成功直接以当前用户登录
         if (ret == 1) {
             User currentUser = userMapper.selectByUsername(dto.getUsername());
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            request.getSession().setAttribute("user", currentUser);
+            setCurrentUser(currentUser);
         }
         return ret;
+    }
+
+    private User generateUser(RegisterDTO dto) {
+        return User.builder()
+                .username(dto.getUsername())
+                .password(dto.getPassword().toUpperCase()).build();
+    }
+
+    private Permission getDefaultPermission() {
+        Permission permission = new Permission();
+        permission.setContentPublish("N");
+        return permission;
+    }
+
+    private void setCurrentUser(User user){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        request.getSession().setAttribute("user", user);
+    }
+
+    private UserInfo getDefaultUserInfo() {
+        return UserInfo.builder()
+                .nickName("佚名")
+                .profile("img/anonymous.jpg")
+                .birthday(LocalDate.now())
+                .penYear(1)
+                .region("中国")
+                .gender(0)
+                .description("这个人很懒，没有留下介绍")
+                .createTime(LocalDateTime.now())
+                .updateTime(LocalDateTime.now())
+                .build();
     }
 
     public void login(String username, String password) {

@@ -35,11 +35,7 @@ public class OSSService {
     }
 
     private String generateRandomImgName(String format){
-
         Random random = new Random(9999999);
-
-        String ret = String.valueOf(System.currentTimeMillis())+String.valueOf(random.nextInt())+"."+format;
-
-        return ret;
+        return String.valueOf(System.currentTimeMillis())+String.valueOf(random.nextInt())+"."+format;
     }
 }

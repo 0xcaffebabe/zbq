@@ -19,7 +19,6 @@ public class UserInfoService {
     private UserService userService;
 
     /*
-    *
     * 返回主键
     * */
     public int insertUserInfo(UserInfo userInfo){

@@ -6,7 +6,7 @@
                     <a href="index.html"><i class="menu-icon fa fa-user"></i>用户中心 </a>
 
                 </li>
-                <li> <a href="index.html"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
+                <li> <a href="space/${user.userId?c}"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
                 <li class="menu-title">社交</li><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown">
 
