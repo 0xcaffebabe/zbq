@@ -10,8 +10,7 @@
                 <li class="menu-title">社交</li><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown">
 
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false"> <i class="menu-icon fa fa-users"></i>我的笔友 </a>
+                    <a href="/friends"> <i class="menu-icon fa fa-users"></i>我的笔友 </a>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>笔圈动态 </a>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"

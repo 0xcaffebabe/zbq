@@ -65,7 +65,9 @@ function getCommonObject(){
             logoutUrl:'/user/logout',
             getCurrentUserDataUrl:'/user/state',
             getCurrentUserInfoUrl:"/userInfo/self",
-            updateUserInfoUrl:'/userInfo'
+            updateUserInfoUrl:'/userInfo',
+            getFriendListUrl:"/friend/self",
+            getRecommendFriendListUrl:"/friend/recommend"
         }
     }
 }

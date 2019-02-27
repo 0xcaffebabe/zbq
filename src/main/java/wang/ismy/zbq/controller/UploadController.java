@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.service.OSSService;
-
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 @RestController

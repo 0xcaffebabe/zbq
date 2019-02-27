@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.FriendMapper">
+    <resultMap id="friendMap" type="wang.ismy.zbq.entity.Friend">
+        <result property="friendUserId" column="friend_id"/>
+        <association property="friendUserInfo" javaType="wang.ismy.zbq.entity.UserInfo">
+            <result property="nickName" column="nick_name"/>
+            <result property="profile" column="profile"/>
+            <result property="penYear" column="pen_year"/>
+
+        </association>
+    </resultMap>
+    <select id="selectFriendByUserId" resultMap="friendMap">
+        SELECT
+            friend.friend_id,
+            user_info.nick_name,
+            user_info.profile,
+            user_info.pen_year
+        FROM friend, user, user_info
+        WHERE friend.friend_id = user.user_id
+              AND user.user_info = user_info.user_info_id
+              AND (friend.user_id = #{userId})
+
+    </select>
+    <select id="selectRecommendFriendByUserId" resultMap="friendMap">
+        SELECT
+            user.user_id friend_id,
+            user_info.nick_name,
+            user_info.profile,
+            user_info.pen_year
+        FROM
+            user, user_info
+        WHERE user.user_info = user_info.user_info_id
+              AND user_id NOT IN
+                  (
+                      SELECT friend.friend_id
+                      FROM friend
+                      WHERE friend.user_id = #{userId}
+                  )
+              AND user_id != #{userId}
+    </select>
+    <select id="selectFriendByUserIdAndNickname" resultMap="friendMap">
+        SELECT
+            friend.friend_id,
+            user_info.nick_name,
+            user_info.profile,
+            user_info.pen_year
+        FROM friend, user, user_info
+        WHERE friend.friend_id = user.user_id
+              AND user.user_info = user_info.user_info_id
+              AND (friend.user_id = #{userId})
+              AND user_info.nick_name LIKE '%' #{nickName} '%'
+    </select>
+
+
+</mapper>

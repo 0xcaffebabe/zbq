@@ -29,3 +29,9 @@ CREATE TABLE permission(
   content_publish VARCHAR(2) DEFAULT 'N' COMMENT '内容发布权限'
 )ENGINE=InnoDB CHARSET=utf8;
 
+# 创建好友关系表
+CREATE TABLE friend(
+  user_id INT NOT NULL ,
+  friend_id INT NOT NULL 
+)ENGINE=InnoDB CHARSET=utf8;
+

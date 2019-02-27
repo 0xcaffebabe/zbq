@@ -32,10 +32,18 @@ public class RedirectController {
         return "home";
     }
 
+    @RequestMapping("/friends")
+    @MustLogin
+    public Object friends(ModelMap map){
+        return "friends";
+    }
+
     @RequestMapping("/space/{id}")
     public Object space(@PathVariable("id") Integer id,ModelMap modelMap){
         User user = userService.getCurrentUser();
         modelMap.put("user",user);
         return "space";
     }
+
+
 }

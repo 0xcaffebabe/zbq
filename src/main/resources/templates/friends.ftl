@@ -43,11 +43,10 @@
         ::-webkit-scrollbar-thumb:window-inactive {
             background:rgba(255,0,0,0.4);
         }
-        .hiddenfile {
-            width: 0px;
-            height: 0px;
-            overflow: hidden;
+        table td{
+            text-transform: none!important;
         }
+
     </style>
 </head>
 
@@ -60,305 +59,148 @@
     <!-- Header-->
     <#include "header.ftl"/>
     <!-- /#header -->
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-inner">
+            <div class="row m-0">
+                <div class="col-sm-4">
+                    <div class="page-header float-left">
+                        <div class="page-title">
+                            <h1>笔友</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="page-header float-right">
+                        <div class="page-title">
+                            <ol class="breadcrumb text-right">
+                                <li><a href="#">主页</a></li>
+
+                                <li class="active">笔友</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Content -->
     <div class="content">
-        <!-- Animated -->
         <div class="animated fadeIn">
-            <!-- Widgets  -->
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-five">
-                                <div class="stat-icon dib flat-color-4">
-                                    <i class="pe-7s-users"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">2986</span></div>
-                                        <div class="stat-heading">好友数</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div>
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-five">
-                                <div class="stat-icon dib flat-color-1">
-                                    <i class="pe-7s-star"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">586</span></div>
-                                        <div class="stat-heading">动态数</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-five">
-                                <div class="stat-icon dib flat-color-2">
-                                    <i class="pe-7s-sun"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">56</span></div>
-                                        <div class="stat-heading">在线天数</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="stat-widget-five">
-                                <div class="stat-icon dib flat-color-3">
-                                    <i class="pe-7s-like"></i>
-                                </div>
-                                <div class="stat-content">
-                                    <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">349</span></div>
-                                        <div class="stat-heading">收获赞数</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <!-- /Widgets -->
-            <div class="row">
+            <div class="row"  id="friends">
                 <div class="col-md-7">
-                    <div class="card" id="userCard">
+                    <div class="card">
                         <div class="card-header">
-                            <button class="btn btn-success btn-sm" style="float:right" @click="saveUserInfo">保存资料</button>
-                            <strong class="card-title mb-3">资料卡</strong>
+                            <strong class="card-title">笔友列表</strong>
+
+
+                                <div class="form-group form-inline" style="float: right">
+                                    <input type="text" class="form-control" placeholder="根据昵称模糊搜索">
+                                    <button class="btn btn-sm btn-success form-control"><span class="fa fa-search"></span>搜索好友</button>
+                                </div>
 
 
                         </div>
-                        <div class="card-body" >
-                            <div class="mx-auto d-block">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img class="rounded-circle mx-auto d-block" height="72" width="72"
-                                             :src="profile" alt="Card image cap">
-                                        <h5 class="text-sm-center mt-2 mb-1">
-                                            <input type="text" class="hidden-input text-center" style="width:90px;" name=""
-                                                   v-model="nickName">
-                                        </h5>
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                <tr>
+                                    <th class="serial">#</th>
+                                    <th>头像</th>
 
-                                        <h5 class="text-sm-center mt-2 mb-1">
-                                            <div class="hiddenfile">
-                                                <input type="file" id="file" @change="uploadProfile"/>
-                                            </div>
-                                            <button class="btn btn-primary btn-sm" @click="changeProfile">更换头像</button>
-                                        </h5>
-                                    </div>
-                                    <div class="col-md-8" style="">
-                                        <div class="location text-sm-left">
-                                            <i class="fa fa-map-marker"></i>&nbsp;&nbsp;
-                                            <input type="text" class="hidden-input" style="width:72px;" name=""
-                                                   v-model="region">
+                                    <th>昵称</th>
+                                    <th>笔龄</th>
+
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr v-for="friend in friendList">
+                                    <td class="serial">{{friend.friendUserId}}.</td>
+                                    <td>
+                                        <div class="round-img">
+                                            <a href="#"><img class="rounded-circle" :src="friend.friendUserInfo.profile" alt=""></a>
                                         </div>
+                                    </td>
 
-                                        <div class="blank"></div>
-                                        <div class="text-sm-left">
-                                            <i class="fa fa-birthday-cake"></i>&nbsp;
-                                            <input type="date" class="hidden-input" style="width:150px;" name=""
-                                                   v-model="birthday">
-                                        </div>
+                                    <td>  <span>{{friend.friendUserInfo.nickName}}</span> </td>
+                                    <td> <span class="product">{{friend.friendUserInfo.penYear}} 年</span> </td>
 
-                                        <div class="blank"></div>
+                                    <td>
+                                        <button class="btn btn-sm btn-success">聊天</button>
 
-                                        <div class="text-sm-left">
-                                            <i class="fa fa-heart"></i>&nbsp;&nbsp;
-                                            <input type="text" class="hidden-input" style="width:18px;" name="" v-model="penYear">年
-                                        </div>
+                                    </td>
+                                </tr>
 
-                                        <div class="blank"></div>
-                                        <div class="text-sm-left">
-                                            <i class="fa fa-transgender-alt"></i>&nbsp;
-                                            <select style="width:72px;" class="hidden-input" v-model="gender">
-                                                <option value="1">男</option>
-                                                <option value=-1>女</option>
-                                                <option value="0">未知</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-sm-center">
-                                    <input type="text" class="hidden-input text-center" name="" v-model="description">
-                                </div>
-
-                            </div>
-                            <hr>
-                            <div class="card-text text-sm-center">
-                                <a href="#"><i class="fa fa-qq pr-1"></i></a>
-                                <a href="#"><i class="fa fa-weibo pr-1"></i></a>
-                                <a href="#"><i class="fa fa-weixin pr-1"></i></a>
-
-                            </div>
-                        </div>
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-stats -->
                     </div>
                 </div>
+
                 <div class="col-md-5">
                     <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title box-title">即时反馈</h4>
-                            <div class="card-content">
-                                <div class="messenger-box">
-                                    <div style="height:400px;overflow-y: scroll" ;>
-                                        <ul>
-                                            <li>
-                                                <div class="msg-received msg-container">
-                                                    <div class="avatar">
-                                                        <img src="img/anonymous.jpg" alt="">
-                                                        <div>
-                                                            <div class="send-time">11.11 am</div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="msg-box">
-                                                        <div class="inner-box">
-                                                            <div class="name">
-                                                                小助手
-                                                            </div>
-                                                            <div class="meg">
-                                                                你好，欢迎来到转笔圈，有什么不懂的请问我
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.msg-received -->
-                                            </li>
-
-                                            <li>
-                                                <div class="msg-received msg-container">
-                                                    <div class="avatar">
-                                                        <img src="img/anonymous.jpg" alt="">
-                                                        <div>
-                                                            <div class="send-time">11.11 am</div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="msg-box">
-                                                        <div class="inner-box" style="background-color: #03a9f3;color:white">
-                                                            <div class="name">
-                                                                我
-                                                            </div>
-                                                            <div class="meg">
-                                                                你好
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.msg-received -->
-                                            </li>
-                                            <li>
-                                                <div class="msg-received msg-container">
-                                                    <div class="avatar">
-                                                        <img src="img/anonymous.jpg" alt="">
-                                                        <div>
-                                                            <div class="send-time">11.11 am</div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="msg-box">
-                                                        <div class="inner-box">
-                                                            <div class="name">
-                                                                小助手
-                                                            </div>
-                                                            <div class="meg">
-                                                                你好，有什么可以帮您
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.msg-received -->
-                                            </li>
-
-                                            <li>
-                                                <div class="msg-received msg-container">
-                                                    <div class="avatar">
-                                                        <img src="img/anonymous.jpg" alt="">
-                                                        <div>
-                                                            <div class="send-time">11.15 am</div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="msg-box">
-                                                        <div class="inner-box" style="background-color: #03a9f3;color:white">
-                                                            <div class="name">
-                                                                我
-                                                            </div>
-                                                            <div class="meg">
-                                                                你，你是曾经的转笔机器人吗
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.msg-received -->
-                                            </li>
-
-                                            <li>
-                                                <div class="msg-received msg-container">
-                                                    <div class="avatar">
-                                                        <img src="img/anonymous.jpg" alt="">
-                                                        <div>
-                                                            <div class="send-time">11.11 am</div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="msg-box">
-                                                        <div class="inner-box">
-                                                            <div class="name">
-                                                                小助手
-                                                            </div>
-                                                            <div class="meg">
-                                                                是的，我将在新的岗位发光发热
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div><!-- /.msg-received -->
-                                            </li>
-
-                                        </ul>
-                                    </div>
-
-                                    <div class="send-mgs">
-                                        <div class="yourmsg">
-                                            <input class="form-control" type="text">
-                                        </div>
-                                        <button class="btn msg-send-btn">
-                                            <i class="pe-7s-paper-plane"></i>
-                                        </button>
-                                    </div>
-                                </div><!-- /.messenger-box -->
+                        <div class="card-header">
+                            <strong class="card-title">推荐</strong>
+                            <div class="form-group form-inline" style="float: right">
+                                <input type="text" class="form-control" placeholder="根据账号或昵称精确搜索">
+                                <div></div>
+                                <button class="btn btn-sm btn-primary form-control"><span class="fa fa-search"></span>搜索陌生人</button>
                             </div>
-                        </div> <!-- /.card-body -->
-                    </div><!-- /.card -->
+                        </div>
+                        <div class="table-stats order-table ov-h">
+                            <table class="table ">
+                                <thead>
+                                <tr>
+                                    <th class="serial">#</th>
+                                    <th>头像</th>
+                                    <th>昵称</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <#--<tr>-->
+                                    <#--<td class="serial">1.</td>-->
+                                    <#--<td>-->
+                                        <#--<div class="round-img">-->
+                                            <#--<a href="#"><img class="rounded-circle" src="/img/anonymous.jpg" alt=""></a>-->
+                                        <#--</div>-->
+                                    <#--</td>-->
+
+                                    <#--<td>  <span class="name">issac</span> </td>-->
+
+                                    <#--<td>-->
+                                        <#--<button class="btn btn-sm btn-primary">加为好友</button>-->
+
+                                    <#--</td>-->
+                                <#--</tr>-->
+                                <tr v-for="friend in recommendFriendList">
+                                    <td class="serial">{{friend.friendUserId}}.</td>
+                                    <td>
+                                        <div class="round-img">
+                                            <a href="#"><img class="rounded-circle" :src="friend.friendUserInfo.profile" alt=""></a>
+                                        </div>
+                                    </td>
+                                    <td>  <span class="name">{{friend.friendUserInfo.nickName}}</span> </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">加为好友</button>
+
+                                    </td>
+                                </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div> <!-- /.table-stats -->
+                    </div>
                 </div>
 
             </div>
-            <div class="clearfix"></div>
-
-
-        </div>
-        <!-- .animated -->
-    </div>
+        </div><!-- .animated -->
+    </div><!-- .content -->
     <!-- /.content -->
     <div class="clearfix"></div>
     <!-- Footer -->
@@ -384,8 +226,9 @@
 <script src="assets/js/lib/flot-chart/jquery.flot.js"></script>
 <script src="assets/js/lib/flot-chart/jquery.flot.pie.js"></script>
 <script src="assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
-<#include "script.ftl"/>
 
+<#include "script.ftl"/>
+<script src="js/friends.js"></script>
 
 
 </body>
