@@ -15,4 +15,8 @@ public interface UserMapper {
     List<User> selectByNickName(String username);
 
     int insert(User user);
+
+    User selectByPrimaryKey(Integer userId);
+
+    List<User> selectByUserIdBatch(List<Integer> list);
 }

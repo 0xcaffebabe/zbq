@@ -44,4 +44,27 @@
         FROM user, user_info
         WHERE user_info.nick_name LIKE '%' #{nickName} '%' AND user_info.user_info_id = user.user_info
     </select>
+    <select id="selectByPrimaryKey" resultMap="userMap">
+        SELECT
+            user.user_id,
+            user.username,
+            user.password,
+            user_info.user_info_id,
+            user_info.nick_name,
+            user_info.profile
+        FROM user, user_info
+        WHERE user.username = #{userId} AND user_info.user_info_id = user.user_info
+    </select>
+    <select id="selectByUserIdBatch" resultMap="userMap">
+        SELECT
+            user.user_id,
+            user_info.nick_name,
+            user_info.profile
+        FROM user, user_info
+        WHERE user.user_id IN 
+        <foreach item="i" collection="list" separator="," open="("  close=")">
+            #{i}
+        </foreach>
+        AND user_info.user_info_id = user.user_info
+    </select>
 </mapper>

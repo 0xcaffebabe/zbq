@@ -1,5 +1,6 @@
 package wang.ismy.zbq.dao;
 
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,22 @@ public class UserMapperTest {
 
     @Test
     public void selectAll() {
-        assertEquals(0,userMapper.selectAll().size());
+        assertEquals(0, userMapper.selectAll().size());
     }
 
 
     @Test
-    public void testSelectOne(){
+    public void testSelectOne() {
         User user = userMapper.selectByUsername("test2");
-        assertEquals("MY38",user.getUserInfo().getNickName());
+        assertEquals("MY38", user.getUserInfo().getNickName());
+    }
+
+
+    @Test
+    public void testSelectBatch() {
+
+        var list = userMapper.selectByUserIdBatch(Lists.list(8, 6, 5, 9, 59));
+        assertEquals(4,list.size());
+
     }
 }

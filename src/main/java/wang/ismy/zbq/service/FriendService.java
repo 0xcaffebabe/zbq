@@ -8,6 +8,7 @@ import wang.ismy.zbq.entity.Friend;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.util.ErrorUtils;
+import wang.ismy.zbq.vo.FriendAddVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +61,29 @@ public class FriendService {
     public int sendAFriendAddMsg(FriendAddDTO friendAddDTO){
         User user = userService.getCurrentUser();
 
+        friendAddDTO.setFromUser(user.getUserId());
         if (friendAddService.selectFriendAddByFromUserAndToUser(user.getUserId(),friendAddDTO.getToUser()) != null){
 
             ErrorUtils.error(StringResources.FRIEND_ADD_MSG_SENT);
         }
         return friendAddService.insertNew(friendAddDTO);
+    }
+
+    public List<FriendAddVO> selectCurrentUserFriendAddList(){
+        User user = userService.getCurrentUser();
+
+        var list = friendAddService.selectFriendAddListByToUser(user.getUserId());
+
+        List<FriendAddVO> ret = new ArrayList<>();
+        for (var i : list){
+            FriendAddVO vo = FriendAddVO.builder()
+                    .friendAddId(i.getFriendAddId())
+                    .userInfo(i.getFromUser().getUserInfo())
+                    .msg(i.getMsg())
+                    .createTime(i.getCreateTime()).build();
+            ret.add(vo);
+        }
+
+        return ret;
     }
 }

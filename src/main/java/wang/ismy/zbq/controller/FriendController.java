@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.FriendAddDTO;
+import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.service.FriendService;
+import wang.ismy.zbq.service.UserService;
 
 import javax.validation.Valid;
 
@@ -17,6 +19,8 @@ public class FriendController {
 
     @Autowired
     private FriendService friendService;
+
+
 
     @GetMapping("/self")
     @ResultTarget
@@ -42,6 +46,14 @@ public class FriendController {
             return friendService.selectStrangerByNickName(kw);
         }
 
+    }
+
+    @GetMapping("/add")
+    @ResultTarget
+    @MustLogin
+    public Object getCurrentUserFriendAddList(){
+
+        return friendService.selectCurrentUserFriendAddList();
     }
 
     @PutMapping("/add")

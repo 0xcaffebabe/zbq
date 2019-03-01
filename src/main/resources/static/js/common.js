@@ -81,7 +81,9 @@ function getCommonObject(){
             getCurrentUserInfoUrl:"/userInfo/self",
             updateUserInfoUrl:'/userInfo',
             getFriendListUrl:"/friend/self",
-            getRecommendFriendListUrl:"/friend/recommend"
+            getRecommendFriendListUrl:"/friend/recommend",
+            addFriendUrl:'/friend/add',
+            getFriendAddListUrl:"/friend/add"
         }
     }
 }

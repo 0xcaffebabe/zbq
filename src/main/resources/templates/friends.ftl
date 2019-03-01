@@ -89,29 +89,7 @@
 
 
 
-    <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticModalLabel">添加好友</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        发送验证消息:
-                    </p>
 
-                    <textarea class="form-control"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary">添加</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Content -->
     <div class="content">
@@ -121,6 +99,31 @@
 
 
             <div class="row"  id="friends">
+
+                <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticModalLabel">添加好友</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    发送验证消息:
+                                </p>
+
+                                <textarea class="form-control" v-model="validMsg"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-primary" @click="addFriend" data-dismiss="modal">添加</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-7">
 
 
@@ -161,7 +164,8 @@
                                     <td> <span class="product">{{friend.friendUserInfo.penYear}} 年</span> </td>
 
                                     <td>
-                                        <div class="text-center">
+                                        <div class="text-center btn-group">
+
                                             <button class="btn btn-sm btn-success">聊天</button>
                                             <button class="btn btn-sm btn-danger">删除</button>
                                         </div>
@@ -187,24 +191,25 @@
 
                                         <th>头像</th>
                                         <th>昵称</th>
+                                        <th>验证消息</th>
                                         <th class="text-center">操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
 
-                                    <tr v-for="friend in friendList">
+                                    <tr v-for="friend in friendAddList">
 
                                         <td>
                                             <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg" alt=""></a>
+                                                <a href="#"><img class="rounded-circle" :src="friend.userInfo.profile" alt=""></a>
                                             </div>
                                         </td>
 
-                                        <td>  <span>my</span> </td>
-
+                                        <td>  <span>{{friend.userInfo.nickName}}</span> </td>
+                                        <td>{{friend.msg}}</td>
 
                                         <td>
-                                            <div class="text-center">
+                                            <div class="text-center btn-group">
                                                 <button class="btn btn-sm btn-primary">同意</button>
                                                 <button class="btn btn-sm btn-danger">拒绝</button>
                                             </div>
@@ -251,7 +256,7 @@
                                     </td>
                                     <td>  <span class="name">{{friend.friendUserInfo.nickName}}</span> </td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" @click="addFriend" :data-to="friend.friendUserId" data-toggle="modal" data-target="#staticModal">加为好友</button>
+                                        <button class="btn btn-sm btn-primary" @click="showFriendAddDialog" :data-to="friend.friendUserId" data-toggle="modal" data-target="#staticModal">加为好友</button>
 
                                     </td>
                                 </tr>

@@ -21,4 +21,6 @@ public class StringResources {
     public static final String USERNAME_OCCUPY = "用户名已被占用";
 
     public static final String UNKNOWN_ERROR = "未知错误";
+
+    public static final String TARGET_USER_NOT_EXIST = "目标用户不存在";
 }

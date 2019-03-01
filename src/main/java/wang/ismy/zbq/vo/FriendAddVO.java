@@ -1,24 +1,24 @@
-package wang.ismy.zbq.dto;
+package wang.ismy.zbq.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import wang.ismy.zbq.entity.UserInfo;
 
-import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FriendAddDTO {
+public class FriendAddVO {
 
     private Integer friendAddId;
 
-    private Integer fromUser;
-
-    @NotNull(message = "添加好友to不得为空")
-    private Integer toUser;
+    private UserInfo userInfo; // 请求添加放用户信息
 
     private String msg;
+
+    private LocalDateTime createTime;
 }

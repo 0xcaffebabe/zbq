@@ -54,6 +54,7 @@ CREATE TABLE friend_add(
   from_user INT NOT NULL ,
   to_user INT NOT NULL ,
   msg varchar(256),
+  visible BOOLEAN DEFAULT TRUE,
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;

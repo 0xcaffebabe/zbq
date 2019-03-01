@@ -112,6 +112,15 @@ public class UserService {
         return userMapper.selectByNickName(nickname);
     }
 
+    public User selectByPrimaryKey(Integer userId){
+
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
+    public List<User> selectByUserIdBatch(List<Integer> list){
+        return userMapper.selectByUserIdBatch(list);
+    }
+
     public boolean hasLogin() {
         return getCurrentUser() != null;
     }
