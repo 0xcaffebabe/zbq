@@ -16,7 +16,7 @@
         </association>
     </resultMap>
 
-    <insert id="insert" parameterType="wang.ismy.zbq.entity.User">
+    <insert id="insert" parameterType="wang.ismy.zbq.entity.User" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user (username, password, user_info, permission , create_time, update_time)
         VALUES (#{username}, #{password}, #{userInfo.userInfoId},#{permission.permissionId}, NOW(), NOW())
     </insert>
@@ -35,5 +35,13 @@
             user_info.profile
         FROM user, user_info
         WHERE user.username = #{username} AND user_info.user_info_id = user.user_info
+    </select>
+    <select id="selectByNickName" resultMap="userMap">
+        SELECT
+            user.user_id,
+            user_info.nick_name,
+            user_info.profile
+        FROM user, user_info
+        WHERE user_info.nick_name LIKE '%' #{nickName} '%' AND user_info.user_info_id = user.user_info
     </select>
 </mapper>

@@ -26,12 +26,35 @@ CREATE TABLE user_info(
 # 创建权限表
 CREATE TABLE permission(
   permission_id INT PRIMARY KEY  AUTO_INCREMENT,
-  content_publish VARCHAR(2) DEFAULT 'N' COMMENT '内容发布权限'
+  content_publish VARCHAR(2) DEFAULT 'N' COMMENT '内容发布权限',
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
 
 # 创建好友关系表
 CREATE TABLE friend(
   user_id INT NOT NULL ,
-  friend_id INT NOT NULL 
+  friend_id INT NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建登录权限表
+CREATE TABLE login_acl(
+  login_acl_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT NOT NULL ,
+  login_state BOOLEAN DEFAULT TRUE,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建好友添加消息表
+CREATE TABLE friend_add(
+  friend_add_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  from_user INT NOT NULL ,
+  to_user INT NOT NULL ,
+  msg varchar(256),
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
 

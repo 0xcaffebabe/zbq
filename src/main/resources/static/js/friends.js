@@ -2,11 +2,25 @@ var friends = new Vue({
     el: "#friends",
     data: {
         friendList: [],
-        recommendFriendList:[]
+        recommendFriendList:[],
+        friendSearch:'',strangerSearch:''
     },
     created: function () {
+
         this.getFriendList();
         this.getRecommendFriendList();
+    },
+    watch:{
+        friendSearch:function () {
+            if (this.friendSearch === ''){
+                this.getFriendList();
+            }
+        },
+        strangerSearch:function () {
+            if (this.strangerSearch === ''){
+                this.getRecommendFriendList();
+            }
+        }
     },
     methods: {
         getFriendList: function () {
@@ -17,7 +31,7 @@ var friends = new Vue({
                 } else {
                     alert("获取好友列表失败:" + response.msg);
                 }
-            })
+            },{kw:this.friendSearch});
         },
         getRecommendFriendList:function () {
             var that = this;
@@ -27,7 +41,21 @@ var friends = new Vue({
                 } else {
                     alert("获取推荐列表失败:" + response.msg);
                 }
-            })
+            },{kw:this.strangerSearch});
+        }
+        ,
+        searchFriend:function () {
+
+            this.getFriendList();
+        }
+        ,
+        searchStranger:function () {
+
+            this.getRecommendFriendList();
+        },
+        addFriend:function (event) {
+            console.log(event.srcElement.dataset.to);
+
         }
     }
 });

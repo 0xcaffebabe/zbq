@@ -1,13 +1,17 @@
 package wang.ismy.zbq.service;
 
+import com.mysql.cj.core.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.dao.UserInfoMapper;
 import wang.ismy.zbq.dto.UserDTO;
 import wang.ismy.zbq.dto.UserInfoDTO;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
+import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.util.ErrorUtils;
 
 @Service
 public class UserInfoService {
@@ -26,11 +30,9 @@ public class UserInfoService {
         return userInfo.getUserInfoId();
     }
 
+    @MustLogin
     public int updateUserInfo(UserInfoDTO userInfoDTO){
         User user = userService.getCurrentUser();
-        if (user == null){
-            throw new RuntimeException("权限错误");
-        }
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(userInfoDTO,userInfo);
         userInfo.setUserInfoId(user.getUserInfo().getUserInfoId());
@@ -47,7 +49,7 @@ public class UserInfoService {
     public UserInfoDTO getCurrentUserInfo(){
         User user = userService.getCurrentUser();
         if (user == null){
-            throw new RuntimeException("未登录");
+            ErrorUtils.error(StringResources.NOT_LOGIN);
         }
 
         UserInfoDTO userInfoDTO = new UserInfoDTO();

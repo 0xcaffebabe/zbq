@@ -1,18 +1,22 @@
 package wang.ismy.zbq.entity;
 
-
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class Permission {
+public class FriendAdd {
 
-    private Integer permissionId;
+    private Integer friendAddId;
 
-    private String contentPublish /* 内容发布权限 */;
+    private Integer fromUser;
+
+    private Integer toUser;
+
+    private String msg;
 
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+
 }

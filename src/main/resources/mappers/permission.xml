@@ -7,7 +7,7 @@
 
 
     <insert id="insertPermission" parameterType="wang.ismy.zbq.entity.Permission" useGeneratedKeys="true" keyProperty="permissionId">
-        INSERT INTO permission(content_publish)
-                VALUES (#{contentPublish})
+        INSERT INTO permission(content_publish,create_time,update_time)
+                VALUES (#{contentPublish},NOW(),NOW())
     </insert>
 </mapper>

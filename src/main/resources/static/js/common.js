@@ -2,16 +2,30 @@
 function getCommonObject(){
     return {
         ajax:{
-            get:function (url,success) {
-                $.ajax({
-                   url:url,
-                   method:"GET",
-                   success:success,
-                   error:function (response) {
-                       alert("数据请求出错");
-                       console.log(response);
-                   }
-                });
+            get:function (url,success,data) {
+                if (data == undefined || data == null){
+                    $.ajax({
+                        url:url,
+                        method:"GET",
+                        success:success,
+                        error:function (response) {
+                            alert("数据请求出错");
+                            console.log(response);
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        url:url,
+                        method:"GET",
+                        success:success,
+                        data:data,
+                        error:function (response) {
+                            alert("数据请求出错");
+                            console.log(response);
+                        }
+                    });
+                }
+
             }
             ,
             post:function (url,success,data) {

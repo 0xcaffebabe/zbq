@@ -2,6 +2,7 @@
 ```text
 GET /friend/self
 response:好友列表
+可选参数:kw(如果不为空，则搜索)
 ```
 ```text
 {
@@ -44,7 +45,8 @@ response:好友列表
 ## 获取推荐好友
 ```text
 GET /friend/recommend
-response:推荐好友列表
+response:推荐好友列表可选参数:kw(如果不为空，则搜索)
+
 ```
 ```text
 {

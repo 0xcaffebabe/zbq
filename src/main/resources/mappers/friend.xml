@@ -41,6 +41,7 @@
                       WHERE friend.user_id = #{userId}
                   )
               AND user_id != #{userId}
+        LIMIT 5
     </select>
     <select id="selectFriendByUserIdAndNickname" resultMap="friendMap">
         SELECT
@@ -54,6 +55,7 @@
               AND (friend.user_id = #{userId})
               AND user_info.nick_name LIKE '%' #{nickName} '%'
     </select>
+
 
 
 </mapper>

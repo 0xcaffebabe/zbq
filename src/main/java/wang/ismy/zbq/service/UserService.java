@@ -10,10 +10,13 @@ import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.entity.Permission;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
+import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -27,6 +30,9 @@ public class UserService {
     @Autowired
     private PermissionService permissionService;
 
+    @Autowired
+    private LoginACLService loginACLService;
+
     @Transactional
     public int createNewUser(RegisterDTO dto) {
 
@@ -34,13 +40,13 @@ public class UserService {
         User user = generateUser(dto);
 
         if (userMapper.selectByUsername(dto.getUsername()) != null) {
-            throw new RuntimeException("用户名已被占用");
+            ErrorUtils.error(StringResources.USERNAME_OCCUPY);
         }
         UserInfo userInfo = getDefaultUserInfo();
         int userInfoId = userInfoService.insertUserInfo(userInfo);
 
         if (userInfoId < 1) {
-            throw new RuntimeException("未知错误");
+            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
         }
 
         userInfo.setUserInfoId(userInfoId);
@@ -55,12 +61,67 @@ public class UserService {
 
         int ret = userMapper.insert(user);
 
+        // 插入一条登录权限
+        if (loginACLService.insertNew(user.getUserId()) != 1){
+            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+        }
+
+
         // 如果登录成功直接以当前用户登录
         if (ret == 1) {
             User currentUser = userMapper.selectByUsername(dto.getUsername());
             setCurrentUser(currentUser);
         }
         return ret;
+    }
+
+    public void login(String username, String password) {
+
+        User user = userMapper.selectByUsername(username);
+        if (user == null) {
+            ErrorUtils.error(StringResources.LOGIN_FAIL);
+        }
+
+        if (!loginACLService.canLogin(user.getUserId())){
+            ErrorUtils.error(StringResources.ACCOUNT_DISABLE);
+        }
+
+        if (user.getPassword().equals(password)) {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            request.getSession().setAttribute("user", user);
+
+        } else {
+            ErrorUtils.error(StringResources.LOGIN_FAIL);
+        }
+    }
+
+    public User getCurrentUser() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Object user = request.getSession().getAttribute("user");
+        if (user == null) {
+            return null;
+        }
+
+        if (user instanceof User) {
+            return (User) user;
+        }
+        return null;
+    }
+
+    public List<User> selectUserByUsername(String nickname){
+        return userMapper.selectByNickName(nickname);
+    }
+
+    public boolean hasLogin() {
+        return getCurrentUser() != null;
+    }
+
+    public void refreshCurrentUser() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        User user = userMapper.selectByUsername(getCurrentUser().getUsername());
+
+        request.getSession().setAttribute("user", user);
     }
 
     private User generateUser(RegisterDTO dto) {
@@ -92,46 +153,5 @@ public class UserService {
                 .createTime(LocalDateTime.now())
                 .updateTime(LocalDateTime.now())
                 .build();
-    }
-
-    public void login(String username, String password) {
-
-        User user = userMapper.selectByUsername(username);
-        if (user == null) {
-            throw new RuntimeException("登录失败,请检查用户名与密码");
-        }
-
-        if (user.getPassword().equals(password)) {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            request.getSession().setAttribute("user", user);
-
-        } else {
-            throw new RuntimeException("登录失败,请检查用户名与密码");
-        }
-    }
-
-    public void refreshCurrentUser() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
-        User user = userMapper.selectByUsername(getCurrentUser().getUsername());
-
-        request.getSession().setAttribute("user", user);
-    }
-
-    public User getCurrentUser() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        Object user = request.getSession().getAttribute("user");
-        if (user == null) {
-            return null;
-        }
-
-        if (user instanceof User) {
-            return (User) user;
-        }
-        return null;
-    }
-
-    public boolean hasLogin() {
-        return getCurrentUser() != null;
     }
 }

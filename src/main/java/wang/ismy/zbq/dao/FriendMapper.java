@@ -12,4 +12,6 @@ public interface FriendMapper {
     List<Friend> selectFriendByUserIdAndNickname(@Param("userId") Integer userId,@Param("nickName") String nickName);
 
     List<Friend> selectRecommendFriendByUserId(@Param("userId") Integer userId);
+
+
 }

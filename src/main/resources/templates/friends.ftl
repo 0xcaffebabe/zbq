@@ -47,6 +47,8 @@
             text-transform: none!important;
         }
 
+
+
     </style>
 </head>
 
@@ -83,22 +85,53 @@
             </div>
         </div>
     </div>
+
+
+
+
+    <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticModalLabel">添加好友</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        发送验证消息:
+                    </p>
+
+                    <textarea class="form-control"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Content -->
     <div class="content">
         <div class="animated fadeIn">
-            <div>
 
-            </div>
+
+
+
             <div class="row"  id="friends">
                 <div class="col-md-7">
+
+
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">笔友列表</strong>
 
 
                                 <div class="form-group form-inline" style="float: right">
-                                    <input type="text" class="form-control" placeholder="根据昵称模糊搜索">
-                                    <button class="btn btn-sm btn-success form-control"><span class="fa fa-search"></span>搜索好友</button>
+                                    <input type="text" class="form-control" placeholder="根据昵称模糊搜索" v-model="friendSearch">
+                                    <button class="btn btn-sm btn-success form-control" @click="searchFriend"><span class="fa fa-search"></span>搜索好友</button>
                                 </div>
 
 
@@ -109,11 +142,9 @@
                                 <tr>
                                     <th class="serial">#</th>
                                     <th>头像</th>
-
                                     <th>昵称</th>
                                     <th>笔龄</th>
-
-                                    <th>操作</th>
+                                    <th class="text-center">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -130,7 +161,11 @@
                                     <td> <span class="product">{{friend.friendUserInfo.penYear}} 年</span> </td>
 
                                     <td>
-                                        <button class="btn btn-sm btn-success">聊天</button>
+                                        <div class="text-center">
+                                            <button class="btn btn-sm btn-success">聊天</button>
+                                            <button class="btn btn-sm btn-danger">删除</button>
+                                        </div>
+
 
                                     </td>
                                 </tr>
@@ -139,6 +174,50 @@
                             </table>
                         </div> <!-- /.table-stats -->
                     </div>
+                    <div>
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">好友添加请求</strong>
+
+                            </div>
+                            <div class="table-stats table-striped ov-h">
+                                <table class="table ">
+                                    <thead>
+                                    <tr>
+
+                                        <th>头像</th>
+                                        <th>昵称</th>
+                                        <th class="text-center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr v-for="friend in friendList">
+
+                                        <td>
+                                            <div class="round-img">
+                                                <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg" alt=""></a>
+                                            </div>
+                                        </td>
+
+                                        <td>  <span>my</span> </td>
+
+
+                                        <td>
+                                            <div class="text-center">
+                                                <button class="btn btn-sm btn-primary">同意</button>
+                                                <button class="btn btn-sm btn-danger">拒绝</button>
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div> <!-- /.table-stats -->
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-5">
@@ -146,9 +225,9 @@
                         <div class="card-header">
                             <strong class="card-title">推荐</strong>
                             <div class="form-group form-inline" style="float: right">
-                                <input type="text" class="form-control" placeholder="根据账号或昵称精确搜索">
+                                <input type="text" class="form-control" placeholder="根据昵称模糊搜索" v-model="strangerSearch">
                                 <div></div>
-                                <button class="btn btn-sm btn-primary form-control"><span class="fa fa-search"></span>搜索陌生人</button>
+                                <button class="btn btn-sm btn-primary form-control" @click="searchStranger"><span class="fa fa-search"></span>搜索陌生人</button>
                             </div>
                         </div>
                         <div class="table-stats order-table ov-h">
@@ -162,21 +241,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <#--<tr>-->
-                                    <#--<td class="serial">1.</td>-->
-                                    <#--<td>-->
-                                        <#--<div class="round-img">-->
-                                            <#--<a href="#"><img class="rounded-circle" src="/img/anonymous.jpg" alt=""></a>-->
-                                        <#--</div>-->
-                                    <#--</td>-->
 
-                                    <#--<td>  <span class="name">issac</span> </td>-->
-
-                                    <#--<td>-->
-                                        <#--<button class="btn btn-sm btn-primary">加为好友</button>-->
-
-                                    <#--</td>-->
-                                <#--</tr>-->
                                 <tr v-for="friend in recommendFriendList">
                                     <td class="serial">{{friend.friendUserId}}.</td>
                                     <td>
@@ -186,7 +251,7 @@
                                     </td>
                                     <td>  <span class="name">{{friend.friendUserInfo.nickName}}</span> </td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary">加为好友</button>
+                                        <button class="btn btn-sm btn-primary" @click="addFriend" :data-to="friend.friendUserId" data-toggle="modal" data-target="#staticModal">加为好友</button>
 
                                     </td>
                                 </tr>
@@ -199,8 +264,26 @@
                 </div>
 
             </div>
+
+            <#--modal-->
+
+
+
+
+            <#--modal-->
         </div><!-- .animated -->
+
+
+
+
+
+
     </div><!-- .content -->
+
+
+
+
+
     <!-- /.content -->
     <div class="clearfix"></div>
     <!-- Footer -->
@@ -219,6 +302,11 @@
 </div>
 <!-- /#right-panel -->
 
+
+
+
+
+
 <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/plugins.js"></script>
@@ -232,4 +320,6 @@
 
 
 </body>
+
+x
 </html>
