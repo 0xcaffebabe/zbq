@@ -3,12 +3,12 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="index.html"><i class="menu-icon fa fa-user"></i>用户中心 </a>
+                    <a href="/home"><i class="menu-icon fa fa-user"></i>用户中心 </a>
 
                 </li>
                 <li> <a href="space/${user.userId?c}"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
                 <li class="menu-title">社交</li><!-- /.menu-title -->
-                <li class="menu-item-has-children dropdown">
+                <li>
 
                     <a href="/friends"> <i class="menu-icon fa fa-users"></i>我的笔友 </a>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -18,7 +18,7 @@
                 </li>
 
                 <li class="menu-title">内容</li>
-                <li class="menu-item-has-children dropdown">
+                <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"> <i class="menu-icon fa fa-search"></i>发现内容</a>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -30,11 +30,13 @@
 
                 <li class="menu-title">学习</li><!-- /.menu-title -->
 
-                <li class="menu-item-has-children dropdown">
+                <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"> <i class="menu-icon fa fa-book"></i>课程中心 </a>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"> <i class="menu-icon fa fa-bookmark"></i>我的课程 </a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"> <i class="menu-icon fa fa-square"></i>发布课程 </a>
 
                 </li>
 

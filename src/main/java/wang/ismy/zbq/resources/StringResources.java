@@ -23,4 +23,8 @@ public class StringResources {
     public static final String UNKNOWN_ERROR = "未知错误";
 
     public static final String TARGET_USER_NOT_EXIST = "目标用户不存在";
+
+    public static final String FRIEND_ADD_RECORD_NOT_EXIST = "此条朋友添加消息不存在";
+
+    public static final String PERMISSION_DENIED = "权限异常";
 }

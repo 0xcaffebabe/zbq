@@ -13,5 +13,6 @@ public interface FriendMapper {
 
     List<Friend> selectRecommendFriendByUserId(@Param("userId") Integer userId);
 
+    int insert(@Param("user1") Integer user1,@Param("user2") Integer user2);
 
 }

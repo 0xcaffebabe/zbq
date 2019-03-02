@@ -86,4 +86,10 @@ public class FriendService {
 
         return ret;
     }
+
+    public int insertNewRelation(Integer user1,Integer user2){
+        return friendMapper.insert(user1,user2);
+    }
+
+
 }

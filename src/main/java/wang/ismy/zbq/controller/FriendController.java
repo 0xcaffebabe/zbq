@@ -8,6 +8,7 @@ import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.FriendAddDTO;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.service.FriendAddService;
 import wang.ismy.zbq.service.FriendService;
 import wang.ismy.zbq.service.UserService;
 
@@ -20,6 +21,8 @@ public class FriendController {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private FriendAddService friendAddService;
 
 
     @GetMapping("/self")
@@ -66,5 +69,15 @@ public class FriendController {
         }else{
             return StringResources.FRIEND_ADD_MSG_SEND_FAIL;
         }
+    }
+
+
+    @PostMapping("/add/agree/{friendAddId}")
+    @ResultTarget
+    @MustLogin
+    public Object agreeFreindAdd(@PathVariable("friendAddId") Integer friendAddId){
+        friendAddService.agreeFriendAddMsg(friendAddId);
+
+        return "添加成功！";
     }
 }

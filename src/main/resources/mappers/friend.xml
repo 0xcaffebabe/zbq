@@ -13,6 +13,10 @@
 
         </association>
     </resultMap>
+    <insert id="insert">
+        INSERT INTO friend(friend_id,user_id,create_time,update_time)
+                VALUES (#{user1},#{user2},NOW(),NOW())
+    </insert>
     <select id="selectFriendByUserId" resultMap="friendMap">
         SELECT
             friend.friend_id,

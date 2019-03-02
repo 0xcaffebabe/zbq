@@ -210,7 +210,7 @@
 
                                         <td>
                                             <div class="text-center btn-group">
-                                                <button class="btn btn-sm btn-primary">同意</button>
+                                                <button class="btn btn-sm btn-primary" :data-id="friend.friendAddId" @click="agreeFriendAdd">同意</button>
                                                 <button class="btn btn-sm btn-danger">拒绝</button>
                                             </div>
 

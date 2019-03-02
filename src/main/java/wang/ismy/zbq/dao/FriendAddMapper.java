@@ -14,4 +14,7 @@ public interface FriendAddMapper {
 
     List<FriendAdd> selectFriendAddListByToUserId(Integer userId);
 
+    FriendAdd selectFriendAddByPrimaryKey(Integer friendAddId);
+
+    int updateVisible(Integer friendAddId);
 }

@@ -23,11 +23,19 @@
         INSERT INTO friend_add(from_user, to_user, msg, create_time, update_time)
                 VALUE(#{fromUser.userId},#{toUser.userId},#{msg},NOW(),NOW())
     </insert>
+    <update id="updateVisible">
+        UPDATE friend_add
+        SET visible = FALSE,update_time = NOW()
+        WHERE friend_add_id = #{friendAddId}
+    </update>
     <select id="selectFriendAddByFromUserAndToUser" resultMap="friendAddMap">
         SELECT * FROM friend_add WHERE from_user = #{from} AND to_user = #{to} AND visible = TRUE
     </select>
     <select id="selectFriendAddListByToUserId" resultMap="friendAddMap">
         SELECT * FROM friend_add WHERE to_user = #{userId} AND visible = TRUE
+    </select>
+    <select id="selectFriendAddByPrimaryKey" resultMap="friendAddMap">
+        SELECT * FROM friend_add WHERE friend_add_id = #{friendAddId}
     </select>
 
 </mapper>

@@ -87,5 +87,21 @@ var friends = new Vue({
                 });
             }
         }
+        ,
+        agreeFriendAdd:function (event) {
+            var friendAddId = event.srcElement.dataset.id;
+            var that = this;
+            common.ajax.post(common.data.agreeFriendAddUrl+friendAddId,function (response) {
+                if (response.success){
+                    alert(response.data);
+                    that.getFriendAddList();
+                    that.getFriendList();
+                    that.getRecommendFriendList();
+                }else{
+                    alert(response.msg);
+                }
+            });
+
+        }
     }
 });
