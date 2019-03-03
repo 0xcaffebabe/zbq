@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.MessageMapper">
+
+    <resultMap id="messageMap" type="wang.ismy.zbq.entity.Message">
+        <id column="message_id" property="messageId"/>
+        <result column="content" property="content"/>
+        <result column="has_read" property="hasRead"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="fromUser" javaType="wang.ismy.zbq.entity.User">
+            <id column="from_user" property="userId"/>
+        </association>
+        <association property="toUser" javaType="wang.ismy.zbq.entity.User">
+            <id column="to_user" property="userId"/>
+        </association>
+    </resultMap>
+
+    <select id="selectMessageListBy2User" resultMap="messageMap">
+        SELECT *
+        FROM message
+        WHERE
+            (from_user = #{user1} AND to_user = #{user2})
+            OR (from_user = #{user2} AND to_user = #{user1})
+    </select>
+</mapper>

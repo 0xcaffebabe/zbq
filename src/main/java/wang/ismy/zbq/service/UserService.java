@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import wang.ismy.zbq.dao.UserMapper;
+import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.entity.Permission;
 import wang.ismy.zbq.entity.User;
@@ -99,17 +100,18 @@ public class UserService {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Object user = request.getSession().getAttribute("user");
         if (user == null) {
-            return null;
+            ErrorUtils.error(StringResources.NOT_LOGIN);
         }
 
         if (user instanceof User) {
             return (User) user;
         }
+        ErrorUtils.error(StringResources.NOT_LOGIN);
         return null;
     }
 
-    public List<User> selectUserByUsername(String nickname){
-        return userMapper.selectByNickName(nickname);
+    public List<User> selectUserByUsernamePaging(String nickname, Page page){
+        return userMapper.selectByNickNamePaging(nickname,page);
     }
 
     public User selectByPrimaryKey(Integer userId){

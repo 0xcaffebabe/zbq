@@ -27,4 +27,10 @@ public class StringResources {
     public static final String FRIEND_ADD_RECORD_NOT_EXIST = "此条朋友添加消息不存在";
 
     public static final String PERMISSION_DENIED = "权限异常";
+
+    public static final String NOT_FRIEND = "非好友关系";
+
+    public static final String FRIEND_RELATION_CREATED = "已是好友关系";
 }
+
+

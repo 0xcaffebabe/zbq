@@ -4,13 +4,22 @@ var friends = new Vue({
         friendList: [],
         recommendFriendList:[],
         friendAddList:[],
-        friendSearch:'',strangerSearch:'',validMsg:'',toUser:''
+        friendSearch:'',
+        strangerSearch:'',
+        validMsg:'',
+        toUser:'',
+        friendPage:1,
+        friendQuantity:0,
+        strangerPage:1,
+        strangerQuantity:10,
+        strangerButtonEnable:true
     },
     created: function () {
 
         this.getFriendList();
         this.getRecommendFriendList();
         this.getFriendAddList();
+        this.countFriends();
     },
     watch:{
         friendSearch:function () {
@@ -21,6 +30,10 @@ var friends = new Vue({
         strangerSearch:function () {
             if (this.strangerSearch === ''){
                 this.getRecommendFriendList();
+                this.strangerButtonEnable=true;
+
+            }else{
+                this.strangerButtonEnable=false;
             }
         }
     },
@@ -33,17 +46,23 @@ var friends = new Vue({
                 } else {
                     alert("获取好友列表失败:" + response.msg);
                 }
-            },{kw:this.friendSearch});
+            },{kw:this.friendSearch,page:this.friendPage,length:5});
         },
         getRecommendFriendList:function () {
             var that = this;
             common.ajax.get(common.data.getRecommendFriendListUrl,function (response) {
                 if (response.success) {
-                    that.recommendFriendList = response.data;
+                    if (response.data.length == 0){
+                        alert("没有数据！");
+                        that.strangerPage--;
+                    }else{
+                        that.recommendFriendList = response.data;
+                    }
+
                 } else {
                     alert("获取推荐列表失败:" + response.msg);
                 }
-            },{kw:this.strangerSearch});
+            },{kw:this.strangerSearch,page:this.strangerPage,length:5});
         },
         getFriendAddList:function () {
 
@@ -55,6 +74,54 @@ var friends = new Vue({
                    alert("获取验证消息失败:"+response.msg);
                }
             });
+        }
+        ,
+        countFriends:function () {
+
+            var that = this;
+            common.ajax.get(common.data.countFriendsUrl,function (response) {
+                if (response.success){
+
+                    that.friendQuantity = response.data;
+                }else{
+
+                    alert(response.msg);
+                }
+            })
+        }
+        ,
+        friendNextPage:function () {
+            if (this.friendPage * 5 >= this.friendQuantity) {
+                alert("当前已是最后一页");
+            }else{
+                this.friendPage++;
+                this.getFriendList();
+            }
+        }
+        ,
+        friendPrevPage:function () {
+
+            if (this.friendPage <= 1){
+                alert("当前一是第一页");
+            }else{
+                this.friendPage--;
+                this.getFriendList();
+            }
+        }
+        ,
+        strangerNextPage:function () {
+            this.strangerPage++;
+            this.getRecommendFriendList();
+        }
+        ,
+        strangerPrevPage:function () {
+
+            if (this.strangerPage <=1){
+                alert("已经是第一页");
+            }else{
+                this.strangerPage--;
+                this.getRecommendFriendList();
+            }
         }
         ,
         searchFriend:function () {
@@ -102,6 +169,11 @@ var friends = new Vue({
                 }
             });
 
+        }
+        ,
+        chat:function (event) {
+            var friendAddId = event.srcElement.dataset.id;
+            window.location="/chat/"+friendAddId;
         }
     }
 });

@@ -30,7 +30,7 @@ public class SQLInterceptor implements Interceptor {
         MappedStatement mappedStatement = (MappedStatement)metaObject.getValue("delegate.mappedStatement");
         // 配置文件中SQL语句的ID
         String id = mappedStatement.getId();
-        if(id.matches(".+ByPage$")) { //需要拦截的ID(正则匹配)
+        if(id.matches(".+Paging$")) { //需要拦截的ID(正则匹配)
             BoundSql boundSql = statementHandler.getBoundSql();
             // 原始的SQL语句
             String sql = boundSql.getSql();

@@ -3,6 +3,7 @@
 GET /friend/self
 response:好友列表
 可选参数:kw(如果不为空，则搜索)
+参数：page,length
 ```
 ```text
 {
@@ -70,5 +71,17 @@ response:推荐好友列表可选参数:kw(如果不为空，则搜索)
         },
         ...
     ]
+}
+```
+## 获取总朋友数：
+```text
+GET /friend/self/count
+response: 朋友数量
+```
+```text
+{
+    "success": true,
+    "msg": "success",
+    "data": 7
 }
 ```

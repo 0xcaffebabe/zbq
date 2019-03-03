@@ -59,3 +59,13 @@ CREATE TABLE friend_add(
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
 
+# 创建消息表
+CREATE TABLE message(
+  message_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  from_user INT NOT NULL ,
+  to_user INT NOT NULL ,
+  content TEXT NOT NULL ,
+  has_read BOOLEAN DEFAULT FALSE,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;

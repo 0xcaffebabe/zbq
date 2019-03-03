@@ -20,12 +20,10 @@ public class FriendMapperTest {
     FriendMapper friendMapper;
 
 
+
     @Test
-    public void testSelect(){
-
-        List<Friend> friendList = friendMapper.selectFriendByUserId(1);
-
-        assertEquals("my",friendList.get(0).getFriendUserInfo().getNickName());
+    public void testCount(){
+        assertEquals(7,friendMapper.countByUserId(1));
     }
 
 
@@ -42,5 +40,13 @@ public class FriendMapperTest {
         List<Friend> friends = friendMapper.selectFriendByUserIdAndNickname(1,"m");
         assertEquals(1,friends.size());
         assertEquals("my",friends.get(0).getFriendUserInfo().getNickName());
+    }
+
+
+    @Test
+    public void testFriendRelation(){
+        Friend friend = friendMapper.selectFriendBy2User(1,2);
+
+        assertNotNull(friend);
     }
 }

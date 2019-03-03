@@ -14,10 +14,10 @@
         </association>
     </resultMap>
     <insert id="insert">
-        INSERT INTO friend(friend_id,user_id,create_time,update_time)
-                VALUES (#{user1},#{user2},NOW(),NOW())
+        INSERT INTO friend (friend_id, user_id, create_time, update_time)
+        VALUES (#{user1}, #{user2}, NOW(), NOW())
     </insert>
-    <select id="selectFriendByUserId" resultMap="friendMap">
+    <select id="selectFriendByUserIdPaging" resultMap="friendMap">
         SELECT
             friend.friend_id,
             user_info.nick_name,
@@ -59,7 +59,16 @@
               AND (friend.user_id = #{userId})
               AND user_info.nick_name LIKE '%' #{nickName} '%'
     </select>
-
+    <select id="selectFriendBy2User" resultMap="friendMap">
+        SELECT friend_id
+        FROM friend
+        WHERE
+            (friend_id = #{user1} AND user_id = #{user2}) OR (friend_id = #{user2} AND user_id = #{user1})
+        LIMIT 1
+    </select>
+    <select id="countByUserId" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM friend WHERE user_id = #{userId}
+    </select>
 
 
 </mapper>

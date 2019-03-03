@@ -84,7 +84,8 @@ function getCommonObject(){
             getRecommendFriendListUrl:"/friend/recommend",
             addFriendUrl:'/friend/add',
             getFriendAddListUrl:"/friend/add",
-            agreeFriendAddUrl:"/friend/add/agree/"
+            agreeFriendAddUrl:"/friend/add/agree/",
+            countFriendsUrl:"/friend/self/count"
         }
     }
 }

@@ -135,6 +135,7 @@
                                 <div class="form-group form-inline" style="float: right">
                                     <input type="text" class="form-control" placeholder="根据昵称模糊搜索" v-model="friendSearch">
                                     <button class="btn btn-sm btn-success form-control" @click="searchFriend"><span class="fa fa-search"></span>搜索好友</button>
+
                                 </div>
 
 
@@ -166,15 +167,29 @@
                                     <td>
                                         <div class="text-center btn-group">
 
-                                            <button class="btn btn-sm btn-success">聊天</button>
+                                            <button class="btn btn-sm btn-success" @click="chat" :data-id="friend.friendUserId">聊天</button>
                                             <button class="btn btn-sm btn-danger">删除</button>
                                         </div>
-
-
                                     </td>
                                 </tr>
 
+
+                                <tr>
+
+
+                                    <td>共{{friendQuantity}}位笔友</td>
+                                    <td>当前第{{friendPage}}页</td>
+
+                                    <td>
+                                        <button class="btn  btn-primary" @click="friendPrevPage"><span class="fa fa-arrow-left"></span></button>
+                                    </td>
+                                    <td>
+                                        <button class="btn  btn-primary" @click="friendNextPage"><span class="fa fa-arrow-right"></span></button>
+                                    </td>
+
+                                </tr>
                                 </tbody>
+
                             </table>
                         </div> <!-- /.table-stats -->
                     </div>
@@ -217,6 +232,7 @@
 
                                         </td>
                                     </tr>
+
 
                                     </tbody>
                                 </table>
@@ -261,6 +277,17 @@
                                     </td>
                                 </tr>
 
+                                <tr>
+
+                                    <td>
+                                        <button class="btn btn-primary " :class="{disabled:strangerButtonEnable}" @click="strangerPrevPage" ><span class="fa fa-arrow-left"></span></button>
+                                    </td>
+                                    <td>
+                                        <button class="btn  btn-primary" :class="{disabled:strangerButtonEnable}"><span class="fa fa-arrow-right" @click="strangerNextPage"></span></button>
+                                    </td>
+
+                                </tr>
+
 
                                 </tbody>
                             </table>
@@ -271,8 +298,6 @@
             </div>
 
             <#--modal-->
-
-
 
 
             <#--modal-->

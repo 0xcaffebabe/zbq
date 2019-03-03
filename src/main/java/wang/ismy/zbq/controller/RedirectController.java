@@ -45,5 +45,10 @@ public class RedirectController {
         return "space";
     }
 
+    @RequestMapping("/chat/{id}")
+    public Object chat(@PathVariable("id") Integer id,ModelMap modelMap){
+        return "chat";
+    }
+
 
 }

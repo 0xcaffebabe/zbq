@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.FriendAddDTO;
+import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.service.FriendAddService;
@@ -28,25 +29,37 @@ public class FriendController {
     @GetMapping("/self")
     @ResultTarget
     @MustLogin
-    public Object getAllFriends(@RequestParam(value = "kw",required = false) String kw){
+    public Object getAllFriends(@RequestParam(value = "kw", required = false) String kw,
+                                @RequestParam("page") Integer page, @RequestParam("length") Integer length) {
 
-        if (StringUtils.isNullOrEmpty(kw)){
-            return friendService.selectCurrentUserAllFriend();
-        }else{
+        Page p = Page.builder().pageNumber(page).length(length).build();
+        if (StringUtils.isNullOrEmpty(kw)) {
+            return friendService.selectCurrentUserAllFriendPaging(p);
+        } else {
             return friendService.selectCurrentUserFriendByNickName(kw);
         }
+
+    }
+
+    @GetMapping("/self/count")
+    @ResultTarget
+    @MustLogin
+    public Object countFriends() {
+        return friendService.countCurrentUserFriend();
 
     }
 
     @GetMapping("/recommend")
     @ResultTarget
     @MustLogin
-    public Object getRecommendFriend(@RequestParam(value = "kw",required = false) String kw){
+    public Object getRecommendFriend(@RequestParam(value = "kw", required = false) String kw,
+                                     @RequestParam("page") Integer page, @RequestParam("length") Integer length) {
 
-        if (StringUtils.isNullOrEmpty(kw)){
+        Page p = Page.builder().pageNumber(page).length(length).build();
+        if (StringUtils.isNullOrEmpty(kw)) {
             return friendService.selectCurrentUserRecommendFriend();
-        }else{
-            return friendService.selectStrangerByNickName(kw);
+        } else {
+            return friendService.selectStrangerByNickNamePaging(kw,p);
         }
 
     }
@@ -54,7 +67,7 @@ public class FriendController {
     @GetMapping("/add")
     @ResultTarget
     @MustLogin
-    public Object getCurrentUserFriendAddList(){
+    public Object getCurrentUserFriendAddList() {
 
         return friendService.selectCurrentUserFriendAddList();
     }
@@ -62,11 +75,11 @@ public class FriendController {
     @PutMapping("/add")
     @ResultTarget
     @MustLogin
-    public Object sendFriendAddMsg(@Valid @RequestBody FriendAddDTO dto){
+    public Object sendFriendAddMsg(@Valid @RequestBody FriendAddDTO dto) {
 
-        if (friendService.sendAFriendAddMsg(dto) == 1){
+        if (friendService.sendAFriendAddMsg(dto) == 1) {
             return StringResources.FRIEND_ADD_MSG_SEND_SUCCESS;
-        }else{
+        } else {
             return StringResources.FRIEND_ADD_MSG_SEND_FAIL;
         }
     }
@@ -75,7 +88,7 @@ public class FriendController {
     @PostMapping("/add/agree/{friendAddId}")
     @ResultTarget
     @MustLogin
-    public Object agreeFreindAdd(@PathVariable("friendAddId") Integer friendAddId){
+    public Object agreeFreindAdd(@PathVariable("friendAddId") Integer friendAddId) {
         friendAddService.agreeFriendAddMsg(friendAddId);
 
         return "添加成功！";
