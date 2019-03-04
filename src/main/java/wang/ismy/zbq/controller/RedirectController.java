@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.service.FriendService;
 import wang.ismy.zbq.service.UserService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,9 @@ public class RedirectController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FriendService friendService;
 
     @RequestMapping("/")
     public String index(){
@@ -46,7 +50,14 @@ public class RedirectController {
     }
 
     @RequestMapping("/chat/{id}")
+    @MustLogin
     public Object chat(@PathVariable("id") Integer id,ModelMap modelMap){
+        if (!friendService.isFriend(userService.getCurrentUser().getUserId(),id)){
+            throw new RuntimeException("对方不是你的朋友");
+        }
+
+
+
         return "chat";
     }
 

@@ -65,7 +65,6 @@ var friends = new Vue({
             },{kw:this.strangerSearch,page:this.strangerPage,length:5});
         },
         getFriendAddList:function () {
-
             var that = this;
             common.ajax.get(common.data.getFriendAddListUrl,function (response) {
                if (response.success){
@@ -137,8 +136,6 @@ var friends = new Vue({
             this.toUser = event.srcElement.dataset.to;
         },
         addFriend:function () {
-
-
             if (this.validMsg.length > 64){
                 alert("验证消息长度不得大于64！");
             }else{

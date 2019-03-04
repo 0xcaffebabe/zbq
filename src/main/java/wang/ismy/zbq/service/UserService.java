@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.dao.UserMapper;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.dto.RegisterDTO;
@@ -96,17 +97,18 @@ public class UserService {
         }
     }
 
+    @MustLogin
     public User getCurrentUser() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Object user = request.getSession().getAttribute("user");
         if (user == null) {
-            ErrorUtils.error(StringResources.NOT_LOGIN);
+            return null;
         }
 
         if (user instanceof User) {
             return (User) user;
         }
-        ErrorUtils.error(StringResources.NOT_LOGIN);
+
         return null;
     }
 

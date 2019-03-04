@@ -47,7 +47,7 @@ response:好友列表
 ```text
 GET /friend/recommend
 response:推荐好友列表可选参数:kw(如果不为空，则搜索)
-
+必选参数：page,length
 ```
 ```text
 {
@@ -77,6 +77,7 @@ response:推荐好友列表可选参数:kw(如果不为空，则搜索)
 ```text
 GET /friend/self/count
 response: 朋友数量
+
 ```
 ```text
 {
