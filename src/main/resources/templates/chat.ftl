@@ -47,6 +47,10 @@
         }
 
 
+        .self{
+            background-color: #03a9f3!important;
+            color:white!important;
+        }
 
     </style>
 </head>
@@ -163,7 +167,7 @@
                         <h4 class="card-title box-title">聊天</h4>
                         <div class="card-content">
                             <div class="messenger-box">
-                                <div style="height:400px;overflow-y: scroll" ;>
+                                <div style="height:400px;overflow-y: scroll">
                                     <ul>
                                         <li v-for="message in messageList">
                                             <div class="msg-received msg-container">
@@ -175,9 +179,9 @@
 
                                                 </div>
                                                 <div class="msg-box">
-                                                    <div class="inner-box">
+                                                    <div class="inner-box" :class="{self:message.sender.userId != friendId}">
                                                         <div class="name">
-                                                            小助手
+                                                            {{message.sender.userId}}
                                                         </div>
                                                         <div class="meg">
                                                             {{message.content}}
@@ -331,6 +335,7 @@
 <script src="/assets/js/lib/flot-chart/jquery.flot.js"></script>
 <script src="/assets/js/lib/flot-chart/jquery.flot.pie.js"></script>
 <script src="/assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
+<script src="http://momentjs.cn/downloads/moment-with-locales.min.js"></script>
 <#include "script.ftl"/>
 <script src="/js/chat.js"></script>
 

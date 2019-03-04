@@ -1,11 +1,14 @@
 var chat = new Vue({
     el: "#chat",
     data: {
-        messageList: []
+        messageList: [],
+        friendId:1
     }
     ,
     created:function () {
 
+        this.friendId = location.pathname.replace("/chat/","");
+        moment.locale("zh-cn");
         this.getMessageList();
     }
     ,
@@ -13,13 +16,19 @@ var chat = new Vue({
 
         getMessageList:function () {
 
-            var id = location.pathname.replace("/chat/","");
+
             var that = this;
-            common.ajax.get(common.data.getMessageListUrl+id,function (response) {
+            common.ajax.get(common.data.getMessageListUrl+this.friendId,function (response) {
 
                 if (response.success){
 
-                    that.messageList = response.data;
+                    var list = response.data;
+
+                    for (var i = 0;i<list.length;i++){
+                        list[i].sendTime = moment(list[i].sendTime).fromNow();
+                    }
+                    that.messageList = list;
+
                 }else{
                     alert("获取对话消息失败:"+response.msg);
                 }

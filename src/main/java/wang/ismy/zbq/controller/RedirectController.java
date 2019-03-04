@@ -57,6 +57,9 @@ public class RedirectController {
         }
 
 
+        User user = userService.getCurrentUser();
+
+        modelMap.put("id",user.getUserId());
 
         return "chat";
     }
