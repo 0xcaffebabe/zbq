@@ -27,7 +27,7 @@
                     <div class="dropdown-menu" aria-labelledby="message">
                         <p class="red">你有 4 条新消息</p>
                         <a class="dropdown-item media" href="#">
-                            <span class="photo media-left"><img alt="avatar" src="img/anonymous.jpg"></span>
+                            <span class="photo media-left"><img alt="avatar" src="/img/anonymous.jpg"></span>
                             <div class="message media-body">
                                 <span class="name float-left">笔圈小白</span>
                                 <span class="time float-right">刚刚</span>
@@ -35,7 +35,7 @@
                             </div>
                         </a>
                         <a class="dropdown-item media" href="#">
-                            <span class="photo media-left"><img alt="avatar" src="img/anonymous.jpg"></span>
+                            <span class="photo media-left"><img alt="avatar" src="/img/anonymous.jpg"></span>
                             <div class="message media-body">
                                 <span class="name float-left">全员萌新</span>
                                 <span class="time float-right">5 分钟前</span>
@@ -43,7 +43,7 @@
                             </div>
                         </a>
                         <a class="dropdown-item media" href="#">
-                            <span class="photo media-left"><img alt="avatar" src="img/anonymous.jpg"></span>
+                            <span class="photo media-left"><img alt="avatar" src="/img/anonymous.jpg"></span>
                             <div class="message media-body">
                                 <span class="name float-left">有点垃圾</span>
                                 <span class="time float-right">10 分钟前</span>
@@ -51,7 +51,7 @@
                             </div>
                         </a>
                         <a class="dropdown-item media" href="#">
-                            <span class="photo media-left"><img alt="avatar" src="img/anonymous.jpg"></span>
+                            <span class="photo media-left"><img alt="avatar" src="/img/anonymous.jpg"></span>
                             <div class="message media-body">
                                 <span class="name float-left">Npz</span>
                                 <span class="time float-right">15 分钟前</span>

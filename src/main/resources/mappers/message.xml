@@ -18,6 +18,10 @@
             <id column="to_user" property="userId"/>
         </association>
     </resultMap>
+    <insert id="insert">
+        INSERT INTO message (from_user, to_user, content, has_read, create_time, update_time)
+        values (#{fromUser.userId}, #{toUser.userId}, #{content}, FALSE, NOW(), NOW())
+    </insert>
 
     <select id="selectMessageListBy2User" resultMap="messageMap">
         SELECT *
@@ -25,5 +29,21 @@
         WHERE
             (from_user = #{user1} AND to_user = #{user2})
             OR (from_user = #{user2} AND to_user = #{user1})
+    </select>
+    <select id="selectUnreadMessageByUserId" resultType="wang.ismy.zbq.dto.UnreadMessageDTO">
+        SELECT
+            message.from_user,
+            COUNT(*) msg_count,
+            (
+                SELECT m.content
+                FROM message m
+                WHERE m.from_user = message.from_user AND m.to_user = #{userId}
+                ORDER BY m.create_time DESC
+                LIMIT 1
+            )        newest_msg
+        FROM message
+        WHERE message.to_user = #{userId} AND message.has_read = FALSE
+        GROUP BY message.from_user
+        ORDER BY message.create_time DESC
     </select>
 </mapper>

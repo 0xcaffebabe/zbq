@@ -29,4 +29,14 @@ public class MessageMapperTest {
 
         assertEquals("你好，我是root",messages.get(0).getContent());
     }
+
+
+    @Test
+    public void testSelectUnread(){
+        var list = messageMapper.selectUnreadMessageByUserId(1);
+
+        assertEquals(2,list.size());
+
+        assertEquals("test",list.get(0).getNewestMsg());
+    }
 }

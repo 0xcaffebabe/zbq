@@ -26,4 +26,23 @@ public class User {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+
+    @Override
+    public int hashCode(){
+        return userId;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null){
+            return false;
+        }
+
+        if (obj instanceof User){
+            var i = (User)obj;
+            return i.getUserId().equals(userId);
+        }else{
+            return false;
+        }
+    }
 }

@@ -46,10 +46,14 @@
             background: rgba(255, 0, 0, 0.4);
         }
 
+        .self {
+            background-color: #03a9f3 !important;
+            color: white !important;
+        }
 
-        .self{
-            background-color: #03a9f3!important;
-            color:white!important;
+        table tr:hover{
+            background-color: #ccc;
+            cursor: pointer;
         }
 
     </style>
@@ -64,13 +68,14 @@
     <!-- Header-->
     <#include "header.ftl"/>
     <!-- /#header -->
-    <div class="breadcrumbs" style="box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);">
+
+    <div class="breadcrumbs">
         <div class="breadcrumbs-inner">
             <div class="row m-0">
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>笔友</h1>
+                            <h1>与my聊天</h1>
                         </div>
                     </div>
                 </div>
@@ -80,7 +85,7 @@
                             <ol class="breadcrumb text-right">
                                 <li><a href="#">主页</a></li>
                                 <li><a href="#">笔友</a></li>
-                                <li class="active">与root聊天</li>
+                                <li class="active">聊天</li>
                             </ol>
                         </div>
                     </div>
@@ -89,227 +94,139 @@
         </div>
     </div>
 
-<!-- Content -->
-<div class="content">
-    <!-- Animated -->
-    <div class="animated fadeIn">
+
+    <!-- Content -->
+    <div class="content">
+        <!-- Animated -->
+        <div class="animated fadeIn">
 
 
-        <div class="row" id="chat">
+            <div class="row" id="chat">
 
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title box-title">消息列表</h4>
-                        <div class="card-content">
-                            <table class="table table-striped">
-                                <tr>
-                                    <td>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <div class="round-img">
-                                                    <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg"
-                                                                     width="64" alt=""></a>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title box-title">消息列表</h4>
+                            <div class="card-content">
+                                <table class="table ">
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <div class="round-img">
+                                                        <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg"
+                                                                         width="64" alt=""></a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="media-body" style="margin-left: 15px;">
+                                                <div class="media-body" style="margin-left: 15px;">
 
 
-                                                <div class="text-left" style="font-size: 20px;font-weight: bold">
-                                                    root
-                                                    <span style="float:right;border-radius: 50px;font-size: 14px"
-                                                          class="badge badge-primary">4</span>
-                                                </div>
-
-                                                <p style="font-size: 12px">你好</p>
-                                            </div>
-                                        </div>
-
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <div class="round-img">
-                                                    <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg"
-                                                                     width="64" alt=""></a>
-                                                </div>
-                                            </div>
-                                            <div class="media-body" style="margin-left: 15px;">
-
-
-                                                <div class="text-left" style="font-size: 20px;font-weight: bold">
-                                                    my
-                                                    <span style="float:right;border-radius: 50px;font-size: 14px"
-                                                          class="badge badge-primary">4</span>
-                                                </div>
-
-                                                <p style="font-size: 12px">你好</p>
-                                            </div>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div> <!-- /.card-body -->
-                </div><!-- /.card -->
-            </div>
-
-
-            <div class="col-md-8">
-
-
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title box-title">聊天</h4>
-                        <div class="card-content">
-                            <div class="messenger-box">
-                                <div style="height:400px;overflow-y: scroll">
-                                    <ul>
-                                        <li v-for="message in messageList">
-                                            <div class="msg-received msg-container">
-                                                <div class="avatar">
-                                                    <img src="/img/anonymous.jpg" alt="">
-                                                    <div>
-                                                        <div class="send-time">{{message.sendTime}}</div>
+                                                    <div class="text-left" style="font-size: 20px;font-weight: bold">
+                                                        root
+                                                        <span style="float:right;border-radius: 50px;font-size: 14px"
+                                                              class="badge badge-primary">4</span>
                                                     </div>
 
+                                                    <p style="font-size: 12px">你好</p>
                                                 </div>
-                                                <div class="msg-box">
-                                                    <div class="inner-box" :class="{self:message.sender.userId != friendId}">
-                                                        <div class="name">
-                                                            {{message.sender.userId}}
-                                                        </div>
-                                                        <div class="meg">
-                                                            {{message.content}}
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <div class="round-img">
+                                                        <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg"
+                                                                         width="64" alt=""></a>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body" style="margin-left: 15px;">
+
+
+                                                    <div class="text-left" style="font-size: 20px;font-weight: bold">
+                                                        my
+                                                        <span style="float:right;border-radius: 50px;font-size: 14px"
+                                                              class="badge badge-primary">4</span>
+                                                    </div>
+
+                                                    <p style="font-size: 12px">你好</p>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div> <!-- /.card-body -->
+                    </div><!-- /.card -->
+                </div>
+
+
+                <div class="col-md-8">
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title box-title">聊天</h4>
+                            <div class="card-content">
+                                <div class="messenger-box">
+                                    <div id="msgPane" style="height:400px;overflow-y: scroll;padding:20px;border:1px #ccc solid;border-radius: 5px">
+                                        <ul>
+                                            <li v-for="message in messageList">
+                                                <div class="msg-received msg-container">
+                                                    <div class="avatar">
+                                                        <img src="/img/anonymous.jpg" alt="">
+                                                        <div>
+                                                            <div class="send-time">{{message.sendTime}}</div>
                                                         </div>
 
                                                     </div>
-                                                </div>
-                                            </div><!-- /.msg-received -->
-                                        </li>
+                                                    <div class="msg-box">
+                                                        <div class="inner-box"
+                                                             :class="{self:message.sender.userId != friendId}">
+                                                            <div class="name">
+                                                                {{message.sender.senderName}}
+                                                            </div>
+                                                            <div class="meg" style="word-break: break-all" >
+                                                                {{message.content}}
+                                                            </div>
 
-                                        <#--<li>-->
-                                            <#--<div class="msg-received msg-container">-->
-                                                <#--<div class="avatar">-->
-                                                    <#--<img src="/img/anonymous.jpg" alt="">-->
-                                                    <#--<div>-->
-                                                        <#--<div class="send-time">11.11 am</div>-->
-                                                    <#--</div>-->
+                                                        </div>
+                                                    </div>
+                                                </div><!-- /.msg-received -->
+                                            </li>
 
-                                                <#--</div>-->
-                                                <#--<div class="msg-box">-->
-                                                    <#--<div class="inner-box"-->
-                                                         <#--style="background-color: #03a9f3;color:white">-->
-                                                        <#--<div class="name">-->
-                                                            <#--我-->
-                                                        <#--</div>-->
-                                                        <#--<div class="meg">-->
-                                                            <#--你好-->
-                                                        <#--</div>-->
 
-                                                    <#--</div>-->
-                                                <#--</div>-->
-                                            <#--</div><!-- /.msg-received &ndash;&gt;-->
-                                        <#--</li>-->
-                                        <#--<li>-->
-                                            <#--<div class="msg-received msg-container">-->
-                                                <#--<div class="avatar">-->
-                                                    <#--<img src="/img/anonymous.jpg" alt="">-->
-                                                    <#--<div>-->
-                                                        <#--<div class="send-time">11.11 am</div>-->
-                                                    <#--</div>-->
-
-                                                <#--</div>-->
-                                                <#--<div class="msg-box">-->
-                                                    <#--<div class="inner-box">-->
-                                                        <#--<div class="name">-->
-                                                            <#--小助手-->
-                                                        <#--</div>-->
-                                                        <#--<div class="meg">-->
-                                                            <#--你好，有什么可以帮您-->
-                                                        <#--</div>-->
-
-                                                    <#--</div>-->
-                                                <#--</div>-->
-                                            <#--</div><!-- /.msg-received &ndash;&gt;-->
-                                        <#--</li>-->
-
-                                        <#--<li>-->
-                                            <#--<div class="msg-received msg-container">-->
-                                                <#--<div class="avatar">-->
-                                                    <#--<img src="/img/anonymous.jpg" alt="">-->
-                                                    <#--<div>-->
-                                                        <#--<div class="send-time">11.15 am</div>-->
-                                                    <#--</div>-->
-
-                                                <#--</div>-->
-                                                <#--<div class="msg-box">-->
-                                                    <#--<div class="inner-box"-->
-                                                         <#--style="background-color: #03a9f3;color:white">-->
-                                                        <#--<div class="name">-->
-                                                            <#--我-->
-                                                        <#--</div>-->
-                                                        <#--<div class="meg">-->
-                                                            <#--你，你是曾经的转笔机器人吗-->
-                                                        <#--</div>-->
-
-                                                    <#--</div>-->
-                                                <#--</div>-->
-                                            <#--</div><!-- /.msg-received &ndash;&gt;-->
-                                        <#--</li>-->
-
-                                        <#--<li>-->
-                                            <#--<div class="msg-received msg-container">-->
-                                                <#--<div class="avatar">-->
-                                                    <#--<img src="/img/anonymous.jpg" alt="">-->
-                                                    <#--<div>-->
-                                                        <#--<div class="send-time">11.11 am</div>-->
-                                                    <#--</div>-->
-
-                                                <#--</div>-->
-                                                <#--<div class="msg-box">-->
-                                                    <#--<div class="inner-box">-->
-                                                        <#--<div class="name">-->
-                                                            <#--小助手-->
-                                                        <#--</div>-->
-                                                        <#--<div class="meg">-->
-                                                            <#--是的，我将在新的岗位发光发热-->
-                                                        <#--</div>-->
-
-                                                    <#--</div>-->
-                                                <#--</div>-->
-                                            <#--</div><!-- /.msg-received &ndash;&gt;-->
-                                        <#--</li>-->
-
-                                    </ul>
-                                </div>
-
-                                <div class="send-mgs">
-                                    <div class="yourmsg">
-                                        <input class="form-control" type="text">
+                                        </ul>
                                     </div>
-                                    <button class="btn msg-send-btn">
-                                        <i class="pe-7s-paper-plane"></i>
-                                    </button>
-                                </div>
-                            </div><!-- /.messenger-box -->
-                        </div>
-                    </div> <!-- /.card-body -->
-                </div><!-- /.card -->
+
+                                    <div class="send-mgs">
+                                        <div class="yourmsg" style="border:1px #ccc solid;border-radius: 5px">
+                                            <input class="form-control" type="text" v-model="content" @keyup.enter="sendMessage">
+                                        </div>
+                                        <button class="btn msg-send-btn" @click="sendMessage" >
+                                            <i class="pe-7s-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div><!-- /.messenger-box -->
+                            </div>
+                        </div> <!-- /.card-body -->
+                    </div><!-- /.card -->
+
+                </div>
+
 
             </div>
 
-
+            <div class="clearfix"></div>
+            <!-- .animated -->
         </div>
+        <!-- /.content -->
 
-        <div class="clearfix"></div>
-        <!-- .animated -->
     </div>
-    <!-- /.content -->
     <div class="clearfix"></div>
     <!-- Footer -->
     <footer class="site-footer">
@@ -324,7 +241,6 @@
         </div>
     </footer>
     <!-- /.site-footer -->
-</div>
 </div>
 <!-- /#right-panel -->
 

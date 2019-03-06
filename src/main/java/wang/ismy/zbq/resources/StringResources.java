@@ -31,6 +31,8 @@ public class StringResources {
     public static final String NOT_FRIEND = "非好友关系";
 
     public static final String FRIEND_RELATION_CREATED = "已是好友关系";
+
+
 }
 
 

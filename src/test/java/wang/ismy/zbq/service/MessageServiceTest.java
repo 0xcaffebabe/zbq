@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service;
 
+import lombok.AllArgsConstructor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,13 @@ public class MessageServiceTest {
     @Autowired
     MessageService messageService;
 
+    @Autowired
+    UserService userService;
 
     @Test
     public void testSelect(){
+
+
 
     }
 }

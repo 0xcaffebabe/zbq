@@ -86,7 +86,8 @@ function getCommonObject(){
             getFriendAddListUrl:"/friend/add",
             agreeFriendAddUrl:"/friend/add/agree/",
             countFriendsUrl:"/friend/self/count",
-            getMessageListUrl:"/message/friend/"
+            getMessageListUrl:"/message/friend/",
+            sendMessageUrl:"/message"
         }
     }
 }

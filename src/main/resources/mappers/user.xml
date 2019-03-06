@@ -53,7 +53,7 @@
             user_info.nick_name,
             user_info.profile
         FROM user, user_info
-        WHERE user.username = #{userId} AND user_info.user_info_id = user.user_info
+        WHERE user.user_id = #{userId} AND user_info.user_info_id = user.user_info
     </select>
     <select id="selectByUserIdBatch" resultMap="userMap">
         SELECT

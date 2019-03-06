@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import wang.ismy.zbq.dto.Result;
 
+import java.lang.reflect.Method;
+
 @ControllerAdvice
 public class DefaultExceptionHandler {
 
@@ -23,6 +25,8 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result hanndle1(Exception e){
+
+
         System.out.println(e.getClass());
         Result result = new Result();
         result.setSuccess(false);

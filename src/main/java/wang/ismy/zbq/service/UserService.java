@@ -137,6 +137,8 @@ public class UserService {
         request.getSession().setAttribute("user", user);
     }
 
+
+
     private User generateUser(RegisterDTO dto) {
         return User.builder()
                 .username(dto.getUsername())

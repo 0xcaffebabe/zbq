@@ -3,13 +3,13 @@ package wang.ismy.zbq.controller;
 
 import org.apache.ibatis.annotations.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
+import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.service.MessageService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/message")
@@ -24,5 +24,24 @@ public class MessageController {
     public Object getCurrentUserMessageListByUserId(@PathVariable("id") Integer userId){
 
         return messageService.selectCurrentUserMessageListByFriendId(userId);
+    }
+
+    @PostMapping("")
+    @ResultTarget
+    @MustLogin
+    public Object sendMessage(@RequestBody @Valid MessageDTO messageDTO){
+
+        if (messageService.currentUserSendMessage(messageDTO)){
+            return "发送成功";
+        }else{
+            return "发送失败";
+        }
+    }
+
+    @GetMapping("/unread")
+    @ResultTarget
+    @MustLogin
+    public Object getCurrentUserUnreadMessage(){
+        return messageService.selectCurrentUserUnreadMessageList();
     }
 }

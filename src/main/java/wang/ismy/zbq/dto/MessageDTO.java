@@ -1,22 +1,16 @@
 package wang.ismy.zbq.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import wang.ismy.zbq.entity.User;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Builder
 public class MessageDTO {
 
-    private User sender;
+    @NotNull(message = "发送对象不得为空")
+    private Integer to;
 
+    @NotBlank(message = "消息内容不得为空")
     private String content;
-
-    private LocalDateTime sendTime;
 }
