@@ -39,4 +39,14 @@ public class MessageMapperTest {
 
         assertEquals("test",list.get(0).getNewestMsg());
     }
+
+
+    @Test
+    public void testMessageList(){
+        var list = messageMapper.selectMessageListByUserId(1);
+
+        assertEquals(4,list.size());
+
+        assertEquals("一条测试哦",list.get(0).getNewestMsg());
+    }
 }

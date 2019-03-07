@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wang.ismy.zbq.dao.FriendAddMapper;
 import wang.ismy.zbq.dto.FriendAddDTO;
+import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.entity.FriendAdd;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.StringResources;
@@ -27,12 +28,15 @@ public class FriendAddService {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private MessageService messageService;
+
     public int insertNew(FriendAddDTO friendAddDTO) {
 
 
         User from = User.builder().userId(friendAddDTO.getFromUser()).build();
 
-        if (userService.selectByPrimaryKey(friendAddDTO.getToUser()) != null) {
+        if (userService.selectByPrimaryKey(friendAddDTO.getToUser()) == null) {
             ErrorUtils.error(StringResources.TARGET_USER_NOT_EXIST);
         }
 
@@ -106,7 +110,9 @@ public class FriendAddService {
 
         // 以to的身份给from发送一条消息，告知其已是好友
         //TODO
-
-
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setTo(friendAdd.getFromUser().getUserId());
+        messageDTO.setContent("我已通过了你的好友请求");
+        messageService.currentUserSendMessage(messageDTO);
     }
 }

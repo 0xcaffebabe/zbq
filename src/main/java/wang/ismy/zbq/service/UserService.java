@@ -23,6 +23,7 @@ import java.util.List;
 @Service
 public class UserService {
 
+
     @Autowired
     private UserMapper userMapper;
 
@@ -34,6 +35,12 @@ public class UserService {
 
     @Autowired
     private LoginACLService loginACLService;
+
+    public void setTestUser(User testUser) {
+        this.testUser = testUser;
+    }
+
+    private User testUser;
 
     @Transactional
     public int createNewUser(RegisterDTO dto) {
@@ -99,6 +106,8 @@ public class UserService {
 
     @MustLogin
     public User getCurrentUser() {
+
+        if (testUser != null) return testUser;
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Object user = request.getSession().getAttribute("user");
         if (user == null) {
@@ -159,7 +168,7 @@ public class UserService {
     private UserInfo getDefaultUserInfo() {
         return UserInfo.builder()
                 .nickName("佚名")
-                .profile("img/anonymous.jpg")
+                .profile("/img/anonymous.jpg")
                 .birthday(LocalDate.now())
                 .penYear(1)
                 .region("中国")

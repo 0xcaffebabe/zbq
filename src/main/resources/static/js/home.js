@@ -81,3 +81,30 @@ var userCard = new Vue({
 
 
 });
+
+var dashboard = new Vue({
+   el:"#dashboard",
+   data:{
+       friendQuantity:0
+   },
+    created:function () {
+
+       this.countFriend();
+    }
+    ,
+
+    methods:{
+       countFriend:function () {
+           var that = this;
+           common.ajax.get(common.data.countFriendsUrl,function (response) {
+               if (response.success){
+                   that.friendQuantity = response.data;
+
+               }else{
+                   alert(response.msg);
+               }
+           })
+
+       }
+    }
+});

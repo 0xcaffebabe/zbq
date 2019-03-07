@@ -87,9 +87,18 @@ function getCommonObject(){
             agreeFriendAddUrl:"/friend/add/agree/",
             countFriendsUrl:"/friend/self/count",
             getMessageListUrl:"/message/friend/",
-            sendMessageUrl:"/message"
+            sendMessageUrl:"/message",
+            getUnreadMessageListUrl:"/message/unread",
+            getUserMessageListUrl:"/message/list"
         }
     }
 }
 
 var common = getCommonObject();
+
+var nav = new Vue({
+    el:"#side",
+    data:{
+        url:location.pathname
+    }
+});

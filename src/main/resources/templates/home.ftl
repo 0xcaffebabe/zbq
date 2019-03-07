@@ -65,7 +65,7 @@
         <!-- Animated -->
         <div class="animated fadeIn">
             <!-- Widgets  -->
-            <div class="row">
+            <div class="row" id="dashboard">
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="card-body">
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">2986</span></div>
+                                        <div class="stat-text"><span class="count">{{friendQuantity}}</span></div>
                                         <div class="stat-heading">好友数</div>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">586</span></div>
+                                        <div class="stat-text"><span class="count">0</span></div>
                                         <div class="stat-heading">动态数</div>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">56</span></div>
+                                        <div class="stat-text"><span class="count">0</span></div>
                                         <div class="stat-heading">在线天数</div>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">349</span></div>
+                                        <div class="stat-text"><span class="count">0</span></div>
                                         <div class="stat-heading">收获赞数</div>
                                     </div>
                                 </div>

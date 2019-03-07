@@ -3,7 +3,8 @@ var chat = new Vue({
     data: {
         messageList: [],
         friendId:1,
-        content:''
+        content:'',
+        userMessageList:[]
     }
     ,
     created:function () {
@@ -11,6 +12,7 @@ var chat = new Vue({
         this.friendId = location.pathname.replace("/chat/","");
         moment.locale("zh-cn");
         this.getMessageList();
+        this.getUnreadMessageList();
     }
     ,
     methods: {
@@ -50,19 +52,37 @@ var chat = new Vue({
                 alert("请输入待发送的内容");
                 return;
             }else{
+                var that =this;
                 common.ajax.post(common.data.sendMessageUrl,function (response) {
                     if (response.success){
-
+                        that.content = '';
+                        that.getMessageList();
                     }else{
                         alert(response.msg);
                     }
-                },{to:this.friendId,content:this.content})
-                this.content = '';
-                this.getMessageList();
+                },{to:this.friendId,content:this.content});
+
+
 
             }
 
 
+        }
+        ,
+        getUnreadMessageList:function () {
+
+            var that = this;
+            common.ajax.get(common.data.getUserMessageListUrl,function (response) {
+                if (response.success){
+                    that.userMessageList = response.data;
+                }else{
+                    alert("获取未读消息列表失败:"+response.msg);
+                }
+            });
+        }
+        ,
+        chat:function (id) {
+            window.location = "/chat/"+id;
         }
     }
 });

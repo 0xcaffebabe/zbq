@@ -22,6 +22,10 @@
         INSERT INTO message (from_user, to_user, content, has_read, create_time, update_time)
         values (#{fromUser.userId}, #{toUser.userId}, #{content}, FALSE, NOW(), NOW())
     </insert>
+    <update id="updateHasRead">
+        UPDATE message
+        SET has_read = TRUE WHERE from_user = #{friendId} AND to_user= #{userId}
+    </update>
 
     <select id="selectMessageListBy2User" resultMap="messageMap">
         SELECT *
@@ -45,5 +49,22 @@
         WHERE message.to_user = #{userId} AND message.has_read = FALSE
         GROUP BY message.from_user
         ORDER BY message.create_time DESC
+    </select>
+    <select id="selectMessageListByUserId" resultType="wang.ismy.zbq.dto.MessageListDTO">
+        SELECT
+            message.from_user,
+            message.to_user,
+            (
+                SELECT m.content
+                FROM message m
+                WHERE (m.to_user = #{userId} OR m.from_user = #{userId}) AND
+                      (m.from_user = message.from_user AND m.to_user = message.to_user)
+                ORDER BY m.create_time DESC
+                LIMIT 1
+            ) newest_msg
+        FROM message
+        WHERE (message.to_user = #{userId} OR message.from_user = #{userId})
+        GROUP BY message.from_user, message.to_user
+        ORDER BY create_time DESC
     </select>
 </mapper>

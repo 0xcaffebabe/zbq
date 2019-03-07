@@ -4,13 +4,15 @@ import lombok.Data;
 import wang.ismy.zbq.entity.UserInfo;
 
 @Data
-public class UnreadMessageVO {
+public class MessageListVO {
 
-    private Integer fromUserId;
 
-    private UserInfo fromUserInfo;
+    private Integer oppositeSideId;
+
+    private UserInfo oppositeSideUserInfo;
 
     private Integer msgCount;
 
     private String newestMsg;
+
 }

@@ -51,7 +51,7 @@
             color: white !important;
         }
 
-        table tr:hover{
+        table tr:hover {
             background-color: #ccc;
             cursor: pointer;
         }
@@ -83,8 +83,8 @@
                     <div class="page-header float-right">
                         <div class="page-title">
                             <ol class="breadcrumb text-right">
-                                <li><a href="#">主页</a></li>
-                                <li><a href="#">笔友</a></li>
+                                <li><a href="/home">主页</a></li>
+                                <li><a href="/friends">笔友</a></li>
                                 <li class="active">聊天</li>
                             </ol>
                         </div>
@@ -109,55 +109,32 @@
                             <h4 class="card-title box-title">消息列表</h4>
                             <div class="card-content">
                                 <table class="table ">
-                                    <tr>
-                                        <td>
-                                            <div class="media">
-                                                <div class="media-left">
+                                    <tr v-for="message in userMessageList" >
+                                        <td :onclick="'chat.chat('+message.oppositeSideId+')'">
+
+                                            <div class="media" >
+                                                <div class="media-left" >
                                                     <div class="round-img">
-                                                        <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg"
+                                                        <a href="#"><img class="rounded-circle"
+                                                                         :src="message.oppositeSideUserInfo.profile"
                                                                          width="64" alt=""></a>
                                                     </div>
                                                 </div>
                                                 <div class="media-body" style="margin-left: 15px;">
-
-
                                                     <div class="text-left" style="font-size: 20px;font-weight: bold">
-                                                        root
-                                                        <span style="float:right;border-radius: 50px;font-size: 14px"
-                                                              class="badge badge-primary">4</span>
+                                                        {{message.oppositeSideUserInfo.nickName}}
+                                                        <span v-show="message.msgCount > 0" style="float:right;border-radius: 50px;font-size: 14px"
+                                                              class="badge badge-primary">{{message.msgCount}}</span>
                                                     </div>
 
-                                                    <p style="font-size: 12px">你好</p>
+                                                    <p style="font-size: 12px">{{message.newestMsg}}</p>
                                                 </div>
                                             </div>
 
 
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <div class="round-img">
-                                                        <a href="#"><img class="rounded-circle" src="/img/anonymous.jpg"
-                                                                         width="64" alt=""></a>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body" style="margin-left: 15px;">
 
-
-                                                    <div class="text-left" style="font-size: 20px;font-weight: bold">
-                                                        my
-                                                        <span style="float:right;border-radius: 50px;font-size: 14px"
-                                                              class="badge badge-primary">4</span>
-                                                    </div>
-
-                                                    <p style="font-size: 12px">你好</p>
-                                                </div>
-                                            </div>
-
-                                        </td>
-                                    </tr>
                                 </table>
                             </div>
                         </div> <!-- /.card-body -->
@@ -173,12 +150,13 @@
                             <h4 class="card-title box-title">聊天</h4>
                             <div class="card-content">
                                 <div class="messenger-box">
-                                    <div id="msgPane" style="height:400px;overflow-y: scroll;padding:20px;border:1px #ccc solid;border-radius: 5px">
+                                    <div id="msgPane"
+                                         style="height:400px;overflow-y: scroll;padding:20px;border:1px #ccc solid;border-radius: 5px">
                                         <ul>
                                             <li v-for="message in messageList">
                                                 <div class="msg-received msg-container">
                                                     <div class="avatar">
-                                                        <img src="/img/anonymous.jpg" alt="">
+                                                        <img :src="message.senderInfo.profile" alt="">
                                                         <div>
                                                             <div class="send-time">{{message.sendTime}}</div>
                                                         </div>
@@ -186,11 +164,11 @@
                                                     </div>
                                                     <div class="msg-box">
                                                         <div class="inner-box"
-                                                             :class="{self:message.sender.userId != friendId}">
+                                                             :class="{self:message.senderId != friendId}">
                                                             <div class="name">
-                                                                {{message.sender.senderName}}
+                                                                {{message.senderInfo.nickName}}
                                                             </div>
-                                                            <div class="meg" style="word-break: break-all" >
+                                                            <div class="meg" style="word-break: break-all">
                                                                 {{message.content}}
                                                             </div>
 
@@ -205,9 +183,10 @@
 
                                     <div class="send-mgs">
                                         <div class="yourmsg" style="border:1px #ccc solid;border-radius: 5px">
-                                            <input class="form-control" type="text" v-model="content" @keyup.enter="sendMessage">
+                                            <input class="form-control" type="text" v-model="content"
+                                                   @keyup.enter="sendMessage">
                                         </div>
-                                        <button class="btn msg-send-btn" @click="sendMessage" >
+                                        <button class="btn msg-send-btn" @click="sendMessage">
                                             <i class="pe-7s-paper-plane"></i>
                                         </button>
                                     </div>

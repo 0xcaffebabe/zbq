@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import wang.ismy.zbq.entity.UserInfo;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,9 @@ import java.time.LocalDateTime;
 @Builder
 public class MessageVO {
 
-    private SenderVO sender;
+    private Integer senderId;
+
+    private UserInfo senderInfo;
 
     private String content;
 

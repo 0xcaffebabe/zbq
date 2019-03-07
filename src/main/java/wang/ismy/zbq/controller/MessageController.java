@@ -44,4 +44,13 @@ public class MessageController {
     public Object getCurrentUserUnreadMessage(){
         return messageService.selectCurrentUserUnreadMessageList();
     }
+
+    @GetMapping("/list")
+    @ResultTarget
+    @MustLogin
+    public Object getCurrentUserMessageList(){
+        return messageService.selectCurrentUserMessageList();
+    }
+
+
 }

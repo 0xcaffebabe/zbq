@@ -19,11 +19,12 @@ public class MessageServiceTest {
 
     @Autowired
     UserService userService;
-
     @Test
     public void testSelect(){
 
+        userService.setTestUser(userService.selectByPrimaryKey(1));
+        var list = messageService.selectCurrentUserMessageList();
 
-
+        System.out.println(list);
     }
 }
