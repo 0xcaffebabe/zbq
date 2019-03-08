@@ -175,6 +175,7 @@ public class MessageService {
                     vo.setMsgCount(i.getMsgCount());
                     vo.setNewestMsg(i.getNewestMsg());
                     vo.setFromUserId(i.getFromUser());
+                    vo.setSendTime(i.getSendTime());
                     ret.add(vo);
                     break;
                 }

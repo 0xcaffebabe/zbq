@@ -230,7 +230,6 @@
 <script src="/assets/js/lib/flot-chart/jquery.flot.js"></script>
 <script src="/assets/js/lib/flot-chart/jquery.flot.pie.js"></script>
 <script src="/assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
-<script src="http://momentjs.cn/downloads/moment-with-locales.min.js"></script>
 <#include "script.ftl"/>
 <script src="/js/chat.js"></script>
 

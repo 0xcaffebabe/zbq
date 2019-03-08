@@ -44,7 +44,8 @@
                 WHERE m.from_user = message.from_user AND m.to_user = #{userId}
                 ORDER BY m.create_time DESC
                 LIMIT 1
-            )        newest_msg
+            )        newest_msg,
+            message.create_time send_time
         FROM message
         WHERE message.to_user = #{userId} AND message.has_read = FALSE
         GROUP BY message.from_user
