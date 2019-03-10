@@ -12,8 +12,7 @@
 
 
                 <li :class="{active:url == '/friends'}"><a href="/friends"> <i class="menu-icon fa fa-users"></i>我的笔友 </a></li>
-                <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i> 笔圈动态（不可用）</a></li>
+                <li :class="{active:url == '/state'}"><a href="/state"> <i class="menu-icon fa fa-cogs"></i> 笔圈动态</a></li>
                 <li><a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                        aria-expanded="false"> <i class="menu-icon fa fa-street-view"></i>转笔地图(不可用) </a></li>
 

@@ -66,5 +66,12 @@ public class RedirectController {
         return "chat";
     }
 
+    @RequestMapping("/state")
+    @MustLogin
+    @ErrorPage
+    public Object state(){
+        return "state";
+    }
+
 
 }

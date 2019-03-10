@@ -37,30 +37,6 @@
                             </a>
                         </div>
 
-                        <#--<a class="dropdown-item media" href="#">-->
-                            <#--<span class="photo media-left"><img alt="avatar" src="/img/anonymous.jpg"></span>-->
-                            <#--<div class="message media-body">-->
-                                <#--<span class="name float-left">全员萌新</span>-->
-                                <#--<span class="time float-right">5 分钟前</span>-->
-                                <#--<p>连招好炫酷</p>-->
-                            <#--</div>-->
-                        <#--</a>-->
-                        <#--<a class="dropdown-item media" href="#">-->
-                            <#--<span class="photo media-left"><img alt="avatar" src="/img/anonymous.jpg"></span>-->
-                            <#--<div class="message media-body">-->
-                                <#--<span class="name float-left">有点垃圾</span>-->
-                                <#--<span class="time float-right">10 分钟前</span>-->
-                                <#--<p>给你反馈个问题</p>-->
-                            <#--</div>-->
-                        <#--</a>-->
-                        <#--<a class="dropdown-item media" href="#">-->
-                            <#--<span class="photo media-left"><img alt="avatar" src="/img/anonymous.jpg"></span>-->
-                            <#--<div class="message media-body">-->
-                                <#--<span class="name float-left">Npz</span>-->
-                                <#--<span class="time float-right">15 分钟前</span>-->
-                                <#--<p>好久不见，记得我吗</p>-->
-                            <#--</div>-->
-                        <#--</a>-->
                     </div>
                 </div>
             </div>
