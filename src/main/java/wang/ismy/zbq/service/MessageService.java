@@ -39,10 +39,16 @@ public class MessageService {
 
         var list = messageMapper.selectMessageListBy2User(friendId, user.getUserId());
 
+        List<MessageVO> ret = convertToMessageVO(user, friend, list);
+        // 当拉取所有消息之后，将friendId发送给用户与的所有设置为已读
+        updateHasRead(user.getUserId(),friendId);
+        return ret;
+
+    }
+
+    private List<MessageVO> convertToMessageVO(User user, User friend, List<Message> list) {
         List<MessageVO> ret = new ArrayList<>();
         for (var i : list) {
-
-
             MessageVO messageVO = MessageVO.builder()
                     .senderId(i.getFromUser().getUserId())
                     .senderInfo(user.equals(i.getFromUser()) ? user.getUserInfo() : friend.getUserInfo())
@@ -51,10 +57,7 @@ public class MessageService {
                     .build();
             ret.add(messageVO);
         }
-        // 当拉取所有消息之后，将friendId发送给用户与的所有设置为已读
-        updateHasread(user.getUserId(),friendId);
         return ret;
-
     }
 
     public boolean currentUserSendMessage(MessageDTO messageDTO) {
@@ -98,7 +101,9 @@ public class MessageService {
 
         User user = userService.getCurrentUser();
 
+        // 查询出当前用户通信列表
         var messageList = messageMapper.selectMessageListByUserId(user.getUserId());
+        // 查询出当前用户未读消息列表
         var unreadList = selectCurrentUserUnreadMessageList();
         List<MessageListVO> ret = new ArrayList<>();
 
@@ -118,9 +123,9 @@ public class MessageService {
 
         List<Integer> userIdList = new ArrayList<>();
 
+
         for (var i : messageList) {
             // 如果发送方为当前登录用户，则对方为toUser
-
             Integer oppositeUser = null;
             if (i.getFromUser().equals(user.getUserId())) {
                 oppositeUser = i.getToUser();
@@ -156,7 +161,7 @@ public class MessageService {
         return ret;
     }
 
-    public void updateHasread(int userId,int friendId){
+    public void updateHasRead(int userId, int friendId){
         if (friendService.isFriend(userId,friendId)){
             messageMapper.updateHasRead(userId,friendId);
         }else{

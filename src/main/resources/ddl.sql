@@ -69,3 +69,22 @@ CREATE TABLE message(
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
+
+# 创建动态表
+CREATE TABLE state(
+  state_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  content TEXT NOT NULL ,
+  user INT NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建点赞表
+CREATE TABLE tb_like(
+  like_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  like_type TINYINT NOT NULL COMMENT '0代表动态点赞',
+  content_id INT NOT NULL ,
+  like_user INT NOT NULL ,
+  create_time DATETIME NOT NULL,
+  update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;

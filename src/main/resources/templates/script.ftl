@@ -17,7 +17,8 @@
         data: {
             profile: '',
             unreadMessageList: [],
-            unreadCount: 0
+            unreadCount: 0,
+            userId:0
         },
         methods: {
             getInfo: function () {
@@ -25,6 +26,7 @@
                 common.ajax.get(common.data.getCurrentUserDataUrl, function (response) {
                     if (response.success) {
                         that.profile = response.data.profile;
+                        that.userId = response.data.userId;
 
                     } else {
                         alert(response.msg);

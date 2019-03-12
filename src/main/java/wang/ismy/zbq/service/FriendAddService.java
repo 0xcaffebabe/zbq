@@ -68,6 +68,7 @@ public class FriendAddService {
 
         List<User> users = userService.selectByUserIdBatch(userIdList);
 
+        // 将查询出来的用户分别对应给朋友添加消息的toUser和fromUser
         for (var i : list) {
             i.setToUser(toUser);
             for (var j : users) {
@@ -96,7 +97,23 @@ public class FriendAddService {
             ErrorUtils.error(StringResources.PERMISSION_DENIED);
         }
 
-        // 插入to和from的双向联系
+
+        createFriendRelation(friendAdd);
+
+        // 将friendAdd记录置为不可见
+        friendAddMapper.updateVisible(friendAddId);
+
+        sendFriendAddPassMessage(friendAdd);
+    }
+
+    private void sendFriendAddPassMessage(FriendAdd friendAdd) {
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setTo(friendAdd.getFromUser().getUserId());
+        messageDTO.setContent("我已通过了你的好友请求");
+        messageService.currentUserSendMessage(messageDTO);
+    }
+
+    private void createFriendRelation(FriendAdd friendAdd) {
         if (friendService.insertNewRelation(friendAdd.getFromUser().getUserId(), friendAdd.getToUser().getUserId()) != 1) {
             ErrorUtils.error(StringResources.UNKNOWN_ERROR);
         }
@@ -104,15 +121,5 @@ public class FriendAddService {
         if (friendService.insertNewRelation(friendAdd.getToUser().getUserId(), friendAdd.getFromUser().getUserId()) != 1) {
             ErrorUtils.error(StringResources.UNKNOWN_ERROR);
         }
-
-        // 将friendAdd记录置为不可见
-        friendAddMapper.updateVisible(friendAddId);
-
-        // 以to的身份给from发送一条消息，告知其已是好友
-        //TODO
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setTo(friendAdd.getFromUser().getUserId());
-        messageDTO.setContent("我已通过了你的好友请求");
-        messageService.currentUserSendMessage(messageDTO);
     }
 }

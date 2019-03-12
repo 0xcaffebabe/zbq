@@ -11,15 +11,19 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FriendServiceTest {
+public class StateServiceTest {
 
     @Autowired
-    FriendService friendService;
+    StateService stateService;
 
+    @Autowired
+    UserService userService;
 
     @Test
-    public void testSelectFriendId(){
-        var list = friendService.selectFriendListByUserId(1);
-        System.out.println(list);
+    public void testSelect(){
+        long time = System.currentTimeMillis();
+        userService.setTestUser(userService.selectByPrimaryKey(1));
+        var list = stateService.selectCurrentUserState();
+        System.out.println(System.currentTimeMillis()-time+"ms");
     }
 }

@@ -20,4 +20,6 @@ public interface FriendMapper {
 
     int countByUserId(Integer userId);
 
+    List<Integer> selectFriendListByUserId(Integer userId);
+
 }

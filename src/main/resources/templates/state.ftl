@@ -55,6 +55,9 @@
             border-radius: 50px!important;
         }
 
+        .red{
+            color:red;
+        }
 
     </style>
 </head>
@@ -96,7 +99,7 @@
 
     <!-- Content -->
     <div class="content">
-        <div class="animated fadeIn">
+        <div class="animated fadeIn" id="state">
 
             <div class="card">
                 <div class="card-header">
@@ -105,11 +108,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-10">
-                            <textarea class="form-control"></textarea>
+                            <textarea class="form-control" v-model="stateContent"></textarea>
                         </div>
                         <div class="col-md-2">
                             <div class="btn btn-group" style="float: right">
-                                <button class="btn btn-sm btn-primary">发布</button>
+                                <button class="btn btn-sm btn-primary" @click="publishState">发布</button>
                                 <button class="btn btn-sm btn-success">添加图片</button>
                             </div>
                         </div>
@@ -119,7 +122,7 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="card">
+                    <div class="card" >
                         <div class="card-header">
                             <h4>动态板</h4>
                         </div>
@@ -134,34 +137,36 @@
                                 </nav>
                                 <div class="tab-content pl-3 pt-2" id="nav-tabContent">
                                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                        <div class="media">
+                                        <div class="media" v-for="i in selfStateList">
                                             <div class="media-left">
                                                 <a href="#">
-                                                    <img class="media-object" style="" src="/img/anonymous.jpg" alt="..." width="64" height="64">
+                                                    <img class="media-object" style="" :src="i.userVO.profile" alt="..." width="64" height="64">
                                                 </a>
                                             </div>
                                             <div class="media-body">
                                                 <div class="card">
                                                     <div class="card-header">
-                                                        <h4>佚名</h4>
-                                                        <span class="fa fa-clock-o"></span> 18分钟前
+                                                        <h4>{{i.userVO.nickName}}</h4>
+                                                        <span class="fa fa-clock-o"></span> {{i.createTime}}
                                                     </div>
 
                                                     <div class="card-body">
-                                                        VGG emboss mod 128RMB 出
+                                                        {{i.content}}
                                                         <div>
-                                                            <span class="fa fa-heart" style="color:red"></span>3
-                                                            <a href="#">
-                                                                <img src="/img/anonymous.jpg" alt="" width="24"style="border-radius: 50px;">
-                                                            </a>
-                                                            <a href="#">
-                                                                <img src="/img/anonymous.jpg" alt="" width="24"style="border-radius: 50px;">
-                                                            </a>
-                                                            <a href="#">
-                                                                <img src="/img/anonymous.jpg" alt="" width="24"style="border-radius: 50px;">
+                                                            <span class="fa fa-heart" style="color:red"></span>{{i.likes.likeCount}}
+
+                                                            <a  href="#" v-for="like in i.likes.likeList" style="margin-left: 5px" :title="like.likeUser.userInfo.nickName">
+                                                                <img :src="like.likeUser.userInfo.profile" alt="" width="24"style="border-radius: 50px;">
                                                             </a>
 
+
                                                         </div>
+
+                                                        <div>
+
+                                                            <a href="#" style="float:right" ><span class="fa fa-heart " :class="{red:hasLike(i.likes.likeList)}"></span></a>
+                                                        </div>
+
                                                     </div>
                                                     <ul class="media-list">
                                                         <li class="media">
@@ -172,9 +177,9 @@
                                                             </div>
                                                             <div class="media-body">
                                                                 <h6 class="media-heading">佚名 <span class="fa fa-clock-o"></span> 4分钟前</h6>
-
                                                                 <p>你说尼玛呢</p>
                                                             </div>
+
                                                         </li>
 
                                                         <li class="media">
@@ -190,30 +195,27 @@
                                                             </div>
                                                         </li>
 
+                                                        <li class="media">
+                                                            <div class="media-left media-middle">
+                                                                <a href="#">
+                                                                    <img class="media-object" src="/img/anonymous.jpg" alt="..." width="32">
+                                                                </a>
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <div class="form-group form-inline">
+                                                                    <input type="text" class="form-control">
+                                                                    <button class="btn btn-sm btn-primary form-control">评论</button>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
                                                     </ul>
 
+
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a href="#">
-                                                    <img class="media-object img-circle" src="/img/anonymous.jpg" alt="..." width="64" height="64">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        <h4>header</h4>
-                                                    </div>
-
-                                                    <div class="card-body">
-                                                        body
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                                         <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd. Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel, butcher voluptate nisi .</p>
@@ -285,7 +287,7 @@
 <script src="assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
 
 <#include "script.ftl"/>
-
+<script src="/js/state.js"></script>
 
 
 </body>

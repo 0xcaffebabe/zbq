@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.LikeMapper">
+
+    <resultMap id="likeMap" type="wang.ismy.zbq.entity.Like">
+        <id column="like_id" property="likeId"/>
+        <result column="like_type" property="likeType"/>
+        <result column="content_id" property="contentId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="likeUser" javaType="wang.ismy.zbq.entity.User">
+            <id column="like_user" property="userId"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertNew"  parameterType="wang.ismy.zbq.entity.Like">
+        INSERT INTO tb_like(like_type, content_id, like_user, create_time, update_time)
+                VALUES (#{likeType},#{contentId},#{likeUser.userId},NOW(),NOW())
+    </insert>
+    <select id="selectLikeListByLikeTypeAndContentId" resultType="wang.ismy.zbq.entity.Like">
+        SELECT * FROM tb_like WHERE like_type = #{likeType}
+        AND content_id = #{contentId}
+    </select>
+    <select id="selectLikeListByLikeTypeAndContentIdBatch" resultMap="likeMap">
+        SELECT * FROM tb_like WHERE like_type = #{likeType}
+        AND content_id IN
+        <foreach collection="contentIdList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

@@ -54,7 +54,7 @@ public class UserController {
             userDTO.setUsername(user.getUsername());
             userDTO.setNickName(user.getUserInfo().getNickName());
             userDTO.setProfile(user.getUserInfo().getProfile());
-
+            userDTO.setUserId(user.getUserId());
             if (StringUtils.isNullOrEmpty(userDTO.getProfile())){
                 userDTO.setProfile("img/anonymous.jpg");
             }

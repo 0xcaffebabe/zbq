@@ -1,13 +1,11 @@
-package wang.ismy.zbq.dto;
+package wang.ismy.zbq.vo;
 
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class UserVO {
 
     private Integer userId;
-
-    private String username;
 
     private String nickName;
 

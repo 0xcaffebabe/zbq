@@ -88,7 +88,9 @@ function getCommonObject() {
             getMessageListUrl: "/message/friend/",
             sendMessageUrl: "/message",
             getUnreadMessageListUrl: "/message/unread",
-            getUserMessageListUrl: "/message/list"
+            getUserMessageListUrl: "/message/list",
+            getSelfStateListUrl:"/state/self",
+            publishStateUrl:"/state"
         }
     }
 }

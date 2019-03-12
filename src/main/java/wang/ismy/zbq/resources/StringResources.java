@@ -32,7 +32,9 @@ public class StringResources {
 
     public static final String FRIEND_RELATION_CREATED = "已是好友关系";
 
+    public static final String STATE_PUBLISH_FAIL = "动态发表失败";
 
+    public static final String STATE_PUBLISH_SUCCESS = "动态发表成功";
 }
 
 

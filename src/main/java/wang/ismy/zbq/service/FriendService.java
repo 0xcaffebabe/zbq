@@ -109,4 +109,9 @@ public class FriendService {
 
         return friendMapper.countByUserId(user.getUserId());
     }
+
+    public List<Integer> selectFriendListByUserId(Integer userId){
+
+        return friendMapper.selectFriendListByUserId(userId);
+    }
 }
