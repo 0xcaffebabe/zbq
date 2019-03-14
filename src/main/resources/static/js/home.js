@@ -85,12 +85,15 @@ var userCard = new Vue({
 var dashboard = new Vue({
    el:"#dashboard",
    data:{
-       friendQuantity:0
+       friendQuantity:0,
+       stateQuantity:0
    },
     created:function () {
 
        this.countFriend();
+       this.countState();
     }
+
     ,
 
     methods:{
@@ -106,5 +109,16 @@ var dashboard = new Vue({
            })
 
        }
+       ,
+        countState:function () {
+            var that = this;
+            common.ajax.get(common.data.countStateUrl,function (response) {
+                if (response.success){
+                    that.stateQuantity = response.data;
+                }else{
+                    alert("获取动态数失败:"+response.msg);
+                }
+            })
+        }
     }
 });

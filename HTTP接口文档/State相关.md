@@ -20,6 +20,7 @@ response:发表结果
 ## 获取笔圈动态
 ```text
 GET /state/self
+参数:page length
 response:动态列表
 ```
 ```text

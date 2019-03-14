@@ -131,6 +131,9 @@ public class UserService {
     }
 
     public List<User> selectByUserIdBatch(List<Integer> list){
+        if (list.size() == 0){
+            return List.of();
+        }
         return userMapper.selectByUserIdBatch(list);
     }
 

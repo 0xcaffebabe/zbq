@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.CommentMapper">
+
+    <resultMap id="commentMap" type="wang.ismy.zbq.entity.Comment">
+        <id column="comment_id" property="commentId"/>
+        <result column="comment_type" property="commentType"/>
+        <result column="topic_id" property="topicId"/>
+        <result column="content" property="content"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="fromUser" javaType="wang.ismy.zbq.entity.User">
+            <id column="from_user" property="userId"/>
+        </association>
+        <association property="toUser" javaType="wang.ismy.zbq.entity.User">
+            <id column="to_user" property="userId"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertNew">
+        INSERT INTO tb_comment(comment_type, topic_id, content, from_user, to_user, create_time, update_time)
+                VALUES (#{commentType},#{topicId},#{content},#{fromUser.userId},
+                        #{toUser.userId},NOW(),NOW()
+                )
+    </insert>
+    <select id="selectCommentListByCommentTypeAndTopicIdBatch" resultMap="commentMap">
+        SELECT * FROM tb_comment WHERE topic_id IN
+        <foreach collection="topicIdList" item="item" separator="," close=")" open="(">
+            #{item}
+        </foreach>
+        AND comment_type = #{commentType}
+    </select>
+
+
+</mapper>

@@ -4,38 +4,33 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import wang.ismy.zbq.entity.State;
+import wang.ismy.zbq.entity.Comment;
+import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.service.UserService;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
-
-public class StateMapperTest {
+public class CommentMapperTest {
 
     @Autowired
-    StateMapper stateMapper;
+    CommentMapper commentMapper;
 
     @Autowired
     UserService userService;
 
     @Test
     public void testInsert(){
-
-        userService.setTestUser(userService.selectByPrimaryKey(1));
-
-        State state = new State();
-        state.setContent("VGG便宜出了");
-        state.setUser(userService.getCurrentUser());
-        var ret = stateMapper.insertNew(state);
-        assertEquals(1,ret);
+        Comment comment = new Comment();
+        comment.setCommentType(0);
+        comment.setContent("测试评论回复");
+        comment.setFromUser(userService.selectByPrimaryKey(2));
+        comment.setToUser(User.builder().userId(1).build());
+        comment.setTopicId(8);
+        assertEquals(1,commentMapper.insertNew(comment));
     }
 
 

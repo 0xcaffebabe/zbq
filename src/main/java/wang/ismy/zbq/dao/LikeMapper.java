@@ -14,4 +14,9 @@ public interface LikeMapper {
 
     List<Like> selectLikeListByLikeTypeAndContentIdBatch(@Param("likeType") Integer likeType, @Param("contentIdList") List<Integer> contentIdList);
 
+    Like selectLikeByLikeTypeAndContentIdAndUserId(@Param("likeType") Integer likeType,@Param("contentId") Integer contentId,
+                                                   @Param("userId") Integer userId);
+
+    int deleteLikeByLikeTypeAndContentIdAndUserId(@Param("likeType") Integer likeType,@Param("contentId") Integer contentId,
+                                                  @Param("userId") Integer userId);
 }

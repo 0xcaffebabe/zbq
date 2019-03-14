@@ -25,8 +25,7 @@ public class DefaultExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result hanndle1(Exception e){
-
-
+        e.printStackTrace();
         System.out.println(e.getClass());
         Result result = new Result();
         result.setSuccess(false);

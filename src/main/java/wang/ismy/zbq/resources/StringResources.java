@@ -35,6 +35,14 @@ public class StringResources {
     public static final String STATE_PUBLISH_FAIL = "动态发表失败";
 
     public static final String STATE_PUBLISH_SUCCESS = "动态发表成功";
+
+    public static final String LIKE_SUCCESS = "点赞成功";
+
+    public static final String LIKE_FAIL = "点赞失败";
+
+    public static final String DISLIKE_SUCCESS = "取消点赞成功";
+
+    public static final String DISLIKE_FAIL = "取消点赞失败";
 }
 
 

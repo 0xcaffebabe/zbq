@@ -46,4 +46,11 @@ public class LikeMapperTest {
         assertEquals(2,list.size());
     }
 
+
+    @Test
+    public void testSelectOne(){
+        Like like = likeMapper.selectLikeByLikeTypeAndContentIdAndUserId(0,1,1);
+        assertNotNull(like);
+    }
+
 }

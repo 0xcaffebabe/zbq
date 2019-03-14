@@ -121,6 +121,17 @@
             </div>
 
             <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>热门</h4>
+                        </div>
+                        <div class="card-body">
+                            ...
+                        </div>
+                    </div>
+
+                </div>
                 <div class="col-md-8">
                     <div class="card" >
                         <div class="card-header">
@@ -159,12 +170,11 @@
                                                                 <img :src="like.likeUser.userInfo.profile" alt="" width="24"style="border-radius: 50px;">
                                                             </a>
 
-
                                                         </div>
 
                                                         <div>
 
-                                                            <a href="#" style="float:right" ><span class="fa fa-heart " :class="{red:hasLike(i.likes.likeList)}"></span></a>
+                                                            <a  style="float:right;cursor: pointer" ><span @click.prevent="likeClick" :data-id="i.stateId" class="fa fa-heart " :class="{red:hasLike(i.likes.likeList)}"></span></a>
                                                         </div>
 
                                                     </div>
@@ -226,17 +236,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>热门</h4>
-                        </div>
-                        <div class="card-body">
-                            ...
-                        </div>
-                    </div>
 
-                </div>
             </div>
 
 

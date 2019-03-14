@@ -20,6 +20,9 @@
         INSERT INTO tb_like(like_type, content_id, like_user, create_time, update_time)
                 VALUES (#{likeType},#{contentId},#{likeUser.userId},NOW(),NOW())
     </insert>
+    <delete id="deleteLikeByLikeTypeAndContentIdAndUserId">
+        DELETE FROM tb_like WHERE like_type = #{likeType} AND content_id = #{contentId} AND like_user = #{userId}
+    </delete>
     <select id="selectLikeListByLikeTypeAndContentId" resultType="wang.ismy.zbq.entity.Like">
         SELECT * FROM tb_like WHERE like_type = #{likeType}
         AND content_id = #{contentId}
@@ -30,5 +33,8 @@
         <foreach collection="contentIdList" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
+    </select>
+    <select id="selectLikeByLikeTypeAndContentIdAndUserId" resultMap="likeMap">
+        SELECT * FROM tb_like WHERE like_type = #{likeType} AND content_id = #{contentId} AND like_user = #{userId}
     </select>
 </mapper>

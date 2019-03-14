@@ -88,3 +88,15 @@ CREATE TABLE tb_like(
   create_time DATETIME NOT NULL,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
+
+# 创建评论表
+CREATE TABLE tb_comment(
+  comment_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  comment_type TINYINT NOT NULL COMMENT '0代表动态评论',
+  topic_id INT NOT NULL ,
+  content TEXT NOT NULL ,
+  from_user INT NOT NULL ,
+  to_user INT,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;

@@ -61,7 +61,8 @@
             user_info.nick_name,
             user_info.profile
         FROM user, user_info
-        WHERE user.user_id IN 
+        WHERE user.user_id
+        IN
         <foreach item="i" collection="list" separator="," open="("  close=")">
             #{i}
         </foreach>

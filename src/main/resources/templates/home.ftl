@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">0</span></div>
+                                        <div class="stat-text"><span class="count">{{stateQuantity}}</span></div>
                                         <div class="stat-heading">动态数</div>
                                     </div>
                                 </div>

@@ -19,11 +19,14 @@
         INSERT INTO state (content, user, create_time, update_time)
         VALUES (#{content}, #{user.userId}, NOW(),NOW())
     </insert>
-    <select id="selectStateByUserIdBatch" resultMap="stateMap" parameterType="list">
+    <select id="selectStateByUserIdBatchPaging" resultMap="stateMap" parameterType="list">
         SELECT * FROM state WHERE user IN
         <foreach collection="list" item="item" separator="," close=")" open="(">
             #{item}
         </foreach>
         ORDER BY create_time DESC
+    </select>
+    <select id="countStateByUserId" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM state WHERE user = #{userId}
     </select>
 </mapper>
