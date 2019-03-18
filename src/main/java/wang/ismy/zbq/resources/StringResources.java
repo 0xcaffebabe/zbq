@@ -43,6 +43,12 @@ public class StringResources {
     public static final String DISLIKE_SUCCESS = "取消点赞成功";
 
     public static final String DISLIKE_FAIL = "取消点赞失败";
+
+    public static final String LOCATION_EXIST = "位置信息已存在";
+
+    public static final String SHARE_LOCATION_SUCCESS = "共享位置信息成功";
+
+    public static final String SHARE_LOCCATION_FAIL = "共享位置信息失败";
 }
 
 

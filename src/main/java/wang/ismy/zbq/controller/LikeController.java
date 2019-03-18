@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
+import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.service.LikeService;
@@ -37,6 +38,15 @@ public class LikeController {
             return StringResources.DISLIKE_FAIL;
         }
         return StringResources.DISLIKE_SUCCESS;
+    }
+
+    @GetMapping("/count")
+    @ResultTarget
+    @MustLogin
+    public Object countLike(){
+        User currentUser = userService.getCurrentUser();
+
+        return likeService.countLike(currentUser.getUserId());
     }
 
 }

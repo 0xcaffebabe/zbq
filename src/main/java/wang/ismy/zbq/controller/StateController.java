@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.Page;
+import wang.ismy.zbq.dto.StateCommentDTO;
 import wang.ismy.zbq.dto.StateDTO;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.service.StateService;
@@ -40,5 +41,15 @@ public class StateController {
     @MustLogin
     public Object countSelfState(){
         return stateService.countSelfState();
+    }
+
+    @PutMapping("/comment")
+    @ResultTarget
+    @MustLogin
+    public Object createCurrentUserStateComment(@Valid @RequestBody StateCommentDTO stateCommentDTO){
+        if (stateService.createCurrentUserStateComment(stateCommentDTO) == 1){
+            return "评论成功";
+        }
+        return "评论失败";
     }
 }

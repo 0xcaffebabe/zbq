@@ -18,7 +18,7 @@ public class UserVO {
 
     private String profile;
 
-    public static UserVO conver(User user){
+    public static UserVO convert(User user){
         if (user == null){
             return null;
         }

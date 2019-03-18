@@ -73,5 +73,11 @@ public class RedirectController {
         return "state";
     }
 
+    @RequestMapping("/maps")
+    @MustLogin
+    @ErrorPage
+    public Object maps(){
+        return "maps";
+    }
 
 }

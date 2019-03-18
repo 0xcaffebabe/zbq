@@ -5,6 +5,7 @@ import wang.ismy.zbq.entity.Likes;
 import wang.ismy.zbq.entity.User;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,7 +19,7 @@ public class StateVO {
 
     private Likes likes;
 
-    private List<CommentVO> comments;
+    private List<CommentVO> comments = new ArrayList<>();
 
     private LocalDateTime createTime;
 }

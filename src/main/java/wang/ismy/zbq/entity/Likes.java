@@ -13,6 +13,8 @@ public class Likes {
 
     private Integer likeCount;
 
+    private Boolean hasLike = false;
+
     private List<Like> likeList = new ArrayList<>();
 
 }

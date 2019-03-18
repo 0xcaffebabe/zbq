@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.CommentMapper;
 import wang.ismy.zbq.entity.Comment;
 import wang.ismy.zbq.enums.CommentTypeEnum;
+import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.util.ErrorUtils;
 
 import java.util.List;
 
@@ -14,11 +16,24 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
-    public List<Comment> selectCommentByCommentTypeAndTopicId(CommentTypeEnum commentType,List<Integer> topicIds){
+    @Autowired
+    private UserService userService;
 
-        if (topicIds.size() == 0){
+    public List<Comment> selectCommentByCommentTypeAndTopicId(CommentTypeEnum commentType, List<Integer> topicIds) {
+
+        if (topicIds.size() == 0) {
             return List.of();
         }
-        return commentMapper.selectCommentListByCommentTypeAndTopicIdBatch(commentType.getCode(),topicIds);
+        return commentMapper.selectCommentListByCommentTypeAndTopicIdBatch(commentType.getCode(), topicIds);
+    }
+
+    public int createNewCommentRecord(Comment comment) {
+
+        if (comment.getToUser() != null ){
+            if (userService.selectByPrimaryKey(comment.getToUser().getUserId()) == null){
+                ErrorUtils.error(StringResources.TARGET_USER_NOT_EXIST);
+            }
+        }
+        return commentMapper.insertNew(comment);
     }
 }

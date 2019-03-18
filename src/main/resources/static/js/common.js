@@ -7,6 +7,7 @@ function getCommonObject() {
                         url: url,
                         method: "GET",
                         success: success,
+                        cache:false,
                         error: function (response) {
                             alert("数据请求出错");
                             console.log(response);
@@ -17,6 +18,7 @@ function getCommonObject() {
                         url: url,
                         method: "GET",
                         success: success,
+                        cache:false,
                         data: data,
                         error: function (response) {
                             alert("数据请求出错");
@@ -133,7 +135,10 @@ function getCommonObject() {
             getSelfStateListUrl:"/state/self",
             publishStateUrl:"/state",
             likeStateUrl:"/like/state/",
-            countStateUrl:"/state/self/count"
+            countStateUrl:"/state/self/count",
+            publishStateCommentUrl:"/state/comment",
+            countLikeUrl:"/like/count",
+            getAllLocationUrl:"/location/list"
         }
     }
 }

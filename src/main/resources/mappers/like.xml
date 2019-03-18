@@ -37,4 +37,9 @@
     <select id="selectLikeByLikeTypeAndContentIdAndUserId" resultMap="likeMap">
         SELECT * FROM tb_like WHERE like_type = #{likeType} AND content_id = #{contentId} AND like_user = #{userId}
     </select>
+    <select id="countLike" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM tb_like WHERE content_id IN (
+            SELECT state.state_id FROM state WHERE state.user = #{userId}
+        )
+    </select>
 </mapper>

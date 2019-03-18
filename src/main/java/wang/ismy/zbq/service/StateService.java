@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.StateMapper;
 import wang.ismy.zbq.dto.Page;
+import wang.ismy.zbq.dto.StateCommentDTO;
 import wang.ismy.zbq.dto.StateDTO;
+import wang.ismy.zbq.entity.Comment;
 import wang.ismy.zbq.entity.Likes;
 import wang.ismy.zbq.entity.State;
 import wang.ismy.zbq.entity.User;
@@ -40,6 +42,8 @@ public class StateService {
     @Autowired
     private CommentService commentService;
 
+
+
     public void currentUserPublishState(StateDTO dto) {
         User user = userService.getCurrentUser();
 
@@ -59,6 +63,8 @@ public class StateService {
         var stateList = stateMapper.selectStateByUserIdBatchPaging(friendIdList, page);
         List<Integer> userIdList = new ArrayList<>();
         List<StateVO> stateVOList = new ArrayList<>();
+
+        Map<Integer,StateVO> stateVOMap = new HashMap<>();
         for (var i : stateList) {
             StateVO vo = new StateVO();
             UserVO userVO = new UserVO();
@@ -67,16 +73,18 @@ public class StateService {
             userIdList.add(i.getUser().getUserId());
             BeanUtils.copyProperties(i, vo);
             stateVOList.add(vo);
+            stateVOMap.put(vo.getUserVO().getUserId(),vo);
         }
         var userList = userService.selectByUserIdBatch(userIdList);
 
+
         for (var i : userList) {
-            for (var j : stateVOList) {
-                if (j.getUserVO().getUserId().equals(i.getUserId())) {
-                    j.getUserVO().setProfile(i.getUserInfo().getProfile());
-                    j.getUserVO().setNickName(i.getUserInfo().getNickName());
-                }
+            var vo = stateVOMap.get(i.getUserId());
+            if (vo != null){
+                vo.getUserVO().setProfile(i.getUserInfo().getProfile());
+                vo.getUserVO().setNickName(i.getUserInfo().getNickName());
             }
+
         }
 
         addStateLikes(stateVOList);
@@ -87,6 +95,20 @@ public class StateService {
     public int countSelfState() {
         User user = userService.getCurrentUser();
         return stateMapper.countStateByUserId(user.getUserId());
+    }
+
+    public int createCurrentUserStateComment(StateCommentDTO stateCommentDTO){
+
+        User currentUser = userService.getCurrentUser();
+        Comment comment = Comment.builder()
+                .commentType(CommentTypeEnum.STATE.getCode())
+                .content(stateCommentDTO.getContent())
+                .fromUser(currentUser)
+                .topicId(stateCommentDTO.getStateId())
+                .toUser(userService.selectByPrimaryKey(stateCommentDTO.getToUser()))
+                .build();
+
+        return commentService.createNewCommentRecord(comment);
     }
 
     private void addStateLikes(List<StateVO> stateVOList) {
@@ -126,6 +148,7 @@ public class StateService {
             }
         }
 
+        User user = userService.getCurrentUser();
         for (var i : stateVOList) {
             i.setLikes(cacheMap.get(i.getStateId()));
             if (i.getLikes() == null) {
@@ -135,7 +158,18 @@ public class StateService {
                 likes.setContentId(i.getStateId());
                 i.setLikes(likes);
 
+            }else{
+                for (var e: i.getLikes().getLikeList()){
+                    if (e.getLikeUser().equals(user)){
+                        i.getLikes().setHasLike(true);
+                        break;
+                    }
+                }
+
             }
+
+
+
         }
 
 
@@ -182,12 +216,12 @@ public class StateService {
 
             commentVOMap.put(i.getTopicId(),cl);
             vo.setFromUser(
-                    UserVO.conver(userMap.get(vo.getFromUser().getUserId()))
+                    UserVO.convert(userMap.get(vo.getFromUser().getUserId()))
             );
 
             if (vo.getToUser() != null){
                 vo.setToUser(
-                        UserVO.conver(userMap.get(vo.getToUser().getUserId()))
+                        UserVO.convert(userMap.get(vo.getToUser().getUserId()))
                 );
             }
             cl.add(vo);

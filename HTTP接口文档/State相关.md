@@ -61,3 +61,23 @@ response:动态列表
     ]
 }
 ```
+## 发表评论
+```text
+PUT /state/comment
+headers:{"Content-Type":"application/json"}
+request:stateId toUser(非必选) content
+response:发表结果
+```
+```text
+{
+	"stateId":10,
+	"content":"又是测试评论哦哦哦"
+}
+```
+```text
+{
+    "success": true,
+    "msg": "success",
+    "data": "评论成功"
+}
+```

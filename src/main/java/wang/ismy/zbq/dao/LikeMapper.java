@@ -19,4 +19,7 @@ public interface LikeMapper {
 
     int deleteLikeByLikeTypeAndContentIdAndUserId(@Param("likeType") Integer likeType,@Param("contentId") Integer contentId,
                                                   @Param("userId") Integer userId);
+
+    long countLike(Integer userId);
+
 }

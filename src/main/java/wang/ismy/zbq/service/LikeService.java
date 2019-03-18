@@ -46,4 +46,8 @@ public class LikeService {
         }
         return likeMapper.selectLikeListByLikeTypeAndContentIdBatch(likeType.getCode(),contentIdList);
     }
+
+    public long countLike(Integer userId){
+        return likeMapper.countLike(userId);
+    }
 }

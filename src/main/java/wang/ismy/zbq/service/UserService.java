@@ -127,6 +127,7 @@ public class UserService {
 
     public User selectByPrimaryKey(Integer userId){
 
+        if (userId == null) return null;
         return userMapper.selectByPrimaryKey(userId);
     }
 

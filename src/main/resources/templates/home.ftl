@@ -2,6 +2,11 @@
 
 <!--[if gt IE 8]><!-->
 <html class="no-js" lang=""> <!--<![endif]-->
+<script>
+    navigator.geolocation.getCurrentPosition(function(position) {
+        console.log(position.coords.latitude);
+    });
+</script>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -129,7 +134,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        <div class="stat-text"><span class="count">0</span></div>
+                                        <div class="stat-text"><span class="count">{{likeQuantity}}</span></div>
                                         <div class="stat-heading">收获赞数</div>
                                     </div>
                                 </div>

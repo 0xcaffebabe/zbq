@@ -1,0 +1,239 @@
+<!-- 重点参数：renderOptions.pointStyle.content -->
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>图片内容</title>
+    <style>
+        html,
+        body,
+        #container {
+
+            height: 100%;
+            margin: 0;
+            width: 100%;
+
+        }
+
+        #loadingTip {
+            position: absolute;
+            z-index: 9999;
+            top: 0;
+            right: 0;
+            padding: 3px 10px;
+            background: red;
+            color: #fff;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="container"></div>
+<script type="text/javascript"
+        src='//webapi.amap.com/maps?v=1.4.13&key=e5642cb9cf860a712710bf420ebaafb1&plugin=AMap.Geolocation,AMap.ToolBar'></script>
+<!-- UI组件库 1.0 -->
+<script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+
+<script src="/js/vue.js"></script>
+<script src="/js/jquery.js"></script>
+<script src="/js/common.js"></script>
+
+<script>
+
+
+
+    var host = location.host;
+
+    //创建地图
+    var map = new AMap.Map('container', {
+        zoom: 16
+    });
+
+    var locationList = [];
+
+    var position = null;
+
+
+    // 海量点展示
+    AMapUI.load(['ui/misc/PointSimplifier', 'lib/$'], function (PointSimplifier, $) {
+
+        if (!PointSimplifier.supportCanvas) {
+            alert('当前环境不支持 Canvas！');
+            return;
+        }
+
+        var pointSimplifierIns = new PointSimplifier({
+
+            zIndex: 300,
+            map: map,
+            //maxChildrenOfQuadNode:3,
+            getPosition: function (item) {
+
+                if (!item) {
+                    return null;
+                }
+
+                return [item.lnglat[0], item.lnglat[1]];
+            },
+            getHoverTitle: function (dataItem, idx) {
+                var t = locationList[idx];
+                return "lng:"+t.longitude+",lat:"+t.latitude;
+            },
+            renderOptions: {
+                //点的样式
+                pointStyle: {
+                    //绘制点占据的矩形区域
+                    content: PointSimplifier.Render.Canvas.getImageContent(
+                        'https://webapi.amap.com/theme/v1.3/markers/n/mark_b1.png',
+                        function onload() {
+                            pointSimplifierIns.renderLater();
+                        },
+                        function onerror(e) {
+                            alert('图片加载失败！');
+                        }),
+                    //宽度
+                    width: 19,
+                    //高度
+                    height: 31,
+                    //定位点为底部中心
+                    offset: ['-50%', '-100%'],
+                    fillStyle: null,
+                    strokeStyle: null
+                }
+            }
+
+        });
+
+        pointSimplifierIns.on("pointClick", function (e,p) {
+
+            parent.window.map.positionClick(locationList,p);
+        });
+
+        window.pointSimplifierIns = pointSimplifierIns;
+
+        $('<div id="loadingTip">加载数据，请稍候...</div>').appendTo(document.body);
+        common.ajax.get(common.data.getAllLocationUrl,function (response) {
+
+            if (response.success){
+                var list = response.data;
+                locationList = list;
+
+                var data = [];
+                for (var i =0;i<list.length;i++){
+
+                    var obj = {
+                        lnglat: [list[i].longitude, list[i].latitude],
+                        id:1
+                    };
+
+                    data.push(obj);
+                }
+                pointSimplifierIns.setData(data);
+                parent.window.map.locationCount = list.length;
+            }else{
+                alert("获取共享位置列表失败:"+response.msg);
+            }
+
+            $('#loadingTip').remove();
+        });
+
+    });
+
+    // 地理定位
+    AMap.plugin('AMap.Geolocation', function () {
+        var geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：5s
+            buttonPosition: 'RB',    //定位按钮的停靠位置
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition(function (status, result) {
+            if (status == 'complete') {
+                onComplete(result)
+            } else {
+                onError(result)
+            }
+        });
+    });
+
+
+
+    setTimeout(function () {
+
+        createPositionPicker();
+    },5000);
+
+    function createPositionPicker(){
+        AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+
+            var positionPicker = new PositionPicker({
+                mode:'dragMap',//拖拽Marker模式
+                map:map,
+                iconStyle:{//自定义外观
+                    url:'//'+host+'/img/position-picker2.png',//图片地址
+                    size:[36,36],  //要显示的点大小，将缩放图片
+                    ancher:[24,40]//锚点的位置，即被size缩放之后，图片的什么位置作为选中的位置
+                }
+            });
+
+
+            // 如果定位失败，使用默认中心点，否则根据经纬度设置中心点
+            if (position == null){
+
+                positionPicker.start();
+            }else{
+                var lnglat = new AMap.LngLat(position.position.lng,position.position.lat,true);
+
+                positionPicker.start(lnglat);
+            }
+
+            map.setZoom(8);
+            positionPicker.on('success', function(positionResult) {
+                position = positionResult;
+                parent.window.map.address = position.address;
+
+            });
+            positionPicker.on('fail', function(positionResult) {
+                //console.log(positionResult);
+            });
+        });
+    }
+
+
+
+    //解析定位结果
+    function onComplete(data) {
+        position = data;
+        var marker = new AMap.Marker({
+            position: new AMap.LngLat(position.position.lng,position.position.lat),
+            offset: new AMap.Pixel(-10, -10),
+            zIndex:250,
+            icon: '//'+host+'/img/mark_b1.png', // 添加 Icon 图标 URL
+            title: 'Root'
+        });
+
+        map.add(marker);
+
+    }
+
+    //解析定位错误信息
+    function onError(data) {
+
+        alert("定位失败:"+data.info);
+
+        console.log("定位失败:", data);
+    }
+
+
+
+</script>
+</body>
+
+</html>

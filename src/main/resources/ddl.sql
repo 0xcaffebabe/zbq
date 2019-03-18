@@ -100,3 +100,15 @@ CREATE TABLE tb_comment(
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
+
+# 创建就位置表
+CREATE TABLE location(
+  location_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user INT NOT NULL ,
+  longitude DECIMAL(10,6) NOT NULL ,
+  latitude DECIMAL(10,6) NOT NULL ,
+  address VARCHAR(255) ,
+  anonymous BOOLEAN NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_timee DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;

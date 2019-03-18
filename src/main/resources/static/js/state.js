@@ -20,18 +20,34 @@ var state = new Vue({
         userId: 0,
         pageNo: 1,
         length: 5,
-        likeCacheMap: {}
+        likeCacheMap: {},
+        toUsers:{},
+        atModel:[],
+        myProfile:'',
+        commentModel:[]
     }
     ,
     created: function () {
         moment.locale("zh-cn");
         this.userId = header.userId;
         this.getSelfStateList();
-
+        this.getCurrentUserInfo();
 
     }
     ,
     methods: {
+        getCurrentUserInfo:function () {
+
+            var that = this;
+            common.ajax.get(common.data.getCurrentUserInfoUrl,function (response) {
+                if (response.success){
+                    that.myProfile = response.data.profile;
+                }else{
+                    console.log("获取个人信息失败:"+response.msg);
+                }
+
+            })
+        },
         getSelfStateList: function () {
 
             var that = this;
@@ -44,6 +60,12 @@ var state = new Vue({
                     }
                     for (var i = 0; i < list.length; i++) {
                         list[i].createTime = moment(list[i].createTime).fromNow();
+                        if (list[i].comments == null){
+                            list[i].comments = [];
+                        }
+                        for (var j =0;j<list[i].comments.length;j++){
+                            list[i].comments[j].createTime =moment(list[i].comments[j].createTime).fromNow()
+                        }
                     }
                     that.selfStateList = that.selfStateList.concat(list);
 
@@ -85,35 +107,27 @@ var state = new Vue({
             }, {content: this.stateContent});
         }
         ,
-        likeClick: function (event) {
-            var id = event.srcElement.dataset.id;
+        likeClick: function (state) {
 
-            var likeState = true;
-            for (var i = 0; i < this.selfStateList.length; i++) {
-                if (this.selfStateList[i].stateId == id) {
-                    if (this.hasLike(this.selfStateList[i].likes.likeList)) {
-                        likeState = false;
-                    }
-                }
-            }
 
             var that = this;
-            if (likeState) {
-                common.ajax.put(common.data.likeStateUrl + id, function (response) {
+            if (!state.likes.hasLike) {
+                common.ajax.put(common.data.likeStateUrl + state.stateId, function (response) {
                     if (response.success) {
                         alert(response.data);
-                        that.getSelfStateList();
+                        state.likes.hasLike = true;
                     } else {
                         alert("点赞失败:" + response.msg);
                     }
                 });
             } else {
-                common.ajax.delete(common.data.likeStateUrl + id, function (response) {
+                common.ajax.delete(common.data.likeStateUrl + state.stateId, function (response) {
                     if (response.success) {
                         alert(response.data);
-                        that.getSelfStateList();
+                        state.likes.hasLike = false;
                     } else {
-                        alert("取消点赞失败:" + response.msg);
+                        alert("取消点赞失败," + response.msg);
+
                     }
                 });
             }
@@ -124,6 +138,36 @@ var state = new Vue({
 
             this.pageNo++;
             this.getSelfStateList();
+        }
+        ,
+        publishComment:function (state) {
+            var content = this.commentModel[state.stateId];
+            var toUser = this.toUsers[state.stateId];
+            var stateId = state.stateId;
+            if (toUser == undefined){
+                toUser = null;
+            }
+
+            common.ajax.put(common.data.publishStateCommentUrl,function (response) {
+                if (response.success){
+                    alert(response.data);
+
+                }else{
+                    alert(response.msg);
+                }
+            },{
+               stateId:stateId,toUser:toUser,content:content
+            });
+        }
+        ,
+        replyComment:function (comment,state) {
+
+            var toUser = comment.fromUser.userId;
+
+            var stateId = state.stateId;
+            Vue.set(this.atModel,stateId,"@"+comment.fromUser.nickName);
+            this.toUsers[state.stateId] = toUser;
+            console.log(comment,state);
         }
     }
 });
