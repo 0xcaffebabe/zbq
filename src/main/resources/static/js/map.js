@@ -2,8 +2,18 @@ var map = new Vue({
     el: "#map",
     data: {
         address: '',
-        user:{nickName:'',profile:'',distance:'',lnglat:''},
-        locationCount:0
+        user:{nickName:'',profile:'',distance:'',lnglat:'',userId:0,anonymous:false,address:''},
+        locationCount:0,
+        position:{
+            position:{}
+        }
+        ,
+        anonymous:false,
+        location:null
+    }
+    ,
+    created:function () {
+        this.getSelfLocation();
     }
     ,
     methods: {
@@ -16,7 +26,8 @@ var map = new Vue({
             if (!t.anonymous){
                 obj = {
                     nickName:dataset[position.index].userVO.nickName,
-                    profile:dataset[position.index].userVO.profile
+                    profile:dataset[position.index].userVO.profile,
+                    userId:dataset[position.index].userVO.userId
                 };
             }else{
                 obj = {
@@ -29,11 +40,56 @@ var map = new Vue({
             var dis = container.window.AMap.GeometryUtil.distance(p1, p2);
             obj.distance=(Math.floor(dis)/1000)+"千米";
             obj.lnglat=position.data.lnglat;
+            obj.anonymous=t.anonymous;
+            obj.address=t.address;
             this.user = obj;
+        }
+
+        ,
+        showShareLocation:function () {
+            var p = container.window.position;
+            if (p == null){
+                alert("获取位置信息失败，请拖动地图使小红标落在中国大陆上");
+            }else{
+                $("#simulationLocation").trigger("click");
+                this.position = p;
+            }
+
         }
         ,
         shareLocation:function () {
-            alert(container.window.position.position);
+
+            var longitude = this.position.position.lng;
+            var latitude = this.position.position.lat;
+            var address = this.position.address;
+
+            common.ajax.put(common.data.shareLocationUrl,function (response) {
+
+                if (response.success){
+                    alert(response.data);
+                    window.location.reload();
+                }else{
+                    alert("共享位置信息失败:"+response.msg);
+                }
+            },{longitude:longitude,latitude:latitude,address:address,anonymous:this.anonymous})
+        }
+        ,
+        updateLocation:function () {
+
+
+        }
+        ,
+        getSelfLocation:function () {
+            var that = this;
+            common.ajax.get(common.data.getSelfLocationUrl,function (response) {
+                if (response.success){
+                    if (response.data){
+                        that.location = response.data;
+                    }
+                }else{
+                    alert(response.data);
+                }
+            })
         }
     }
 });

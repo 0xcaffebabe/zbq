@@ -38,3 +38,32 @@ GET /location/list
     }
 ]
 ```
+
+## 获取当前用户Location
+```text
+GET /location/self
+```
+```text
+{
+    "success": true,
+    "msg": "success",
+    "data": {
+        "locationId": 1,
+        "user": {
+            "userId": 1,
+            "username": null,
+            "password": null,
+            "userInfo": null,
+            "permission": null,
+            "createTime": null,
+            "updateTime": null
+        },
+        "longitude": 118.58,
+        "latitude": 24.93,
+        "address": "福建省泉州市鲤城区媒人桥路2",
+        "anonymous": false,
+        "createTime": "2019-03-17T19:24:53",
+        "updateTime": null
+    }
+}
+```

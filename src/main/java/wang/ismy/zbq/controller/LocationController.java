@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.LocationDTO;
+import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.service.LocationService;
 import wang.ismy.zbq.util.ErrorUtils;
@@ -33,5 +34,12 @@ public class LocationController {
         }
         ErrorUtils.error(StringResources.SHARE_LOCCATION_FAIL);
         return null;
+    }
+
+    @GetMapping("/self")
+    @MustLogin
+    @ResultTarget
+    public Object getSelfLocation(){
+        return locationService.selectCurrentUserLocation();
     }
 }

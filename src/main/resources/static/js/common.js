@@ -138,7 +138,9 @@ function getCommonObject() {
             countStateUrl:"/state/self/count",
             publishStateCommentUrl:"/state/comment",
             countLikeUrl:"/like/count",
-            getAllLocationUrl:"/location/list"
+            getAllLocationUrl:"/location/list",
+            shareLocationUrl:"/location",
+            getSelfLocationUrl:"/location/self"
         }
     }
 }

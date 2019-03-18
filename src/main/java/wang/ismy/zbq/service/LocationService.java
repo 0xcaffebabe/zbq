@@ -73,4 +73,9 @@ public class LocationService {
 
         return locationMapper.selectByUserId(userId);
     }
+
+    public Location selectCurrentUserLocation(){
+        User user = userService.getCurrentUser();
+        return selectByUserId(user.getUserId());
+    }
 }
