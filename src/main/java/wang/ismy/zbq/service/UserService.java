@@ -7,6 +7,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.dao.UserMapper;
+import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.entity.Permission;
@@ -35,6 +36,12 @@ public class UserService {
 
     @Autowired
     private LoginACLService loginACLService;
+
+    @Autowired
+    private FriendService friendService;
+
+    @Autowired
+    private MessageService messageService;
 
     public void setTestUser(User testUser) {
         this.testUser = testUser;
@@ -75,7 +82,15 @@ public class UserService {
             ErrorUtils.error(StringResources.UNKNOWN_ERROR);
         }
 
+        // 创建一条该用户与系统账号的好友关系
+        friendService.insertNewRelation(user.getUserId(),0);
+        friendService.insertNewRelation(0,user.getUserId());
 
+        // 以小助手的身份发送一条消息给该用户
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setContent("欢迎来到转笔圈，有不懂的可以问我");
+        messageDTO.setTo(user.getUserId());
+        messageService.sendMessage(User.builder().userId(0).build(),messageDTO);
         // 如果登录成功直接以当前用户登录
         if (ret == 1) {
             User currentUser = userMapper.selectByUsername(dto.getUsername());
@@ -150,6 +165,9 @@ public class UserService {
         request.getSession().setAttribute("user", user);
     }
 
+    public List<User> selectAll(){
+        return userMapper.selectAll();
+    }
 
 
     private User generateUser(RegisterDTO dto) {

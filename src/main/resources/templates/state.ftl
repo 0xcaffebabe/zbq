@@ -58,9 +58,6 @@
             border-radius: 50px !important;
         }
 
-        .red {
-            color: red;
-        }
 
     </style>
 </head>
@@ -103,19 +100,21 @@
     <div class="content">
         <div class="animated fadeIn" id="state">
 
+
             <div class="card">
                 <div class="card-header">
                     <h4>发布动态</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-10">
+                        <div class="col-md-8">
                             <textarea class="form-control" v-model="stateContent"></textarea>
                         </div>
-                        <div class="col-md-2">
-                            <div class="btn btn-group" style="float: right">
+                        <div class="col-md-4">
+                            <div class="btn btn-group" style="">
                                 <button class="btn btn-sm btn-primary" @click="publishState">发布</button>
                                 <button class="btn btn-sm btn-success">添加图片</button>
+                                <button class="btn btn-sm btn-info">添加视频</button>
                             </div>
                         </div>
                     </div>
@@ -155,100 +154,121 @@
                                 <div class="tab-content pl-3 pt-2" id="nav-tabContent">
                                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
                                          aria-labelledby="nav-home-tab">
-                                        <div class="media" v-for="i in selfStateList">
-                                            <div class="media-left">
-                                                <a href="#">
-                                                    <img class="media-object" style="" :src="i.userVO.profile" alt="..."
-                                                         width="64" height="64">
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="card">
-                                                    <div class="card-header">
+
+                                        <div class="card" v-for="i in selfStateList" style="margin-top: 20px;">
+                                            <div class="card-header">
+                                                <div class="row">
+                                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                                        <a href="#">
+                                                            <img class="media-object" style="" :src="i.userVO.profile"
+                                                                 alt="..."
+                                                                 width="64" height="64">
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-9 col-xs-9 col-sm-9">
+
+
                                                         <h4>{{i.userVO.nickName}}</h4>
-                                                        <span class="fa fa-clock-o"></span> {{i.createTime}}
-                                                    </div>
 
-                                                    <div class="card-body">
-                                                        {{i.content}}
-                                                        <div>
-                                                            <span class="fa fa-heart" style="color:red"></span>{{i.likes.likeCount}}
 
-                                                            <a href="#" v-for="like in i.likes.likeList"
-                                                               style="margin-left: 5px"
-                                                               :title="like.likeUser.userInfo.nickName">
-                                                                <img :src="like.likeUser.userInfo.profile" alt=""
-                                                                     width="24" style="border-radius: 50px;">
-                                                            </a>
-
-                                                        </div>
-
-                                                        <div>
-
-                                                            <a style="float:right;cursor: pointer"><span
-                                                                    @click.prevent="likeClick(i)" :data-id="i.stateId"
-                                                                    class="fa fa-heart "
-                                                                    :class="{red:i.likes.hasLike}"></span></a>
+                                                        <div style="position:absolute;bottom:0">
+                                                            <span class="fa fa-clock-o"></span> {{i.createTime}}
                                                         </div>
 
                                                     </div>
-                                                    <ul class="media-list">
-
-                                                        <li class="media" v-for="comment in i.comments">
-                                                            <div class="media-left media-middle">
-                                                                <a href="#">
-                                                                    <img class="media-object"
-                                                                         :src="comment.fromUser.profile" alt="..."
-                                                                         width="32">
-                                                                </a>
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <h6 class="media-heading">{{comment.fromUser.nickName}}
-                                                                    <span class="fa fa-clock-o"></span>
-                                                                    {{comment.createTime}}</h6>
-                                                                <p>
-                                                                    <strong v-if="comment.toUser != null">
-                                                                        <a href="#">
-                                                                            @{{comment.toUser.nickName}}
-                                                                        </a>
-
-                                                                    </strong>
-                                                                    {{comment.content}}
-                                                                    <a href="#" @click.prevent="replyComment(comment,i)"><b href="#"> 回复</b></a>
-                                                                </p>
+                                                </div>
 
 
-                                                            </div>
+                                            </div>
 
-                                                        </li>
+                                            <div class="card-body">
+                                                {{i.content}}
 
-                                                        <li class="media">
-                                                            <div class="media-left media-middle">
-                                                                <a href="#">
-                                                                    <img class="media-object" :src="myProfile"
-                                                                         alt="..." width="32">
-                                                                </a>
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <div class="form-group form-inline">
-                                                                    <a href="#">{{atModel[i.stateId]}}</a>
-                                                                    <input type="text" class="form-control"
-                                                                           style="border-left: none!important;" v-model="commentModel[i.stateId]">
-                                                                    <button class="btn btn-sm btn-primary form-control" @click="publishComment(i)">
-                                                                        评论
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </li>
+                                                <iframe src="http://player.youku.com/embed/XMTY1NDc2OTMxNg=="
+                                                        style="width: 100%;height: 350px;" scrolling="no" border="0"
+                                                        frameborder="no" framespacing="0"
+                                                        allowfullscreen="true"></iframe>
 
-                                                    </ul>
+                                                <div>
+                                                    <span class="fa fa-heart" style="color:red"></span>{{i.likes.likeCount}}
 
+                                                    <a href="#" v-for="like in i.likes.likeList"
+                                                       style="margin-left: 5px"
+                                                       :title="like.likeUser.userInfo.nickName">
+                                                        <img :src="like.likeUser.userInfo.profile" alt=""
+                                                             width="24" style="border-radius: 50px;">
+                                                    </a>
 
                                                 </div>
-                                            </div>
-                                        </div>
 
+                                                <div>
+
+                                                    <a style="float:right;cursor: pointer"><span
+                                                            @click.prevent="likeClick(i)" :data-id="i.stateId"
+                                                            class="fa fa-heart "
+                                                            :class="{red:i.likes.hasLike}"></span></a>
+                                                </div>
+
+                                            </div>
+                                            <ul class="media-list" style="padding:20px">
+
+                                                <li class="media" v-for="comment in i.comments">
+                                                    <div class="media-left media-middle">
+                                                        <a href="#">
+                                                            <img class="media-object"
+                                                                 :src="comment.fromUser.profile" alt="..."
+                                                                 width="32">
+                                                        </a>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">{{comment.fromUser.nickName}}
+                                                            <span class="fa fa-clock-o"></span>
+                                                            {{comment.createTime}}</h6>
+                                                        <p>
+                                                            <strong v-if="comment.toUser != null">
+                                                                <a href="#">
+                                                                    @{{comment.toUser.nickName}}
+                                                                </a>
+
+                                                            </strong>
+                                                            {{comment.content}}
+                                                            <a href="#"
+                                                               @click.prevent="replyComment(comment,i)"><b
+                                                                    href="#"> 回复</b></a>
+                                                        </p>
+
+
+                                                    </div>
+
+                                                </li>
+
+                                                <li class="media">
+                                                    <div class="media-left media-middle">
+                                                        <a href="#">
+                                                            <img class="media-object" :src="myProfile"
+                                                                 alt="..." width="32">
+                                                        </a>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <div class="form-group form-inline">
+                                                            <a href="#">{{atModel[i.stateId]}}</a>
+                                                            <input type="text" class="form-control"
+                                                                   style="border-left: none!important;"
+                                                                   v-model="commentModel[i.stateId]">
+                                                            <button class="btn btn-sm btn-primary form-control"
+                                                                    @click="publishComment(i)">
+                                                                评论
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+
+
+                                        </div>
                                     </div>
+
                                     <div class="tab-pane fade" id="nav-profile" role="tabpanel"
                                          aria-labelledby="nav-profile-tab">
                                         <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt

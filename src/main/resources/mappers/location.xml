@@ -21,9 +21,18 @@
     </resultMap>
 
     <insert id="insertNew">
-        INSERT INTO location(user, longitude, latitude, address, anonymous, create_time, update_timee)
+        INSERT INTO location(user, longitude, latitude, address, anonymous, create_time, update_time)
                 VALUES (#{user.userId},#{longitude},#{latitude},#{address},#{anonymous},NOW(),NOW())
     </insert>
+    <update id="update">
+        UPDATE location
+        SET longitude = #{longitude},
+            latitude = #{latitude},
+            address = #{address},
+            anonymous = #{anonymous},
+            update_time = NOW()
+        WHERE user = #{user.userId}
+    </update>
     <select id="selectAll" resultMap="locationMap">
         SELECT * FROM location
     </select>

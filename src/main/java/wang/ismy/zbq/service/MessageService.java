@@ -78,6 +78,18 @@ public class MessageService {
 
     }
 
+    public boolean sendMessage(User fromUser,MessageDTO messageDTO){
+        if (!friendService.isFriend(messageDTO.getTo(), fromUser.getUserId())) {
+            ErrorUtils.error(StringResources.NOT_FRIEND);
+        }
+        Message message = Message.builder()
+                .fromUser(fromUser)
+                .toUser(User.builder().userId(messageDTO.getTo()).build())
+                .content(messageDTO.getContent())
+                .build();
+        return messageMapper.insert(message) == 1;
+    }
+
     public List<UnreadMessageVO> selectCurrentUserUnreadMessageList() {
 
         User user = userService.getCurrentUser();

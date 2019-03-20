@@ -4,13 +4,13 @@ var userCard = new Vue({
     },
     el: "#userCard",
     data: {
-        nickName: 'N/A',
-        profile: 'N/A',
-        region: 'N/A',
-        birthday: 'N/A',
+        nickName: '',
+        profile: '',
+        region: '',
+        birthday: '',
         penYear: 0,
         gender: 0,
-        description: 'N/A'
+        description: ''
     },
     methods: {
         getUserInfo: function () {

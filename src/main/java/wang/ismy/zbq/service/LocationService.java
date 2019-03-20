@@ -78,4 +78,18 @@ public class LocationService {
         User user = userService.getCurrentUser();
         return selectByUserId(user.getUserId());
     }
+
+    public int updateCurrentUserLocation(LocationDTO locationDTO) {
+        User currentUser = userService.getCurrentUser();
+
+        var location = selectByUserId(currentUser.getUserId());
+
+        if (location == null){
+            ErrorUtils.error(StringResources.LOCATION_NOT_EXIST);
+        }
+
+        BeanUtils.copyProperties(locationDTO,location);
+
+        return locationMapper.update(location);
+    }
 }

@@ -11,4 +11,6 @@ public interface LocationMapper {
     List<Location> selectAll();
 
     Location selectByUserId(Integer userId);
+
+    int update(Location location);
 }

@@ -24,7 +24,8 @@ var state = new Vue({
         toUsers:{},
         atModel:[],
         myProfile:'',
-        commentModel:[]
+        commentModel:[],
+        videoUrl:''
     }
     ,
     created: function () {
@@ -32,6 +33,12 @@ var state = new Vue({
         this.userId = header.userId;
         this.getSelfStateList();
         this.getCurrentUserInfo();
+        var that = this;
+        $('#videoModal').on('hide', function (e) {
+            that.videoUrl = '';
+            console.log("run here");
+
+        })
 
     }
     ,
@@ -168,6 +175,10 @@ var state = new Vue({
             Vue.set(this.atModel,stateId,"@"+comment.fromUser.nickName);
             this.toUsers[state.stateId] = toUser;
             console.log(comment,state);
+        }
+        ,
+        checkVideo:function () {
+
         }
     }
 });

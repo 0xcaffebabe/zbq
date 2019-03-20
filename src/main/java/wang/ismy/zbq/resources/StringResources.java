@@ -48,7 +48,13 @@ public class StringResources {
 
     public static final String SHARE_LOCATION_SUCCESS = "共享位置信息成功";
 
-    public static final String SHARE_LOCCATION_FAIL = "共享位置信息失败";
+    public static final String SHARE_LOCATION_FAIL = "共享位置信息失败";
+
+    public static final String UPDATE_LOCATION_SUCCESS = "更新位置信息成功";
+
+    public static final String UPDATE_LOCATION_FAIL = "更新位置信息失败";
+
+    public static final String LOCATION_NOT_EXIST = "位置信息不存在";
 }
 
 

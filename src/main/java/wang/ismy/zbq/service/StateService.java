@@ -65,24 +65,32 @@ public class StateService {
         List<StateVO> stateVOList = new ArrayList<>();
 
         Map<Integer,StateVO> stateVOMap = new HashMap<>();
+        Map<Integer,UserVO> userVOMap = new HashMap<>();
         for (var i : stateList) {
             StateVO vo = new StateVO();
-            UserVO userVO = new UserVO();
-            userVO.setUserId(i.getUser().getUserId());
+            UserVO userVO = null;
+            if (userVOMap.get(i.getUser().getUserId()) != null){
+                userVO = userVOMap.get(i.getUser().getUserId());
+            }else{
+                userVO = new UserVO();
+                userVO.setUserId(i.getUser().getUserId());
+            }
+
             vo.setUserVO(userVO);
             userIdList.add(i.getUser().getUserId());
             BeanUtils.copyProperties(i, vo);
             stateVOList.add(vo);
             stateVOMap.put(vo.getUserVO().getUserId(),vo);
+            userVOMap.put(userVO.getUserId(),userVO);
         }
         var userList = userService.selectByUserIdBatch(userIdList);
 
 
         for (var i : userList) {
-            var vo = stateVOMap.get(i.getUserId());
+            var vo = userVOMap.get(i.getUserId());
             if (vo != null){
-                vo.getUserVO().setProfile(i.getUserInfo().getProfile());
-                vo.getUserVO().setNickName(i.getUserInfo().getNickName());
+                vo.setProfile(i.getUserInfo().getProfile());
+                vo.setNickName(i.getUserInfo().getNickName());
             }
 
         }

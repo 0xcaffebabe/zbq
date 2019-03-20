@@ -35,10 +35,32 @@ var map = new Vue({
                     profile:'/img/anonymous.jpg'
                 };
             }
-            var p1 = [container.window.position.position.lng,container.window.position.position.lat];
-            var p2 = position.data.lnglat;
-            var dis = container.window.AMap.GeometryUtil.distance(p1, p2);
-            obj.distance=(Math.floor(dis)/1000)+"千米";
+
+
+            if (container.window.position != null){
+
+                var p1 = null;
+                if (this.location != null){
+                    p1 = [this.location.longitude,this.location.latitude];
+                }else{
+                    p1 = [container.window.position.position.lng,container.window.position.position.lat];
+                }
+
+                var p2 = position.data.lnglat;
+                var dis = container.window.AMap.GeometryUtil.distance(p1, p2);
+                obj.distance=(Math.floor(dis)/1000)+"千米";
+            }else{
+                if (this.location != null){
+                    var p1 = [this.location.longitude,this.location.latitude];
+                    var p2 = position.data.lnglat;
+                    var dis = container.window.AMap.GeometryUtil.distance(p1, p2);
+                    obj.distance=(Math.floor(dis)/1000)+"千米";
+                }else{
+                    obj.distance="未知千米";
+                }
+
+            }
+
             obj.lnglat=position.data.lnglat;
             obj.anonymous=t.anonymous;
             obj.address=t.address;
@@ -75,8 +97,19 @@ var map = new Vue({
         }
         ,
         updateLocation:function () {
+            var longitude = this.position.position.lng;
+            var latitude = this.position.position.lat;
+            var address = this.position.address;
 
+            common.ajax.post(common.data.shareLocationUrl,function (response) {
 
+                if (response.success){
+                    alert(response.data);
+                    window.location.reload();
+                }else{
+                    alert("更新位置信息失败:"+response.msg);
+                }
+            },{longitude:longitude,latitude:latitude,address:address,anonymous:this.anonymous})
         }
         ,
         getSelfLocation:function () {
