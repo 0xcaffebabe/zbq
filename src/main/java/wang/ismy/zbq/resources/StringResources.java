@@ -55,6 +55,10 @@ public class StringResources {
     public static final String UPDATE_LOCATION_FAIL = "更新位置信息失败";
 
     public static final String LOCATION_NOT_EXIST = "位置信息不存在";
+
+    public static final String VIDEO_PARSE_FAIL = "视频地址解析失败";
+
+    public static final String VIDEO_PARSER_NOT_FOUND = "没有合适的视频解析器";
 }
 
 

@@ -140,7 +140,8 @@ function getCommonObject() {
             countLikeUrl:"/like/count",
             getAllLocationUrl:"/location/list",
             shareLocationUrl:"/location",
-            getSelfLocationUrl:"/location/self"
+            getSelfLocationUrl:"/location/self",
+            analyzeVideoUrl:"/video/analyze"
         }
     }
 }

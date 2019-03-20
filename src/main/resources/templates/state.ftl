@@ -101,6 +101,32 @@
         <div class="animated fadeIn" id="state">
 
 
+            <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticModalLabel">视频添加</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <input type="text" class="form-control" placeholder="请输入视频播放地址" v-model="rowVideoUrl">
+                            <p>支持哔哩哔哩、优酷</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="analyzeVideoUrl">解析</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
             <div class="card">
                 <div class="card-header">
                     <h4>发布动态</h4>
@@ -114,9 +140,12 @@
                             <div class="btn btn-group" style="">
                                 <button class="btn btn-sm btn-primary" @click="publishState">发布</button>
                                 <button class="btn btn-sm btn-success">添加图片</button>
-                                <button class="btn btn-sm btn-info">添加视频</button>
+                                <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#videoModal">添加视频</button>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <p v-if="videoUrl != ''">一条视频内容</p>
                     </div>
                 </div>
             </div>
@@ -182,12 +211,9 @@
                                             </div>
 
                                             <div class="card-body">
-                                                {{i.content}}
-
-                                                <iframe src="http://player.youku.com/embed/XMTY1NDc2OTMxNg=="
-                                                        style="width: 100%;height: 350px;" scrolling="no" border="0"
-                                                        frameborder="no" framespacing="0"
-                                                        allowfullscreen="true"></iframe>
+                                                <p v-if="i.content.content == undefined">{{i.content}}</p>
+                                                <p v-if="i.content.content != undefined">{{i.content.content}}</p>
+                                                <iframe :src="i.content.video" v-if="i.content.video != undefined" style="width: 100%;height: 350px;"></iframe>
 
                                                 <div>
                                                     <span class="fa fa-heart" style="color:red"></span>{{i.likes.likeCount}}

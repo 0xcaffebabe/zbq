@@ -25,7 +25,7 @@ var state = new Vue({
         atModel:[],
         myProfile:'',
         commentModel:[],
-        videoUrl:''
+        videoUrl:'',rowVideoUrl:''
     }
     ,
     created: function () {
@@ -34,11 +34,7 @@ var state = new Vue({
         this.getSelfStateList();
         this.getCurrentUserInfo();
         var that = this;
-        $('#videoModal').on('hide', function (e) {
-            that.videoUrl = '';
-            console.log("run here");
 
-        })
 
     }
     ,
@@ -73,6 +69,11 @@ var state = new Vue({
                         for (var j =0;j<list[i].comments.length;j++){
                             list[i].comments[j].createTime =moment(list[i].comments[j].createTime).fromNow()
                         }
+
+                        if (list[i].content.startsWith("{")){
+                            list[i].content = JSON.parse(list[i].content);
+                        }
+
                     }
                     that.selfStateList = that.selfStateList.concat(list);
 
@@ -100,6 +101,16 @@ var state = new Vue({
         }
         ,
         publishState: function () {
+
+            var content = this.stateContent;
+
+            if (this.videoUrl != ''){
+                content = JSON.stringify({
+                    content:content,
+                    video:this.videoUrl
+                });
+            }
+            console.log(content);
             var that = this;
             common.ajax.put(common.data.publishStateUrl, function (response) {
                 if (response.success) {
@@ -111,7 +122,7 @@ var state = new Vue({
                 } else {
                     alert("发表动态失败:" + response.msg);
                 }
-            }, {content: this.stateContent});
+            }, {content: content});
         }
         ,
         likeClick: function (state) {
@@ -149,8 +160,18 @@ var state = new Vue({
         ,
         publishComment:function (state) {
             var content = this.commentModel[state.stateId];
+
+            if (this.videoUrl != ''){
+                content = JSON.stringify({
+                    content:content,
+                    video:this.videoUrl
+                });
+            }
             var toUser = this.toUsers[state.stateId];
             var stateId = state.stateId;
+
+
+
             if (toUser == undefined){
                 toUser = null;
             }
@@ -170,15 +191,25 @@ var state = new Vue({
         replyComment:function (comment,state) {
 
             var toUser = comment.fromUser.userId;
-
             var stateId = state.stateId;
             Vue.set(this.atModel,stateId,"@"+comment.fromUser.nickName);
             this.toUsers[state.stateId] = toUser;
             console.log(comment,state);
         }
         ,
-        checkVideo:function () {
-
+        analyzeVideoUrl:function () {
+            if (this.rowVideoUrl == ''){
+                alert("请输入视频地址!");
+            }else{
+                var that =this;
+                common.ajax.put(common.data.analyzeVideoUrl,function (response) {
+                    if (response.success){
+                        that.videoUrl = response.data;
+                    }else{
+                        console.log(response);
+                    }
+                },this.rowVideoUrl);
+            }
         }
     }
 });
