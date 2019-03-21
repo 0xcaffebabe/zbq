@@ -23,7 +23,7 @@ var app = new Vue({
 
            common.ajax.post(common.data.loginUrl,function (response) {
                if (response.success){
-                   window.location="/";
+                   window.location="/main";
                }else{
                    alert(response.msg);
                }

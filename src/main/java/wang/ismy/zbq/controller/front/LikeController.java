@@ -1,4 +1,4 @@
-package wang.ismy.zbq.controller;
+package wang.ismy.zbq.controller.front;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

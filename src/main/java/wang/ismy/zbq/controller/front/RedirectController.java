@@ -1,4 +1,4 @@
-package wang.ismy.zbq.controller;
+package wang.ismy.zbq.controller.front;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -78,6 +78,13 @@ public class RedirectController {
     @ErrorPage
     public Object maps(){
         return "maps";
+    }
+
+    @RequestMapping("/main")
+    @MustLogin
+    @ErrorPage
+    public Object main(){
+        return "main";
     }
 
 }

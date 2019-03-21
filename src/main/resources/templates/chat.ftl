@@ -10,18 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <link rel="stylesheet" href="/assets/css/normalize.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/themify-icons.css">
-    <link rel="stylesheet" href="/assets/css/pe-icon-7-filled.css">
-    <link rel="stylesheet" href="/assets/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/css/common.css">
-
-
-    <link href="/assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
+    <#include "css.ftl"/>
 
     <style>
         /* 设置滚动条的样式 */
@@ -60,14 +49,7 @@
 </head>
 
 <body>
-<!-- Left Panel -->
-<#include "aside.ftl"/>
-<!-- /#left-panel -->
-<!-- Right Panel -->
-<div id="right-panel" class="right-panel">
-    <!-- Header-->
-    <#include "header.ftl"/>
-    <!-- /#header -->
+
 
     <div class="breadcrumbs">
         <div class="breadcrumbs-inner">
@@ -220,8 +202,7 @@
         </div>
     </footer>
     <!-- /.site-footer -->
-</div>
-<!-- /#right-panel -->
+
 
 <script src="/assets/js/vendor/jquery-2.1.4.min.js"></script>
 <script src="/assets/js/popper.min.js"></script>

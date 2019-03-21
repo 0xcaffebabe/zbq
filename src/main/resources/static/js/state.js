@@ -32,10 +32,16 @@ var state = new Vue({
     ,
     created: function () {
         moment.locale("zh-cn");
-        this.userId = header.userId;
+
         this.getSelfStateList();
         this.getCurrentUserInfo();
         var that = this;
+
+        common.methods.getSelfState(function (response) {
+           if (response.success){
+               that.userId = response.data.userId;
+           }
+        });
 
 
     }

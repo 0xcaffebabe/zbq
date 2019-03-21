@@ -25,7 +25,7 @@ var app = new Vue({
                 common.ajax.put(common.data.registerUrl,function (response) {
                     if (response.success){
                         alert(response.data);
-                        window.location="/";
+                        window.location="/main";
                     }else{
                         alert(response.msg);
                     }

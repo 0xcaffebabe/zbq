@@ -143,16 +143,16 @@ function getCommonObject() {
             getSelfLocationUrl:"/location/self",
             analyzeVideoUrl:"/video/analyze",
             deleteStateUrl:"/state/"
+        },
+        methods:{
+            getSelfState:function (success) {
+                common.ajax.get(common.data.getCurrentUserDataUrl,success);
+            }
         }
     }
 }
 
 var common = getCommonObject();
 
-var nav = new Vue({
-    el: "#side",
-    data: {
-        url: location.pathname
-    }
-});
+
 
