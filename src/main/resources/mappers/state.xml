@@ -16,17 +16,25 @@
     </resultMap>
 
     <insert id="insertNew" parameterType="wang.ismy.zbq.entity.State">
-        INSERT INTO state (content, user, create_time, update_time)
-        VALUES (#{content}, #{user.userId}, NOW(),NOW())
+        INSERT INTO state (content, user, visible,create_time, update_time)
+        VALUES (#{content}, #{user.userId}, TRUE,NOW(),NOW())
     </insert>
+    <update id="setInvisibleByPrimaryKey">
+        UPDATE state
+        SET visible = FALSE WHERE state_id = #{stateId}
+    </update>
     <select id="selectStateByUserIdBatchPaging" resultMap="stateMap" parameterType="list">
         SELECT * FROM state WHERE user IN
         <foreach collection="list" item="item" separator="," close=")" open="(">
             #{item}
         </foreach>
+        AND visible = TRUE
         ORDER BY create_time DESC
     </select>
     <select id="countStateByUserId" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM state WHERE user = #{userId}
+        SELECT COUNT(1) FROM state WHERE user = #{userId} AND visible = TRUE
+    </select>
+    <select id="selectByPrimaryKey" resultMap="stateMap">
+        SELECT * FROM state WHERE state_id = #{stateId}
     </select>
 </mapper>

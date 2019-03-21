@@ -19,6 +19,8 @@ public class StateVO {
 
     private Likes likes;
 
+    private Boolean self;
+
     private List<CommentVO> comments = new ArrayList<>();
 
     private LocalDateTime createTime;

@@ -31,8 +31,6 @@ public class FriendService {
         return friendMapper.selectFriendByUserIdPaging(user.getUserId(),page);
     }
 
-
-
     public List<Friend> selectCurrentUserFriendByNickName(String nickName) {
         User user = userService.getCurrentUser();
         return friendMapper.selectFriendByUserIdAndNickname(user.getUserId(), nickName);

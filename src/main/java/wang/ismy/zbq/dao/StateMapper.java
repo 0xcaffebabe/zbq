@@ -14,4 +14,8 @@ public interface StateMapper {
 
     int countStateByUserId(Integer userId);
 
+    State selectByPrimaryKey(Integer stateId);
+
+    int setInvisibleByPrimaryKey(Integer stateId);
+
 }

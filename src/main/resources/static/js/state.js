@@ -25,7 +25,9 @@ var state = new Vue({
         atModel:[],
         myProfile:'',
         commentModel:[],
-        videoUrl:'',rowVideoUrl:''
+        videoUrl:'',rowVideoUrl:'',
+        hotShow:true,
+        statePaneSize:'col-md-8'
     }
     ,
     created: function () {
@@ -119,6 +121,7 @@ var state = new Vue({
                     that.pageNo = 1;
                     that.selfStateList = [];
                     that.getSelfStateList();
+                    that.videoUrl = '';
                 } else {
                     alert("发表动态失败:" + response.msg);
                 }
@@ -210,6 +213,26 @@ var state = new Vue({
                     }
                 },this.rowVideoUrl);
             }
+        }
+        ,
+        closeHot:function () {
+            this.hotShow=false;
+            this.statePaneSize = 'col-md-12'
+        }
+        ,
+        deleteState:function (id) {
+            if (confirm("确定删除这条动态吗？")){
+                common.ajax.delete(common.data.deleteStateUrl+id,function (response) {
+
+                    if (response.success){
+                        alert(response.data);
+                        window.location.reload();
+                    }else{
+                        alert(response.msg);
+                    }
+                });
+            }
+
         }
     }
 });

@@ -58,6 +58,10 @@
             border-radius: 50px !important;
         }
 
+        .red{
+            color:red;
+        }
+
 
     </style>
 </head>
@@ -145,16 +149,18 @@
                         </div>
                     </div>
                     <div>
-                        <p v-if="videoUrl != ''">一条视频内容</p>
+                        <button v-if="videoUrl != ''" @click="clearVideo">一条视频 X</button>
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4" v-if="hotShow">
                     <div class="card">
                         <div class="card-header">
+                            <button class="btn btn-default" style="float:right" @click="closeHot">X</button>
                             <h4>热门</h4>
+
                         </div>
                         <div class="card-body">
                             ...
@@ -162,7 +168,7 @@
                     </div>
 
                 </div>
-                <div class="col-md-8">
+                <div :class="statePaneSize">
                     <div class="card">
                         <div class="card-header">
                             <h4>动态板</h4>
@@ -195,15 +201,15 @@
                                                         </a>
                                                     </div>
                                                     <div class="col-md-9 col-xs-9 col-sm-9">
-
-
                                                         <h4>{{i.userVO.nickName}}</h4>
-
-
                                                         <div style="position:absolute;bottom:0">
                                                             <span class="fa fa-clock-o"></span> {{i.createTime}}
                                                         </div>
 
+                                                        <div class="btn btn-group" v-if="i.self" style="float: right">
+                                                            <button class="btn btn-sm btn-success">编辑</button>
+                                                            <button class="btn btn-sm btn-danger" @click="deleteState(i.stateId)">删除</button>
+                                                        </div>
                                                     </div>
                                                 </div>
 

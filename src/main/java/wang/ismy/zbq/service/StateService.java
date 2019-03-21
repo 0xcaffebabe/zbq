@@ -58,17 +58,18 @@ public class StateService {
 
     public List<StateVO> selectCurrentUserStatePaging(Page page) {
         User currentUser = userService.getCurrentUser();
-        var friendIdList = friendService.selectFriendListByUserId(currentUser.getUserId());
-        friendIdList.add(currentUser.getUserId());
-        var stateList = stateMapper.selectStateByUserIdBatchPaging(friendIdList, page);
+
+        List<Integer> stateUserIdList = getStateUserIdList(currentUser);
+
+        var stateList = stateMapper.selectStateByUserIdBatchPaging(stateUserIdList, page);
+
         List<Integer> userIdList = new ArrayList<>();
         List<StateVO> stateVOList = new ArrayList<>();
-
         Map<Integer,StateVO> stateVOMap = new HashMap<>();
         Map<Integer,UserVO> userVOMap = new HashMap<>();
         for (var i : stateList) {
             StateVO vo = new StateVO();
-            UserVO userVO = null;
+            UserVO userVO;
             if (userVOMap.get(i.getUser().getUserId()) != null){
                 userVO = userVOMap.get(i.getUser().getUserId());
             }else{
@@ -82,9 +83,11 @@ public class StateService {
             stateVOList.add(vo);
             stateVOMap.put(vo.getUserVO().getUserId(),vo);
             userVOMap.put(userVO.getUserId(),userVO);
+
+            vo.setSelf(vo.getUserVO().getUserId().equals(currentUser.getUserId()));
+
         }
         var userList = userService.selectByUserIdBatch(userIdList);
-
 
         for (var i : userList) {
             var vo = userVOMap.get(i.getUserId());
@@ -99,6 +102,8 @@ public class StateService {
         addStateComment(stateVOList);
         return stateVOList;
     }
+
+
 
     public int countSelfState() {
         User user = userService.getCurrentUser();
@@ -117,6 +122,26 @@ public class StateService {
                 .build();
 
         return commentService.createNewCommentRecord(comment);
+    }
+
+    public int deleteCurrentUserStateById(Integer stateId){
+        var state = stateMapper.selectByPrimaryKey(stateId);
+        var currentUser = userService.getCurrentUser();
+        if (state == null){
+            ErrorUtils.error(StringResources.TARGET_STATE_NOT_EXIST);
+        }
+
+        if (!state.getUser().equals(currentUser)){
+            ErrorUtils.error(StringResources.PERMISSION_DENIED);
+        }
+
+        return stateMapper.setInvisibleByPrimaryKey(stateId);
+    }
+
+    private List<Integer> getStateUserIdList(User currentUser) {
+        var stateUserIdList = friendService.selectFriendListByUserId(currentUser.getUserId());
+        stateUserIdList.add(currentUser.getUserId());
+        return stateUserIdList;
     }
 
     private void addStateLikes(List<StateVO> stateVOList) {

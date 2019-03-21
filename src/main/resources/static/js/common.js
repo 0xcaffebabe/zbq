@@ -141,7 +141,8 @@ function getCommonObject() {
             getAllLocationUrl:"/location/list",
             shareLocationUrl:"/location",
             getSelfLocationUrl:"/location/self",
-            analyzeVideoUrl:"/video/analyze"
+            analyzeVideoUrl:"/video/analyze",
+            deleteStateUrl:"/state/"
         }
     }
 }

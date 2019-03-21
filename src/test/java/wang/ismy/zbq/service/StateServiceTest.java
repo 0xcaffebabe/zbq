@@ -43,4 +43,13 @@ public class StateServiceTest {
         assertEquals(1,stateService.createCurrentUserStateComment(dto));
 
     }
+
+
+    @Test
+    public void testDelete(){
+
+        userService.setTestUser(userService.selectByPrimaryKey(1));
+
+        stateService.deleteCurrentUserStateById(17);
+    }
 }

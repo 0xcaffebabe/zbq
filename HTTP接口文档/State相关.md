@@ -81,3 +81,14 @@ response:发表结果
     "data": "评论成功"
 }
 ```
+## 删除动态
+```text
+DELETE /state/{stateId}
+```
+```text
+{
+    "success": true,
+    "msg": "success",
+    "data": "删除动态成功"
+}
+```

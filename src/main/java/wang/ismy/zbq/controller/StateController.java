@@ -1,5 +1,6 @@
 package wang.ismy.zbq.controller;
 
+import org.apache.ibatis.annotations.Result;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import wang.ismy.zbq.dto.StateCommentDTO;
 import wang.ismy.zbq.dto.StateDTO;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.service.StateService;
+import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.validation.Valid;
 
@@ -51,5 +53,15 @@ public class StateController {
             return "评论成功";
         }
         return "评论失败";
+    }
+
+    @DeleteMapping("/{stateId}")
+    @ResultTarget
+    @MustLogin
+    public Object deleteState(@PathVariable Integer stateId){
+        if (stateService.deleteCurrentUserStateById(stateId) != 1){
+            ErrorUtils.error(StringResources.DELETE_STATE_FAIL);
+        }
+        return StringResources.DELETE_STATE_SUCCESS ;
     }
 }

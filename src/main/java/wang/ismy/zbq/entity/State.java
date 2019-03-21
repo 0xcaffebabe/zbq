@@ -13,6 +13,8 @@ public class State {
 
     private User user;
 
+    private Boolean visible;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

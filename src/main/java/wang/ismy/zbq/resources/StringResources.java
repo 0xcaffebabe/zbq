@@ -59,6 +59,13 @@ public class StringResources {
     public static final String VIDEO_PARSE_FAIL = "视频地址解析失败";
 
     public static final String VIDEO_PARSER_NOT_FOUND = "没有合适的视频解析器";
+
+    public static final String TARGET_STATE_NOT_EXIST = "目标动态不存在";
+
+    public static final String DELETE_STATE_FAIL = "删除动态失败";
+
+    public static final String DELETE_STATE_SUCCESS = "删除动态成功";
+
 }
 
 

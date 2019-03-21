@@ -75,6 +75,7 @@ CREATE TABLE state(
   state_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   content TEXT NOT NULL ,
   user INT NOT NULL ,
+  visible INT DEFAULT TRUE,
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
