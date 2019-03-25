@@ -17,7 +17,7 @@
 
 <body>
 
-    <aside id="left-panel" class="left-panel" style="opacity: 0.8;height: auto">
+    <aside id="left-panel" class="left-panel" >
         <nav class="navbar navbar-expand-sm navbar-default" id="side">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -73,7 +73,7 @@
         <div class="top-left">
             <div class="navbar-header">
                 <a href="#" class="navbar-brand">Zbq</a>
-                <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                <a  id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             </div>
         </div>
         <div class="top-right">
@@ -243,7 +243,12 @@
     }
 
     $('.navbar-nav>li>a').on('click', function(){
+
+        if ($("body").attr("class") == 'small-device'){
+            $("#menuToggle")[0].click();
+        }
         console.log("click");
+
 
 
     });
