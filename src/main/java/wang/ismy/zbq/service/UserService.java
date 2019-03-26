@@ -111,8 +111,8 @@ public class UserService {
         }
 
         if (user.getPassword().equals(password)) {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            request.getSession().setAttribute("user", user);
+            setCurrentUser(user);
+
 
         } else {
             ErrorUtils.error(StringResources.LOGIN_FAIL);
@@ -185,6 +185,9 @@ public class UserService {
     private void setCurrentUser(User user){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         request.getSession().setAttribute("user", user);
+        new Thread(()->{
+            userMapper.updateLastLogin(user.getUserId());
+        }).start();
     }
 
     private UserInfo getDefaultUserInfo() {

@@ -6,7 +6,8 @@ CREATE TABLE user(
   user_info INT NOT NULL ,
   permission INT NOT NULL ,
   create_time DATETIME NOT NULL ,
-  update_time DATETIME NOT NULL
+  update_time DATETIME NOT NULL,
+  last_login DATETIME
 ) ENGINE=InnoDB CHARSET=utf8;
 
 # 创建用户信息表

@@ -20,6 +20,9 @@
         INSERT INTO user (username, password, user_info, permission , create_time, update_time)
         VALUES (#{username}, #{password}, #{userInfo.userInfoId},#{permission.permissionId}, NOW(), NOW())
     </insert>
+    <update id="updateLastLogin">
+        UPDATE user SET last_login = NOW() WHERE user_id = #{userId}
+    </update>
 
     <select id="selectAll" resultType="wang.ismy.zbq.entity.User">
         SELECT *
