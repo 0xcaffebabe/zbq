@@ -113,13 +113,13 @@ public class StateService {
     public int createCurrentUserStateComment(StateCommentDTO stateCommentDTO){
 
         User currentUser = userService.getCurrentUser();
-        Comment comment = Comment.builder()
-                .commentType(CommentTypeEnum.STATE.getCode())
-                .content(stateCommentDTO.getContent())
-                .fromUser(currentUser)
-                .topicId(stateCommentDTO.getStateId())
-                .toUser(userService.selectByPrimaryKey(stateCommentDTO.getToUser()))
-                .build();
+        Comment comment = new Comment();
+                comment.setCommentType(CommentTypeEnum.STATE.getCode());
+                comment.setContent(stateCommentDTO.getContent());
+                comment.setFromUser(currentUser);
+                comment.setTopicId(stateCommentDTO.getStateId());
+                comment.setToUser(userService.selectByPrimaryKey(stateCommentDTO.getToUser()));
+
 
         return commentService.createNewCommentRecord(comment);
     }

@@ -8,7 +8,9 @@
         <id property="userId" column="user_id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
-
+        <association property="userPermission" javaType="wang.ismy.zbq.entity.UserPermission">
+            <id column="permission" property="userPermissionId"/>
+        </association>
         <association property="userInfo" javaType="wang.ismy.zbq.entity.UserInfo">
             <id property="userInfoId" column="user_info_id"/>
             <result property="nickName" column="nick_name"/>
@@ -17,11 +19,34 @@
     </resultMap>
 
     <insert id="insert" parameterType="wang.ismy.zbq.entity.User" useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO user (username, password, user_info, permission , create_time, update_time)
-        VALUES (#{username}, #{password}, #{userInfo.userInfoId},#{permission.permissionId}, NOW(), NOW())
+        INSERT INTO user (username, password, user_info, permission, create_time, update_time)
+        VALUES (#{username}, #{password}, #{userInfo.userInfoId}, #{userPermission.userPermissionId}, NOW(), NOW())
     </insert>
     <update id="updateLastLogin">
-        UPDATE user SET last_login = NOW() WHERE user_id = #{userId}
+        UPDATE user
+        SET last_login = NOW()
+        WHERE user_id = #{userId}
+    </update>
+    <update id="update">
+        UPDATE user
+        <set>
+            <if test="username!= null">
+                username= #{username},
+            </if>
+
+            <if test="password!= null">
+                password= #{password},
+            </if>
+            <if test="username!= null">
+                username= #{username},
+            </if>
+            <if test="userPermission!= null">
+                permission= #{userPermission.userPermissionId},
+            </if>
+        </set>
+        WHERE user_id = #{userId}
+
+
     </update>
 
     <select id="selectAll" resultType="wang.ismy.zbq.entity.User">
@@ -33,6 +58,7 @@
             user.user_id,
             user.username,
             user.password,
+            user.permission,
             user_info.user_info_id,
             user_info.nick_name,
             user_info.profile
@@ -43,6 +69,7 @@
         SELECT
             user.user_id,
             user_info.nick_name,
+            user.permission,
             user_info.profile
         FROM user, user_info
         WHERE user_info.nick_name LIKE '%' #{nickName} '%' AND user_info.user_info_id = user.user_info
@@ -52,6 +79,7 @@
             user.user_id,
             user.username,
             user.password,
+            user.permission,
             user_info.user_info_id,
             user_info.nick_name,
             user_info.profile
@@ -60,13 +88,14 @@
     </select>
     <select id="selectByUserIdBatch" resultMap="userMap">
         SELECT
-            user.user_id,
-            user_info.nick_name,
-            user_info.profile
+        user.user_id,
+        user_info.nick_name,
+        user.permission,
+        user_info.profile
         FROM user, user_info
         WHERE user.user_id
         IN
-        <foreach item="i" collection="list" separator="," open="("  close=")">
+        <foreach item="i" collection="list" separator="," open="(" close=")">
             #{i}
         </foreach>
         AND user_info.user_info_id = user.user_info

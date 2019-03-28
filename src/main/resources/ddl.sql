@@ -4,7 +4,7 @@ CREATE TABLE user(
   username VARCHAR(20) NOT NULL UNIQUE ,
   password VARCHAR(32) NOT NULL ,
   user_info INT NOT NULL ,
-  permission INT NOT NULL ,
+  userPermission INT NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL,
   last_login DATETIME
@@ -25,9 +25,10 @@ CREATE TABLE user_info(
 )ENGINE=InnoDB CHARSET=utf8;
 
 # 创建权限表
-CREATE TABLE permission(
-  permission_id INT PRIMARY KEY  AUTO_INCREMENT,
-  content_publish VARCHAR(2) DEFAULT 'N' COMMENT '内容发布权限',
+CREATE TABLE tb_user_permission(
+  user_permission_id INT PRIMARY KEY  AUTO_INCREMENT,
+  login BOOLEAN DEFAULT TRUE comment '登录权限',
+  content_publish BOOLEAN DEFAULT FALSE COMMENT '内容发布权限',
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;

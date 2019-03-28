@@ -54,7 +54,7 @@ GET /location/self
             "username": null,
             "password": null,
             "userInfo": null,
-            "permission": null,
+            "userPermission": null,
             "createTime": null,
             "updateTime": null
         },

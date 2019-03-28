@@ -1081,7 +1081,7 @@
                 documentIsHTML = !isXML( document );
 
                 // Support: IE 9-11, Edge
-                // Accessing iframe documents after unload throws "permission denied" errors (jQuery #13936)
+                // Accessing iframe documents after unload throws "userPermission denied" errors (jQuery #13936)
                 if ( preferredDoc !== document &&
                     (subWindow = document.defaultView) && subWindow.top !== subWindow ) {
 
@@ -7472,7 +7472,7 @@
     };
 
 
-// Based off of the plugin by Clint Helfers, with permission.
+// Based off of the plugin by Clint Helfers, with userPermission.
 // https://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
     jQuery.fn.delay = function( time, type ) {
         time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;

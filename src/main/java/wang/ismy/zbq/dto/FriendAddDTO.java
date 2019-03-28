@@ -7,10 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class FriendAddDTO {
 
     private Integer friendAddId;
@@ -21,4 +17,36 @@ public class FriendAddDTO {
     private Integer toUser;
 
     private String msg;
+
+    public Integer getFriendAddId() {
+        return friendAddId;
+    }
+
+    public void setFriendAddId(Integer friendAddId) {
+        this.friendAddId = friendAddId;
+    }
+
+    public Integer getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(Integer fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public Integer getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(Integer toUser) {
+        this.toUser = toUser;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 }

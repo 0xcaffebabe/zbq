@@ -32,7 +32,10 @@ public class FriendController {
     public Object getAllFriends(@RequestParam(value = "kw", required = false) String kw,
                                 @RequestParam("page") Integer page, @RequestParam("length") Integer length) {
 
-        Page p = Page.builder().pageNumber(page).length(length).build();
+
+        Page p = new Page();
+        p.setPageNumber(page);
+        p.setLength(length);
         if (StringUtils.isNullOrEmpty(kw)) {
             return friendService.selectCurrentUserAllFriendPaging(p);
         } else {
@@ -55,7 +58,9 @@ public class FriendController {
     public Object getRecommendFriend(@RequestParam(value = "kw", required = false) String kw,
                                      @RequestParam("page") Integer page, @RequestParam("length") Integer length) {
 
-        Page p = Page.builder().pageNumber(page).length(length).build();
+        Page p = new Page();
+        p.setPageNumber(page);
+        p.setLength(length);
         if (StringUtils.isNullOrEmpty(kw)) {
             return friendService.selectCurrentUserRecommendFriend();
         } else {

@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+
 public class RegisterDTO {
 
     @NotBlank(message = "用户名不得为空")
@@ -15,4 +15,20 @@ public class RegisterDTO {
     @NotBlank(message = "密码不得为空")
     @Length(min = 32,max = 32,message = "密码格式不正确")
     private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

@@ -34,8 +34,10 @@ public class StateController {
     @ResultTarget
     @MustLogin
     public Object getCurrentUserStates(@RequestParam("page") Integer pageNo, @RequestParam("length")Integer length){
-        Page page = Page.builder().pageNumber(pageNo).length(length).build();
-        return stateService.selectCurrentUserStatePaging(page);
+        Page p = new Page();
+        p.setPageNumber(pageNo);
+        p.setLength(length);
+        return stateService.selectCurrentUserStatePaging(p);
     }
 
     @GetMapping("/self/count")

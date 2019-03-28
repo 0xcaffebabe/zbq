@@ -6,13 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import wang.ismy.zbq.annotations.MustLogin;
+import wang.ismy.zbq.annotations.Permission;
 import wang.ismy.zbq.dao.UserMapper;
 import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.dto.RegisterDTO;
-import wang.ismy.zbq.entity.Permission;
+import wang.ismy.zbq.entity.UserPermission;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
+import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.util.ErrorUtils;
 
@@ -71,26 +73,28 @@ public class UserService {
         user.setUserInfo(userInfo);
 
 
-        Permission permission = getDefaultPermission();
-        permissionService.insertPermission(permission);
-        user.setPermission(permission);
+        UserPermission userPermission = getDefaultPermission();
+        permissionService.insertPermission(userPermission);
+        user.setUserPermission(userPermission);
 
         int ret = userMapper.insert(user);
 
         // 插入一条登录权限
-        if (loginACLService.insertNew(user.getUserId()) != 1){
+        if (loginACLService.insertNew(user.getUserId()) != 1) {
             ErrorUtils.error(StringResources.UNKNOWN_ERROR);
         }
 
         // 创建一条该用户与系统账号的好友关系
-        friendService.insertNewRelation(user.getUserId(),0);
-        friendService.insertNewRelation(0,user.getUserId());
+        friendService.insertNewRelation(user.getUserId(), 0);
+        friendService.insertNewRelation(0, user.getUserId());
 
         // 以小助手的身份发送一条消息给该用户
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setContent("欢迎来到转笔圈，有不懂的可以问我");
         messageDTO.setTo(user.getUserId());
-        messageService.sendMessage(User.builder().userId(0).build(),messageDTO);
+        User t = new User();
+        t.setUserId(0);
+        messageService.sendMessage(t, messageDTO);
         // 如果登录成功直接以当前用户登录
         if (ret == 1) {
             User currentUser = userMapper.selectByUsername(dto.getUsername());
@@ -106,7 +110,7 @@ public class UserService {
             ErrorUtils.error(StringResources.LOGIN_FAIL);
         }
 
-        if (!loginACLService.canLogin(user.getUserId())){
+        if (!loginACLService.canLogin(user.getUserId())) {
             ErrorUtils.error(StringResources.ACCOUNT_DISABLE);
         }
 
@@ -136,18 +140,18 @@ public class UserService {
         return null;
     }
 
-    public List<User> selectUserByUsernamePaging(String nickname, Page page){
-        return userMapper.selectByNickNamePaging(nickname,page);
+    public List<User> selectUserByUsernamePaging(String nickname, Page page) {
+        return userMapper.selectByNickNamePaging(nickname, page);
     }
 
-    public User selectByPrimaryKey(Integer userId){
+    public User selectByPrimaryKey(Integer userId) {
 
         if (userId == null) return null;
         return userMapper.selectByPrimaryKey(userId);
     }
 
-    public List<User> selectByUserIdBatch(List<Integer> list){
-        if (list.size() == 0){
+    public List<User> selectByUserIdBatch(List<Integer> list) {
+        if (list.size() == 0) {
             return List.of();
         }
         return userMapper.selectByUserIdBatch(list);
@@ -165,42 +169,49 @@ public class UserService {
         request.getSession().setAttribute("user", user);
     }
 
-    public List<User> selectAll(){
+    public List<User> selectAll() {
         return userMapper.selectAll();
     }
 
+    public int update(User user){
+        return userMapper.update(user);
+    }
 
     private User generateUser(RegisterDTO dto) {
-        return User.builder()
-                .username(dto.getUsername())
-                .password(dto.getPassword().toUpperCase()).build();
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setPassword(dto.getPassword().toUpperCase());
+        return user;
     }
 
-    private Permission getDefaultPermission() {
-        Permission permission = new Permission();
-        permission.setContentPublish("N");
-        return permission;
+    private UserPermission getDefaultPermission() {
+        UserPermission userPermission = new UserPermission();
+        userPermission.setContentPublish(false);
+        return userPermission;
     }
 
-    private void setCurrentUser(User user){
+    private void setCurrentUser(User user) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         request.getSession().setAttribute("user", user);
-        new Thread(()->{
+        new Thread(() -> {
             userMapper.updateLastLogin(user.getUserId());
         }).start();
     }
 
     private UserInfo getDefaultUserInfo() {
-        return UserInfo.builder()
-                .nickName("佚名")
-                .profile("/img/anonymous.jpg")
-                .birthday(LocalDate.now())
-                .penYear(1)
-                .region("中国")
-                .gender(0)
-                .description("这个人很懒，没有留下介绍")
-                .createTime(LocalDateTime.now())
-                .updateTime(LocalDateTime.now())
-                .build();
+        UserInfo userInfo = new UserInfo();
+
+        userInfo.setNickName("佚名");
+        userInfo.setProfile("/img/anonymous.jpg");
+        userInfo.setBirthday(LocalDate.now());
+        userInfo.setPenYear(1);
+        userInfo.setRegion("中国");
+        userInfo.setGender(0);
+        userInfo.setDescription("这个人很懒，没有留下介绍");
+        userInfo.setCreateTime(LocalDateTime.now());
+        userInfo.setUpdateTime(LocalDateTime.now());
+
+        return userInfo;
     }
+
 }

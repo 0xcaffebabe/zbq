@@ -33,19 +33,20 @@ public class FriendAddService {
 
     public int insertNew(FriendAddDTO friendAddDTO) {
 
-
-        User from = User.builder().userId(friendAddDTO.getFromUser()).build();
+        User from = new User();
+        from.setUserId(friendAddDTO.getFromUser());
 
         if (userService.selectByPrimaryKey(friendAddDTO.getToUser()) == null) {
             ErrorUtils.error(StringResources.TARGET_USER_NOT_EXIST);
         }
 
-        User to = User.builder().userId(friendAddDTO.getToUser()).build();
+        User to = new User();
+        to.setUserId(friendAddDTO.getToUser());
 
-        FriendAdd friendAdd = FriendAdd.builder()
-                .fromUser(from)
-                .toUser(to)
-                .msg(friendAddDTO.getMsg()).build();
+        FriendAdd friendAdd = new FriendAdd();
+                friendAdd.setFromUser(from);
+                friendAdd.setToUser(to);
+                friendAdd.setMsg(friendAddDTO.getMsg());
         return friendAddMapper.insertNew(friendAdd);
     }
 

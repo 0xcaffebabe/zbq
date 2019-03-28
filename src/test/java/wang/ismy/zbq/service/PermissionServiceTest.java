@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import wang.ismy.zbq.entity.Permission;
+import wang.ismy.zbq.entity.UserPermission;
 
 import static org.junit.Assert.*;
 
@@ -17,16 +17,13 @@ public class PermissionServiceTest {
     @Autowired
     PermissionService permissionService;
 
+    @Autowired
+    UserService userService;
+
 
     @Test
-    public void testInsert(){
-        Permission permission = new Permission();
-        permission.setContentPublish("N");
-        assertEquals(1,permissionService.insertPermission(permission));
+    public void insert(){
 
-        permission = new Permission();
-        permission.setContentPublish("Y");
 
-        assertEquals(2,permissionService.insertPermission(permission));
     }
 }

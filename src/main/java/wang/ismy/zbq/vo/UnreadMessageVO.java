@@ -5,7 +5,7 @@ import wang.ismy.zbq.entity.UserInfo;
 
 import java.time.LocalDateTime;
 
-@Data
+
 public class UnreadMessageVO {
 
     private Integer fromUserId;
@@ -17,4 +17,44 @@ public class UnreadMessageVO {
     private String newestMsg;
 
     private LocalDateTime sendTime;
+
+    public Integer getFromUserId() {
+        return fromUserId;
+    }
+
+    public void setFromUserId(Integer fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    public UserInfo getFromUserInfo() {
+        return fromUserInfo;
+    }
+
+    public void setFromUserInfo(UserInfo fromUserInfo) {
+        this.fromUserInfo = fromUserInfo;
+    }
+
+    public Integer getMsgCount() {
+        return msgCount;
+    }
+
+    public void setMsgCount(Integer msgCount) {
+        this.msgCount = msgCount;
+    }
+
+    public String getNewestMsg() {
+        return newestMsg;
+    }
+
+    public void setNewestMsg(String newestMsg) {
+        this.newestMsg = newestMsg;
+    }
+
+    public LocalDateTime getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(LocalDateTime sendTime) {
+        this.sendTime = sendTime;
+    }
 }

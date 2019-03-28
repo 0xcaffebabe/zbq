@@ -49,12 +49,11 @@ public class MessageService {
     private List<MessageVO> convertToMessageVO(User user, User friend, List<Message> list) {
         List<MessageVO> ret = new ArrayList<>();
         for (var i : list) {
-            MessageVO messageVO = MessageVO.builder()
-                    .senderId(i.getFromUser().getUserId())
-                    .senderInfo(user.equals(i.getFromUser()) ? user.getUserInfo() : friend.getUserInfo())
-                    .content(i.getContent())
-                    .sendTime(i.getCreateTime())
-                    .build();
+            MessageVO messageVO = new MessageVO();
+                    messageVO.setSenderId(i.getFromUser().getUserId());
+                    messageVO.setSenderInfo(user.equals(i.getFromUser()) ? user.getUserInfo() : friend.getUserInfo());
+                    messageVO.setContent(i.getContent());
+                    messageVO.setSendTime(i.getCreateTime());
             ret.add(messageVO);
         }
         return ret;
@@ -68,11 +67,13 @@ public class MessageService {
             ErrorUtils.error(StringResources.NOT_FRIEND);
         }
 
-        Message message = Message.builder()
-                .fromUser(user)
-                .toUser(User.builder().userId(messageDTO.getTo()).build())
-                .content(messageDTO.getContent())
-                .build();
+        User t = new User();
+        t.setUserId(messageDTO.getTo());
+        Message message = new Message();
+                message.setFromUser(user);
+                message.setToUser(t);
+                message.setContent(messageDTO.getContent());
+
 
         return messageMapper.insert(message) == 1;
 
@@ -82,11 +83,13 @@ public class MessageService {
         if (!friendService.isFriend(messageDTO.getTo(), fromUser.getUserId())) {
             ErrorUtils.error(StringResources.NOT_FRIEND);
         }
-        Message message = Message.builder()
-                .fromUser(fromUser)
-                .toUser(User.builder().userId(messageDTO.getTo()).build())
-                .content(messageDTO.getContent())
-                .build();
+        User t= new User();
+        t.setUserId(messageDTO.getTo());
+        Message message = new Message();
+                message.setFromUser(fromUser);
+                message.setToUser(t);
+                message.setContent(messageDTO.getContent());
+
         return messageMapper.insert(message) == 1;
     }
 

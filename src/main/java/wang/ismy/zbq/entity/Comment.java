@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 public class Comment {
 
     private Integer commentId;
@@ -29,5 +26,67 @@ public class Comment {
 
     private LocalDateTime updateTime;
 
+    public Integer getCommentId() {
+        return commentId;
+    }
 
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
+    }
+
+    public Integer getCommentType() {
+        return commentType;
+    }
+
+    public void setCommentType(Integer commentType) {
+        this.commentType = commentType;
+    }
+
+    public Integer getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(Integer topicId) {
+        this.topicId = topicId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public User getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(User fromUser) {
+        this.fromUser = fromUser;
+    }
+
+    public User getToUser() {
+        return toUser;
+    }
+
+    public void setToUser(User toUser) {
+        this.toUser = toUser;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
 }

@@ -1,9 +1,10 @@
 package wang.ismy.zbq.dao;
 
-import wang.ismy.zbq.entity.Permission;
+import wang.ismy.zbq.entity.UserPermission;
 
 public interface PermissionMapper {
 
-    int insertPermission(Permission permission);
+    int insertPermission(UserPermission userPermission);
 
+    UserPermission selectById(Integer id);
 }

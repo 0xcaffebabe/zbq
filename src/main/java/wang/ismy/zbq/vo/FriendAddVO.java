@@ -8,10 +8,7 @@ import wang.ismy.zbq.entity.UserInfo;
 
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class FriendAddVO {
 
     private Integer friendAddId;
@@ -20,5 +17,38 @@ public class FriendAddVO {
 
     private String msg;
 
+
     private LocalDateTime createTime;
+
+    public Integer getFriendAddId() {
+        return friendAddId;
+    }
+
+    public void setFriendAddId(Integer friendAddId) {
+        this.friendAddId = friendAddId;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 }

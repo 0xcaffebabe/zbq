@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import wang.ismy.zbq.annotations.ErrorPage;
 import wang.ismy.zbq.annotations.MustLogin;
+import wang.ismy.zbq.annotations.Permission;
 import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.service.FriendService;
 import wang.ismy.zbq.service.UserService;
 
@@ -83,6 +85,7 @@ public class RedirectController {
     @RequestMapping("/main")
     @MustLogin
     @ErrorPage
+    @Permission(value = PermissionEnum.LOGIN,msg = "没有登录权限，请联系管理")
     public Object main(){
         return "main";
     }

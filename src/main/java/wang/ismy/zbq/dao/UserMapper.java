@@ -23,4 +23,6 @@ public interface UserMapper {
     List<User> selectByUserIdBatch(List<Integer> list);
 
     void updateLastLogin(Integer userId);
+
+    int update(User user);
 }

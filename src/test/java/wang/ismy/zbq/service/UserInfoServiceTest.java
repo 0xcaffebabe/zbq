@@ -20,23 +20,5 @@ public class UserInfoServiceTest {
     UserInfoService userInfoService;
 
 
-    @Test
-    public void insertTest(){
 
-        UserInfo userInfo = UserInfo.builder()
-                            .nickName("ds my")
-                .profile("http://baidu.com")
-                .birthday(LocalDate.now())
-                .penYear(1)
-                .region("福建漳州")
-                .gender(0)
-                .description("i am my")
-                .createTime(LocalDateTime.now())
-                .updateTime(LocalDateTime.now())
-                .build();
-
-        userInfoService.insertUserInfo(userInfo);
-
-        assertEquals(java.util.Optional.of(2),userInfo.getUserInfoId());
-    }
 }

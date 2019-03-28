@@ -8,10 +8,7 @@ import wang.ismy.zbq.entity.UserInfo;
 
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Builder
+
 public class MessageVO {
 
     private Integer senderId;
@@ -21,4 +18,36 @@ public class MessageVO {
     private String content;
 
     private LocalDateTime sendTime;
+
+    public Integer getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
+    }
+
+    public UserInfo getSenderInfo() {
+        return senderInfo;
+    }
+
+    public void setSenderInfo(UserInfo senderInfo) {
+        this.senderInfo = senderInfo;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public LocalDateTime getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(LocalDateTime sendTime) {
+        this.sendTime = sendTime;
+    }
 }

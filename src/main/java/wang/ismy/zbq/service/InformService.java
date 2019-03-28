@@ -37,6 +37,8 @@ public class InformService {
         MessageDTO messageDTO = new MessageDTO();
         messageDTO.setTo(userId);
         messageDTO.setContent(info);
-        return messageService.sendMessage(User.builder().userId(0).build(),messageDTO);
+        User t  = new User();
+        t.setUserId(0);
+        return messageService.sendMessage(t,messageDTO);
     }
 }

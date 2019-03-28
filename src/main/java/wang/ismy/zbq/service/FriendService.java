@@ -82,11 +82,11 @@ public class FriendService {
 
         List<FriendAddVO> ret = new ArrayList<>();
         for (var i : list) {
-            FriendAddVO vo = FriendAddVO.builder()
-                    .friendAddId(i.getFriendAddId())
-                    .userInfo(i.getFromUser().getUserInfo())
-                    .msg(i.getMsg())
-                    .createTime(i.getCreateTime()).build();
+            FriendAddVO vo = new FriendAddVO();
+                    vo.setFriendAddId(i.getFriendAddId());
+                    vo.setUserInfo(i.getFromUser().getUserInfo());
+                    vo.setMsg(i.getMsg());
+                    vo.setCreateTime(i.getCreateTime());
             ret.add(vo);
         }
 

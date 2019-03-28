@@ -5,15 +5,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class SenderVO {
 
     private Integer userId;
 
     private String senderName;
 
+    public Integer getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
 }

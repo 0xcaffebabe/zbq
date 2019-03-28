@@ -22,21 +22,5 @@ public class CommentMapperTest {
     @Autowired
     UserService userService;
 
-    @Test
-    public void testInsert(){
-        Comment comment = new Comment();
-        comment.setCommentType(0);
-        comment.setContent("测试评论回复");
-        comment.setFromUser(userService.selectByPrimaryKey(2));
-        comment.setToUser(User.builder().userId(1).build());
-        comment.setTopicId(8);
-        assertEquals(1,commentMapper.insertNew(comment));
-    }
 
-
-    @Test
-    public void testSelect(){
-
-
-    }
 }
