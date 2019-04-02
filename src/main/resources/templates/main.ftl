@@ -36,14 +36,19 @@
 
 
                     <li class="menu-title">内容</li>
+
+
+                        <li :class="{active:url == '/contents'}"><a href="javascript:jump('/contents')" > <i class="menu-icon fa fa-search"></i>发现内容</a></li>
+                    <li :class="{active:url == '/publish'}">
+                        <a href="javascript:jump('/publish')" > <i class="menu-icon fa fa-plus"></i>发布内容</a>
+                    </li>
+
                     <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false"> <i class="menu-icon fa fa-search"></i>发现内容（不可用）</a>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false"> <i class="menu-icon fa fa-plus"></i>发布内容（不可用）</a>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                            aria-expanded="false"> <i class="menu-icon fa fa-heart"></i>我的收藏（不可用）</a>
                     </li>
+
+
 
 
                     <li class="menu-title">学习</li><!-- /.menu-title -->

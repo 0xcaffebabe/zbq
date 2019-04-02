@@ -75,7 +75,7 @@ var state = new Vue({
                             list[i].comments = [];
                         }
                         for (var j =0;j<list[i].comments.length;j++){
-                            list[i].comments[j].createTime =moment(list[i].comments[j].createTime).fromNow()
+                            list[i].comments[j].createTime =moment(list[i].comments[j].createTime).fromNow();
                         }
 
                         if (list[i].content.startsWith("{")){

@@ -12,6 +12,15 @@ public class Page {
 
     private int length;
 
+    public Page(int pageNumber, int length) {
+        this.pageNumber = pageNumber;
+        this.length = length;
+    }
+
+    public Page(){
+
+    }
+
     public int getPageNumber() {
         return pageNumber;
     }

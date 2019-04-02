@@ -53,8 +53,6 @@ public class UserService {
 
     @Transactional
     public int createNewUser(RegisterDTO dto) {
-
-
         User user = generateUser(dto);
 
         if (userMapper.selectByUsername(dto.getUsername()) != null) {
@@ -102,6 +100,8 @@ public class UserService {
         }
         return ret;
     }
+
+
 
     public void login(String username, String password) {
 

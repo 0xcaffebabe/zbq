@@ -87,7 +87,8 @@ var dashboard = new Vue({
    data:{
        friendQuantity:0,
        stateQuantity:0,
-       likeQuantity:0
+       likeQuantity:0,
+       likeDetail:{}
    },
     created:function () {
 
@@ -128,11 +129,16 @@ var dashboard = new Vue({
            var that = this;
            common.ajax.get(common.data.countLikeUrl,function (response) {
                if (response.success){
-                   that.likeQuantity = response.data;
+                   that.likeQuantity = response.data.total;
+                   that.likeDetail= response.data;
                }else{
                    alert("获取收获赞数失败:"+response.msg);
                }
            })
+        }
+        ,
+        showLikeDetail:function () {
+            alert("动态:"+this.likeDetail.stateLike+",内容:"+this.likeDetail.contentLike);
         }
     }
 });

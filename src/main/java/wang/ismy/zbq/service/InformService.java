@@ -19,6 +19,26 @@ public class InformService {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private UserService userService;
+
+    public InformService() {
+        init();
+    }
+
+    private void init(){
+        new Thread(()->{
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            var user = userService.selectByPrimaryKey(0);
+
+        }).start();
+    }
+
     /*
     * 创建系统通知账号与某个用户的好友关系
     */

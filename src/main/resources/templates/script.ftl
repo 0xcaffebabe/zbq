@@ -10,8 +10,3 @@
 <script src="/js/bootstrap.js"></script>
 <script src="http://momentjs.cn/downloads/moment-with-locales.min.js"></script>
 <script src="/js/common.js"></script>
-
-<script>
-
-
-</script>

@@ -4,7 +4,7 @@ CREATE TABLE user(
   username VARCHAR(20) NOT NULL UNIQUE ,
   password VARCHAR(32) NOT NULL ,
   user_info INT NOT NULL ,
-  userPermission INT NOT NULL ,
+  permission INT NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL,
   last_login DATETIME
@@ -85,7 +85,7 @@ CREATE TABLE state(
 # 创建点赞表
 CREATE TABLE tb_like(
   like_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  like_type TINYINT NOT NULL COMMENT '0代表动态点赞',
+  like_type TINYINT NOT NULL COMMENT '0代表动态点赞,1代表内容点赞',
   content_id INT NOT NULL ,
   like_user INT NOT NULL ,
   create_time DATETIME NOT NULL,
@@ -104,7 +104,7 @@ CREATE TABLE tb_comment(
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
 
-# 创建就位置表
+# 创建位置表
 CREATE TABLE location(
   location_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   user INT NOT NULL ,
@@ -114,4 +114,16 @@ CREATE TABLE location(
   anonymous BOOLEAN NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_timee DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建内容表
+CREATE TABLE content(
+  content_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user INT NOT NULL ,
+  title VARCHAR(255) NOT NULL ,
+  content TEXT NOT NULL ,
+  tags VARCHAR(255),
+  visible BOOLEAN DEFAULT FALSE,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME
 )ENGINE=InnoDB CHARSET=utf8;

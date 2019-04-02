@@ -3,7 +3,7 @@ package wang.ismy.zbq.enums;
 public enum LikeTypeEnum {
 
 
-    STATE(0);
+    STATE(0),CONTENT(1);
 
     public int getCode() {
         return code;

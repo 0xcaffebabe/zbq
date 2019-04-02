@@ -1,4 +1,4 @@
-package wang.ismy.zbq.controller.front;
+package wang.ismy.zbq.controller;
 
 import org.apache.tomcat.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;

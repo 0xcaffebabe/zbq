@@ -1,4 +1,4 @@
-package wang.ismy.zbq.controller.front;
+package wang.ismy.zbq.controller;
 
 import com.mysql.cj.x.protobuf.Mysqlx;
 import org.springframework.beans.factory.annotation.Autowired;

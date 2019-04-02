@@ -37,9 +37,33 @@
     <select id="selectLikeByLikeTypeAndContentIdAndUserId" resultMap="likeMap">
         SELECT * FROM tb_like WHERE like_type = #{likeType} AND content_id = #{contentId} AND like_user = #{userId}
     </select>
-    <select id="countLike" resultType="java.lang.Long">
+    <select id="countStateLikeByUserId" resultType="java.lang.Long">
         SELECT COUNT(1) FROM tb_like WHERE content_id IN (
-            SELECT state.state_id FROM state WHERE state.user = #{userId}
+            SELECT state.state_id FROM state WHERE state.user = #{userId} AND tb_like.like_type = 0
         )
     </select>
+
+    <select id="countContentLikeByUserId" resultType="java.lang.Long">
+
+        SELECT COUNT(1) FROM tb_like WHERE content_id IN (
+            SELECT content.content_id FROM content WHERE content.user = #{userId} AND tb_like.like_type = 1
+        )
+    </select>
+
+    <select id="countLikeByLikeTypeAndContentIdBatch" resultType="wang.ismy.zbq.dto.ContentLikeDTO">
+        SELECT content_id id,COUNT(1) count FROM tb_like WHERE content_id IN
+        <foreach collection="contentIdList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        AND like_type = 1 GROUP BY content_id
+    </select>
+    <select id="selectHasLikeByLikeTypeAndContentIdAndUserIdBatch" resultType="java.util.Map">
+
+        SELECT content_id,like_user = #{userId} has_like FROM tb_like WHERE content_id IN
+        <foreach collection="contentIdList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        AND like_type = 1 GROUP BY content_id
+    </select>
+
 </mapper>

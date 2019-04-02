@@ -142,7 +142,11 @@ function getCommonObject() {
             shareLocationUrl:"/location",
             getSelfLocationUrl:"/location/self",
             analyzeVideoUrl:"/video/analyze",
-            deleteStateUrl:"/state/"
+            deleteStateUrl:"/state/",
+            getContentListUrl:"/content/list",
+            publishContentUrl:"/content",
+            likeContentUrl:"/like/content/",
+
         },
         methods:{
             getSelfState:function (success) {

@@ -40,7 +40,6 @@ public class ControllerLoginAspect {
         try {
             return joinPoint.proceed();
         } catch (Throwable throwable) {
-
                throw throwable;
         }
 

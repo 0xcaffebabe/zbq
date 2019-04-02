@@ -53,4 +53,10 @@ public class LikeMapperTest {
         assertNotNull(like);
     }
 
+
+    @Test
+    public void testCountLike(){
+        var list = likeMapper.countLikeByLikeTypeAndContentIdBatch(1,List.of(14,13));
+        System.out.println(list);
+    }
 }

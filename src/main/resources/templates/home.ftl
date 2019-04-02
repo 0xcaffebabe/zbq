@@ -90,7 +90,7 @@
                                 <div class="stat-content">
                                     <div class="text-left dib">
                                         <div class="stat-text"><span class="count">{{likeQuantity}}</span></div>
-                                        <div class="stat-heading">收获赞数</div>
+                                        <div class="stat-heading">收获赞数 <i class="fa fa-question-circle" style="cursor: pointer;" @click="showLikeDetail"></i></div>
                                     </div>
                                 </div>
                             </div>

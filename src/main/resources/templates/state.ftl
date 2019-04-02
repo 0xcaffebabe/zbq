@@ -118,9 +118,9 @@
                                                     </div>
                                                     <div class="col-md-9 col-xs-9 col-sm-9">
                                                         <h4>{{i.userVO.nickName}}</h4>
-                                                        <div style="position:absolute;bottom:0">
+
                                                             <span class="fa fa-clock-o"></span> {{i.createTime}}
-                                                        </div>
+
 
                                                         <div class="btn btn-group" v-if="i.self" style="float: right">
                                                             <button class="btn btn-sm btn-success">编辑</button>

@@ -1,4 +1,4 @@
-package wang.ismy.zbq.controller.front;
+package wang.ismy.zbq.controller;
 
 import org.apache.ibatis.annotations.Result;
 import org.springframework.beans.BeanUtils;

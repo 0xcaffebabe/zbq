@@ -1,7 +1,7 @@
 package wang.ismy.zbq.enums;
 
 public enum PermissionEnum {
-    LOGIN("login"),PUBLISH_CONTENT("publishLogin");
+    LOGIN("login"),PUBLISH_CONTENT("contentPublish");
 
 
     private String permission;

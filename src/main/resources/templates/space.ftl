@@ -30,7 +30,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">Zbq</a>
+            <a class="navbar-brand" href="/">Zbq</a>
 
 
             <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">

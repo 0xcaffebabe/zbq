@@ -1,4 +1,4 @@
-package wang.ismy.zbq.controller.front;
+package wang.ismy.zbq.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,6 +88,20 @@ public class RedirectController {
     @Permission(value = PermissionEnum.LOGIN,msg = "没有登录权限，请联系管理")
     public Object main(){
         return "main";
+    }
+
+    @RequestMapping("/contents")
+    @MustLogin
+    @ErrorPage
+    public Object contents(){
+        return "contents";
+    }
+
+    @RequestMapping("/publish")
+    @MustLogin
+    @ErrorPage
+    public Object publish(){
+        return "publish";
     }
 
 }
