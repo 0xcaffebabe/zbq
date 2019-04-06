@@ -66,6 +66,10 @@ public class StringResources {
 
     public static final String DELETE_STATE_SUCCESS = "删除动态成功";
 
+    public static final String COMMENT_FAIL = "评论失败";
+
+    public static final String COMMENT_SUCCESS = "评论成功";
+
 }
 
 

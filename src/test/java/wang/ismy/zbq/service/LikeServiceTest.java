@@ -29,7 +29,8 @@ public class LikeServiceTest {
 
     @Test
     public void testHasLike(){
-        var map = likeService.selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(LikeTypeEnum.CONTENT, List.of(13,14),1);
+        var map = likeService.
+                selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(LikeTypeEnum.CONTENT, List.of( 14 , 13 , 12 , 2 , 3),60);
 
         System.out.println(map);
     }

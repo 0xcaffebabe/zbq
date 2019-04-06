@@ -45,4 +45,14 @@ public class ContentServiceTest {
 
         assertEquals(Long.valueOf(1),list.get(0).getLikeCount());
     }
+
+
+    @Test
+    public void testSingle(){
+        var content = contentService.selectByPrimaryKey(1);
+
+        assertEquals("转笔的转后护理",content.getTitle());
+
+        assertEquals("root",content.getUser().getNickName());
+    }
 }

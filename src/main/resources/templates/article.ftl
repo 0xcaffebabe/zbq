@@ -13,9 +13,7 @@
     <#include "css.ftl"/>
 
     <style>
-        .fold {
-            height: 200px;
-        }
+
     </style>
 </head>
 
@@ -25,48 +23,9 @@
 <div class="content">
     <!-- Animated -->
 
-    <div class="animated fadeIn" id="content">
-        <button id="modalTrigger" data-target="#staticModal" data-toggle="modal" style="display: none"></button>
-        <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <span style="cursor: pointer;float: right" @click="showComment">&times;</span>
-                        <h5 class="modal-title" id="staticModalLabel">{{commentList.length}}条评论</h5>
-                    </div>
-                    <div class="modal-body">
-
-                        <ul class="media-list">
-                            <li class="media" v-for="comment in commentList">
-                                <div class="media-left">
-                                    <a href="#">
-                                        <img class="media-object" src="/img/anonymous.jpg" alt="..." width="48">
-                                    </a>
-                                </div>
-                                <div class="media-body" style="margin-left: 10px;">
-                                    <span style="float: right"><i class="fa fa-clock-o"></i> {{comment.createTime}}</span>
-                                    <h4 class="media-heading">root</h4>
-                                    <p>{{comment.content}}</p>
-                                </div>
-                                <hr>
-                            </li>
-
-
-                        </ul>
-
-                    </div>
-                    <div class="modal-footer">
-                        <input type="text" class="form-control" placeholder="写下你的评论"
-                               @focus="commentPaneFocus" @blur="commentPaneBlur" v-model="commentContent">
-                        <button class="btn btn-primary"  @click="submitComment">发布</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="card" v-for="content in contentList">
+    <div class="animated fadeIn">
+        <button class="btn btn-sm btn-default" onclick="window.history.back()"> <i class="fa fa-backward"></i></button>
+        <div class="card" id="content">
             <div class="card-header" :id="'content' + content.contentId">
 
                 <div class="media">
@@ -95,16 +54,21 @@
             <div class="card-body">
 
                 <div class="mx-auto d-block">
-                    <a :href="'/article/' + content.contentId">
-                        <h3>{{content.title}}</h3>
-                    </a>
-
+                    <h3>{{content.title}}</h3>
                     <hr>
                     <p style="overflow: hidden" class="targetFold" v-html="content.content">
 
                     </p>
 
                     </button>
+
+                </div>
+
+                <div>
+                    <span class="fa fa-thumbs-up"></span> 15
+                    <a href="#">
+                        <img src="/img/anonymous.jpg" alt="" style="border-radius: 50px" width="32">
+                    </a>
 
                 </div>
                 <hr>
@@ -122,7 +86,7 @@
 
                     <a href="" style="margin-left: 50px">
                         <i class="fa fa-star"></i>
-                        485 收藏
+                        收藏
                     </a>
 
                     <a href="" style="margin-left: 50px">
@@ -145,11 +109,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-
-<script src="/js/content.js"></script>
-<script>
-
-
-</script>
+<script src="/js/article.js"></script>
 </body>
 </html>

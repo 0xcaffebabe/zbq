@@ -190,7 +190,10 @@ public class UserService {
         return userPermission;
     }
 
-    private void setCurrentUser(User user) {
+    public User selectByUsername(String username){
+        return userMapper.selectByUsername(username);
+    }
+    public void setCurrentUser(User user) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         request.getSession().setAttribute("user", user);
         new Thread(() -> {

@@ -15,5 +15,4 @@ public class ContentDTO {
     @NotBlank(message = "标签不得为空")
     private String tags;
 
-
 }

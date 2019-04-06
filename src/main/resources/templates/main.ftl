@@ -17,68 +17,76 @@
 
 <body>
 
-    <aside id="left-panel" class="left-panel" >
-        <nav class="navbar navbar-expand-sm navbar-default" id="side">
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="space/${user.userId?c}"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
-                    <li :class="{active:url=='/main'}">
-                        <a href="javascript:jump('/home')"><i class="menu-icon fa fa-user"></i>用户中心 </a>
+<aside id="left-panel" class="left-panel">
+    <nav class="navbar navbar-expand-sm navbar-default" id="side">
+        <div id="main-menu" class="main-menu collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="space/${user.userId?c}"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
+                <li :class="{active:url=='/main'}">
+                    <a href="javascript:jump('/home')"><i class="menu-icon fa fa-user"></i>用户中心 </a>
 
-                    </li>
+                </li>
 
-                    <li class="menu-title">社交</li><!-- /.menu-title -->
-
-
-                    <li :class="{active:url == '/friends'}"><a href="javascript:jump('/friends')"> <i class="menu-icon fa fa-users"></i>我的笔友 </a></li>
-                    <li :class="{active:url == '/states'}"><a href="javascript:jump('/states')"> <i class="menu-icon fa fa-star"></i> 笔圈动态</a></li>
-                    <li :class="{active:url == '/maps'}"><a href="javascript:jump('/maps')" class="dropdown-toggle"> <i class="menu-icon fa fa-street-view"></i>转笔地图</a></li>
+                <li class="menu-title">社交</li><!-- /.menu-title -->
 
 
-                    <li class="menu-title">内容</li>
+                <li :class="{active:url == '/friends'}"><a href="javascript:jump('/friends')"> <i
+                        class="menu-icon fa fa-users"></i>我的笔友 </a></li>
+                <li :class="{active:url == '/states'}"><a href="javascript:jump('/states')"> <i
+                        class="menu-icon fa fa-star"></i> 笔圈动态</a></li>
+                <li :class="{active:url == '/maps'}"><a href="javascript:jump('/maps')" class="dropdown-toggle"> <i
+                        class="menu-icon fa fa-street-view"></i>转笔地图</a></li>
 
 
-                        <li :class="{active:url == '/contents'}"><a href="javascript:jump('/contents')" > <i class="menu-icon fa fa-search"></i>发现内容</a></li>
-                    <li :class="{active:url == '/publish'}">
-                        <a href="javascript:jump('/publish')" > <i class="menu-icon fa fa-plus"></i>发布内容</a>
-                    </li>
-
-                    <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false"> <i class="menu-icon fa fa-heart"></i>我的收藏（不可用）</a>
-                    </li>
+                <li class="menu-title">内容</li>
 
 
+                <li :class="{active:url == '/contents'}"><a href="javascript:jump('/contents')"> <i
+                        class="menu-icon fa fa-search"></i>发现内容</a></li>
+                <li :class="{active:url == '/publish'}">
+                    <a href="javascript:jump('/publish')"> <i class="menu-icon fa fa-plus"></i>发布内容</a>
+                </li>
+
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"> <i class="menu-icon fa fa-heart"></i>我的收藏（不可用）</a>
+                </li>
 
 
-                    <li class="menu-title">学习</li><!-- /.menu-title -->
+                <li class="menu-title">学习</li><!-- /.menu-title -->
 
-                    <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false"> <i class="menu-icon fa fa-book"></i>课程中心（不可用） </a>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false"> <i class="menu-icon fa fa-bookmark"></i>我的课程（不可用） </a>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false"> <i class="menu-icon fa fa-square"></i>发布课程（不可用） </a>
+                <li :class="{active:url == '/courses'}"><a href="javascript:jump('/courses')"> <i
+                        class="menu-icon fa fa-book"></i>课程中心</a></li>
 
-                    </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"> <i class="menu-icon fa fa-bookmark"></i>我的课程（不可用） </a>
+                </li>
 
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"> <i class="menu-icon fa fa-square"></i>发布课程（不可用） </a>
+                </li>
+
+
+
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+</aside>
 
 <!-- Left Panel -->
 
 <!-- /#left-panel -->
 <!-- Right Panel -->
 <div id="right-panel" class="right-panel">
-<!-- Header-->
-    <header id="header" class="header" >
+    <!-- Header-->
+    <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
                 <a href="#" class="navbar-brand">Zbq</a>
-                <a  id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+                <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             </div>
         </div>
         <div class="top-right">
@@ -95,7 +103,8 @@
 
 
                     <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             主题
                             <span class="caret"></span>
                         </button>
@@ -117,8 +126,10 @@
                         <div class="dropdown-menu" aria-labelledby="message">
                             <p class="red">你有 {{unreadCount}} 条新消息</p>
                             <div v-for="unread in unreadMessageList">
-                                <a class="dropdown-item media" href="#" @click.prevent="jump('/chat/' + unread.fromUserId)">
-                                    <span class="photo media-left "><img alt="avatar" :src="unread.fromUserInfo.profile"></span>
+                                <a class="dropdown-item media" href="#"
+                                   @click.prevent="jump('/chat/' + unread.fromUserId)">
+                                    <span class="photo media-left "><img alt="avatar"
+                                                                         :src="unread.fromUserInfo.profile"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">{{unread.fromUserInfo.nickName}}</span>
                                         <span class="time float-right">{{unread.sendTime}}</span>
@@ -145,7 +156,7 @@
 
                         <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
 
-                        <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                        <a class="nav-link" href="javascript:logout()"><i class="fa fa-power -off"></i>注销</a>
                     </div>
                 </div>
 
@@ -159,12 +170,20 @@
     </div>
 
 
-
 </div>
 <!-- /#right-panel -->
 
 <#include "script.ftl"/>
 <script>
+
+
+    function logout() {
+        common.ajax.delete(common.data.logoutUrl, function (response) {
+
+            window.location = "/";
+        });
+    }
+
     var header = new Vue({
         el: "#header",
         created: function () {
@@ -176,7 +195,7 @@
             profile: '',
             unreadMessageList: [],
             unreadCount: 0,
-            userId:0
+            userId: 0
         },
         methods: {
             getInfo: function () {
@@ -206,12 +225,10 @@
                             for (var key in list[i]) {
                                 if (key == 'msgCount') {
                                     that.unreadCount += list[i][key];
-                                }else if (key =='sendTime'){
+                                } else if (key == 'sendTime') {
                                     list[i][key] = moment(list[i][key]).fromNow();
                                 }
                             }
-
-
 
 
                         }
@@ -223,13 +240,13 @@
                 })
             }
             ,
-            jump:function (url) {
+            jump: function (url) {
                 framework.src = url;
                 nav.url = url;
-                var that =this;
+                var that = this;
                 setTimeout(function () {
                     that.getUnreadMessageList();
-                },5000);
+                }, 5000);
 
             }
         }
@@ -241,19 +258,19 @@
             url: location.pathname
         }
     });
-    function jump(url){
+
+    function jump(url) {
         framework.src = url;
         nav.url = url;
 
     }
 
-    $('.navbar-nav>li>a').on('click', function(){
+    $('.navbar-nav>li>a').on('click', function () {
 
-        if ($("body").attr("class") == 'small-device'){
+        if ($("body").attr("class") == 'small-device') {
             $("#menuToggle")[0].click();
         }
         console.log("click");
-
 
 
     });

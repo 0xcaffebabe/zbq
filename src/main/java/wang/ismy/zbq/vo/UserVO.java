@@ -21,10 +21,12 @@ public class UserVO {
         }
         UserVO userVO = new UserVO();
 
+
         userVO
                 .setNickName(user.getUserInfo().getNickName());
         userVO.setProfile(user.getUserInfo().getProfile());
         userVO.setUserId(user.getUserId());
+
         return userVO;
     }
 

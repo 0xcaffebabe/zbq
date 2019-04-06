@@ -3,12 +3,15 @@ package wang.ismy.zbq.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.CommentMapper;
+import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.entity.Comment;
 import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.resources.StringResources;
 import wang.ismy.zbq.util.ErrorUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentService {
@@ -27,6 +30,20 @@ public class CommentService {
         return commentMapper.selectCommentListByCommentTypeAndTopicIdBatch(commentType.getCode(), topicIds);
     }
 
+    public List<Comment> selectCommentByCommentTypeAndContentIdPaging(CommentTypeEnum commentType, Integer contentId, Page p){
+        return commentMapper.selectCommentByCommentTypeAndContentIdPaging(commentType.getCode(),contentId,p);
+    }
+
+    public Map<Integer,Long> selectCommentCountByCommentTypeAndTopicIdBatch(CommentTypeEnum commentType,List<Integer> idList){
+        var list = commentMapper.selectCommentCountByCommentTypeAndTopicIdBatch(commentType.getCode(),idList);
+
+        Map<Integer,Long> ret= new HashMap<>();
+        for (var i : list){
+            ret.put(i.getContentId(),i.getCount());
+        }
+
+        return ret;
+    }
     public int createNewCommentRecord(Comment comment) {
 
         if (comment.getToUser() != null ){

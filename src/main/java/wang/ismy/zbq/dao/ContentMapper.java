@@ -11,4 +11,7 @@ public interface ContentMapper {
     int insertNew(Content content);
 
     List<Content> selectContentListPaging(@Param("page")Page page);
+
+    Content selectByPrimaryKey(Integer contentId);
+
 }

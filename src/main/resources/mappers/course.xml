@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.CourseMapper">
+
+    <resultMap id="courseMap" type="wang.ismy.zbq.entity.Course">
+        <id column="course_id" property="courseId"/>
+        <result column="course_name" property="courseName"/>
+        <result column="course_desc" property="courseDesc"/>
+        <result column="course_img" property="courseImg"/>
+        <result column="course_level" property="courseLevel"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="publisher" javaType="wang.ismy.zbq.entity.User">
+            <id column="publisher" property="userId"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="courseMap">
+        SELECT * FROM course
+    </select>
+</mapper>

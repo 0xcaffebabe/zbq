@@ -123,7 +123,6 @@
 
 
                                                         <div class="btn btn-group" v-if="i.self" style="float: right">
-                                                            <button class="btn btn-sm btn-success">编辑</button>
                                                             <button class="btn btn-sm btn-danger" @click="deleteState(i.stateId)">删除</button>
                                                         </div>
                                                     </div>

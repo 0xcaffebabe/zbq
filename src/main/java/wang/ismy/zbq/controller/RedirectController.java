@@ -3,16 +3,19 @@ package wang.ismy.zbq.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import wang.ismy.zbq.annotations.ErrorPage;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.Permission;
+import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.service.FriendService;
 import wang.ismy.zbq.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -27,6 +30,9 @@ public class RedirectController {
 
     @Autowired
     private FriendService friendService;
+
+
+
 
     @RequestMapping("/")
     public String index(){
@@ -68,6 +74,14 @@ public class RedirectController {
         return "chat";
     }
 
+    @RequestMapping("/article/{id}")
+    @MustLogin
+    @ErrorPage
+    public Object article(@PathVariable("id") Integer articleId){
+
+        return "article";
+    }
+
     @RequestMapping("/states")
     @MustLogin
     @ErrorPage
@@ -100,8 +114,16 @@ public class RedirectController {
     @RequestMapping("/publish")
     @MustLogin
     @ErrorPage
+    @Permission(value = PermissionEnum.PUBLISH_CONTENT,msg = "你没有发布内容的权限")
     public Object publish(){
         return "publish";
+    }
+
+    @RequestMapping("/courses")
+    @MustLogin
+    @ErrorPage
+    public Object courses(){
+        return "course";
     }
 
 }

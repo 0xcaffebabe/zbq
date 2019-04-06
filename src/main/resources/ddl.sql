@@ -95,7 +95,7 @@ CREATE TABLE tb_like(
 # 创建评论表
 CREATE TABLE tb_comment(
   comment_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  comment_type TINYINT NOT NULL COMMENT '0代表动态评论',
+  comment_type TINYINT NOT NULL COMMENT '0代表动态评论,1代表内容评论',
   topic_id INT NOT NULL ,
   content TEXT NOT NULL ,
   from_user INT NOT NULL ,
@@ -124,6 +124,28 @@ CREATE TABLE content(
   content TEXT NOT NULL ,
   tags VARCHAR(255),
   visible BOOLEAN DEFAULT FALSE,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建课程表
+CREATE TABLE course(
+  course_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT ,
+  course_name VARCHAR(255) NOT NULL ,
+  course_desc VARCHAR(255) NOT NULL ,
+  course_img VARCHAR(2048) NOT NULL ,
+  course_level VARCHAR(10) NOT NULL ,
+  publisher INT NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建单课表
+CREATE TABLE lesson(
+  lesson_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  course_id INT NOT NULL ,
+  lesson_name VARCHAR(255) NOT NULL ,
+  lesson_content TEXT NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_time DATETIME
 )ENGINE=InnoDB CHARSET=utf8;

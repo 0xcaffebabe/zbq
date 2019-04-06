@@ -34,7 +34,7 @@
 
 
             <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">
-                <a href="/home">
+                <a href="/main">
                     <img :src="profile"
                          alt="" height="32" width="32" class="img-circle">
                 </a>
@@ -50,7 +50,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="/index.html">主页</a></li>
+                <li class="active"><a href="/">主页</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

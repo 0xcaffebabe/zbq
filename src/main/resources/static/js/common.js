@@ -146,6 +146,12 @@ function getCommonObject() {
             getContentListUrl:"/content/list",
             publishContentUrl:"/content",
             likeContentUrl:"/like/content/",
+            submitContentCommentUrl:"/content/comment",
+            getContentCommentListUrl:"/content/comment/",
+            detectUsernameUrl:"/user/username",
+            getContentByIdUrl:"/content/",
+            getCourseListUrl:"/course/list"
+
 
         },
         methods:{

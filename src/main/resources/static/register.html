@@ -31,14 +31,21 @@
 
     <div class="register w3layouts agileits">
         <h2>注 册</h2>
+        <span style="color: red" v-if="existShow">用户名已存在</span>
         <form action="#" method="post">
-            <input v-model="username" id="username" type="text" Name="Name" placeholder="用户名" required="">
+            <input v-model="username" id="username" type="text" Name="Name" placeholder="用户名" required="" @blur="detectUsername">
             <input v-model="password" id="password" type="password" Name="Password" placeholder="密码" required="">
-            <input v-model="repeatPassword" id="repeatPassword" type="password" Name="Password" placeholder="重复密码" required="">
+            <input v-model="repeatPassword" id="repeatPassword" type="password" Name="Password" placeholder="重复密码" required="" @keyup.enter="register">
         </form>
         <div class="send-button w3layouts agileits">
 
                 <input type="submit" value="注册" @click="register">
+
+            <span v-if="passwordStrengthShow" style="color: white">
+                密码强度:
+                <span style="color:red" >{{passwordStrength}}</span>
+            </span>
+
 
         </div>
         <div class="clear"></div>

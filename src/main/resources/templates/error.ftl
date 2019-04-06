@@ -10,7 +10,7 @@
 </head>
 <body>
 <h3>${error}</h3>
-<a href="/">返回主页</a>
+<a href="javascript:parent.window.location='/'">返回主页</a>
 <a href="javascript:window.history.back()">后退一步</a>
 </body>
 </html>

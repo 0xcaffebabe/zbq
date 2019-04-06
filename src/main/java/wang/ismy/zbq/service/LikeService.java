@@ -83,7 +83,7 @@ public class LikeService {
         Map<Integer,Boolean> map = new HashMap<>();
         for (var i : list){
             if (i.get("content_id") != null){
-                if ((Integer)i.get("has_like") == 0){
+                if ((Long)i.get("has_like") == 0){
                     map.put((Integer) i.get("content_id"),false);
                 }else{
                     map.put((Integer) i.get("content_id"),true);

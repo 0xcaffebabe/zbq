@@ -28,7 +28,10 @@
         VALUES (#{user.userId},#{title},
         #{content},#{tags},FALSE,NOW(),NOW())
     </insert>
-    <select id="selectContentListPaging" resultType="wang.ismy.zbq.entity.Content">
+    <select id="selectContentListPaging" resultMap="contentMap">
         SELECT * FROM content ORDER BY create_time DESC
+    </select>
+    <select id="selectByPrimaryKey" resultMap="contentMap">
+        SELECT * FROM content WHERE content_id = #{id}
     </select>
 </mapper>

@@ -26,7 +26,6 @@ public class ControllerResultAspect {
             result.setSuccess(true);
             return result;
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
             Result result = new Result();
             result.setSuccess(false);
             result.setMsg(throwable.getMessage());

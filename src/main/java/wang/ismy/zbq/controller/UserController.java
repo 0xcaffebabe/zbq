@@ -38,10 +38,11 @@ public class UserController {
         return "登录成功";
     }
 
-    @GetMapping("/logout")
+    @DeleteMapping("/logout")
     @ResultTarget
-    public void logout(HttpServletRequest request){
-        request.getSession().setAttribute("user",null);
+    public Object logout(){
+        userService.setCurrentUser(null);
+        return "注销成功";
     }
 
     @GetMapping("/state")
@@ -63,5 +64,10 @@ public class UserController {
         return null;
     }
 
+    @GetMapping("/username")
+    @ResultTarget
+    public Object detectUsername(@RequestParam("username") String username){
+        return userService.selectByUsername(username)==null;
+    }
 
 }

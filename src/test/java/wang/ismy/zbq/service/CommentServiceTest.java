@@ -28,4 +28,13 @@ public class CommentServiceTest {
 
     }
 
+
+    @Test
+    public void testCount(){
+
+        var map = commentService.selectCommentCountByCommentTypeAndTopicIdBatch(CommentTypeEnum.CONTENT,List.of(13,14));
+
+        System.out.println(map);
+    }
+
 }
