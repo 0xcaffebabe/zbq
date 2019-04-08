@@ -23,27 +23,68 @@
 
         <div class="row" id="friends">
 
-            <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
+
+
+            <div class="modal fade"  id="searchFriendModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
                  aria-hidden="true">
-                <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-dialog modal-lg" style="z-index: 99" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticModalLabel">添加好友</h5>
+                            <h5 class="modal-title" id="staticModalLabel">搜索好友</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>
-                                发送验证消息:
-                            </p>
 
-                            <textarea class="form-control" v-model="validMsg"></textarea>
+
+                                <div class="form-group">
+
+                                        <input type="text" class="form-control"placeholder="昵称" v-model="strangerSearch" @keyup.enter="searchStranger">
+                                        <button class="btn btn-sm btn-primary form-control" @click="searchStranger">搜索</button>
+                                </div>
+
+                            <div v-show="strangerList.length != 0">
+                                <table class="table ">
+                                    <thead>
+                                    <tr>
+                                        <th class="serial">#</th>
+                                        <th>头像</th>
+                                        <th>昵称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr v-for="stranger in strangerList">
+                                        <td class="serial">{{stranger.friendUserId}}.</td>
+                                        <td>
+                                            <div class="round-img">
+                                                <a href="#"><img class="rounded-circle" width="48" :src="stranger.friendUserInfo.profile"
+                                                                 alt=""></a>
+                                            </div>
+                                        </td>
+                                        <td><span class="name">{{stranger.friendUserInfo.nickName}}</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-info" @click="showFriendAddDialog(stranger)">加为好友
+                                            </button>
+
+                                        </td>
+                                    </tr>
+
+
+                                    </tbody>
+
+                                </table>
+
+                                <button class="btn btn-sm btn-primary form-control" @click="loadMoreStranger">加载更多</button>
+
+                            </div>
+
+
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                            <button type="button" class="btn btn-primary" @click="addFriend" data-dismiss="modal">添加
-                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -125,110 +166,50 @@
                         </table>
                     </div> <!-- /.table-stats -->
                 </div>
-                <div>
-                    <div class="card">
-                        <div class="card-header">
-                            <strong class="card-title">好友添加请求</strong>
 
-                        </div>
-                        <div class="table-stats table-striped ov-h">
-                            <table class="table ">
-                                <thead>
-                                <tr>
-
-                                    <th>头像</th>
-                                    <th>昵称</th>
-                                    <th>验证消息</th>
-                                    <th class="text-center">操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <tr v-for="friend in friendAddList">
-
-                                    <td>
-                                        <div class="round-img">
-                                            <a href="#"><img class="rounded-circle" :src="friend.userInfo.profile"
-                                                             alt=""></a>
-                                        </div>
-                                    </td>
-
-                                    <td><span>{{friend.userInfo.nickName}}</span></td>
-                                    <td>{{friend.msg}}</td>
-
-                                    <td>
-                                        <div class="text-center btn-group">
-                                            <button class="btn btn-sm btn-primary" :data-id="friend.friendAddId"
-                                                    @click="agreeFriendAdd">同意
-                                            </button>
-                                            <button class="btn btn-sm btn-danger">拒绝</button>
-                                        </div>
-
-
-                                    </td>
-                                </tr>
-
-
-                                </tbody>
-                            </table>
-                        </div> <!-- /.table-stats -->
-                    </div>
-                </div>
             </div>
 
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-header">
-                        <strong class="card-title">推荐</strong>
-                        <div class="form-group form-inline" style="float: right">
-                            <input type="text" class="form-control" placeholder="根据昵称模糊搜索" v-model="strangerSearch">
-                            <div></div>
-                            <button class="btn btn-sm btn-primary form-control" @click="searchStranger"><span
-                                    class="fa fa-search"></span>搜索陌生人
-                            </button>
-                        </div>
+                        <strong class="card-title">好友添加请求</strong>
+                        <button class="btn btn-sm btn-info" style="float: right;" data-target="#searchFriendModal" data-toggle="modal">添加笔友</button>
                     </div>
-                    <div class="table-stats order-table ov-h">
+                    <div class="table-stats table-striped ov-h">
                         <table class="table ">
                             <thead>
                             <tr>
-                                <th class="serial">#</th>
+
                                 <th>头像</th>
                                 <th>昵称</th>
-                                <th>操作</th>
+                                <th>验证消息</th>
+                                <th class="text-center">操作</th>
                             </tr>
                             </thead>
                             <tbody>
 
-                            <tr v-for="friend in recommendFriendList">
-                                <td class="serial">{{friend.friendUserId}}.</td>
+                            <tr v-for="friend in friendAddList">
+
                                 <td>
                                     <div class="round-img">
-                                        <a href="#"><img class="rounded-circle" :src="friend.friendUserInfo.profile"
+                                        <a href="#"><img class="rounded-circle" :src="friend.userInfo.profile"
                                                          alt=""></a>
                                     </div>
                                 </td>
-                                <td><span class="name">{{friend.friendUserInfo.nickName}}</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-primary" @click="showFriendAddDialog"
-                                            :data-to="friend.friendUserId" data-toggle="modal"
-                                            data-target="#staticModal">加为好友
-                                    </button>
 
-                                </td>
-                            </tr>
-
-                            <tr>
+                                <td><span>{{friend.userInfo.nickName}}</span></td>
+                                <td>{{friend.msg}}</td>
 
                                 <td>
-                                    <button class="btn btn-primary " :class="{disabled:strangerButtonEnable}"
-                                            @click="strangerPrevPage"><span class="fa fa-arrow-left"></span></button>
-                                </td>
-                                <td>
-                                    <button class="btn  btn-primary" :class="{disabled:strangerButtonEnable}"><span
-                                            class="fa fa-arrow-right" @click="strangerNextPage"></span></button>
-                                </td>
+                                    <div class="text-center btn-group">
+                                        <button class="btn btn-sm btn-primary" :data-id="friend.friendAddId"
+                                                @click="agreeFriendAdd">同意
+                                        </button>
+                                        <button class="btn btn-sm btn-danger">拒绝</button>
+                                    </div>
 
+
+                                </td>
                             </tr>
 
 
@@ -237,6 +218,7 @@
                     </div> <!-- /.table-stats -->
                 </div>
             </div>
+
 
         </div>
 

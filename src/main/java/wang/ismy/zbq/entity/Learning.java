@@ -5,21 +5,17 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class Lesson {
+public class Learning {
 
-    private Integer lessonId;
+    private Integer learningId;
 
     private Integer courseId;
 
-    private String lessonName;
+    private Integer lessonId;
 
-    private String lessonContent;
-
-    private Integer weight;
+    private User user;
 
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
-
-
 }

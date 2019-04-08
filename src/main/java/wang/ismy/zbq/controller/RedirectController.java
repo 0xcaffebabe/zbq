@@ -111,7 +111,7 @@ public class RedirectController {
         return "contents";
     }
 
-    @RequestMapping("/publish")
+    @RequestMapping("/publish/content")
     @MustLogin
     @ErrorPage
     @Permission(value = PermissionEnum.PUBLISH_CONTENT,msg = "你没有发布内容的权限")
@@ -119,11 +119,57 @@ public class RedirectController {
         return "publish";
     }
 
+
+    @RequestMapping("/publish/course")
+    @MustLogin
+    @ErrorPage
+    @Permission(PermissionEnum.COURSE_PUBLISH)
+    public Object publish2(){
+        return "publish2";
+    }
+
+
     @RequestMapping("/courses")
     @MustLogin
     @ErrorPage
     public Object courses(){
+        return "courses";
+    }
+
+    @RequestMapping("/courses/{id}")
+    @MustLogin
+    @ErrorPage
+    public Object coursesById(@PathVariable("id") Integer courseId){
         return "course";
     }
+
+    @RequestMapping("/lessons/{id}")
+    @MustLogin
+    @ErrorPage
+    public Object lessons(){
+        return "lesson";
+    }
+
+    @RequestMapping("/courseEdit/{id}")
+    @MustLogin
+    @ErrorPage
+    public Object courseEdit(){
+        return "courseEdit";
+    }
+
+    @RequestMapping("/addLesson/{id}")
+    @MustLogin
+    @ErrorPage
+    public Object addLesson(){
+        return "addLesson";
+    }
+
+    @RequestMapping("/learnings")
+    @MustLogin
+    @ErrorPage
+    public Object learnings(){
+        return "learnings";
+    }
+
 
 }

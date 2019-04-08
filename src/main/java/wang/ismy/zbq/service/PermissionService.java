@@ -25,6 +25,17 @@ public class PermissionService {
     public UserPermission selectCurrentUserPermission(){
         var currentUser = userService.getCurrentUser();
 
-        return permissionMapper.selectById(currentUser.getUserPermission().getUserPermissionId());
+        var permission = permissionMapper.selectById(currentUser.getUserPermission().getUserPermissionId());
+
+        if (permission == null){
+            UserPermission userPermission = new UserPermission();
+            insertPermission(userPermission);
+            currentUser.setUserPermission(userPermission);
+            userService.update(currentUser);
+            return userPermission;
+        }else{
+            return permission;
+        }
+
     }
 }

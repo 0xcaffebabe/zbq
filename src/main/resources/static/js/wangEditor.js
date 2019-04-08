@@ -2595,7 +2595,7 @@ Video.prototype = {
                 // 标题
                 title: '插入视频',
                 // 模板
-                tpl: '<div>\n                        <input id="' + textValId + '" type="text" class="block" placeholder="\u683C\u5F0F\u5982\uFF1A<iframe src=... ></iframe>"/>\n                        <div class="w-e-button-container">\n                            <button id="' + btnId + '" class="right">\u63D2\u5165</button>\n                        </div>\n                    </div>',
+                tpl: '<div>\n                        <input id="' + textValId + '" type="text" class="block" placeholder="请输入播放页地址，目前支持优酷、B站"/>\n                        <div class="w-e-button-container">\n                            <button id="' + btnId + '" class="right">\u63D2\u5165</button>\n                        </div>\n                    </div>',
                 // 事件绑定
                 events: [{
                     selector: '#' + btnId,
@@ -2630,7 +2630,16 @@ Video.prototype = {
     // 插入视频
     _insert: function _insert(val) {
         var editor = this.editor;
-        editor.cmd.do('insertHTML', val + '<p><br></p>');
+        common.ajax.put(common.data.analyzeVideoUrl,function (response) {
+            if (response.success){
+                console.log("插入视频:"+val);
+                editor.cmd.do('insertHTML', "<iframe src='"+response.data+"' width='100%' height='500'></iframe>"+ '<p><br></p>');
+            }else{
+                alert(response.msg);
+            }
+        },val);
+
+
     }
 };
 

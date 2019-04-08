@@ -28,9 +28,6 @@ public class OSSServiceTest {
 
         FileInputStream inputStream = new FileInputStream(uri);
 
-        var ret = ossService.uploadImg(inputStream.readAllBytes(),"jpg");
-
-        System.out.println(ret);
 
     }
 }

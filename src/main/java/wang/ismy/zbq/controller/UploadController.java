@@ -39,7 +39,27 @@ public class UploadController {
 
         String format = name.substring(name.lastIndexOf("."),name.length());
 
-        return ossService.uploadImg(multipartFile.getBytes(),format)+"?x-oss-process=style/square";
+        return ossService.uploadImg(multipartFile.getBytes(),format,"img")+"?x-oss-process=style/square";
+    }
+
+    @PostMapping("/thumbnail")
+    @ResultTarget
+    @MustLogin
+    public Object uploadThumbnail(@RequestParam("file")MultipartFile multipartFile) throws IOException {
+
+        String name = multipartFile.getOriginalFilename();
+
+        if (name == null){
+            ErrorUtils.error(StringResources.ERROR_IMG_NAME);
+        }
+
+        if (!(name.endsWith("png") || name.endsWith("jpg") || name.endsWith("gif"))){
+            ErrorUtils.error(StringResources.IMG_FORMAT_LIMIT);
+        }
+
+        String format = name.substring(name.lastIndexOf("."),name.length());
+
+        return ossService.uploadImg(multipartFile.getBytes(),format,"thumbnail");
     }
 
 }

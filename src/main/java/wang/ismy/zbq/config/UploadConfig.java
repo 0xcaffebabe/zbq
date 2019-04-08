@@ -17,7 +17,7 @@ public class UploadConfig {
 
         // 设置文件大小限制 ,超出设置页面会抛出异常信息，
         // 这样在文件上传的地方就需要进行异常信息的处理了;
-        factory.setMaxFileSize(DataSize.of(256,DataUnit.KILOBYTES));
+        factory.setMaxFileSize(DataSize.of(1024,DataUnit.KILOBYTES));
 
         /// 设置总上传数据总大小
 

@@ -150,7 +150,16 @@ function getCommonObject() {
             getContentCommentListUrl:"/content/comment/",
             detectUsernameUrl:"/user/username",
             getContentByIdUrl:"/content/",
-            getCourseListUrl:"/course/list"
+            getCourseListUrl:"/course/list",
+            getCourseLessonUrl:"/course/lesson/",
+            getLessonByIdUrl:"/lesson/",
+            getSelfCourseListUrl:"/course/self",
+            publishLessonUrl:"/lesson",
+            publishCourseUrl:"/course",
+            createLearningUrl:"/learning/",
+            getSelfLearningUrl:"/learning/self/",
+            getSelfLearningProgressUrl:"/learning/self/progress/",
+            searchStrangerUrl:"/friend/stranger"
 
 
         },

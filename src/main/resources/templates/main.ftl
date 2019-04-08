@@ -22,7 +22,7 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="space/${user.userId?c}"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
-                <li :class="{active:url=='/main'}">
+                <li :class="{active:url=='/home'}">
                     <a href="javascript:jump('/home')"><i class="menu-icon fa fa-user"></i>用户中心 </a>
 
                 </li>
@@ -43,8 +43,8 @@
 
                 <li :class="{active:url == '/contents'}"><a href="javascript:jump('/contents')"> <i
                         class="menu-icon fa fa-search"></i>发现内容</a></li>
-                <li :class="{active:url == '/publish'}">
-                    <a href="javascript:jump('/publish')"> <i class="menu-icon fa fa-plus"></i>发布内容</a>
+                <li :class="{active:url == '/publish/content'}">
+                    <a href="javascript:jump('/publish/content')"> <i class="menu-icon fa fa-plus"></i>发布内容</a>
                 </li>
 
                 <li>
@@ -58,14 +58,11 @@
                 <li :class="{active:url == '/courses'}"><a href="javascript:jump('/courses')"> <i
                         class="menu-icon fa fa-book"></i>课程中心</a></li>
 
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false"> <i class="menu-icon fa fa-bookmark"></i>我的课程（不可用） </a>
-                </li>
+                <li :class="{active:url == '/learnings'}"><a href="javascript:jump('/learnings')"> <i
+                        class="menu-icon fa fa-bookmark"></i>我的课程</a></li>
 
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false"> <i class="menu-icon fa fa-square"></i>发布课程（不可用） </a>
+                <li :class="{active:url == '/publish/course'}">
+                    <a href="javascript:jump('/publish/course')"> <i class="menu-icon fa fa-plus"></i>发布课程</a>
                 </li>
 
 

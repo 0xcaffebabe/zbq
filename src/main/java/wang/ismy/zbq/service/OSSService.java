@@ -14,14 +14,14 @@ import java.util.Random;
 @Service
 public class OSSService {
 
-    public String uploadImg(byte[] bytes, String format) {
+    public String uploadImg(byte[] bytes, String format,String folder) {
         String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
         String accessKeyId = "LTAItmWponXWvipx";
         String accessKeySecret = "QAoqNFyNMN9F4M15JVUDSnYsxzXazN";
         String bucketName = "zbq88";
 
 
-        String objectName ="img/"+ generateRandomImgName(format);
+        String objectName =folder+"/"+ generateRandomImgName(format);
 
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 
@@ -30,7 +30,6 @@ public class OSSService {
         ossClient.shutdown();
 
         return "http://zbq88.oss-cn-hangzhou.aliyuncs.com/"+objectName;
-
 
     }
 

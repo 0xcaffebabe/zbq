@@ -16,6 +16,8 @@ public class CourseServiceTest {
     @Autowired
     CourseService courseService;
 
+    @Autowired
+    UserService userService;
 
     @Test
     public void testSelectAll(){
@@ -28,4 +30,16 @@ public class CourseServiceTest {
 
         assertEquals("root",list.get(0).getPublisher().getNickName());
     }
+
+
+    @Test
+    public void testSelectSingle(){
+        var courseLesson = courseService.selectCourseLessonByCourseId(4);
+
+        assertEquals("转笔探讨5",courseLesson.getCourseName());
+
+
+    }
+
+
 }

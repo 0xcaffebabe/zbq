@@ -29,6 +29,7 @@ CREATE TABLE tb_user_permission(
   user_permission_id INT PRIMARY KEY  AUTO_INCREMENT,
   login BOOLEAN DEFAULT TRUE comment '登录权限',
   content_publish BOOLEAN DEFAULT FALSE COMMENT '内容发布权限',
+  course_publish BOOLEAN DEFAULT FALSE COMMENT '课程发布权限',
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
@@ -113,7 +114,7 @@ CREATE TABLE location(
   address VARCHAR(255) ,
   anonymous BOOLEAN NOT NULL ,
   create_time DATETIME NOT NULL ,
-  update_timee DATETIME NOT NULL
+  update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
 
 # 创建内容表
@@ -146,6 +147,17 @@ CREATE TABLE lesson(
   course_id INT NOT NULL ,
   lesson_name VARCHAR(255) NOT NULL ,
   lesson_content TEXT NOT NULL ,
+  weight INT NOT NULL DEFAULT 0,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8;
+
+# 创建学习记录表
+CREATE TABLE learning(
+  learning_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  course_id INT NOT NULL ,
+  lesson_id INT NOT NULL ,
+  user INT NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_time DATETIME
 )ENGINE=InnoDB CHARSET=utf8;

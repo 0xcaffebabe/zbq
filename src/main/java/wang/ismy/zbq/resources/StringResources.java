@@ -70,6 +70,15 @@ public class StringResources {
 
     public static final String COMMENT_SUCCESS = "评论成功";
 
+    public static final String TARGET_COURSE_NOT_EXIST = "目标课程不存在";
+
+    public static final String CREATE_SUCCESS = "新增成功";
+
+    public static final String TARGET_LESSON_NOT_EXIST = "目标章节不存在";
+
+    public static final String LEARNING_EXIST = "学习记录已存在";
+
+    public static final String DELETE_SUCCESS = "删除成功";
 }
 
 

@@ -20,63 +20,57 @@
 
 <body>
 
-<!-- Content -->
-<div class="content">
-    <!-- Animated -->
-
-    <div class="animated fadeIn" id="course">
-        <div>
-            <strong>筛选:</strong>
-            <div class="btn btn-group">
-
-                <button class="btn btn-sm btn-default">初级</button>
-                <button class="btn btn-sm btn-default">中级</button>
-                <button class="btn btn-sm btn-default">高级</button>
-            </div>
-        </div>
-        <div class="row" style="margin-top: 15px;">
-            <div class="col-md-4" v-for="course in courseList">
-
-                <div style="position: absolute;top: -7px;right: 15px">
-                    <span class="badge badge-success">15%</span>
-                </div>
-
-
-                <a href="#" class="thumbnail">
-                    <img :src="course.courseImg" alt="" style="border-radius: 5px;width: 100%;">
-                </a>
-
-
-                <div style="padding:10px">
-                    <h2>{{course.courseName}}</h2>
-                </div>
-
-                <div style="padding:15px;">
-                    <p>
-                        {{course.courseLevel}}
-                        &nbsp;&nbsp;&nbsp;
-                        <i class="fa fa-user"></i> 59
-                    </p>
-
-                    <p>
-                        {{course.courseDesc}}
-                    </p>
-
-
-
-                </div>
-
-
-            </div>
-
-        </div>
+<div id="course">
+    <div class="jumbotron" style="background:#4183c4">
+        <h1 style="color:white">{{course.courseName}}</h1>
+        <strong>学习进度:{{progress}}%</strong>
+        <p><a class="btn btn-info btn-lg" href="#" role="button">开始学习</a></p>
     </div>
-    <!-- /.content -->
 
+    <!-- Content -->
+    <div class="content">
+
+        <!-- Animated -->
+
+        <div class="animated fadeIn" >
+            <div class="card">
+                <div class="card-header"><h3>简介</h3></div>
+                <div class="card-body">{{course.courseDesc}}</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header"><h3>章节</h3></div>
+                        <div class="card-body">
+                            <ul class="list-group" v-for="lesson in course.lessonList">
+                                <li class="list-group-item">
+                                    <i class="fa fa-play-circle"></i>
+                                    <i class="fa fa-check-circle" style="float: right"></i>
+                                    <a :href="'/lessons/' + lesson.lessonId">
+                                        {{lesson.lessonName}}
+                                    </a>
+
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- /.content -->
+
+    </div>
+    <div class="clearfix"></div>
 </div>
-<div class="clearfix"></div>
+
 
 <#include "script.ftl"/>
-<script src="/js/courses.js"></script>
+<script src="/js/course.js"></script>
 </body>
 </html>

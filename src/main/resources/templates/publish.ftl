@@ -71,7 +71,7 @@
 <#include "script.ftl"/>
 
 
-<script src="/js/wangEditor.min.js"></script>
+<script src="/js/wangEditor.js"></script>
 <script src="/js/publish.js"></script>
 <script>
 

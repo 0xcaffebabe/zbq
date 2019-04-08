@@ -45,8 +45,6 @@
             </if>
         </set>
         WHERE user_id = #{userId}
-
-
     </update>
 
     <select id="selectAll" resultType="wang.ismy.zbq.entity.User">

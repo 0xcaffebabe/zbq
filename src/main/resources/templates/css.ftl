@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/css/common.css">
-    <link href="assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
+    <link href="/assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
 
 <style>
     body{

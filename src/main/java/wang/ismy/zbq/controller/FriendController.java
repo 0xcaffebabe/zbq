@@ -1,7 +1,8 @@
 package wang.ismy.zbq.controller;
 
-import com.mysql.cj.core.util.StringUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
@@ -36,7 +37,7 @@ public class FriendController {
         Page p = new Page();
         p.setPageNumber(page);
         p.setLength(length);
-        if (StringUtils.isNullOrEmpty(kw)) {
+        if (StringUtils.isEmpty(kw)) {
             return friendService.selectCurrentUserAllFriendPaging(p);
         } else {
             return friendService.selectCurrentUserFriendByNickName(kw);
@@ -57,16 +58,27 @@ public class FriendController {
     @MustLogin
     public Object getRecommendFriend(@RequestParam(value = "kw", required = false) String kw,
                                      @RequestParam("page") Integer page, @RequestParam("length") Integer length) {
-
         Page p = new Page();
         p.setPageNumber(page);
         p.setLength(length);
-        if (StringUtils.isNullOrEmpty(kw)) {
+        if (StringUtils.isEmpty(kw)) {
             return friendService.selectCurrentUserRecommendFriend();
         } else {
             return friendService.selectStrangerByNickNamePaging(kw,p);
         }
+    }
 
+    /*
+    * 根据nickname搜索陌生人
+    */
+    @GetMapping("/stranger")
+    @ResultTarget
+    @MustLogin
+    public Object searchStranger(@RequestParam(value = "kw", required = false) String kw,
+                               @RequestParam("page") Integer page, @RequestParam("length") Integer length){
+        Page p = new Page(page,length);
+
+        return friendService.selectStrangerByNickNamePaging(kw,p);
     }
 
     @GetMapping("/add")

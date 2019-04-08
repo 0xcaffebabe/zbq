@@ -17,8 +17,18 @@
             <id column="publisher" property="userId"/>
         </association>
     </resultMap>
+    <insert id="insertNew">
+        INSERT INTO course (course_name, course_desc, course_img, course_level, publisher, create_time, update_time)
+                VALUES (#{courseName},#{courseDesc},#{courseImg},#{courseLevel},#{publisher.userId},NOW(),NOW())
+    </insert>
 
     <select id="selectAll" resultMap="courseMap">
         SELECT * FROM course
+    </select>
+    <select id="selectByPrimaryKey" resultMap="courseMap">
+        SELECT * FROM course WHERE course_id = #{id}
+    </select>
+    <select id="selectByUserId" resultMap="courseMap">
+        SELECT * FROM course WHERE publisher = #{id}
     </select>
 </mapper>
