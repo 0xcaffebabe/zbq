@@ -323,7 +323,7 @@
 
 
 <#include "script.ftl"/>
-<script src="js/home.js"></script>
+<script src="js/home.js?v=20190410"></script>
 
 
 </body>

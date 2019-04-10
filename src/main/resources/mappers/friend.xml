@@ -10,7 +10,8 @@
             <result property="nickName" column="nick_name"/>
             <result property="profile" column="profile"/>
             <result property="penYear" column="pen_year"/>
-
+            <result property="region" column="region"/>
+            <result property="gender" column="gender"/>
         </association>
     </resultMap>
     <insert id="insert">
@@ -34,7 +35,9 @@
             user.user_id friend_id,
             user_info.nick_name,
             user_info.profile,
-            user_info.pen_year
+            user_info.pen_year,
+            user_info.region,
+            user_info.gender
         FROM
             user, user_info
         WHERE user.user_info = user_info.user_info_id
@@ -45,6 +48,7 @@
                       WHERE friend.user_id = #{userId}
                   )
               AND user_id != #{userId}
+        ORDER BY RAND()
         LIMIT 5
     </select>
     <select id="selectFriendByUserIdAndNickname" resultMap="friendMap">

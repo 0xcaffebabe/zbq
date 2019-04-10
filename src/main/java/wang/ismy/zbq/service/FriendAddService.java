@@ -31,6 +31,9 @@ public class FriendAddService {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private InformService informService;
+
     public int insertNew(FriendAddDTO friendAddDTO) {
 
         User from = new User();
@@ -62,7 +65,6 @@ public class FriendAddService {
             userIdList.add(i.getFromUser().getUserId());
         }
 
-
         if (list.size() == 0) {
             return list;
         }
@@ -88,6 +90,33 @@ public class FriendAddService {
 
         FriendAdd friendAdd = friendAddMapper.selectFriendAddByPrimaryKey(friendAddId);
 
+        checkFriendAddIsCurrentUser(friendAdd);
+
+
+        createFriendRelation(friendAdd);
+
+        // 将friendAdd记录置为不可见
+        friendAddMapper.updateVisible(friendAddId);
+
+        sendFriendAddPassMessage(friendAdd);
+    }
+
+    @Transactional
+    public void rejectFriendAdd(Integer friendAddId) {
+
+        FriendAdd friendAdd = friendAddMapper.selectFriendAddByPrimaryKey(friendAddId);
+        checkFriendAddIsCurrentUser(friendAdd);
+        // 将friendAdd记录置为不可见
+        friendAddMapper.updateVisible(friendAddId);
+
+        //使用系统账号向fromUser发送一条被拒绝的消息
+        User user = userService.selectByPrimaryKey(friendAdd.getToUser().getUserId());
+        informService.informUser(friendAdd.getFromUser().getUserId(),user.getUserInfo().getNickName()+"拒绝了你的好友添加请求");
+
+
+    }
+
+    private void checkFriendAddIsCurrentUser(FriendAdd friendAdd) {
         if (friendAdd == null) {
             ErrorUtils.error(StringResources.FRIEND_ADD_RECORD_NOT_EXIST);
         }
@@ -97,14 +126,6 @@ public class FriendAddService {
         if (!user.getUserId().equals(friendAdd.getToUser().getUserId())) {
             ErrorUtils.error(StringResources.PERMISSION_DENIED);
         }
-
-
-        createFriendRelation(friendAdd);
-
-        // 将friendAdd记录置为不可见
-        friendAddMapper.updateVisible(friendAddId);
-
-        sendFriendAddPassMessage(friendAdd);
     }
 
     private void sendFriendAddPassMessage(FriendAdd friendAdd) {
@@ -123,4 +144,6 @@ public class FriendAddService {
             ErrorUtils.error(StringResources.UNKNOWN_ERROR);
         }
     }
+
+
 }

@@ -34,7 +34,9 @@ public class InformService {
                 e.printStackTrace();
             }
 
-            var user = userService.selectByPrimaryKey(0);
+            if( userService.selectByUsername("10000") == null){
+                //TODO
+            }
 
         }).start();
     }

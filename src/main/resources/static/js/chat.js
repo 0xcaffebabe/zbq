@@ -1,10 +1,13 @@
+
+
 var chat = new Vue({
     el: "#chat",
     data: {
         messageList: [],
         friendId:1,
         content:'',
-        userMessageList:[]
+        userMessageList:[],
+        nickName:''
     }
     ,
     created:function () {
@@ -13,6 +16,7 @@ var chat = new Vue({
         moment.locale("zh-cn");
         this.getMessageList();
         this.getUnreadMessageList();
+        this.getNickName();
     }
     ,
     methods: {
@@ -83,6 +87,17 @@ var chat = new Vue({
         ,
         chat:function (id) {
             window.location = "/chat/"+id;
+        }
+        ,
+        getNickName:function () {
+            var that = this;
+            common.ajax.get(common.data.getNickNameUrl+this.friendId,function (r) {
+                if (r.success){
+                    that.nickName = r.data;
+                }else{
+                    alert(r.msg);
+                }
+            })
         }
     }
 });

@@ -58,6 +58,6 @@
 
 
 <#include "script.ftl"/>
-<script src="/js/lesson.js"></script>
+<script src="/js/lesson.js?v=20190410"></script>
 </body>
 </html>

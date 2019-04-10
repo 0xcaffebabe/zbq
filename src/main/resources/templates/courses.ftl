@@ -77,6 +77,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/courses.js"></script>
+<script src="/js/courses.js?v=20190410"></script>
 </body>
 </html>

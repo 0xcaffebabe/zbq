@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="/assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/common.css?v=20190410">
     <link href="/assets/css/lib/vector-map/jqvmap.min.css" rel="stylesheet">
 
 <style>

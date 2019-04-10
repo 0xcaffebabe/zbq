@@ -109,6 +109,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/article.js"></script>
+<script src="/js/article.js?v=20190410"></script>
 </body>
 </html>

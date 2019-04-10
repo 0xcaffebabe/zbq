@@ -121,6 +121,6 @@
 
 <script src="/js/wangEditor.min.js"></script>
 
-<script src="/js/publish2.js"></script>
+<script src="/js/publish2.js?v=20190410"></script>
 </body>
 </html>

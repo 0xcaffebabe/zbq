@@ -8,11 +8,7 @@
     <title>测试主页</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
     <#include "css.ftl"/>
-
-
 </head>
 
 <body>
@@ -49,7 +45,7 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/wangEditor.min.js"></script>
-<script src="/js/addLesson.js"></script>
+<script src="/js/wangEditor.js"></script>
+<script src="/js/addLesson.js?v=20190410"></script>
 </body>
 </html>

@@ -72,7 +72,7 @@
 
 
 <script src="/js/wangEditor.js"></script>
-<script src="/js/publish.js"></script>
+<script src="/js/publish.js?v=20190410"></script>
 <script>
 
 </script>

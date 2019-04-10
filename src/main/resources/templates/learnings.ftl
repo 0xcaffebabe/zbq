@@ -80,8 +80,6 @@
 </div>
 <div class="clearfix"></div>
 
-
-
 <#include "script.ftl"/>
 
 </body>

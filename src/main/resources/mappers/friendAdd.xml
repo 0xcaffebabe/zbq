@@ -32,7 +32,7 @@
         SELECT * FROM friend_add WHERE from_user = #{from} AND to_user = #{to} AND visible = TRUE
     </select>
     <select id="selectFriendAddListByToUserId" resultMap="friendAddMap">
-        SELECT * FROM friend_add WHERE to_user = #{userId} AND visible = TRUE
+        SELECT * FROM friend_add WHERE to_user = #{userId} ORDER BY create_time DESC;
     </select>
     <select id="selectFriendAddByPrimaryKey" resultMap="friendAddMap">
         SELECT * FROM friend_add WHERE friend_add_id = #{friendAddId}

@@ -24,8 +24,8 @@
         <div class="row" id="friends">
 
 
-
-            <div class="modal fade"  id="searchFriendModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
+            <div class="modal fade" id="searchFriendModal" tabindex="-1" role="dialog"
+                 aria-labelledby="staticModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog modal-lg" style="z-index: 99" role="document">
                     <div class="modal-content">
@@ -38,11 +38,12 @@
                         <div class="modal-body">
 
 
-                                <div class="form-group">
+                            <div class="form-group">
 
-                                        <input type="text" class="form-control"placeholder="昵称" v-model="strangerSearch" @keyup.enter="searchStranger">
-                                        <button class="btn btn-sm btn-primary form-control" @click="searchStranger">搜索</button>
-                                </div>
+                                <input type="text" class="form-control" placeholder="昵称" v-model="strangerSearch"
+                                       @keyup.enter="searchStranger">
+                                <button class="btn btn-sm btn-primary form-control" @click="searchStranger">搜索</button>
+                            </div>
 
                             <div v-show="strangerList.length != 0">
                                 <table class="table ">
@@ -60,13 +61,15 @@
                                         <td class="serial">{{stranger.friendUserId}}.</td>
                                         <td>
                                             <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" width="48" :src="stranger.friendUserInfo.profile"
+                                                <a href="#"><img class="rounded-circle" width="48"
+                                                                 :src="stranger.friendUserInfo.profile"
                                                                  alt=""></a>
                                             </div>
                                         </td>
                                         <td><span class="name">{{stranger.friendUserInfo.nickName}}</span></td>
                                         <td>
-                                            <button class="btn btn-sm btn-info" @click="showFriendAddDialog(stranger)">加为好友
+                                            <button class="btn btn-sm btn-info" @click="showFriendAddDialog(stranger)">
+                                                加为好友
                                             </button>
 
                                         </td>
@@ -77,7 +80,8 @@
 
                                 </table>
 
-                                <button class="btn btn-sm btn-primary form-control" @click="loadMoreStranger">加载更多</button>
+                                <button class="btn btn-sm btn-primary form-control" @click="loadMoreStranger">加载更多
+                                </button>
 
                             </div>
 
@@ -137,9 +141,9 @@
                                     <div class="text-center btn-group">
 
                                         <button class="btn btn-sm btn-success" @click="chat"
-                                                :data-id="friend.friendUserId">聊天
+                                                :data-id="friend.friendUserId"><i class="fa fa-envelope"></i> 聊天
                                         </button>
-                                        <button class="btn btn-sm btn-danger">删除</button>
+
                                     </div>
                                 </td>
                             </tr>
@@ -167,56 +171,109 @@
                     </div> <!-- /.table-stats -->
                 </div>
 
+                <div class="card">
+                    <div class="card-header">
+                        <button class="btn btn-default btn-sm" style="float: right" @click="getRecommendFriendList">
+                            换一批
+                        </button>
+                        <strong>好友推荐</strong>
+                    </div>
+
+                    <div class="card-body">
+                        <ul class="media-list">
+
+
+                            <li class="media" style="margin-top: 15px" v-for="friend in recommendFriendList">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" :src="friend.friendUserInfo.profile" alt="..."
+                                             width="48">
+                                    </a>
+                                </div>
+
+                                <div class="media-body" style="margin-left: 15px;">
+
+                                    <h4 class="media-heading">{{friend.friendUserInfo.nickName}} <span
+                                            style="color:#878787;font-size: 16px;">来自：随机推荐</span></h4>
+
+                                    <span class="badge badge-primary" v-if="friend.friendUserInfo.gender == 1"
+                                          title="男"><i class="fa fa-male"></i></span>
+                                    <span class="badge badge-warning" v-if="friend.friendUserInfo.gender == 0"
+                                          title="未知"><i class="fa fa-transgender"></i></span>
+                                    <span class="badge badge-danger" v-if="friend.friendUserInfo.gender == -1"
+                                          title="女"><i class="fa fa-female"></i></span>
+                                    <span class="badge badge-info"><i class="fa fa-globe"></i> {{friend.friendUserInfo.region}}</span>
+                                    <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.friendUserInfo.penYear}}年</span>
+
+                                </div>
+                                <button class="btn btn-info" style="float: right" @click="showFriendAddDialog(friend)">
+                                    加为好友
+                                </button>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-header">
                         <strong class="card-title">好友添加请求</strong>
-                        <button class="btn btn-sm btn-info" style="float: right;" data-target="#searchFriendModal" data-toggle="modal">添加笔友</button>
+                        <button class="btn btn-sm btn-info" style="float: right;" data-target="#searchFriendModal"
+                                data-toggle="modal">添加笔友
+                        </button>
                     </div>
-                    <div class="table-stats table-striped ov-h">
-                        <table class="table ">
-                            <thead>
-                            <tr>
 
-                                <th>头像</th>
-                                <th>昵称</th>
-                                <th>验证消息</th>
-                                <th class="text-center">操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
 
-                            <tr v-for="friend in friendAddList">
+                    <div class="card-body">
+                        <ul class="media-list">
 
-                                <td>
-                                    <div class="round-img">
-                                        <a href="#"><img class="rounded-circle" :src="friend.userInfo.profile"
-                                                         alt=""></a>
-                                    </div>
-                                </td>
 
-                                <td><span>{{friend.userInfo.nickName}}</span></td>
-                                <td>{{friend.msg}}</td>
+                            <li class="media" style="margin-top: 15px" v-for="friend in friendAddList">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" :src="friend.userInfo.profile" alt="..." width="48">
+                                    </a>
+                                </div>
 
-                                <td>
-                                    <div class="text-center btn-group">
+                                <div class="media-body" style="margin-left: 15px;">
+
+
+                                    <div class="text-center btn-group" v-if="friend.visible" style="float: right">
                                         <button class="btn btn-sm btn-primary" :data-id="friend.friendAddId"
                                                 @click="agreeFriendAdd">同意
                                         </button>
-                                        <button class="btn btn-sm btn-danger">拒绝</button>
+                                        <button class="btn btn-sm btn-danger" @click="rejectFriendAdd(friend)">拒绝</button>
                                     </div>
 
+                                    <span v-if="!friend.visible" style="float: right">已失效</span>
+                                    <h4 class="media-heading">{{friend.userInfo.nickName}} <span
+                                            style="color:#878787;font-size: 16px;">来自：查找</span></h4>
 
-                                </td>
-                            </tr>
+                                    <span class="badge badge-primary" v-if="friend.userInfo.gender == 1" title="男"><i
+                                            class="fa fa-male"></i></span>
+                                    <span class="badge badge-warning" v-if="friend.userInfo.gender == 0" title="未知"><i
+                                            class="fa fa-transgender"></i></span>
+                                    <span class="badge badge-danger" v-if="friend.userInfo.gender == -1" title="女"><i
+                                            class="fa fa-female"></i></span>
+                                    <span class="badge badge-info"><i class="fa fa-globe"></i> {{friend.userInfo.region}}</span>
+                                    <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.userInfo.penYear}}年</span>
+                                    <strong>验证消息:</strong><span
+                                        style="color: #878787;font-size: 16px">{{friend.msg}}</span>
 
 
-                            </tbody>
-                        </table>
-                    </div> <!-- /.table-stats -->
+                                </div>
+
+                            </li>
+
+
+                        </ul>
+                    </div>
                 </div>
+
             </div>
 
 
@@ -233,7 +290,7 @@
 
 
 <#include "script.ftl"/>
-<script src="js/friends.js"></script>
+<script src="js/friends.js?v=20190410"></script>
 
 
 </body>

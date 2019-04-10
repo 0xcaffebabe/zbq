@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.FriendMapper;
@@ -86,6 +87,7 @@ public class FriendService {
                     vo.setFriendAddId(i.getFriendAddId());
                     vo.setUserInfo(i.getFromUser().getUserInfo());
                     vo.setMsg(i.getMsg());
+                    vo.setVisible(i.getVisible());
                     vo.setCreateTime(i.getCreateTime());
             ret.add(vo);
         }

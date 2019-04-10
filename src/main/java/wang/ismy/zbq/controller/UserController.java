@@ -5,11 +5,13 @@ package wang.ismy.zbq.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.LoginDTO;
 import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.dto.UserDTO;
 import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.service.UserInfoService;
 import wang.ismy.zbq.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @PutMapping("/register")
     @ResultTarget
@@ -69,6 +74,14 @@ public class UserController {
     @ResultTarget
     public Object detectUsername(@RequestParam("username") String username){
         return userService.selectByUsername(username)==null;
+    }
+
+    @GetMapping("/nickName/{id}")
+    @ResultTarget
+    @MustLogin
+    public Object selectUserById(@PathVariable("id") Integer id){
+        return userService.selectByPrimaryKey(id).getUserInfo().getNickName();
+
     }
 
 }

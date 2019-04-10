@@ -47,7 +47,7 @@ var publish2 = new Vue({
                 if (response.success){
 
                     that.course.courseImg= response.data;
-                    alert("上传成功，请即使保存！");
+                    alert("上传成功，请及时保存！");
 
                 }else{
                     alert(response.msg);
@@ -58,9 +58,11 @@ var publish2 = new Vue({
         ,
         publishCourse:function () {
 
+            var that = this;
             common.ajax.put(common.data.publishCourseUrl,function (r) {
                 if (r.success){
                     alert(r.data);
+                    that.getSelfCourseList();
                 }else {
                     alert(r.msg);
                 }

@@ -97,6 +97,6 @@
 
 <#include "script.ftl"/>
 
-<script src="/js/courseEdit.js"></script>
+<script src="/js/courseEdit.js?v=20190410"></script>
 </body>
 </html>

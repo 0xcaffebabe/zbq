@@ -52,7 +52,7 @@ var friends = new Vue({
                 if (response.success) {
                     if (response.data.length == 0) {
                         alert("没有数据！");
-                        that.strangerPage--;
+
                     } else {
                         that.recommendFriendList = response.data;
                     }
@@ -60,7 +60,7 @@ var friends = new Vue({
                 } else {
                     alert("获取推荐列表失败:" + response.msg);
                 }
-            }, {kw: this.strangerSearch, page: this.strangerPage, length: 5});
+            });
         },
         getFriendAddList: function () {
             var that = this;
@@ -188,11 +188,24 @@ var friends = new Vue({
                     that.getFriendAddList();
                     that.getFriendList();
                     that.getRecommendFriendList();
+                    that.countFriends();
                 } else {
                     alert(response.msg);
                 }
             });
 
+        }
+        ,
+        rejectFriendAdd:function (friendAdd) {
+            var that = this;
+            common.ajax.post(common.data.rejectFriendAddUrl+friendAdd.friendAddId,function (r) {
+                if (r.success){
+                    alert(r.data);
+                    that.getFriendAddList();
+                }else {
+                    alert(r.msg);
+                }
+            })
         }
         ,
         chat: function (event) {

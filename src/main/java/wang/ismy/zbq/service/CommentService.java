@@ -22,7 +22,10 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
-    public List<Comment> selectCommentByCommentTypeAndTopicId(CommentTypeEnum commentType, List<Integer> topicIds) {
+
+
+    public List<Comment> selectCommentByCommentTypeAndTopicId(CommentTypeEnum commentType,
+                                                              List<Integer> topicIds) {
 
         if (topicIds.size() == 0) {
             return List.of();

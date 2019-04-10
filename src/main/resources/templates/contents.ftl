@@ -146,7 +146,7 @@
 
 <#include "script.ftl"/>
 
-<script src="/js/content.js"></script>
+<script src="/js/content.js?v=20190410"></script>
 <script>
 
 

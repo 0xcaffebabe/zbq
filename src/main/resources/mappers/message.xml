@@ -33,6 +33,7 @@
         WHERE
             (from_user = #{user1} AND to_user = #{user2})
             OR (from_user = #{user2} AND to_user = #{user1})
+
     </select>
     <select id="selectUnreadMessageByUserId" resultType="wang.ismy.zbq.dto.UnreadMessageDTO">
         SELECT
@@ -67,5 +68,6 @@
         WHERE (message.to_user = #{userId} OR message.from_user = #{userId})
         GROUP BY message.from_user, message.to_user
         ORDER BY create_time DESC
+        LIMIT 7
     </select>
 </mapper>

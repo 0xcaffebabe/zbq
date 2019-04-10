@@ -71,6 +71,6 @@
 
 
 <#include "script.ftl"/>
-<script src="/js/course.js"></script>
+<script src="/js/course.js?v=20190410"></script>
 </body>
 </html>

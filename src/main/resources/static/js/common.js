@@ -159,7 +159,9 @@ function getCommonObject() {
             createLearningUrl:"/learning/",
             getSelfLearningUrl:"/learning/self/",
             getSelfLearningProgressUrl:"/learning/self/progress/",
-            searchStrangerUrl:"/friend/stranger"
+            searchStrangerUrl:"/friend/stranger",
+            getNickNameUrl:"/user/nickName/",
+            rejectFriendAddUrl:"/friend/add/reject/"
 
 
         },

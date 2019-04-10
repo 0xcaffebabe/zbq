@@ -115,7 +115,7 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/map.js"></script>
+<script src="/js/map.js?v=20190410"></script>
 
 <script>
 

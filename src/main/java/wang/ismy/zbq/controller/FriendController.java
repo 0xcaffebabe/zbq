@@ -56,29 +56,23 @@ public class FriendController {
     @GetMapping("/recommend")
     @ResultTarget
     @MustLogin
-    public Object getRecommendFriend(@RequestParam(value = "kw", required = false) String kw,
-                                     @RequestParam("page") Integer page, @RequestParam("length") Integer length) {
-        Page p = new Page();
-        p.setPageNumber(page);
-        p.setLength(length);
-        if (StringUtils.isEmpty(kw)) {
-            return friendService.selectCurrentUserRecommendFriend();
-        } else {
-            return friendService.selectStrangerByNickNamePaging(kw,p);
-        }
+    public Object getRecommendFriend() {
+
+        return friendService.selectCurrentUserRecommendFriend();
+
     }
 
     /*
-    * 根据nickname搜索陌生人
-    */
+     * 根据nickname搜索陌生人
+     */
     @GetMapping("/stranger")
     @ResultTarget
     @MustLogin
     public Object searchStranger(@RequestParam(value = "kw", required = false) String kw,
-                               @RequestParam("page") Integer page, @RequestParam("length") Integer length){
-        Page p = new Page(page,length);
+                                 @RequestParam("page") Integer page, @RequestParam("length") Integer length) {
+        Page p = new Page(page, length);
 
-        return friendService.selectStrangerByNickNamePaging(kw,p);
+        return friendService.selectStrangerByNickNamePaging(kw, p);
     }
 
     @GetMapping("/add")
@@ -109,5 +103,13 @@ public class FriendController {
         friendAddService.agreeFriendAddMsg(friendAddId);
 
         return "添加成功！";
+    }
+
+    @PostMapping("/add/reject/{friendAddId}")
+    @ResultTarget
+    @MustLogin
+    public Object rejectFriendAdd(@PathVariable("friendAddId") Integer friendAddId){
+        friendAddService.rejectFriendAdd(friendAddId);
+        return "操作完成";
     }
 }

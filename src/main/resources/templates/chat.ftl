@@ -51,39 +51,18 @@
 <body>
 
 
-    <div class="breadcrumbs">
-        <div class="breadcrumbs-inner">
-            <div class="row m-0">
-                <div class="col-sm-4">
-                    <div class="page-header float-left">
-                        <div class="page-title">
-                            <h1>与my聊天</h1>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="page-header float-right">
-                        <div class="page-title">
-                            <ol class="breadcrumb text-right">
-                                <li><a href="/home">主页</a></li>
-                                <li><a href="/friends">笔友</a></li>
-                                <li class="active">聊天</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
 
     <!-- Content -->
     <div class="content">
         <!-- Animated -->
-        <div class="animated fadeIn">
+        <div class="animated fadeIn"  id="chat">
+            <ol class="breadcrumb text-right">
+                <li class="active">与{{nickName}}聊天</li>
+            </ol>
 
-
-            <div class="row" id="chat">
+            <div class="row">
 
                 <div class="col-md-4">
                     <div class="card">
@@ -204,15 +183,8 @@
     <!-- /.site-footer -->
 
 
-<script src="/assets/js/vendor/jquery-2.1.4.min.js"></script>
-<script src="/assets/js/popper.min.js"></script>
-<script src="/assets/js/plugins.js"></script>
-<script src="/assets/js/main.js"></script>
-<script src="/assets/js/lib/flot-chart/jquery.flot.js"></script>
-<script src="/assets/js/lib/flot-chart/jquery.flot.pie.js"></script>
-<script src="/assets/js/lib/flot-chart/jquery.flot.spline.js"></script>
 <#include "script.ftl"/>
-<script src="/js/chat.js"></script>
+<script src="/js/chat.js?v=20190410"></script>
 
 </body>
 </html>

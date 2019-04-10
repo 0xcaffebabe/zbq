@@ -92,6 +92,7 @@
                             <mainClass>wang.ismy.zbq.ZbqApplication</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>zbq</finalName>
                 </configuration>
             </plugin>
             <plugin>

@@ -101,6 +101,6 @@
 <script src="/js/vue.js"></script>
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/common.js?v=20190410"></script>
+<script src="/js/index.js?v=20190410"></script>
 </html>
