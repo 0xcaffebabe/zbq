@@ -31,7 +31,9 @@ public class CommentService {
         return commentMapper.selectCommentListByCommentTypeAndTopicIdBatch(commentType.getCode(), topicIds);
     }
 
-    public List<Comment> selectCommentByCommentTypeAndContentIdPaging(CommentTypeEnum commentType, Integer contentId, Page p){
+    public List<Comment> selectCommentByCommentTypeAndContentIdPaging(CommentTypeEnum commentType,
+                                                                      Integer contentId,
+                                                                      Page p){
         return commentMapper.selectCommentByCommentTypeAndContentIdPaging(commentType.getCode(),contentId,p);
     }
 
