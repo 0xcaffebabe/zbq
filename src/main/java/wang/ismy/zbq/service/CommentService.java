@@ -22,8 +22,6 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
-
-
     public List<Comment> selectCommentByCommentTypeAndTopicId(CommentTypeEnum commentType,
                                                               List<Integer> topicIds) {
 
