@@ -77,7 +77,7 @@
         <div class="card">
             <div class="card-header">
                 <h4>课程制作</h4>
-                <button class="btn btn-primary btn-sm" style="float: right" @click="showModal">添加课程</button>
+                <button class="btn btn-primary btn-sm" style="float: right" data-toggle="modal" data-target="#staticModal">添加课程</button>
             </div>
             <div class="card-body" >
 

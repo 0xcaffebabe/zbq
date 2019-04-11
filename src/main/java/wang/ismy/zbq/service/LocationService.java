@@ -7,7 +7,7 @@ import wang.ismy.zbq.dao.LocationMapper;
 import wang.ismy.zbq.dto.LocationDTO;
 import wang.ismy.zbq.entity.Location;
 import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.LocationVO;
 import wang.ismy.zbq.vo.UserVO;
@@ -57,7 +57,7 @@ public class LocationService {
         User currentUser = userService.getCurrentUser();
 
         if (selectByUserId(currentUser.getUserId()) != null){
-            ErrorUtils.error(StringResources.LOCATION_EXIST);
+            ErrorUtils.error(R.LOCATION_EXIST);
         }
 
         Location location = new Location();
@@ -85,7 +85,7 @@ public class LocationService {
         var location = selectByUserId(currentUser.getUserId());
 
         if (location == null){
-            ErrorUtils.error(StringResources.LOCATION_NOT_EXIST);
+            ErrorUtils.error(R.LOCATION_NOT_EXIST);
         }
 
         BeanUtils.copyProperties(locationDTO,location);

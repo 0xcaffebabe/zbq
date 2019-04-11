@@ -11,8 +11,6 @@ jQuery(document).ready(function($) {
 	jQuery('.selectpicker').selectpicker;
 
 
-	
-
 	$('.search-trigger').on('click', function(event) {
 		event.preventDefault();
 		event.stopPropagation();

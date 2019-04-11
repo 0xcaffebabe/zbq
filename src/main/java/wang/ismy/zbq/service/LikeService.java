@@ -6,7 +6,7 @@ import wang.ismy.zbq.dao.LikeMapper;
 import wang.ismy.zbq.entity.Like;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.LikeTypeEnum;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.LikeCountVO;
 
@@ -24,7 +24,7 @@ public class LikeService {
     public int createLikeRecord(LikeTypeEnum likeType, Integer contentId, User user) {
 
         if (likeMapper.selectLikeByLikeTypeAndContentIdAndUserId(likeType.getCode(), contentId, user.getUserId()) != null) {
-            ErrorUtils.error(StringResources.LIKE_FAIL);
+            ErrorUtils.error(R.LIKE_FAIL);
         }
         Like like = new Like();
         like.setLikeType(likeType.getCode());

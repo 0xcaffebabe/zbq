@@ -22,4 +22,12 @@
     <select id="countLessonByCourseId" resultType="java.lang.Long">
         SELECT COUNT(1) FROM lesson WHERE course_id = #{id}
     </select>
+    <select id="countLessonInBatch" resultType="java.util.Map">
+        SELECT course_id,COUNT(1) FROM lesson WHERE course_id
+        IN
+        <foreach collection="list" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+        GROUP BY course_id
+    </select>
 </mapper>

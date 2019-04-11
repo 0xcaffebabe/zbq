@@ -14,7 +14,13 @@
 
 
     <style>
+        .courseTitle{
+            color:#000
+        }
 
+        .courseTitle:hover{
+            color:#878787;
+        }
     </style>
 </head>
 
@@ -37,8 +43,8 @@
         <div class="row" style="margin-top: 15px;">
             <div class="col-md-4" v-for="course in courseList">
 
-                <div style="position: absolute;top: -7px;right: 15px">
-                    <span class="badge badge-success">15%</span>
+                <div style="position: absolute;top: -7px;right: 15px" v-if="course.currentProgress != 0">
+                    <span class="badge badge-success">{{course.currentProgress}}%</span>
                 </div>
 
 
@@ -46,19 +52,21 @@
                     <img :src="course.courseImg" alt="" style="border-radius: 5px;width: 100%;">
                 </a>
 
+                <div style="padding:10px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" :title="course.courseName">
+                    <a :href="'/courses/' + course.courseId" class="courseTitle">
+                        <h4>{{course.courseName}}</h4>
+                    </a>
 
-                <div style="padding:10px">
-                    <h2>{{course.courseName}}</h2>
                 </div>
 
                 <div style="padding:15px;">
                     <p>
                         {{course.courseLevel}}
                         &nbsp;&nbsp;&nbsp;
-                        <i class="fa fa-user"></i> 59
+                        {{course.learningNumber}} 人正在学习
                     </p>
 
-                    <p>
+                    <p style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" :title="course.courseDesc">
                         {{course.courseDesc}}
                     </p>
 

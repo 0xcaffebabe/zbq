@@ -1,8 +1,8 @@
 package wang.ismy.zbq.resources;
 
-public class StringResources {
+public class R {
 
-    public static final String LOGIN_FAIL = "登录失败，请检查差用户名与密码";
+    public static final String LOGIN_FAIL = "登录失败，请检查用户名与密码";
 
     public static final String ACCOUNT_DISABLE = "账号已被禁用";
 

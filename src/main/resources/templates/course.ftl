@@ -15,6 +15,15 @@
 
     <style>
 
+        .green{
+            color:green;
+        }
+        .hasLearn{
+            color:#878787
+        }
+        .unLearn{
+            color:#000;
+        }
     </style>
 </head>
 
@@ -43,15 +52,13 @@
                     <div class="card">
                         <div class="card-header"><h3>章节</h3></div>
                         <div class="card-body">
-                            <ul class="list-group" v-for="lesson in course.lessonList">
-                                <li class="list-group-item">
+                            <ul class="list-group">
+                                <li class="list-group-item" v-for="lesson in course.lessonList">
                                     <i class="fa fa-play-circle"></i>
-                                    <i class="fa fa-check-circle" style="float: right"></i>
-                                    <a :href="'/lessons/' + lesson.lessonId">
+                                    <i class="fa fa-check-circle" :class="{green:lesson.hasLearn}" style="float: right"></i>
+                                    <a :href="'/lessons/' + lesson.lessonId" :class="{hasLearn:lesson.hasLearn,unLearn:!lesson.hasLearn}">
                                         {{lesson.lessonName}}
                                     </a>
-
-
                                 </li>
 
                             </ul>

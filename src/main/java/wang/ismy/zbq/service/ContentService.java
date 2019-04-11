@@ -14,7 +14,7 @@ import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.enums.PermissionEnum;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.CommentVO;
 import wang.ismy.zbq.vo.ContentVO;
@@ -46,7 +46,7 @@ public class ContentService {
         Content content = new Content();
         BeanUtils.copyProperties(contentDTO,content);
         content.setUser(currentUser);
-        if (contentMapper.insertNew(content) != 1) ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+        if (contentMapper.insertNew(content) != 1) ErrorUtils.error(R.UNKNOWN_ERROR);
     }
 
     public List<ContentVO> selectContentListPaging(Page page){
@@ -171,7 +171,7 @@ public class ContentService {
         User user = userService.selectByPrimaryKey(content.getUser().getUserId());
 
         if (user == null){
-            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+            ErrorUtils.error(R.UNKNOWN_ERROR);
         }
         UserVO userVO = UserVO.convert(user);
 

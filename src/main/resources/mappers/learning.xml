@@ -37,4 +37,36 @@
         SELECT COUNT(1) FROM learning WHERE course_id = #{courseId} AND user = #{userId}
     </select>
 
+    <select id="selectLearningListByUserIdAndCourseIdAndLessonIdList"
+            resultMap="learningMap">
+        SELECT * FROM learning WHERE user = #{userId}
+        AND course_id = #{courseId}
+        AND lesson_id IN
+        <foreach collection="list" open="(" close=")" separator="," item="i">
+            #{i}
+        </foreach>
+    </select>
+    <select id="selectLearningNumberByCourseIdList" resultType="wang.ismy.zbq.dto.LearningNumberDTO">
+        SELECT T.course_id,COUNT(1) count FROM
+        (
+        SELECT course_id,user FROM learning GROUP BY user,course_id
+        ) AS T
+        WHERE T.course_id IN
+        <foreach collection="list" item="i" separator="," close=")" open="(">
+            #{i}
+        </foreach>
+        GROUP BY T.course_id
+
+    </select>
+    <select id="countLearningByUserIdAndCourseIdList" resultType="java.util.Map">
+        SELECT course_id,COUNT(1)
+        FROM learning
+        WHERE course_id IN
+        <foreach collection="list" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+        AND user = 2
+        GROUP BY course_id
+    </select>
+
 </mapper>

@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import wang.ismy.zbq.annotations.MustLogin;
-import wang.ismy.zbq.annotations.Permission;
 import wang.ismy.zbq.dao.UserMapper;
 import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.dto.Page;
@@ -14,8 +13,7 @@ import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.entity.UserPermission;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
-import wang.ismy.zbq.enums.PermissionEnum;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,13 +54,13 @@ public class UserService {
         User user = generateUser(dto);
 
         if (userMapper.selectByUsername(dto.getUsername()) != null) {
-            ErrorUtils.error(StringResources.USERNAME_OCCUPY);
+            ErrorUtils.error(R.USERNAME_OCCUPY);
         }
         UserInfo userInfo = getDefaultUserInfo();
         int userInfoId = userInfoService.insertUserInfo(userInfo);
 
         if (userInfoId < 1) {
-            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+            ErrorUtils.error(R.UNKNOWN_ERROR);
         }
 
         userInfo.setUserInfoId(userInfoId);
@@ -79,7 +77,7 @@ public class UserService {
 
         // 插入一条登录权限
         if (loginACLService.insertNew(user.getUserId()) != 1) {
-            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+            ErrorUtils.error(R.UNKNOWN_ERROR);
         }
 
         // 创建一条该用户与系统账号的好友关系
@@ -107,11 +105,11 @@ public class UserService {
 
         User user = userMapper.selectByUsername(username);
         if (user == null) {
-            ErrorUtils.error(StringResources.LOGIN_FAIL);
+            ErrorUtils.error(R.LOGIN_FAIL);
         }
 
         if (!loginACLService.canLogin(user.getUserId())) {
-            ErrorUtils.error(StringResources.ACCOUNT_DISABLE);
+            ErrorUtils.error(R.ACCOUNT_DISABLE);
         }
 
         if (user.getPassword().equals(password)) {
@@ -119,7 +117,7 @@ public class UserService {
 
 
         } else {
-            ErrorUtils.error(StringResources.LOGIN_FAIL);
+            ErrorUtils.error(R.LOGIN_FAIL);
         }
     }
 

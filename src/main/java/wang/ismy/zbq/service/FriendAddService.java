@@ -1,7 +1,5 @@
 package wang.ismy.zbq.service;
 
-import org.apache.tomcat.util.http.fileupload.ThresholdingOutputStream;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +8,7 @@ import wang.ismy.zbq.dto.FriendAddDTO;
 import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.entity.FriendAdd;
 import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class FriendAddService {
         from.setUserId(friendAddDTO.getFromUser());
 
         if (userService.selectByPrimaryKey(friendAddDTO.getToUser()) == null) {
-            ErrorUtils.error(StringResources.TARGET_USER_NOT_EXIST);
+            ErrorUtils.error(R.TARGET_USER_NOT_EXIST);
         }
 
         User to = new User();
@@ -118,13 +116,13 @@ public class FriendAddService {
 
     private void checkFriendAddIsCurrentUser(FriendAdd friendAdd) {
         if (friendAdd == null) {
-            ErrorUtils.error(StringResources.FRIEND_ADD_RECORD_NOT_EXIST);
+            ErrorUtils.error(R.FRIEND_ADD_RECORD_NOT_EXIST);
         }
 
         User user = userService.getCurrentUser();
         // 如果当前登录的用户非friendAdd记录中的toUser，则拒绝
         if (!user.getUserId().equals(friendAdd.getToUser().getUserId())) {
-            ErrorUtils.error(StringResources.PERMISSION_DENIED);
+            ErrorUtils.error(R.PERMISSION_DENIED);
         }
     }
 
@@ -137,11 +135,11 @@ public class FriendAddService {
 
     private void createFriendRelation(FriendAdd friendAdd) {
         if (friendService.insertNewRelation(friendAdd.getFromUser().getUserId(), friendAdd.getToUser().getUserId()) != 1) {
-            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+            ErrorUtils.error(R.UNKNOWN_ERROR);
         }
 
         if (friendService.insertNewRelation(friendAdd.getToUser().getUserId(), friendAdd.getFromUser().getUserId()) != 1) {
-            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+            ErrorUtils.error(R.UNKNOWN_ERROR);
         }
     }
 

@@ -1,7 +1,5 @@
 package wang.ismy.zbq.controller;
 
-import org.apache.ibatis.annotations.Result;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
@@ -9,7 +7,7 @@ import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.dto.StateCommentDTO;
 import wang.ismy.zbq.dto.StateDTO;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.StateService;
 import wang.ismy.zbq.util.ErrorUtils;
 
@@ -27,7 +25,7 @@ public class StateController {
     @MustLogin
     public Object publishState(@RequestBody @Valid StateDTO stateDTO){
         stateService.currentUserPublishState(stateDTO);
-        return StringResources.STATE_PUBLISH_SUCCESS;
+        return R.STATE_PUBLISH_SUCCESS;
     }
 
     @GetMapping("/self")
@@ -62,8 +60,8 @@ public class StateController {
     @MustLogin
     public Object deleteState(@PathVariable Integer stateId){
         if (stateService.deleteCurrentUserStateById(stateId) != 1){
-            ErrorUtils.error(StringResources.DELETE_STATE_FAIL);
+            ErrorUtils.error(R.DELETE_STATE_FAIL);
         }
-        return StringResources.DELETE_STATE_SUCCESS ;
+        return R.DELETE_STATE_SUCCESS ;
     }
 }

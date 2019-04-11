@@ -13,7 +13,7 @@ import wang.ismy.zbq.entity.State;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.CommentVO;
 import wang.ismy.zbq.vo.StateVO;
@@ -52,7 +52,7 @@ public class StateService {
         state.setContent(dto.getContent());
 
         if (stateMapper.insertNew(state) != 1) {
-            ErrorUtils.error(StringResources.STATE_PUBLISH_FAIL);
+            ErrorUtils.error(R.STATE_PUBLISH_FAIL);
         }
     }
 
@@ -128,11 +128,11 @@ public class StateService {
         var state = stateMapper.selectByPrimaryKey(stateId);
         var currentUser = userService.getCurrentUser();
         if (state == null){
-            ErrorUtils.error(StringResources.TARGET_STATE_NOT_EXIST);
+            ErrorUtils.error(R.TARGET_STATE_NOT_EXIST);
         }
 
         if (!state.getUser().equals(currentUser)){
-            ErrorUtils.error(StringResources.PERMISSION_DENIED);
+            ErrorUtils.error(R.PERMISSION_DENIED);
         }
 
         return stateMapper.setInvisibleByPrimaryKey(stateId);

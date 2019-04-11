@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 import wang.ismy.zbq.entity.Course;
 import wang.ismy.zbq.entity.User;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,6 +22,10 @@ public class CourseVO {
     private UserVO publisher;
 
     private String courseLevel;
+
+    private Long learningNumber; // 学习人数
+
+    private BigDecimal currentProgress; // 当前用户学习进度
 
     private LocalDateTime createTime;
 

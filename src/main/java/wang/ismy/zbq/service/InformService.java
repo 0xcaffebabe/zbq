@@ -5,10 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
-
-import java.security.MessageDigest;
 
 @Service
 public class InformService {
@@ -47,10 +45,10 @@ public class InformService {
     @Transactional
     public void createRelationWithSystemAccount(Integer userId){
         if (friendService.insertNewRelation(userId,0) != 1){
-            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+            ErrorUtils.error(R.UNKNOWN_ERROR);
         }
         if (friendService.insertNewRelation(0,userId) != 1){
-            ErrorUtils.error(StringResources.UNKNOWN_ERROR);
+            ErrorUtils.error(R.UNKNOWN_ERROR);
         }
 
     }

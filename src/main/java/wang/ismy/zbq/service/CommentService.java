@@ -6,7 +6,7 @@ import wang.ismy.zbq.dao.CommentMapper;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.entity.Comment;
 import wang.ismy.zbq.enums.CommentTypeEnum;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import java.util.HashMap;
@@ -51,7 +51,7 @@ public class CommentService {
 
         if (comment.getToUser() != null ){
             if (userService.selectByPrimaryKey(comment.getToUser().getUserId()) == null){
-                ErrorUtils.error(StringResources.TARGET_USER_NOT_EXIST);
+                ErrorUtils.error(R.TARGET_USER_NOT_EXIST);
             }
         }
         return commentMapper.insertNew(comment);

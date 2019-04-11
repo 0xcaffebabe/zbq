@@ -2,16 +2,10 @@ package wang.ismy.zbq.dto;
 
 import lombok.Data;
 
-/**
- * @author my
- */
 @Data
-public class ContentLikeDTO {
+public class LearningNumberDTO {
 
-    private Integer id;
+    private Integer courseId;
 
     private Long count;
-
-
 }
-

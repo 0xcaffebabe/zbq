@@ -19,6 +19,7 @@ var map = new Vue({
     methods: {
         positionClick:function (dataset,position) {
             $("#simulation").trigger("click");
+            console.log("run");
 
             console.log(position);
             var t = dataset[position.index];

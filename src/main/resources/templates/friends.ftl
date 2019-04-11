@@ -206,7 +206,7 @@
                                     <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.friendUserInfo.penYear}}年</span>
 
                                 </div>
-                                <button class="btn btn-info" style="float: right" @click="showFriendAddDialog(friend)">
+                                <button class="btn btn-info btn-sm" style="float: right" @click="showFriendAddDialog(friend)">
                                     加为好友
                                 </button>
                             </li>

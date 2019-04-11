@@ -2,7 +2,12 @@
 var publish2 = new Vue({
     el:"#publish",
     data:{
-        courseList:[],course:{}
+        courseList:[],course:{
+            courseName:'',
+            courseImg:'',
+            courseLevel:'',
+            courseDesc:''
+        }
     }
     ,
     created:function () {

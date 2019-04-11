@@ -1,6 +1,5 @@
 package wang.ismy.zbq.service;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.FriendMapper;
@@ -8,7 +7,7 @@ import wang.ismy.zbq.dto.FriendAddDTO;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.entity.Friend;
 import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.FriendAddVO;
 
@@ -66,12 +65,12 @@ public class FriendService {
         friendAddDTO.setFromUser(user.getUserId());
         if (friendAddService.selectFriendAddByFromUserAndToUser(user.getUserId(), friendAddDTO.getToUser()) != null) {
 
-            ErrorUtils.error(StringResources.FRIEND_ADD_MSG_SENT);
+            ErrorUtils.error(R.FRIEND_ADD_MSG_SENT);
         }
 
 
         if (isFriend(friendAddDTO.getFromUser(),friendAddDTO.getToUser())){
-            ErrorUtils.error(StringResources.FRIEND_RELATION_CREATED);
+            ErrorUtils.error(R.FRIEND_RELATION_CREATED);
         }
         return friendAddService.insertNew(friendAddDTO);
     }

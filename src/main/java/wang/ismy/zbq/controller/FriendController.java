@@ -8,11 +8,9 @@ import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.FriendAddDTO;
 import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.FriendAddService;
 import wang.ismy.zbq.service.FriendService;
-import wang.ismy.zbq.service.UserService;
 
 import javax.validation.Valid;
 
@@ -89,9 +87,9 @@ public class FriendController {
     public Object sendFriendAddMsg(@Valid @RequestBody FriendAddDTO dto) {
 
         if (friendService.sendAFriendAddMsg(dto) == 1) {
-            return StringResources.FRIEND_ADD_MSG_SEND_SUCCESS;
+            return R.FRIEND_ADD_MSG_SEND_SUCCESS;
         } else {
-            return StringResources.FRIEND_ADD_MSG_SEND_FAIL;
+            return R.FRIEND_ADD_MSG_SEND_FAIL;
         }
     }
 

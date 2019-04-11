@@ -3,6 +3,7 @@ package wang.ismy.zbq.dao;
 import wang.ismy.zbq.entity.Lesson;
 
 import java.util.List;
+import java.util.Map;
 
 public interface LessonMapper {
 
@@ -15,5 +16,7 @@ public interface LessonMapper {
     int insertNew(Lesson lesson);
 
     long countLessonByCourseId(Integer courseId);
+
+    List<Map<String,Object>> countLessonInBatch(List<Integer> courseIdList);
 
 }

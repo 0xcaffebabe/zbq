@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.CourseDTO;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.CourseService;
 
 import javax.validation.Valid;
@@ -44,6 +44,6 @@ public class CourseController {
     @ResultTarget
     public Object publishCourse(@RequestBody @Valid CourseDTO courseDTO){
         courseService.insertNew(courseDTO);
-        return StringResources.CREATE_SUCCESS;
+        return R.CREATE_SUCCESS;
     }
 }

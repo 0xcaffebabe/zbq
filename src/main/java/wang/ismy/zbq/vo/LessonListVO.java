@@ -11,6 +11,8 @@ public class LessonListVO {
 
     private String lessonName;
 
+    private Boolean hasLearn;
+
     public static LessonListVO convert(Lesson lesson){
         LessonListVO vo = new LessonListVO();
         BeanUtils.copyProperties(lesson,vo);

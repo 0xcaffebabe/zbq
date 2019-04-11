@@ -6,7 +6,7 @@ import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.LikeTypeEnum;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.LikeService;
 import wang.ismy.zbq.service.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
@@ -26,9 +26,9 @@ public class LikeController {
     @MustLogin
     public Object likeState(@PathVariable("stateId") Integer stateId){
         if (likeService.createLikeRecord(LikeTypeEnum.STATE,stateId,userService.getCurrentUser()) !=1){
-            return StringResources.LIKE_FAIL;
+            return R.LIKE_FAIL;
         }
-        return StringResources.LIKE_SUCCESS;
+        return R.LIKE_SUCCESS;
     }
 
     @PutMapping("/content/{contentId}")
@@ -36,9 +36,9 @@ public class LikeController {
     @MustLogin
     public Object likeContent(@PathVariable("contentId") Integer contentId){
         if (likeService.createLikeRecord(LikeTypeEnum.CONTENT,contentId,userService.getCurrentUser()) != 1){
-            return StringResources.LIKE_FAIL;
+            return R.LIKE_FAIL;
         }
-        return StringResources.LIKE_SUCCESS;
+        return R.LIKE_SUCCESS;
     }
 
     @DeleteMapping("/content/{contentId}")
@@ -46,9 +46,9 @@ public class LikeController {
     @MustLogin
     public Object disLikeContent(@PathVariable("contentId") Integer contentId){
         if (likeService.removeLikeRecord(LikeTypeEnum.CONTENT,contentId,userService.getCurrentUser()) != 1){
-            ErrorUtils.error(StringResources.DISLIKE_FAIL);
+            ErrorUtils.error(R.DISLIKE_FAIL);
         }
-        return StringResources.DISLIKE_SUCCESS;
+        return R.DISLIKE_SUCCESS;
     }
 
     @DeleteMapping("/state/{stateId}")
@@ -56,9 +56,9 @@ public class LikeController {
     @MustLogin
     public Object dislikeState(@PathVariable("stateId") Integer stateId){
         if (likeService.removeLikeRecord(LikeTypeEnum.STATE,stateId,userService.getCurrentUser()) !=1){
-            ErrorUtils.error(StringResources.DISLIKE_FAIL);
+            ErrorUtils.error(R.DISLIKE_FAIL);
         }
-        return StringResources.DISLIKE_SUCCESS;
+        return R.DISLIKE_SUCCESS;
     }
 
     @GetMapping("/count")

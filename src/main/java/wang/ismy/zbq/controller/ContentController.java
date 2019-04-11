@@ -7,7 +7,7 @@ import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.ContentCommentDTO;
 import wang.ismy.zbq.dto.ContentDTO;
 import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.ContentService;
 import wang.ismy.zbq.util.ErrorUtils;
 
@@ -48,10 +48,10 @@ public class ContentController {
     @MustLogin
     public Object comment(@RequestBody @Valid ContentCommentDTO dto){
         if (contentService.createCurrentUserStateComment(dto) != 1){
-            ErrorUtils.error(StringResources.COMMENT_FAIL);
+            ErrorUtils.error(R.COMMENT_FAIL);
         }
 
-        return StringResources.COMMENT_SUCCESS;
+        return R.COMMENT_SUCCESS;
     }
 
     @GetMapping("/comment/{contentId}")

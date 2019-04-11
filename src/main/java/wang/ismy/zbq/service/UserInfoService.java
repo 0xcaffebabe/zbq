@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.dao.UserInfoMapper;
-import wang.ismy.zbq.dto.UserDTO;
 import wang.ismy.zbq.dto.UserInfoDTO;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 
 @Service
@@ -49,7 +48,7 @@ public class UserInfoService {
     public UserInfoDTO getCurrentUserInfo(){
         User user = userService.getCurrentUser();
         if (user == null){
-            ErrorUtils.error(StringResources.NOT_LOGIN);
+            ErrorUtils.error(R.NOT_LOGIN);
         }
 
         UserInfoDTO userInfoDTO = new UserInfoDTO();

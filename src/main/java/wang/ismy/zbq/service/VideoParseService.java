@@ -1,7 +1,7 @@
 package wang.ismy.zbq.service;
 
 import org.springframework.stereotype.Service;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.video.BiliBiliVideoParser;
 import wang.ismy.zbq.video.VideoParser;
@@ -34,11 +34,11 @@ public class VideoParseService {
             URL u = new URL(url);
             VideoParser parser = parserMap.get(u.getHost());
             if (parser == null){
-                ErrorUtils.error(StringResources.VIDEO_PARSER_NOT_FOUND);
+                ErrorUtils.error(R.VIDEO_PARSER_NOT_FOUND);
             }
             return parser.process(url);
         } catch (MalformedURLException e) {
-            ErrorUtils.error(StringResources.VIDEO_PARSE_FAIL);
+            ErrorUtils.error(R.VIDEO_PARSE_FAIL);
         }
         return null;
 

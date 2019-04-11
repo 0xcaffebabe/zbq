@@ -9,7 +9,7 @@ import wang.ismy.zbq.vo.MessageListVO;
 import wang.ismy.zbq.vo.MessageVO;
 import wang.ismy.zbq.entity.Message;
 import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.resources.StringResources;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.UnreadMessageVO;
 
@@ -32,7 +32,7 @@ public class MessageService {
         User user = userService.getCurrentUser();
 
         if (!friendService.isFriend(user.getUserId(), friendId)) {
-            ErrorUtils.error(StringResources.NOT_FRIEND);
+            ErrorUtils.error(R.NOT_FRIEND);
         }
 
         User friend = userService.selectByPrimaryKey(friendId);
@@ -64,7 +64,7 @@ public class MessageService {
         User user = userService.getCurrentUser();
 
         if (!friendService.isFriend(messageDTO.getTo(), user.getUserId())) {
-            ErrorUtils.error(StringResources.NOT_FRIEND);
+            ErrorUtils.error(R.NOT_FRIEND);
         }
 
         User t = new User();
@@ -81,7 +81,7 @@ public class MessageService {
 
     public boolean sendMessage(User fromUser,MessageDTO messageDTO){
         if (!friendService.isFriend(messageDTO.getTo(), fromUser.getUserId())) {
-            ErrorUtils.error(StringResources.NOT_FRIEND);
+            ErrorUtils.error(R.NOT_FRIEND);
         }
         User t= new User();
         t.setUserId(messageDTO.getTo());
@@ -180,7 +180,7 @@ public class MessageService {
         if (friendService.isFriend(userId,friendId)){
             messageMapper.updateHasRead(userId,friendId);
         }else{
-            ErrorUtils.error(StringResources.NOT_FRIEND);
+            ErrorUtils.error(R.NOT_FRIEND);
         }
 
     }
