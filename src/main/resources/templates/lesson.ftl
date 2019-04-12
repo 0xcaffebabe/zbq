@@ -15,6 +15,13 @@
 
     <style>
 
+        .mirror {
+            -webkit-transform: scaleX(-1);
+            animation: mirror forwards 0s;
+            -moz-animation: mirror forwards 0s;
+            -webkit-animation: mirror forwards 0s;
+            -o-animation: mirror forwards 0s;
+        }
     </style>
 </head>
 
@@ -43,6 +50,7 @@
 
                     <hr>
 
+                    <button class="btn btn-sm btn-info" @click="videoMirror">{{mirrorButton}}</button>
                     <button v-if="learning == null" class="btn btn-sm btn-info" style="float: right" @click="createLearning">标记为已学会</button>
                     <button v-if="learning != null" class="btn btn-sm btn-warning" style="float: right" @click="deleteLearning">标记为未学会</button>
                 </div>
@@ -58,6 +66,6 @@
 
 
 <#include "script.ftl"/>
-<script src="/js/lesson.js?v=20190410"></script>
+<script src="/js/lesson.js?v=20190413"></script>
 </body>
 </html>

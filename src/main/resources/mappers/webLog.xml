@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.WebLogMapper">
+
+
+    <insert id="insertNew">
+        INSERT INTO web_log
+        (ip, url, ua, user, time_consuming, create_time)
+        VALUES (#{ip},#{url},#{ua},#{user},#{timeConsuming},#{createTime})
+    </insert>
+
+    <insert id="insertNewBatch">
+        INSERT INTO web_log
+        (ip, url, ua, user, time_consuming, create_time)
+
+        VALUES
+            <foreach collection="list" separator="," item="i">
+                (#{i.ip},#{i.url},#{i.ua},#{i.user},#{i.timeConsuming},#{i.createTime})
+            </foreach>
+    </insert>
+</mapper>

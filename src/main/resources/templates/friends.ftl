@@ -11,6 +11,17 @@
 
     <#include "css.ftl"/>
 
+    <style>
+
+        .list-enter-active, .list-leave-active {
+            transition: all 1s;
+        }
+        .list-enter, .list-leave-to
+            /* .list-leave-active for below version 2.1.8 */ {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
 
 </head>
 
@@ -125,7 +136,8 @@
                             </thead>
                             <tbody>
 
-                            <tr v-for="friend in friendList">
+                            <transition-group name="list">
+                            <tr v-for="(friend,index) in friendList" class="list-item" :key="index">
                                 <td class="serial">{{friend.friendUserId}}.</td>
                                 <td>
                                     <div class="round-img">
@@ -148,6 +160,7 @@
                                 </td>
                             </tr>
 
+                            </transition-group>
 
                             <tr>
 
@@ -182,8 +195,8 @@
                     <div class="card-body">
                         <ul class="media-list">
 
-
-                            <li class="media" style="margin-top: 15px" v-for="friend in recommendFriendList">
+                            <transition-group name="list">
+                            <li class="media" style="margin-top: 15px" v-for="(friend,index) in recommendFriendList" :key="index" class="list-item">
                                 <div class="media-left">
                                     <a href="#">
                                         <img class="media-object" :src="friend.friendUserInfo.profile" alt="..."
@@ -211,6 +224,7 @@
                                 </button>
                             </li>
 
+                            </transition-group>
 
                         </ul>
                     </div>

@@ -161,3 +161,14 @@ CREATE TABLE learning(
   create_time DATETIME NOT NULL ,
   update_time DATETIME
 )ENGINE=InnoDB CHARSET=utf8;
+
+# 创建访问日志表
+CREATE TABLE web_log(
+  log_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  ip VARCHAR(255) NOT NULL ,
+  url VARCHAR(2048) NOT NULL ,
+  ua VARCHAR(1024) ,
+  user INT,
+  time_consuming INT NOT NULL ,
+  create_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;

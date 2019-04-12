@@ -4,7 +4,8 @@ var lesson = new Vue({
     el:"#lesson",
     data:{
         lesson:{},
-        learning:null
+        learning:null,
+        mirrorButton:'镜像'
     }
     ,
     created:function () {
@@ -60,6 +61,18 @@ var lesson = new Vue({
 
                 }
             })
+        }
+        ,
+        videoMirror:function () {
+            if (this.mirrorButton == '镜像'){
+                this.mirrorButton = '还原';
+                $("iframe").addClass("mirror");
+            }else{
+                this.mirrorButton = '镜像';
+                $("iframe").removeClass("mirror");
+            }
+
+
         }
     }
 })
