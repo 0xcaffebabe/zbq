@@ -69,7 +69,9 @@ public class LocationService {
     }
 
     public Location selectByUserId(Integer userId) {
-        if (userId == null) return null;
+        if (userId == null) {
+            return null;
+        }
 
         return locationMapper.selectByUserId(userId);
     }

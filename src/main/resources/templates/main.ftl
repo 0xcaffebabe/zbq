@@ -176,7 +176,8 @@
 
     function logout() {
         common.ajax.delete(common.data.logoutUrl, function (response) {
-
+            localStorage.removeItem("username");
+            localStorage.removeItem("password");
             window.location = "/";
         });
     }

@@ -45,7 +45,9 @@ public class PermissionAspect {
         }
         var permission = permissionService.selectCurrentUserPermission();
 
-        if (permission == null) permission = new UserPermission();
+        if (permission == null) {
+            permission = new UserPermission();
+        }
 
         try {
             String methodName = a.value().getPermission();

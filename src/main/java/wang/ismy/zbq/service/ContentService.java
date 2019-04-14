@@ -46,7 +46,9 @@ public class ContentService {
         Content content = new Content();
         BeanUtils.copyProperties(contentDTO,content);
         content.setUser(currentUser);
-        if (contentMapper.insertNew(content) != 1) ErrorUtils.error(R.UNKNOWN_ERROR);
+        if (contentMapper.insertNew(content) != 1) {
+            ErrorUtils.error(R.UNKNOWN_ERROR);
+        }
     }
 
     public List<ContentVO> selectContentListPaging(Page page){

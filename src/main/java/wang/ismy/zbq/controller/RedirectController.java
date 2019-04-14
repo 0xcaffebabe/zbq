@@ -6,10 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import wang.ismy.zbq.annotations.ErrorPage;
-import wang.ismy.zbq.annotations.MustLogin;
-import wang.ismy.zbq.annotations.Permission;
-import wang.ismy.zbq.annotations.ResultTarget;
+import wang.ismy.zbq.annotations.*;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.service.FriendService;
@@ -31,10 +28,8 @@ public class RedirectController {
     @Autowired
     private FriendService friendService;
 
-
-
-
     @RequestMapping("/")
+    @Limit(maxRequestPerMinute = 10)
     public String index(){
         return "index.html";
     }

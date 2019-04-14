@@ -31,4 +31,11 @@
     <select id="selectByUserId" resultMap="courseMap">
         SELECT * FROM course WHERE publisher = #{id}
     </select>
+    <select id="selectCourseListBatch" resultMap="courseMap">
+        SELECT * FROM course
+        WHERE course_id IN
+        <foreach collection="list" item="i" separator="," close=")" open="(">
+            #{i}
+        </foreach>
+    </select>
 </mapper>

@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Aspect
 @Component
-
 public class ErrorPageAspect {
 
     @Pointcut("@annotation(wang.ismy.zbq.annotations.ErrorPage)")

@@ -79,6 +79,10 @@ public class R {
     public static final String LEARNING_EXIST = "学习记录已存在";
 
     public static final String DELETE_SUCCESS = "删除成功";
+
+    public static final String USERNAME_NOT_EXIST = "用户名不存在";
+
+    public static final String REQUEST_FREQUENTLY = "请求频繁，稍后再试";
 }
 
 

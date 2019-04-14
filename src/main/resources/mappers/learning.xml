@@ -68,5 +68,10 @@
         AND user = 2
         GROUP BY course_id
     </select>
+    <select id="selectLearningListByUserIdGroupByCourseId" resultMap="learningMap">
+        select * from learning
+        where learning_id
+              in (select max(learning_id) from learning WHERE user = #{userId} group by course_id) order by create_time desc
+    </select>
 
 </mapper>

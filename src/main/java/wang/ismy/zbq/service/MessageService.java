@@ -102,7 +102,9 @@ public class MessageService {
         for (var i : list) {
             userIdList.add(i.getFromUser());
         }
-        if (userIdList.size() == 0) return List.of();
+        if (userIdList.size() == 0) {
+            return List.of();
+        }
 
         var userList = userService.selectByUserIdBatch(userIdList);
 

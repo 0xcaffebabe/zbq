@@ -34,7 +34,10 @@ public class CommentServiceTest {
 
         var map = commentService.selectCommentCountByCommentTypeAndTopicIdBatch(CommentTypeEnum.CONTENT,List.of(13,14));
 
-        System.out.println(map);
+        for (int i = 0; i < 100; i++) {
+            assertEquals(null,map);
+        }
+
     }
 
 }

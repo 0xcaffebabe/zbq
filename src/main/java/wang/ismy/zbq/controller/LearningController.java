@@ -7,6 +7,9 @@ import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.LearningService;
 
+/**
+ * @author my
+ */
 @RestController
 @RequestMapping("/learning")
 public class LearningController {
@@ -28,6 +31,13 @@ public class LearningController {
     @MustLogin
     public Object selectSelfLearningById(@PathVariable("id") Integer lessonId){
         return learningService.selectSelfLearningById(lessonId);
+    }
+
+    @GetMapping("/self/list")
+    @ResultTarget
+    @MustLogin
+    public Object selectCurrentUserLearningList(){
+        return learningService.selectCurrentUserLearningList();
     }
 
     @DeleteMapping("/self/{id}")

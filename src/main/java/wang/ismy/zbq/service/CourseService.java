@@ -148,4 +148,12 @@ public class CourseService {
 
 
     }
+
+    public List<Course> selectCourseListBatch(List<Integer> courseIdList){
+        if (courseIdList == null || courseIdList.size() == 0){
+            return List.of();
+        }
+
+        return courseMapper.selectCourseListBatch(courseIdList);
+    }
 }

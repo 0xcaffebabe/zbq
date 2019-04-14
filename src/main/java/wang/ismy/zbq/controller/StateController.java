@@ -2,6 +2,7 @@ package wang.ismy.zbq.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import wang.ismy.zbq.annotations.Limit;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.Page;
@@ -23,6 +24,7 @@ public class StateController {
     @PutMapping("")
     @ResultTarget
     @MustLogin
+    @Limit(maxRequestPerMinute = 2)
     public Object publishState(@RequestBody @Valid StateDTO stateDTO){
         stateService.currentUserPublishState(stateDTO);
         return R.STATE_PUBLISH_SUCCESS;

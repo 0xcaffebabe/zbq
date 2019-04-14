@@ -55,6 +55,34 @@
                     <button v-if="learning != null" class="btn btn-sm btn-warning" style="float: right" @click="deleteLearning">标记为未学会</button>
                 </div>
             </div>
+
+            <div class="card">
+                <div class="card-header">评论</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <textarea class="form-control"></textarea>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-sm btn-primary">发表评论</button>
+                        </div>
+                    </div>
+
+                    <ul class="media-list">
+                        <li class="media" style="margin-top: 15px;">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object" src="/img/anonymous.jpg" alt="..." width="64">
+                                </a>
+                            </div>
+                            <div class="media-body" style="margin-left: 10px;">
+                                <h4 class="media-heading">My、 <span style="color: #878787;font-size: 16px">3天前</span></h4>
+                                <p style="margin-top: 8px">太垃圾了吧 <a href="#" style="font-weight: bold">回复</a></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
 

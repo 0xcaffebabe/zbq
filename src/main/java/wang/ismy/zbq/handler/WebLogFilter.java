@@ -50,7 +50,12 @@ public class WebLogFilter implements Filter {
         }
 
         long time = System.currentTimeMillis();
-        filterChain.doFilter(servletRequest, servletResponse);
+        try{
+            filterChain.doFilter(servletRequest, servletResponse);
+        }catch (Exception e){
+            //TODO
+        }
+
         int timeConsuming = (int) (System.currentTimeMillis()-time);
 
         WebLog webLog = new WebLog();

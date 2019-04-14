@@ -3,6 +3,8 @@ package wang.ismy.zbq.service;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
+import com.aliyun.oss.common.auth.Credentials;
+import com.aliyun.oss.common.auth.CredentialsProvider;
 import com.aliyun.oss.model.*;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class OSSService {
 
 
         String objectName =folder+"/"+ generateRandomImgName(format);
+
 
         OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 

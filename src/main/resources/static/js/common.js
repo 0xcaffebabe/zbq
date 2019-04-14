@@ -7,7 +7,6 @@ function getCommonObject() {
                         url: url,
                         method: "GET",
                         success: success,
-                        cache:false,
                         error: function (response) {
                             alert("数据请求出错");
                             console.log(response);
@@ -18,7 +17,6 @@ function getCommonObject() {
                         url: url,
                         method: "GET",
                         success: success,
-                        cache:false,
                         data: data,
                         error: function (response) {
                             alert("数据请求出错");
@@ -104,7 +102,6 @@ function getCommonObject() {
                     url: url,
                     type: 'POST',
                     data: data,
-                    cache: false,
                     processData: false,
                     contentType: false,
                     success: success,
@@ -161,7 +158,8 @@ function getCommonObject() {
             getSelfLearningProgressUrl:"/learning/self/progress/",
             searchStrangerUrl:"/friend/stranger",
             getNickNameUrl:"/user/nickName/",
-            rejectFriendAddUrl:"/friend/add/reject/"
+            rejectFriendAddUrl:"/friend/add/reject/",
+            getLearningListUrl:"/learning/self/list"
 
 
         },

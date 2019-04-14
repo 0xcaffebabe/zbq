@@ -53,4 +53,17 @@ public class LearningServiceTest {
         userService.setTestUser(userService.selectByPrimaryKey(2));
         System.out.println(learningService.calcCurrentUserLearningProgressInBatch(List.of(1,2,3)));
     }
+
+
+    @Test
+    public void testLearningList(){
+        userService.setTestUser(userService.selectByPrimaryKey(2));
+        var list = learningService.selectCurrentUserLearningList();
+
+        assertEquals(2,list.size());
+
+        assertEquals("转笔探讨新手入门篇",list.get(0).getCourseName());
+
+        assertEquals("转笔探讨5",list.get(1).getCourseName());
+    }
 }

@@ -7,6 +7,11 @@ import wang.ismy.zbq.entity.Comment;
 
 import java.util.List;
 
+
+
+
+
+
 /**
  * @author my
  */
@@ -34,7 +39,9 @@ public interface CommentMapper {
      * 根据commentType和contentId分页地查询出评论列表
      *
      * @param commentType 评论类型
-     * @param contentId
+     * @param contentId 内容ID
+     * @param page 分页
+     * @return 查询的所有列表
      */
     List<Comment> selectCommentByCommentTypeAndContentIdPaging(@Param("commentType") int commentType, @Param("topicId") Integer contentId, @Param("page") Page page);
 

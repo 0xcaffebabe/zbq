@@ -49,7 +49,7 @@ public class UserService {
 
     private User testUser;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int createNewUser(RegisterDTO dto) {
         User user = generateUser(dto);
 
@@ -105,7 +105,7 @@ public class UserService {
 
         User user = userMapper.selectByUsername(username);
         if (user == null) {
-            ErrorUtils.error(R.LOGIN_FAIL);
+            ErrorUtils.error(R.USERNAME_NOT_EXIST);
         }
 
         if (!loginACLService.canLogin(user.getUserId())) {
@@ -124,7 +124,10 @@ public class UserService {
     @MustLogin
     public User getCurrentUser() {
 
-        if (testUser != null) return testUser;
+        if (testUser != null){
+            return testUser;
+        }
+
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Object user = request.getSession().getAttribute("user");
         if (user == null) {
@@ -144,7 +147,9 @@ public class UserService {
 
     public User selectByPrimaryKey(Integer userId) {
 
-        if (userId == null) return null;
+        if (userId == null) {
+            return null;
+        }
         return userMapper.selectByPrimaryKey(userId);
     }
 

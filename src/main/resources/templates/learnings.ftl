@@ -24,20 +24,20 @@
 
     <!-- Animated -->
 
-    <div class="animated fadeIn">
+    <div class="animated fadeIn" id="learning">
 
         <div style="height: 64px;"></div>
 
         <div class="row">
             <div class="col-md-8">
                 <ul class="list-group">
-                    <li class="list-group-item">
+                    <li class="list-group-item" v-for="learning in learningList">
                         <div class="row">
                             <div class="col-md-4">
-                                <img style="height: 128px" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555143535&di=5058d0131eb1b69eea2732ac779c318a&imgtype=jpg&er=1&src=http%3A%2F%2Fi2.hdslb.com%2Fbfs%2Farchive%2Fb2fea25a390fcb7cec967f4c395008c26c9133ab.jpg" alt="">
+                                <img style="height: 128px" :src="learning.courseImg" alt="">
                             </div>
                             <div class="col-md-8">
-                                <h3>转笔探讨5</h3>
+                                <h3>{{learning.courseName}}</h3>
 
                                 <p style="margin-top: 15px;">
                                     <span style="color: red">已学 15%</span> <span>学至 转笔探讨5第十八集</span>
@@ -50,24 +50,7 @@
 
                     </li>
 
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <img style="height: 128px" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555143535&di=5058d0131eb1b69eea2732ac779c318a&imgtype=jpg&er=1&src=http%3A%2F%2Fi2.hdslb.com%2Fbfs%2Farchive%2Fb2fea25a390fcb7cec967f4c395008c26c9133ab.jpg" alt="">
-                            </div>
-                            <div class="col-md-8">
-                                <h3>转笔探讨5</h3>
 
-                                <p style="margin-top: 15px;">
-                                    <span style="color: red">已学 15%</span> <span>学至 转笔探讨5第十八集</span>
-                                </p>
-
-                                <button class="btn btn-sm btn-info" style="float: right">继续学习</button>
-                            </div>
-                        </div>
-
-
-                    </li>
                 </ul>
             </div>
         </div>
@@ -81,6 +64,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-
+<script src="js/learning.js?v=2019041401"></script>
 </body>
 </html>
