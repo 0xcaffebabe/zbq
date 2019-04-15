@@ -40,10 +40,10 @@
                                 <h3>{{learning.courseName}}</h3>
 
                                 <p style="margin-top: 15px;">
-                                    <span style="color: red">已学 15%</span> <span>学至 转笔探讨5第十八集</span>
+                                    <span style="color: red">已学 {{learning.learningProgress}}%</span> <span>学至 {{learning.lastLessonName}}</span>
                                 </p>
 
-                                <button class="btn btn-sm btn-info" style="float: right">继续学习</button>
+                                <button class="btn btn-sm btn-info" style="float: right" @click="continueLearn(learning)">继续学习</button>
                             </div>
                         </div>
 
@@ -64,6 +64,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="js/learning.js?v=2019041401"></script>
+<script src="js/learning.js?v=20190415"></script>
 </body>
 </html>

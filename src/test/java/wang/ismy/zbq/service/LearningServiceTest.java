@@ -62,8 +62,7 @@ public class LearningServiceTest {
 
         assertEquals(2,list.size());
 
-        assertEquals("转笔探讨新手入门篇",list.get(0).getCourseName());
-
-        assertEquals("转笔探讨5",list.get(1).getCourseName());
+        assertEquals("40",list.get(0).getLearningProgress().toString());
+        assertEquals("100",list.get(1).getLearningProgress().toString());
     }
 }

@@ -15,6 +15,8 @@ public class LearningVO {
 
     private BigDecimal learningProgress;
 
-    private String lastLesson;
+    private Integer lastLessonId;
+
+    private String lastLessonName;
 
 }

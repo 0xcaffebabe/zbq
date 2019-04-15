@@ -23,5 +23,9 @@ var larning = new Vue({
                }
            })
        }
+       ,
+        continueLearn:function (learning) {
+            window.location = '/courses/'+learning.courseId;
+        }
     }
 });

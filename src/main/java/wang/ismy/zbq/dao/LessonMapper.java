@@ -19,4 +19,10 @@ public interface LessonMapper {
 
     List<Map<String,Object>> countLessonInBatch(List<Integer> courseIdList);
 
+    /**
+    * 根据lessonId批量查询
+    * @param lessonIdList 主键列表
+     * @return 章节列表
+    */
+    List<Lesson> selectBatch(List<Integer> lessonIdList);
 }

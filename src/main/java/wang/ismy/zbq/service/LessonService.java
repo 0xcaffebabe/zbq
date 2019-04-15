@@ -99,4 +99,8 @@ public class LessonService {
         }
         return map;
     }
+
+    public List<Lesson> selectBatch(List<Integer> lessonIdList){
+        return lessonMapper.selectBatch(lessonIdList);
+    }
 }

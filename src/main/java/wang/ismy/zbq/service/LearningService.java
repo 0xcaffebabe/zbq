@@ -188,27 +188,65 @@ public class LearningService {
         return ret;
     }
 
-    public List<LearningVO> selectCurrentUserLearningList(){
+    public List<LearningVO> selectCurrentUserLearningList() {
         var currentUser = userService.getCurrentUser();
-        var list = learningMapper.selectLearningListByUserIdGroupByCourseId( currentUser.getUserId());
+        var list = learningMapper.selectLearningListByUserIdGroupByCourseId(currentUser.getUserId());
 
         List<Integer> courseIdList = new ArrayList<>();
-        Map<Integer,LearningVO> learningVOMap = new HashMap<>();
-        for (var i : list){
+        Map<Integer, LearningVO> learningVOCourseMap = new HashMap<>();
+        Map<Integer, LearningVO> learningVOLessonMap = new HashMap<>();
+        for (var i : list) {
             courseIdList.add(i.getCourseId());
             LearningVO vo = new LearningVO();
             vo.setCourseId(i.getCourseId());
-            learningVOMap.put(i.getCourseId(),vo);
+            learningVOCourseMap.put(i.getCourseId(), vo);
+            learningVOLessonMap.put(i.getLessonId(), vo);
         }
 
+        // 添加课程内容
         var courseList = courseService.selectCourseListBatch(courseIdList);
-
-        for (var i : courseList){
-            LearningVO vo = learningVOMap.get(i.getCourseId());
+        for (var i : courseList) {
+            LearningVO vo = learningVOCourseMap.get(i.getCourseId());
             vo.setCourseName(i.getCourseName());
             vo.setCourseImg(i.getCourseImg());
         }
-        return learningVOMap.values().stream().collect(Collectors.toList());
+
+        // 添加最近学习章节
+        addLastLesson(learningVOLessonMap);
+
+        // 添加学习进度
+        addLearningProgress(learningVOCourseMap);
+
+        return learningVOCourseMap.values().stream().collect(Collectors.toList());
+    }
+
+    private void addLearningProgress(Map<Integer, LearningVO> learningVOCourseMap) {
+
+        var map = calcCurrentUserLearningProgressInBatch(
+                new ArrayList<>(learningVOCourseMap.keySet())
+        );
+
+        for (var key :map.keySet()){
+            learningVOCourseMap.get(key).setLearningProgress(map.get(key));
+        }
+
+    }
+
+    private void addLastLesson(Map<Integer, LearningVO> learningVOMap) {
+
+        List<Integer> lessonIdList = new ArrayList<>(learningVOMap.keySet());
+
+        var lessonList = lessonService.selectBatch(lessonIdList);
+
+        for (var i : lessonList) {
+
+            var learningVO = learningVOMap.get(i.getLessonId());
+
+            if (learningVO != null) {
+                learningVO.setLastLessonName(i.getLessonName());
+            }
+        }
+
     }
 
 
