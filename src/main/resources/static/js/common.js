@@ -159,7 +159,9 @@ function getCommonObject() {
             searchStrangerUrl:"/friend/stranger",
             getNickNameUrl:"/user/nickName/",
             rejectFriendAddUrl:"/friend/add/reject/",
-            getLearningListUrl:"/learning/self/list"
+            getLearningListUrl:"/learning/self/list",
+            bindEmailUrl:"/userAccount/",
+            getAccountListUrl:"/userAccount/list"
 
 
         },

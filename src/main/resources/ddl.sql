@@ -172,3 +172,14 @@ CREATE TABLE web_log(
   time_consuming INT NOT NULL ,
   create_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
+
+# 创建用户账户绑定表
+CREATE TABLE user_account(
+  user_account_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user INT NOT NULL ,
+  account_type TINYINT(2) NOT NULL COMMENT '账户绑定类型，0为邮箱',
+  account_name VARCHAR(255) NOT NULL ,
+  valid BOOLEAN DEFAULT FALSE,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8;

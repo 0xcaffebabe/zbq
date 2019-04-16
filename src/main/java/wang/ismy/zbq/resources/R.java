@@ -83,6 +83,16 @@ public class R {
     public static final String USERNAME_NOT_EXIST = "用户名不存在";
 
     public static final String REQUEST_FREQUENTLY = "请求频繁，稍后再试";
+
+    public static final String EMAIL_BIND_SUCCESS = "确认链接将在一分钟内发至您的邮箱，若未受到，请检查垃圾箱或邮箱地址是否正确";
+
+    public static final String INCORRECT_EMAIL = "无效的邮箱地址";
+
+    public static final String EMAIL_BOUND = "邮箱已被使用";
+
+    public static final String EMAIL_REPEAT_BIND = "您已绑定";
+
+    public static final String EMAIL_VALID_ERROR ="邮箱绑定验证错误" ;
 }
 
 

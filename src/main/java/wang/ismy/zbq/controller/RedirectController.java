@@ -166,5 +166,12 @@ public class RedirectController {
         return "learnings";
     }
 
+    @RequestMapping("/account")
+    @MustLogin
+    @ErrorPage
+    public Object account(){
+        return "account";
+    }
+
 
 }

@@ -24,9 +24,11 @@
                 <li><a href="space/${user.userId?c}"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
                 <li :class="{active:url=='/home'}">
                     <a href="javascript:jump('/home')"><i class="menu-icon fa fa-user"></i>用户中心 </a>
-
                 </li>
 
+                <li :class="{active:url=='/account'}">
+                    <a href="javascript:jump('/account')"><i class="menu-icon fa fa-shield"></i>安全中心 </a>
+                </li>
                 <li class="menu-title">社交</li><!-- /.menu-title -->
 
 

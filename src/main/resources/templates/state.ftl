@@ -12,6 +12,18 @@
 
     <#include "css.ftl"/>
 
+    <style>
+        .list-enter-active, .list-leave-active {
+            transition: all 1s;
+        }
+
+        .list-enter, .list-leave-to
+            /* .list-leave-active for below version 2.1.8 */
+        {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
 </head>
 
 <body>
@@ -96,7 +108,8 @@
 
 
                                 <ul class="media-list">
-                                    <li class="media" v-for="i in selfStateList" style="margin-top: 15px">
+                                    <transition-group name="list">
+                                    <li class="media" v-for="(i,index) in selfStateList" style="margin-top: 15px" :key="index">
                                         <div class="media-left">
                                             <a href="#">
                                                 <img class="" :src="i.userVO.profile" alt="..." width="48"
@@ -184,15 +197,21 @@
                                                                 </a>
                                                             </div>
                                                             <div class="media-body">
-                                                                <div class="form-group form-inline">
-                                                                    <a href="#">{{atModel[i.stateId]}}</a>
-                                                                    <input type="text" class="form-control"
-                                                                           style="border-left: none!important;"
-                                                                           v-model="commentModel[i.stateId]">
-                                                                    <button class="btn btn-sm btn-primary form-control"
-                                                                            @click="publishComment(i)">
-                                                                        评论
-                                                                    </button>
+                                                                <div class="row">
+                                                                    <div class="col-md-10 col-sm-8 col-xs-8">
+                                                                        <#--<a href="#">{{atModel[i.stateId]}}</a>-->
+                                                                        <input type="text" class="form-control"
+                                                                               style="border-left: none!important;margin-left: 10px"
+                                                                               v-model="commentModel[i.stateId]" :placeholder="atModel[i.stateId]">
+                                                                    </div>
+                                                                    <div class="col-md-2 col-sm-4 col-xs-4">
+                                                                        <button class="btn btn-sm btn-primary form-control"
+                                                                                @click="publishComment(i)">
+                                                                            评论
+                                                                        </button>
+                                                                    </div>
+
+
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -209,6 +228,7 @@
 
                                         <hr>
                                     </li>
+                                    </transition-group>
                                 </ul>
 
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.UserAccountMapper">
+
+    <resultMap id="userAccountMap" type="wang.ismy.zbq.entity.UserAccount">
+        <id column="user_account_id" property="userAccountId"/>
+        <result column="account_type" property="accountType"/>
+        <result column="account_name" property="accountName"/>
+        <result column="valid" property="valid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="user" javaType="wang.ismy.zbq.entity.User">
+            <id column="user" property="userId"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertNew">
+        INSERT INTO user_account (user, account_type, account_name, valid, create_time, update_time)
+        VALUES (
+              #{user.userId},
+            #{accountType},
+            #{accountName},
+            #{valid},
+            NOW(),NOW()
+        )
+    </insert>
+    <update id="updateByAccountNameByAccountTypeAndUserId">
+        UPDATE user_account
+        SET account_name = #{accountName}
+        WHERE user = #{user}
+        AND account_type = #{accountType}
+    </update>
+    <select id="selectByAccountTypeAndAccountName" resultMap="userAccountMap">
+        SELECT * FROM user_account WHERE account_type = #{accountType}
+        AND account_name = #{accountName}
+    </select>
+    <select id="selectByAccountTypeAndUserId" resultMap="userAccountMap">
+        SELECT * FROM user_account WHERE account_type = #{accountType}
+                                         AND user = #{user}
+    </select>
+    <select id="selectByUser" resultMap="userAccountMap">
+        SELECT * FROM user_account
+        WHERE user = #{user}
+    </select>
+</mapper>
