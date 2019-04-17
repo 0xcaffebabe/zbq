@@ -2,7 +2,8 @@ var app = new Vue({
     el: "#login",
     data: {
         username: '',
-        password: ''
+        password: '',
+        isAutoLogin:false
     }
     ,
     created: function () {
@@ -45,6 +46,7 @@ var app = new Vue({
         }
         ,
         autoLogin: function () {
+
             if (localStorage.getItem("username") != null) {
                 common.ajax.post(common.data.loginUrl, function (response) {
                     if (response.success) {
@@ -62,6 +64,9 @@ var app = new Vue({
         }
         ,
         saveLoginState: function () {
+            if (!this.isAutoLogin){
+                return;
+            }
             console.log("save login state");
             localStorage.setItem("username", this.username);
             localStorage.setItem("password", hex_md5(this.password));

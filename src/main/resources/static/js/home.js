@@ -1,6 +1,15 @@
+
+var quickStatrt = new Vue({
+   el:"#quickStart",
+   data:{
+       welcome:''
+   }
+});
+
 var userCard = new Vue({
     created: function () {
         this.getUserInfo();
+
     },
     el: "#userCard",
     data: {
@@ -24,6 +33,7 @@ var userCard = new Vue({
                     that.penYear = response.data.penYear;
                     that.gender = response.data.gender;
                     that.description = response.data.description;
+                    that.createWelcome();
                 } else {
                     alert(response.msg);
                 }
@@ -76,6 +86,33 @@ var userCard = new Vue({
                 }
 
             },data);
+        }
+        ,
+        createWelcome:function () {
+            var hour = new Date().getHours();
+            var prefix = '';
+
+            if (hour >=6 && hour < 9){
+                prefix = '早上';
+            }
+
+            if (hour >=9 && hour < 12){
+                prefix = '上午';
+            }
+
+            if (hour >=12 && hour < 18){
+                prefix = '下午';
+            }
+
+            if (hour >=18){
+                prefix = '晚上';
+            }
+
+            if (hour >=0 && hour < 6){
+                prefix = '凌晨';
+            }
+
+            quickStatrt.welcome = prefix+"好,"+this.nickName;
         }
     },
 

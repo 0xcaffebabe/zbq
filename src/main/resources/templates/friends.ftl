@@ -156,74 +156,16 @@
                         </ul>
 
                         <div class="row">
-                            <div class="col-md-8">共{{friendQuantity}}位笔友,当前第{{friendPage}}页</div>
-                            <div class="col-md-2">
+                            <div class="col-md-8 col-xs-6 col-sm-6">共{{friendQuantity}}位笔友,当前第{{friendPage}}页</div>
+                            <div class="col-md-2 col-xs-3 col-sm-3">
                                 <button class="btn  btn-primary btn-sm" @click="friendPrevPage"><span
                                         class="fa fa-arrow-left"></span></button>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-xs-3 col-sm-3">
                                 <button class="btn  btn-primary btn-sm" @click="friendNextPage"><span
                                         class="fa fa-arrow-right"></span></button>
                             </div>
                         </div>
-
-                    <#--<table class="table ">-->
-                    <#--<thead>-->
-                    <#--<tr>-->
-                    <#--<th class="serial">#</th>-->
-                    <#--<th>头像</th>-->
-                    <#--<th>昵称</th>-->
-                    <#--<th>笔龄</th>-->
-                    <#--<th class="text-center">操作</th>-->
-                    <#--</tr>-->
-                    <#--</thead>-->
-                    <#--<tbody>-->
-
-                    <#--<transition-group name="list">-->
-                    <#--<tr v-for="(friend,index) in friendList" :key="index">-->
-                    <#--<td class="serial">{{friend.friendUserId}}.</td>-->
-                    <#--<td>-->
-                    <#--<div class="round-img">-->
-                    <#--<a href="#"><img class="rounded-circle" :src="friend.friendUserInfo.profile"-->
-                    <#--alt=""></a>-->
-                    <#--</div>-->
-                    <#--</td>-->
-
-                    <#--<td><span>{{friend.friendUserInfo.nickName}}</span></td>-->
-                    <#--<td><span class="product">{{friend.friendUserInfo.penYear}} 年</span></td>-->
-
-                    <#--<td>-->
-                    <#--<div class="text-center btn-group">-->
-
-                    <#--<button class="btn btn-sm btn-success" @click="chat"-->
-                    <#--:data-id="friend.friendUserId"><i class="fa fa-envelope"></i> 聊天-->
-                    <#--</button>-->
-
-                    <#--</div>-->
-                    <#--</td>-->
-                    <#--</tr>-->
-
-                    <#--</transition-group>-->
-
-                    <#--<tr>-->
-
-
-                    <#--<td>共{{friendQuantity}}位笔友</td>-->
-                    <#--<td>当前第{{friendPage}}页</td>-->
-
-                    <#--<td>-->
-                    <#--<button class="btn  btn-primary" @click="friendPrevPage"><span-->
-                    <#--class="fa fa-arrow-left"></span></button>-->
-                    <#--</td>-->
-                    <#--<td>-->
-                    <#--<button class="btn  btn-primary" @click="friendNextPage"><span-->
-                    <#--class="fa fa-arrow-right"></span></button>-->
-                    <#--</td>-->
-
-                    <#--</tr>-->
-                    <#--</tbody>-->
-
-                    <#--</table>-->
                     </div> <!-- /.table-stats -->
                 </div>
 

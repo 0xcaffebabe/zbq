@@ -12,33 +12,34 @@
 <body>
 
 <div id="login">
-    <h1>登录</h1>
+
     <div class="login-form">
-        <div class="close"> </div>
+        <div class="close"></div>
         <div class="head-info">
             <label class="lbl-1"> </label>
             <label class="lbl-2"> </label>
             <label class="lbl-3"> </label>
         </div>
-        <div class="clear"> </div>
+        <div class="clear"></div>
         <div class="avtar">
-            <img src="img/anonymous.jpg" class="img-circle" width="72" height="72" />
+            <img src="img/anonymous.jpg" style="border-radius: 50px" class="img-circle" width="72" height="72"/>
         </div>
         <form>
-            <input type="text" v-model="username" class="text"  placeholder="用户名">
+            <input type="text" v-model="username" class="text" placeholder="用户名">
             <div class="key">
-                <input type="password" v-model="password"  placeholder="密码" @keyup.enter="enterEvent">
+                <input type="password" v-model="password" placeholder="密码" @keyup.enter="enterEvent">
             </div>
-            <div>
-
+            <div class="form-group">
+                <input type="checkbox" class="form-check-input" id="rememberMe" v-model="isAutoLogin"> <label for="rememberMe" style="color:white" >自动登录</label>
             </div>
         </form>
         <div class="signin">
-            <input type="submit" value="登录" @click="login" >
+            <input type="submit" value="登录" @click="login">
         </div>
     </div>
     <div class="copy-rights">
-        <p>没有账号？<a href="/register.html">注册</a></p>
+        <p>没有账号？<a href="/register.html" style="font-size: 24px">注册</a> 忘记密码?<a href="/register.html" style="font-size: 24px">找回</a></p>
+
         <p>Copyright &copy; 2019.IM </p>
     </div>
 </div>
@@ -50,9 +51,9 @@
 <script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/bootstrap.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/login.js?v=2019041301"></script>
-<script>$(document).ready(function(c) {
-    $('.close').on('click', function(c){
-        $('.login-form').fadeOut('slow', function(c){
+<script>$(document).ready(function (c) {
+    $('.close').on('click', function (c) {
+        $('.login-form').fadeOut('slow', function (c) {
             $('.login-form').remove();
         });
     });
