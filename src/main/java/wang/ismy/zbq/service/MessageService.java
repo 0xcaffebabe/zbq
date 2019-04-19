@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.MessageMapper;
 import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.dto.UnreadMessageDTO;
+import wang.ismy.zbq.service.friend.FriendService;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.vo.MessageListVO;
 import wang.ismy.zbq.vo.MessageVO;
 import wang.ismy.zbq.entity.Message;

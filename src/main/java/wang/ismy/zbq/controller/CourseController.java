@@ -6,7 +6,7 @@ import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.CourseDTO;
 import wang.ismy.zbq.resources.R;
-import wang.ismy.zbq.service.CourseService;
+import wang.ismy.zbq.service.course.CourseService;
 
 import javax.validation.Valid;
 

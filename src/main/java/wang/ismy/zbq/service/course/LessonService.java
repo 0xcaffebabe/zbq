@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.course;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,7 @@ import wang.ismy.zbq.dto.LessonDTO;
 import wang.ismy.zbq.entity.Course;
 import wang.ismy.zbq.entity.Lesson;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.LessonListVO;
 import wang.ismy.zbq.vo.LessonVO;

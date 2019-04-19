@@ -9,8 +9,8 @@ import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.FriendAddDTO;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.resources.R;
-import wang.ismy.zbq.service.FriendAddService;
-import wang.ismy.zbq.service.FriendService;
+import wang.ismy.zbq.service.friend.FriendAddService;
+import wang.ismy.zbq.service.friend.FriendService;
 
 import javax.validation.Valid;
 

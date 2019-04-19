@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +28,5 @@ public class UserStateService {
         vo.setProfile(user.getUserInfo().getProfile());
         return vo;
     }
+
 }

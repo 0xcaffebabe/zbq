@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.resources.R;
-import wang.ismy.zbq.service.OSSService;
+import wang.ismy.zbq.service.system.OSSService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import java.io.IOException;

@@ -1,7 +1,6 @@
 package wang.ismy.zbq.service;
 
 
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserPermission;
+import wang.ismy.zbq.service.user.UserService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

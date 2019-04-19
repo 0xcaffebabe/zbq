@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import wang.ismy.zbq.dto.ContentDTO;
 import wang.ismy.zbq.dto.Page;
+import wang.ismy.zbq.service.user.UserService;
 
 import static org.junit.Assert.*;
 

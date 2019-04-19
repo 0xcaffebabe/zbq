@@ -1,12 +1,10 @@
 package wang.ismy.zbq.controller;
 
-import org.apache.ibatis.annotations.Result;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.dto.UserInfoDTO;
-import wang.ismy.zbq.service.UserInfoService;
+import wang.ismy.zbq.service.user.UserInfoService;
 
 import javax.validation.Valid;
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import wang.ismy.zbq.dto.LocationDTO;
+import wang.ismy.zbq.service.user.UserService;
 
 import java.math.BigDecimal;
 

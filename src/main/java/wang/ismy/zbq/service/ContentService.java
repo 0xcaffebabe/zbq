@@ -15,6 +15,7 @@ import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.CommentVO;
 import wang.ismy.zbq.vo.ContentVO;

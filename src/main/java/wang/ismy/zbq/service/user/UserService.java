@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,9 @@ import wang.ismy.zbq.entity.UserPermission;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.*;
+import wang.ismy.zbq.service.friend.FriendService;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.servlet.http.HttpServletRequest;

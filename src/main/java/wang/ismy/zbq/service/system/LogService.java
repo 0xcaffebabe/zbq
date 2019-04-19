@@ -1,17 +1,15 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.system;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.WebLogMapper;
 import wang.ismy.zbq.entity.WebLog;
+import wang.ismy.zbq.service.system.ExecuteService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author my

@@ -11,10 +11,9 @@ import wang.ismy.zbq.dto.LoginDTO;
 import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.dto.UserDTO;
 import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.service.UserInfoService;
-import wang.ismy.zbq.service.UserLoginLogService;
-import wang.ismy.zbq.service.UserService;
-import wang.ismy.zbq.service.UserStateService;
+import wang.ismy.zbq.service.user.UserLoginLogService;
+import wang.ismy.zbq.service.user.UserService;
+import wang.ismy.zbq.service.user.UserStateService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;

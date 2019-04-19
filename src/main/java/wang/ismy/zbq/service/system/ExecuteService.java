@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.system;
 
 import org.springframework.stereotype.Service;
 

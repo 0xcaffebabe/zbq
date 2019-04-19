@@ -1,4 +1,4 @@
-package wang.ismy.zbq.handler;
+package wang.ismy.zbq.handler.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import wang.ismy.zbq.annotations.Permission;
 import wang.ismy.zbq.entity.UserPermission;
 import wang.ismy.zbq.service.PermissionService;
-import wang.ismy.zbq.service.UserService;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import java.lang.reflect.InvocationTargetException;

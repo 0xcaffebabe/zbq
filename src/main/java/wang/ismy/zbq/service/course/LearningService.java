@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.course;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,10 +7,10 @@ import wang.ismy.zbq.entity.Course;
 import wang.ismy.zbq.entity.Learning;
 import wang.ismy.zbq.entity.Lesson;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.LearningVO;
 
-import javax.swing.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;

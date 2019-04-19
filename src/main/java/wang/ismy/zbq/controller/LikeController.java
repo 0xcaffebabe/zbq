@@ -8,7 +8,7 @@ import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.LikeService;
-import wang.ismy.zbq.service.UserService;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 @RestController

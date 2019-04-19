@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.system;
 
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;

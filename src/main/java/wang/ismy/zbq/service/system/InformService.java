@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.system;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,8 +6,17 @@ import org.springframework.transaction.annotation.Transactional;
 import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.MessageService;
+import wang.ismy.zbq.service.friend.FriendService;
+import wang.ismy.zbq.service.system.ExecuteService;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 
+import javax.annotation.PostConstruct;
+
+/**
+ * @author my
+ */
 @Service
 public class InformService {
 
@@ -20,12 +29,13 @@ public class InformService {
     @Autowired
     private UserService userService;
 
-    public InformService() {
-        init();
-    }
+    @Autowired
+    private ExecuteService executeService;
 
-    private void init(){
-        new Thread(()->{
+
+    @PostConstruct
+    public void init(){
+        executeService.submit(()->{
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -36,11 +46,12 @@ public class InformService {
                 //TODO
             }
 
-        }).start();
+        });
     }
 
-    /*
+    /**
     * 创建系统通知账号与某个用户的好友关系
+     * @param userId 用户ID
     */
     @Transactional
     public void createRelationWithSystemAccount(Integer userId){

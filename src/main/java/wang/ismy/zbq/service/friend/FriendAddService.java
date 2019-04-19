@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.friend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,9 @@ import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.entity.FriendAdd;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.system.InformService;
+import wang.ismy.zbq.service.MessageService;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import java.util.ArrayList;

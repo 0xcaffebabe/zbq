@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.course;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import wang.ismy.zbq.dao.CourseMapper;
 import wang.ismy.zbq.dto.CourseDTO;
 import wang.ismy.zbq.entity.Course;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.CourseLessonVO;
 import wang.ismy.zbq.vo.CourseVO;
@@ -15,7 +16,6 @@ import wang.ismy.zbq.vo.UserVO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service

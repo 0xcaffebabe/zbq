@@ -7,6 +7,7 @@ import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.entity.Comment;
 import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import java.util.HashMap;

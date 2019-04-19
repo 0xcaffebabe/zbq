@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service;
+package wang.ismy.zbq.service.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import wang.ismy.zbq.dao.UserAccountMapper;
-import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserAccount;
 import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.system.EmailService;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.mail.MessagingException;

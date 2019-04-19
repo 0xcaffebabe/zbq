@@ -3,8 +3,8 @@ package wang.ismy.zbq.handler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wang.ismy.zbq.entity.WebLog;
-import wang.ismy.zbq.service.LogService;
-import wang.ismy.zbq.service.UserService;
+import wang.ismy.zbq.service.system.LogService;
+import wang.ismy.zbq.service.user.UserService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
