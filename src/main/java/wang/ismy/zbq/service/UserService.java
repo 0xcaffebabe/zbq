@@ -10,6 +10,7 @@ import wang.ismy.zbq.dao.UserMapper;
 import wang.ismy.zbq.dto.MessageDTO;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.dto.RegisterDTO;
+import wang.ismy.zbq.entity.UserLoginLog;
 import wang.ismy.zbq.entity.UserPermission;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.entity.UserInfo;
@@ -42,6 +43,12 @@ public class UserService {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private ExecuteService executeService;
+
+    @Autowired
+    private UserLoginLogService userLoginLogService;
 
     public void setTestUser(User testUser) {
         this.testUser = testUser;
@@ -101,7 +108,7 @@ public class UserService {
 
 
 
-    public void login(String username, String password) {
+    public void login(String username, String password,String ip) {
 
         User user = userMapper.selectByUsername(username);
         if (user == null) {
@@ -115,6 +122,12 @@ public class UserService {
         if (user.getPassword().equals(password)) {
             setCurrentUser(user);
 
+            UserLoginLog loginLog =new UserLoginLog();
+            loginLog.setCreateTime(LocalDateTime.now());
+            loginLog.setLoginIp(ip);
+            loginLog.setLoginUser(user);
+            loginLog.setLoginType(0);
+            userLoginLogService.addLog(loginLog);
 
         } else {
             ErrorUtils.error(R.LOGIN_FAIL);
@@ -199,9 +212,11 @@ public class UserService {
     public void setCurrentUser(User user) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         request.getSession().setAttribute("user", user);
-        new Thread(() -> {
-            userMapper.updateLastLogin(user.getUserId());
-        }).start();
+
+        executeService.submit(()-> userMapper.updateLastLogin(user.getUserId()));
+
+
+
     }
 
     private UserInfo getDefaultUserInfo() {

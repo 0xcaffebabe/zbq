@@ -49,9 +49,9 @@ public class RedirectController {
     }
 
     @RequestMapping("/space/{id}")
+    @ErrorPage
     public Object space(@PathVariable("id") Integer id,ModelMap modelMap){
-        User user = userService.getCurrentUser();
-        modelMap.put("user",user);
+
         return "space";
     }
 

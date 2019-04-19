@@ -183,3 +183,12 @@ CREATE TABLE user_account(
   create_time DATETIME NOT NULL ,
   update_time DATETIME
 )ENGINE=InnoDB CHARSET=utf8;
+
+# 创建用户登录日志表
+CREATE TABLE user_login_log(
+  login_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  login_user INT NOT NULL ,
+  login_ip VARCHAR(255) NOT NULL ,
+  login_type INT NOT NULL ,
+  create_time DATETIME NOT NULL
+)ENGINE=InnoDB CHARSET=utf8;

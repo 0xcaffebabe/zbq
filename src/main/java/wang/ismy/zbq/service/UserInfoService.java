@@ -8,7 +8,9 @@ import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.dao.UserInfoMapper;
 import wang.ismy.zbq.dto.UserInfoDTO;
 import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.UserAccount;
 import wang.ismy.zbq.entity.UserInfo;
+import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 
@@ -21,23 +23,29 @@ public class UserInfoService {
     @Autowired
     private UserService userService;
 
-    /*
-    * 返回主键
-    * */
-    public int insertUserInfo(UserInfo userInfo){
+    @Autowired
+    private UserAccountService userAccountService;
+
+    /**
+     * 返回主键
+     *
+     * @param userInfo 用户信息实体
+     * @return 受影响条数
+     */
+    public int insertUserInfo(UserInfo userInfo) {
         userInfoMapper.insertUserInfo(userInfo);
         return userInfo.getUserInfoId();
     }
 
     @MustLogin
-    public int updateUserInfo(UserInfoDTO userInfoDTO){
+    public int updateUserInfo(UserInfoDTO userInfoDTO) {
         User user = userService.getCurrentUser();
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(userInfoDTO,userInfo);
+        BeanUtils.copyProperties(userInfoDTO, userInfo);
         userInfo.setUserInfoId(user.getUserInfo().getUserInfoId());
         userInfoMapper.updateUserInfo(userInfo);
 
-        if (userInfoMapper.updateUserInfo(userInfo) == 1){
+        if (userInfoMapper.updateUserInfo(userInfo) == 1) {
             userService.refreshCurrentUser();
             return 1;
         }
@@ -45,18 +53,29 @@ public class UserInfoService {
 
     }
 
-    public UserInfoDTO getCurrentUserInfo(){
+    public UserInfoDTO getCurrentUserInfo() {
         User user = userService.getCurrentUser();
-        if (user == null){
+        if (user == null) {
             ErrorUtils.error(R.NOT_LOGIN);
         }
 
         UserInfoDTO userInfoDTO = new UserInfoDTO();
 
         UserInfo userInfo = userInfoMapper.selectByPrimaryKey(user.getUserInfo().getUserInfoId());
-        BeanUtils.copyProperties(userInfo,userInfoDTO);
 
+
+        BeanUtils.copyProperties(userInfo, userInfoDTO);
+        userInfoDTO.setEmail(getCurrentUserEmail(user));
         return userInfoDTO;
+    }
+
+    private String getCurrentUserEmail(User user) {
+        UserAccount account = userAccountService.selectByAccountTypeAndUserId(UserAccountEnum.EMAIL,user.getUserId());
+        String email = null;
+        if (account != null){
+            email = account.getAccountName();
+        }
+        return email;
     }
 
 }

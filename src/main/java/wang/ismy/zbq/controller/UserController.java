@@ -12,7 +12,9 @@ import wang.ismy.zbq.dto.RegisterDTO;
 import wang.ismy.zbq.dto.UserDTO;
 import wang.ismy.zbq.entity.User;
 import wang.ismy.zbq.service.UserInfoService;
+import wang.ismy.zbq.service.UserLoginLogService;
 import wang.ismy.zbq.service.UserService;
+import wang.ismy.zbq.service.UserStateService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -25,7 +27,10 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private UserInfoService userInfoService;
+    private UserStateService userStateService;
+
+    @Autowired
+    private UserLoginLogService userLoginLogService;
 
     @PutMapping("/register")
     @ResultTarget
@@ -39,8 +44,13 @@ public class UserController {
 
     @PostMapping("/login")
     @ResultTarget
-    public Object login(@RequestBody @Valid LoginDTO loginDTO){
-        userService.login(loginDTO.getUsername(),loginDTO.getPassword().toUpperCase());
+    public Object login(@RequestBody @Valid LoginDTO loginDTO,
+                        @RequestHeader(value = "X-Real-Ip",required = false,defaultValue = "") String ip,
+                        HttpServletRequest request){
+        if (ip.isEmpty()){
+            ip = request.getRemoteAddr();
+        }
+        userService.login(loginDTO.getUsername(),loginDTO.getPassword().toUpperCase(),ip);
         return "登录成功";
     }
 
@@ -82,6 +92,19 @@ public class UserController {
     public Object selectUserById(@PathVariable("id") Integer id){
         return userService.selectByPrimaryKey(id).getUserInfo().getNickName();
 
+    }
+
+    @GetMapping("/log/top10")
+    @ResultTarget
+    @MustLogin
+    public Object selectTop10(){
+        return userLoginLogService.currentUserSelectTop10();
+    }
+
+    @GetMapping("/state/{id}")
+    @ResultTarget
+    public Object selectUserStateByUserId(@PathVariable("id") Integer userId){
+        return userStateService.selectByUserId(userId);
     }
 
 }

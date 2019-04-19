@@ -2,10 +2,12 @@
 var account = new Vue({
    el:"#account",
    data:{
-       email:'',emailBtn:'绑定'
+       email:'',emailBtn:'绑定',
+       loginLogList:[]
    },
     created:function () {
        this.getAccountList();
+       this.getLoginLogTop10();
     }
     ,
 
@@ -40,6 +42,17 @@ var account = new Vue({
                 alert("邮箱格式错误");
             }
 
+       }
+       ,
+       getLoginLogTop10:function () {
+           var that = this;
+           common.ajax.get(common.data.getTop10LoginLogUrl,function (r) {
+               if (r.success){
+                   that.loginLogList = r.data;
+               }else {
+                   alert(r.msg);
+               }
+           })
        }
    }
 });

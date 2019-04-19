@@ -10,6 +10,17 @@ var userCard = new Vue({
     created: function () {
         this.getUserInfo();
 
+        var that = this;
+        setTimeout(function () {
+
+            if (!that.email){
+
+                if (confirm("检测到您没有绑定邮箱，绑定邮箱能提升您的账户安全性，并能实时接收到转笔圈的动态，是否前去绑定？")){
+                    location = "/account";
+                }
+            }
+        },3000);
+
     },
     el: "#userCard",
     data: {
@@ -19,7 +30,8 @@ var userCard = new Vue({
         birthday: '',
         penYear: 0,
         gender: 0,
-        description: ''
+        description: '',
+        email:''
     },
     methods: {
         getUserInfo: function () {
@@ -33,6 +45,8 @@ var userCard = new Vue({
                     that.penYear = response.data.penYear;
                     that.gender = response.data.gender;
                     that.description = response.data.description;
+                    that.email = response.data.email;
+
                     that.createWelcome();
                 } else {
                     alert(response.msg);

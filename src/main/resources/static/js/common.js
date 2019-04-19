@@ -161,7 +161,9 @@ function getCommonObject() {
             rejectFriendAddUrl:"/friend/add/reject/",
             getLearningListUrl:"/learning/self/list",
             bindEmailUrl:"/userAccount/",
-            getAccountListUrl:"/userAccount/list"
+            getAccountListUrl:"/userAccount/list",
+            getTop10LoginLogUrl:"/user/log/top10",
+            getUserStateUrl:"/user/state/"
 
 
         },

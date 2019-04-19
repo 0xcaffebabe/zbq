@@ -38,6 +38,7 @@ public class EmailService {
 
     public void sendHtmlMail(String to,String subject,String content) throws MessagingException {
         log.info("发送一封邮件给{}",to);
+
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
         helper.setFrom(from);

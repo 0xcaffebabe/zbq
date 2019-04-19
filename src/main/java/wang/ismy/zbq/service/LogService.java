@@ -24,11 +24,11 @@ public class LogService {
     private static final int WEB_LOG_QUEUE_MAX_SIZE = 10;
     private Queue<WebLog> webLogQueue = new ConcurrentLinkedQueue<>();
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(6);
+    @Autowired
+    private ExecuteService executeService;
 
     public void pushWebLog(WebLog webLog){
-        executorService.submit(()->{
-
+        executeService.submit(()->{
             webLogQueue.add(webLog);
             if (webLogQueue.size() >= WEB_LOG_QUEUE_MAX_SIZE){
                 List<WebLog> webLogList = new ArrayList<>();

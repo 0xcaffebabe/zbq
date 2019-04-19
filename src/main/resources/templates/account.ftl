@@ -20,9 +20,9 @@
 
 
     <div class="animated fadeIn" id="addLesson">
-        <div class="row">
+        <div class="row" id="account">
             <div class="col-md-8">
-                <div class="card" id="account">
+                <div class="card" >
                     <div class="card-header">
                         账户绑定
                     </div>
@@ -35,6 +35,21 @@
 
                     </div>
                 </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        登录日志
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="log in loginLogList">
+                                {{log.loginIp}},{{log.createTime}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -49,6 +64,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/account.js"></script>
+<script src="/js/account.js?v=20190418"></script>
 </body>
 </html>

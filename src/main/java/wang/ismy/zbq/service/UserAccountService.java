@@ -35,6 +35,9 @@ public class UserAccountService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private ExecuteService executeService;
+
     @Value("${config.host}")
     private String host;
 
@@ -45,6 +48,10 @@ public class UserAccountService {
         return accountMapper.insertNew(userAccount);
     }
 
+    public UserAccount selectByAccountTypeAndUserId(UserAccountEnum accountType, Integer userId) {
+        return accountMapper.selectByAccountTypeAndUserId(accountType.getCode(), userId);
+    }
+
     public void currentUserBindEmail(String email) {
         var currentUser = userService.getCurrentUser();
 
@@ -52,9 +59,9 @@ public class UserAccountService {
             ErrorUtils.error(R.INCORRECT_EMAIL);
         }
 
-        UserAccount account = accountMapper.selectByAccountTypeAndAccountName(UserAccountEnum.EMAIL.getCode(),email);
+        UserAccount account = accountMapper.selectByAccountTypeAndAccountName(UserAccountEnum.EMAIL.getCode(), email);
 
-        if (account != null){
+        if (account != null) {
             ErrorUtils.error(R.EMAIL_BOUND);
         }
 
@@ -62,18 +69,18 @@ public class UserAccountService {
         String sign = DigestUtils.md5DigestAsHex(t.getBytes()).toUpperCase();
 
         try {
-            String link = host+"/userAccount/valid?username="+URLEncoder.encode(currentUser.getUsername(),"utf8")
-                    +"&email="+URLEncoder.encode(email,"utf8")
-                    +"&sign="+sign;
+            String link = host + "/userAccount/valid?username=" + URLEncoder.encode(currentUser.getUsername(), "utf8")
+                    + "&email=" + URLEncoder.encode(email, "utf8")
+                    + "&sign=" + sign;
 
-            new Thread(()->{
+            executeService.submit(() -> {
                 try {
-                    emailService.sendHtmlMail(email,"转笔圈邮箱绑定确认",
-                            "您正在进行转笔圈邮箱绑定，请<a href ='"+link+"' style='font-size:24px'>点击我</a>完成绑定");
+                    emailService.sendHtmlMail(email, "转笔圈邮箱绑定确认",
+                            "您正在进行转笔圈邮箱绑定，请<a href ='" + link + "' style='font-size:24px'>点击我</a>完成绑定");
                 } catch (MessagingException e) {
-                    log.error("发送邮件发送错误:{}",e.getMessage());
+                    log.error("发送邮件发送错误:{}", e.getMessage());
                 }
-            }).start();
+            });
 
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
@@ -81,22 +88,22 @@ public class UserAccountService {
 
     }
 
-    public boolean validEmailBinding(String username,String email,String sign){
+    public boolean validEmailBinding(String username, String email, String sign) {
         var user = userService.selectByUsername(username);
 
-        if (user == null){
+        if (user == null) {
             ErrorUtils.error(R.USERNAME_NOT_EXIST);
         }
-        String t = username+ salt + email;
-        if (DigestUtils.md5DigestAsHex(t.getBytes()).toUpperCase().equals(sign)){
+        String t = username + salt + email;
+        if (DigestUtils.md5DigestAsHex(t.getBytes()).toUpperCase().equals(sign)) {
 
-            UserAccount account = accountMapper.selectByAccountTypeAndUserId(UserAccountEnum.EMAIL.getCode(),user.getUserId());
+            UserAccount account = accountMapper.selectByAccountTypeAndUserId(UserAccountEnum.EMAIL.getCode(), user.getUserId());
 
             // 如果该用户已有绑定关系
-            if (account != null){
+            if (account != null) {
                 // 修改原有绑定关系
-                return accountMapper.updateByAccountNameByAccountTypeAndUserId(UserAccountEnum.EMAIL.getCode(),user.getUserId(),email) == 1;
-            }else{
+                return accountMapper.updateByAccountNameByAccountTypeAndUserId(UserAccountEnum.EMAIL.getCode(), user.getUserId(), email) == 1;
+            } else {
                 // 添加新绑定关系
                 UserAccount userAccount = new UserAccount();
                 userAccount.setValid(true);
@@ -106,7 +113,7 @@ public class UserAccountService {
                 return accountMapper.insertNew(userAccount) == 1;
             }
 
-        }else{
+        } else {
             ErrorUtils.error(R.EMAIL_VALID_ERROR);
         }
         return false;
@@ -117,13 +124,13 @@ public class UserAccountService {
 
         var currentUser = userService.getCurrentUser();
 
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
 
         var list = accountMapper.selectByUser(currentUser.getUserId());
 
-        for (var i : list){
-            if (i.getAccountType() == 0){
-                map.put("email",i.getAccountName());
+        for (var i : list) {
+            if (i.getAccountType() == 0) {
+                map.put("email", i.getAccountName());
             }
         }
         return map;
