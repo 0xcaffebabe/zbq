@@ -48,6 +48,24 @@
             </div>
 
             <div class="row">
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">他们也在学</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 col-xs-3 col-sm-3 col-lg3" v-for="classmate in classmateList" style="margin-top: 12px">
+                                    <a href="#" :title="classmate.nickName">
+                                        <img :src="classmate.profile" style="border-radius: 50px" :alt="classmate.nickName" width="48">
+                                    </a>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header"><h3>章节</h3></div>
@@ -65,6 +83,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
         </div>

@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.annotations.Permission;
 import wang.ismy.zbq.dao.ContentMapper;
-import wang.ismy.zbq.dto.ContentCommentDTO;
-import wang.ismy.zbq.dto.ContentDTO;
+import wang.ismy.zbq.dto.content.ContentCommentDTO;
+import wang.ismy.zbq.dto.content.ContentDTO;
 import wang.ismy.zbq.dto.Page;
 import wang.ismy.zbq.entity.Comment;
 import wang.ismy.zbq.entity.Content;
-import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.user.User;
 import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.enums.PermissionEnum;
@@ -21,9 +21,7 @@ import wang.ismy.zbq.vo.CommentVO;
 import wang.ismy.zbq.vo.ContentVO;
 import wang.ismy.zbq.vo.UserVO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -128,8 +126,42 @@ public class ContentService {
             commentVOList.add(CommentVO.convert(i));
         }
 
+
+        addContentCommentUser(commentVOList);
+
         return commentVOList;
 
+    }
+
+    private void addContentCommentUser(List<CommentVO> commentVOList) {
+
+        List<Integer> userIdList = new ArrayList<>();
+        Map<Integer,UserVO> userVOMap = new HashMap<>();
+        for (var i : commentVOList){
+            if (!userIdList.contains(i.getFromUser().getUserId())){
+                userIdList.add(i.getFromUser().getUserId());
+            }
+
+            if (i.getToUser() != null){
+                if (!userIdList.contains(i.getToUser().getUserId())){
+                    userIdList.add(i.getToUser().getUserId());
+                }
+            }
+        }
+
+        var userList = userService.selectByUserIdBatch(userIdList);
+
+        for (var i : userList){
+            userVOMap.put(i.getUserId(),UserVO.convert(i));
+        }
+
+        for (var i : commentVOList){
+            i.setFromUser(userVOMap.get(i.getFromUser().getUserId()));
+
+            if (i.getToUser() != null){
+                i.setToUser(userVOMap.get(i.getToUser().getUserId()));
+            }
+        }
     }
 
     private void addContentLikes(List<ContentVO> contentVOList) {

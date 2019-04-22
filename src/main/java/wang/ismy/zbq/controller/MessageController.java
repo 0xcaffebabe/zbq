@@ -1,12 +1,11 @@
 package wang.ismy.zbq.controller;
 
 
-import org.apache.ibatis.annotations.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
-import wang.ismy.zbq.dto.MessageDTO;
+import wang.ismy.zbq.dto.message.MessageDTO;
 import wang.ismy.zbq.service.MessageService;
 
 import javax.validation.Valid;

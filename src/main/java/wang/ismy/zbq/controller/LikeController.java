@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
-import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.user.User;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.LikeService;

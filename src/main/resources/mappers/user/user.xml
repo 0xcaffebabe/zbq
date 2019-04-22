@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.ismy.zbq.dao.user.UserMapper">
+
+    <resultMap id="userMap" type="wang.ismy.zbq.entity.user.User">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <association property="userPermission" javaType="wang.ismy.zbq.entity.user.UserPermission">
+            <id column="permission" property="userPermissionId"/>
+        </association>
+        <association property="userInfo" javaType="wang.ismy.zbq.entity.user.UserInfo">
+            <id property="userInfoId" column="user_info_id"/>
+            <result property="nickName" column="nick_name"/>
+            <result property="profile" column="profile"/>
+            <result property="region" column="region"/>
+            <result property="gender" column="gender"/>
+        </association>
+    </resultMap>
+
+    <insert id="insert" parameterType="wang.ismy.zbq.entity.user.User" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user (username, password, user_info, permission, create_time, update_time)
+        VALUES (#{username}, #{password}, #{userInfo.userInfoId}, #{userPermission.userPermissionId}, NOW(), NOW())
+    </insert>
+    <update id="updateLastLogin">
+        UPDATE user
+        SET last_login = NOW()
+        WHERE user_id = #{userId}
+    </update>
+    <update id="update">
+        UPDATE user
+        <set>
+            <if test="username!= null">
+                username= #{username},
+            </if>
+
+            <if test="password!= null">
+                password= #{password},
+            </if>
+            <if test="username!= null">
+                username= #{username},
+            </if>
+            <if test="userPermission!= null">
+                permission= #{userPermission.userPermissionId},
+            </if>
+        </set>
+        WHERE user_id = #{userId}
+    </update>
+
+    <select id="selectAll" resultType="wang.ismy.zbq.entity.user.User">
+        SELECT *
+        FROM user
+    </select>
+    <select id="selectByUsername" resultMap="userMap">
+        SELECT
+            user.user_id,
+            user.username,
+            user.password,
+            user.permission,
+            user_info.user_info_id,
+            user_info.nick_name,
+            user_info.profile
+        FROM user, user_info
+        WHERE user.username = #{username} AND user_info.user_info_id = user.user_info
+    </select>
+    <select id="selectByNickNamePaging" resultMap="userMap">
+        SELECT
+            user.user_id,
+            user_info.nick_name,
+            user.permission,
+            user_info.profile,
+            user_info.region,
+            user_info.gender
+        FROM user, user_info
+        WHERE user_info.nick_name LIKE '%' #{nickName} '%' AND user_info.user_info_id = user.user_info
+    </select>
+    <select id="selectByPrimaryKey" resultMap="userMap">
+        SELECT
+            user.user_id,
+            user.username,
+            user.password,
+            user.permission,
+            user_info.user_info_id,
+            user_info.nick_name,
+            user_info.profile
+        FROM user, user_info
+        WHERE user.user_id = #{userId} AND user_info.user_info_id = user.user_info
+    </select>
+    <select id="selectByUserIdBatch" resultMap="userMap">
+        SELECT
+        user.user_id,
+        user_info.nick_name,
+        user.permission,
+        user_info.profile,
+        user_info.gender
+        FROM user, user_info
+        WHERE user.user_id
+        IN
+        <foreach item="i" collection="list" separator="," open="(" close=")">
+            #{i}
+        </foreach>
+        AND user_info.user_info_id = user.user_info
+    </select>
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM user
+    </select>
+</mapper>

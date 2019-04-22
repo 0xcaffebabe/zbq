@@ -21,7 +21,7 @@ var content = new Vue({
         commentContent:'',
         commentList:[],
         commentPage:1,
-        commentLength:5
+        commentLength:15
     }
     ,
     created: function () {
@@ -115,21 +115,26 @@ var content = new Vue({
             this.currentContent = content;
             var that = this;
             if(!$("#staticModal").is(":visible")){
-                common.ajax.get(common.data.getContentCommentListUrl+content.contentId,function (response) {
-                    if (response.success){
-                        var list = response.data;
-                        for (var i =0;i<list.length;i++){
-                            list[i].createTime = moment(list[i].createTime).fromNow();
-                        }
-                        that.commentList = list;
-                    }else{
-                        alert(response.msg);
-                    }
-                },{page:this.commentPage,length:this.commentLength});
+                that.pullCommentList(content);
             }
 
             $("#modalTrigger").trigger("click");
             $("#staticModal").css("margin-top", 100);
+        }
+        ,
+        pullCommentList:function (content) {
+            var that = this;
+            common.ajax.get(common.data.getContentCommentListUrl+content.contentId,function (response) {
+                if (response.success){
+                    var list = response.data;
+                    for (var i =0;i<list.length;i++){
+                        list[i].createTime = moment(list[i].createTime).fromNow();
+                    }
+                    that.commentList = list;
+                }else{
+                    alert(response.msg);
+                }
+            },{page:this.commentPage,length:this.commentLength});
         }
         ,
         commentPaneFocus: function () {
@@ -142,9 +147,13 @@ var content = new Vue({
         ,
         submitComment:function () {
 
+            var that = this;
             common.ajax.put(common.data.submitContentCommentUrl,function (response) {
                 if (response.success){
+                    that.commentContent = '';
+                    that.pullCommentList(that.currentContent);
                     alert(response.data);
+
                 }else{
                     alert(response.msg);
                 }

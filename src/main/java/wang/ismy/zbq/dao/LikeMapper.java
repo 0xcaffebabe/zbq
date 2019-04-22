@@ -1,9 +1,8 @@
 package wang.ismy.zbq.dao;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.dto.ContentLikeDTO;
-import wang.ismy.zbq.entity.Like;
-import wang.ismy.zbq.enums.LikeTypeEnum;
+import wang.ismy.zbq.dto.content.ContentLikeDTO;
+import wang.ismy.zbq.entity.like.Like;
 
 import java.util.List;
 import java.util.Map;

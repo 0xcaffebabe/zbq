@@ -2,7 +2,7 @@ package wang.ismy.zbq.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.ismy.zbq.dao.LoginACLMapper;
+import wang.ismy.zbq.dao.user.LoginACLMapper;
 
 @Service
 public class LoginACLService {

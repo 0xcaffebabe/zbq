@@ -3,9 +3,9 @@ package wang.ismy.zbq.service.course;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.ismy.zbq.dao.CourseMapper;
-import wang.ismy.zbq.dto.CourseDTO;
-import wang.ismy.zbq.entity.Course;
+import wang.ismy.zbq.dao.course.CourseMapper;
+import wang.ismy.zbq.dto.course.CourseDTO;
+import wang.ismy.zbq.entity.course.Course;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
@@ -155,5 +155,18 @@ public class CourseService {
         }
 
         return courseMapper.selectCourseListBatch(courseIdList);
+    }
+
+    public List<UserVO> selectClassmatesByCourseId(Integer courseId){
+
+        var userIdList = courseMapper.selectUserIdListByCourseId(courseId);
+
+        var userList = userService.selectByUserIdBatch(userIdList);
+
+        return userList
+                .stream()
+                .map(UserVO::convert)
+                .collect(Collectors.toList());
+
     }
 }

@@ -60,7 +60,7 @@ public class FriendController {
 
     }
 
-    /*
+    /**
      * 根据nickname搜索陌生人
      */
     @GetMapping("/stranger")

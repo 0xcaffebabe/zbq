@@ -196,7 +196,7 @@
                             <a href="#"><i class="fa fa-qq pr-1"></i></a>
                             <a href="#"><i class="fa fa-weibo pr-1"></i></a>
                             <a href="#"><i class="fa fa-weixin pr-1"></i></a>
-                            <button class="btn btn-sm btn-info">邮箱绑定</button>
+                            <button class="btn btn-sm btn-info" onclick="location='/account'">邮箱绑定</button>
                         </div>
                     </div>
                 </div>

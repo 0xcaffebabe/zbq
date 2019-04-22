@@ -12,10 +12,10 @@
         <result column="content" property="content"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="fromUser" javaType="wang.ismy.zbq.entity.User">
+        <association property="fromUser" javaType="wang.ismy.zbq.entity.user.User">
             <id column="from_user" property="userId"/>
         </association>
-        <association property="toUser" javaType="wang.ismy.zbq.entity.User">
+        <association property="toUser" javaType="wang.ismy.zbq.entity.user.User">
             <id column="to_user" property="userId"/>
         </association>
     </resultMap>
@@ -39,7 +39,11 @@
     </select>
     <select id="selectCommentCountByCommentTypeAndTopicIdBatch" resultType="wang.ismy.zbq.dto.CommentCountDTO">
         SELECT topic_id content_id,COUNT(1) count
-        FROM tb_comment WHERE topic_id IN (14,13,12) AND comment_type = 1 GROUP BY topic_id
+        FROM tb_comment WHERE topic_id IN
+        <foreach collection="idList" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+        AND comment_type = #{commentType} GROUP BY topic_id
     </select>
 
 

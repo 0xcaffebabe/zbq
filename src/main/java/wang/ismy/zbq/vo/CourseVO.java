@@ -2,8 +2,7 @@ package wang.ismy.zbq.vo;
 
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-import wang.ismy.zbq.entity.Course;
-import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.course.Course;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

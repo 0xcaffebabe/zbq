@@ -39,6 +39,11 @@ public class CommentService {
     }
 
     public Map<Integer,Long> selectCommentCountByCommentTypeAndTopicIdBatch(CommentTypeEnum commentType,List<Integer> idList){
+
+        if (idList == null || idList.size() == 0){
+            return Map.of();
+        }
+
         var list = commentMapper.selectCommentCountByCommentTypeAndTopicIdBatch(commentType.getCode(),idList);
 
         Map<Integer,Long> ret= new HashMap<>();

@@ -21,6 +21,13 @@
         .courseTitle:hover{
             color:#878787;
         }
+
+        .center-cropped {
+            object-fit: none; /* Do not scale the image */
+            object-position: center; /* Center the image within the element */
+            height: 960px;
+            width: 640px;
+        }
     </style>
 </head>
 
@@ -49,7 +56,7 @@
 
 
                 <a :href="'/courses/' + course.courseId" class="thumbnail">
-                    <img :src="course.courseImg" alt="" style="border-radius: 5px;width: 100%;">
+                        <img :src="course.courseImg" alt="" style="border-radius: 5px;width: 100%;">
                 </a>
 
                 <div style="padding:10px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" :title="course.courseName">

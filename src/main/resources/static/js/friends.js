@@ -150,13 +150,13 @@ var friends = new Vue({
             }, {kw: this.strangerSearch, page: this.strangerPage, length: 5})
         },
         showFriendAddDialog: function (stranger) {
-            var msg = prompt("给" + stranger.friendUserInfo.nickName + "发送验证消息:");
+            var msg = prompt("给" + stranger.nickName + "发送验证消息:");
 
             if (msg === null) {
                 return;
             }
             if (msg) {
-                this.addFriend(msg, stranger.friendUserId);
+                this.addFriend(msg, stranger.userId);
             } else {
                 alert("请输入验证消息");
             }

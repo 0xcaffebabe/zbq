@@ -11,10 +11,10 @@
         <result column="has_read" property="hasRead"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="fromUser" javaType="wang.ismy.zbq.entity.User">
+        <association property="fromUser" javaType="wang.ismy.zbq.entity.user.User">
             <id column="from_user" property="userId"/>
         </association>
-        <association property="toUser" javaType="wang.ismy.zbq.entity.User">
+        <association property="toUser" javaType="wang.ismy.zbq.entity.user.User">
             <id column="to_user" property="userId"/>
         </association>
     </resultMap>
@@ -35,7 +35,7 @@
             OR (from_user = #{user2} AND to_user = #{user1})
 
     </select>
-    <select id="selectUnreadMessageByUserId" resultType="wang.ismy.zbq.dto.UnreadMessageDTO">
+    <select id="selectUnreadMessageByUserId" resultType="wang.ismy.zbq.dto.message.UnreadMessageDTO">
         SELECT
             message.from_user,
             COUNT(*) msg_count,
@@ -52,7 +52,7 @@
         GROUP BY message.from_user
         ORDER BY message.create_time DESC
     </select>
-    <select id="selectMessageListByUserId" resultType="wang.ismy.zbq.dto.MessageListDTO">
+    <select id="selectMessageListByUserId" resultType="wang.ismy.zbq.dto.message.MessageListDTO">
         SELECT
             message.from_user,
             message.to_user,

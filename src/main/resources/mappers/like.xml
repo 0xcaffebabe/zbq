@@ -5,25 +5,25 @@
 
 <mapper namespace="wang.ismy.zbq.dao.LikeMapper">
 
-    <resultMap id="likeMap" type="wang.ismy.zbq.entity.Like">
+    <resultMap id="likeMap" type="wang.ismy.zbq.entity.like.Like">
         <id column="like_id" property="likeId"/>
         <result column="like_type" property="likeType"/>
         <result column="content_id" property="contentId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="likeUser" javaType="wang.ismy.zbq.entity.User">
+        <association property="likeUser" javaType="wang.ismy.zbq.entity.user.User">
             <id column="like_user" property="userId"/>
         </association>
     </resultMap>
 
-    <insert id="insertNew"  parameterType="wang.ismy.zbq.entity.Like">
+    <insert id="insertNew"  parameterType="wang.ismy.zbq.entity.like.Like">
         INSERT INTO tb_like(like_type, content_id, like_user, create_time, update_time)
                 VALUES (#{likeType},#{contentId},#{likeUser.userId},NOW(),NOW())
     </insert>
     <delete id="deleteLikeByLikeTypeAndContentIdAndUserId">
         DELETE FROM tb_like WHERE like_type = #{likeType} AND content_id = #{contentId} AND like_user = #{userId}
     </delete>
-    <select id="selectLikeListByLikeTypeAndContentId" resultType="wang.ismy.zbq.entity.Like">
+    <select id="selectLikeListByLikeTypeAndContentId" resultType="wang.ismy.zbq.entity.like.Like">
         SELECT * FROM tb_like WHERE like_type = #{likeType}
         AND content_id = #{contentId}
     </select>
@@ -50,7 +50,7 @@
         )
     </select>
 
-    <select id="countLikeByLikeTypeAndContentIdBatch" resultType="wang.ismy.zbq.dto.ContentLikeDTO">
+    <select id="countLikeByLikeTypeAndContentIdBatch" resultType="wang.ismy.zbq.dto.content.ContentLikeDTO">
         SELECT content_id id,COUNT(1) count FROM tb_like WHERE content_id IN
         <foreach collection="contentIdList" item="item" open="(" close=")" separator=",">
             #{item}

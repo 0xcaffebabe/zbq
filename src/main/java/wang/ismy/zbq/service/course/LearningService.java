@@ -2,10 +2,10 @@ package wang.ismy.zbq.service.course;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.ismy.zbq.dao.LearningMapper;
-import wang.ismy.zbq.entity.Course;
-import wang.ismy.zbq.entity.Learning;
-import wang.ismy.zbq.entity.Lesson;
+import wang.ismy.zbq.dao.course.LearningMapper;
+import wang.ismy.zbq.entity.course.Course;
+import wang.ismy.zbq.entity.course.Learning;
+import wang.ismy.zbq.entity.course.Lesson;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;

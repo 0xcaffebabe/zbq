@@ -2,7 +2,7 @@ package wang.ismy.zbq.vo;
 
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-import wang.ismy.zbq.entity.Lesson;
+import wang.ismy.zbq.entity.course.Lesson;
 
 @Data
 public class LessonVO {

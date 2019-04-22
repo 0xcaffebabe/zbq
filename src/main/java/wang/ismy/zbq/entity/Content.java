@@ -1,5 +1,7 @@
 package wang.ismy.zbq.entity;
 
+import wang.ismy.zbq.entity.user.User;
+
 import java.time.LocalDateTime;
 
 public class Content {

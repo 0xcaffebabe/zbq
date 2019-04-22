@@ -3,7 +3,7 @@ package wang.ismy.zbq.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.PermissionMapper;
-import wang.ismy.zbq.entity.UserPermission;
+import wang.ismy.zbq.entity.user.UserPermission;
 import wang.ismy.zbq.service.user.UserService;
 
 @Service

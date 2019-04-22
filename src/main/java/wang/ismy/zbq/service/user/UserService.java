@@ -6,14 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import wang.ismy.zbq.annotations.MustLogin;
-import wang.ismy.zbq.dao.UserMapper;
-import wang.ismy.zbq.dto.MessageDTO;
+import wang.ismy.zbq.dao.user.UserMapper;
+import wang.ismy.zbq.dto.message.MessageDTO;
 import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.dto.RegisterDTO;
-import wang.ismy.zbq.entity.UserLoginLog;
-import wang.ismy.zbq.entity.UserPermission;
-import wang.ismy.zbq.entity.User;
-import wang.ismy.zbq.entity.UserInfo;
+import wang.ismy.zbq.dto.user.RegisterDTO;
+import wang.ismy.zbq.entity.user.UserLoginLog;
+import wang.ismy.zbq.entity.user.UserPermission;
+import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.entity.user.UserInfo;
+import wang.ismy.zbq.handler.SessionListener;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.*;
 import wang.ismy.zbq.service.friend.FriendService;
@@ -52,6 +53,9 @@ public class UserService {
 
     @Autowired
     private UserLoginLogService userLoginLogService;
+
+    @Autowired
+    private SessionListener sessionListener;
 
     public void setTestUser(User testUser) {
         this.testUser = testUser;
@@ -238,4 +242,12 @@ public class UserService {
         return userInfo;
     }
 
+    public long count() {
+
+        return userMapper.count();
+    }
+
+    public long countOnline(){
+        return sessionListener.countOnLine();
+    }
 }

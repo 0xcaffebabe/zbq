@@ -2,7 +2,7 @@ package wang.ismy.zbq.vo;
 
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
-import wang.ismy.zbq.entity.Course;
+import wang.ismy.zbq.entity.course.Course;
 
 import java.util.ArrayList;
 import java.util.List;

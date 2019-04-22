@@ -15,75 +15,86 @@
 
 
 <!-- Static navbar -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation" id="nav">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="index.html">Zbq</a>
+<div id="nav">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation" >
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Zbq</a>
 
 
-            <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">
-                <a href="/main">
-                    <img :src="profile"
-                         alt="" height="32" width="32" class="img-circle">
-                </a>
+                <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">
+                    <a href="/main">
+                        <img :src="profile"
+                             alt="" height="32" width="32" class="img-circle">
+                    </a>
+                </div>
+
+                <a class="navbar-brand">{{nickName==''?'未登录':nickName}}</a>
+                <div class="btn-group navbar navbar-btn" v-if="username == '未登录'">
+                    <a v-show="username == '未登录'" href="/login.html" class="btn btn-primary">登录</a>
+                    <a v-show="username == '未登录'" href="/register.html" class="btn btn-success">注册</a>
+                </div>
+
+
+
             </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
 
-            <a class="navbar-brand">{{nickName==''?'未登录':nickName}}</a>
-            <div class="btn-group navbar navbar-btn" v-if="username == '未登录'">
-                <a v-show="username == '未登录'" href="/login.html" class="btn btn-primary">登录</a>
-                <a v-show="username == '未登录'" href="/register.html" class="btn btn-success">注册</a>
+                    <li class="active">
+                        <a class="text-center">总PSER数:&nbsp;{{userCount}}<br><br>当前在线PSER:&nbsp;{{onlineCount}}</a>
+
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+
+                    <h1>SPIN,</br>WORLD</h1>
+
+                </div>
             </div>
-
 
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="index.html">主页</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
     </div>
-</div>
+    <! --/headerwrap -->
 
-
-<div id="headerwrap">
+    <section id="works"></section>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-lg-offset-3">
+        <div class="row centered mt mb">
+            <h1>网站介绍</h1>
 
-                <h1>SPIN</h1>
-
+            <p>Zbq是一个专属于PSER的社交网站</p>
+            <p>你可以分享你的fs，寻找志同道合的PSER，亦可以学习转笔课程，阅读转笔相关内容</p>
+            <p>如果你对转笔有较深的了解，也可以加入我们，输出转笔相关内容，一起促进这个圈子的良好发展</p>
+            <hr>
+            <h1>快速开始</h1>
+            <div class="col-lg-4 col-md-4 col-sm-4 gallery">
+                <a href="#"><img src="img/xs.jpg" class="img-responsive"></a>
             </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 gallery">
+                <a href="#"><img src="img/rm.jpg" class="img-responsive"></a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 gallery">
+                <a href="#"><img src="img/jj.jpg" class="img-responsive"></a>
+            </div>
+
         </div>
         <! --/row -->
-    </div> <!-- /container -->
-</div>
-<! --/headerwrap -->
-
-<section id="works"></section>
-<div class="container">
-    <div class="row centered mt mb">
-        <h1>快速开始</h1>
-
-        <div class="col-lg-4 col-md-4 col-sm-4 gallery">
-            <a href="#"><img src="img/xs.jpg" class="img-responsive"></a>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 gallery">
-            <a href="#"><img src="img/rm.jpg" class="img-responsive"></a>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 gallery">
-            <a href="#"><img src="img/jj.jpg" class="img-responsive"></a>
-        </div>
-
     </div>
-    <! --/row -->
 </div>
-
 <div id="footerwrap">
     <div class="container">
         <div class="row centered">
@@ -106,5 +117,5 @@
 <script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/jquery.min.js"></script>
 <script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/bootstrap.min.js"></script>
 <script src="js/common.js?v=20190410"></script>
-<script src="js/index.js?v=2019041301"></script>
+<script src="js/index.js?v=20190421"></script>
 </html>

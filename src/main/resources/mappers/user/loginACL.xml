@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.user.LoginACLMapper">
+
+
+    <insert id="insert">
+        INSERT INTO login_acl(user_id,create_time,update_time)
+                VALUES (#{useerId},NOW(),NOW())
+    </insert>
+    <select id="selectLoginStateByUserId" resultType="java.lang.Boolean">
+        SELECT login_state FROM login_acl WHERE user_id = #{userId}
+    </select>
+</mapper>

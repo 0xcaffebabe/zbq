@@ -163,7 +163,10 @@ function getCommonObject() {
             bindEmailUrl:"/userAccount/",
             getAccountListUrl:"/userAccount/list",
             getTop10LoginLogUrl:"/user/log/top10",
-            getUserStateUrl:"/user/state/"
+            getUserStateUrl:"/user/state/",
+            countUserUrl:"/user/count",
+            getClassmatesUrl:"/course/classmates/",
+            countOnlineUserUrl:"/user/online/count"
 
 
         },

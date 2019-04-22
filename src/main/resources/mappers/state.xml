@@ -10,7 +10,7 @@
         <result column="content" property="content"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="user" javaType="wang.ismy.zbq.entity.User">
+        <association property="user" javaType="wang.ismy.zbq.entity.user.User">
             <id column="user" property="userId"/>
         </association>
     </resultMap>

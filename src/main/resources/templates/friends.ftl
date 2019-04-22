@@ -185,24 +185,24 @@
                                     :key="index" class="list-item">
                                     <div class="media-left">
                                         <a href="#">
-                                            <img class="media-object" :src="friend.friendUserInfo.profile" alt="..."
+                                            <img class="media-object" :src="friend.profile" alt="..."
                                                  width="48">
                                         </a>
                                     </div>
 
                                     <div class="media-body" style="margin-left: 15px;">
 
-                                        <h4 class="media-heading">{{friend.friendUserInfo.nickName}} <span
-                                                style="color:#878787;font-size: 16px;">来自：随机推荐</span></h4>
+                                        <h4 class="media-heading">{{friend.nickName}} <span
+                                                style="color:#878787;font-size: 16px;">来自：{{friend.source}}</span></h4>
 
-                                        <span class="badge badge-primary" v-if="friend.friendUserInfo.gender == 1"
+                                        <span class="badge badge-primary" v-if="friend.gender == 1"
                                               title="男"><i class="fa fa-male"></i></span>
-                                        <span class="badge badge-warning" v-if="friend.friendUserInfo.gender == 0"
+                                        <span class="badge badge-warning" v-if="friend.gender == 0"
                                               title="未知"><i class="fa fa-transgender"></i></span>
-                                        <span class="badge badge-danger" v-if="friend.friendUserInfo.gender == -1"
+                                        <span class="badge badge-danger" v-if="friend.gender == -1"
                                               title="女"><i class="fa fa-female"></i></span>
-                                        <span class="badge badge-info"><i class="fa fa-globe"></i> {{friend.friendUserInfo.region}}</span>
-                                        <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.friendUserInfo.penYear}}年</span>
+                                        <span class="badge badge-info"><i class="fa fa-globe"></i> {{friend.region}}</span>
+                                        <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.penYear}}年</span>
 
                                     </div>
                                     <button class="btn btn-info btn-sm" style="float: right"

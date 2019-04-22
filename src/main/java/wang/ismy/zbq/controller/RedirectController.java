@@ -6,7 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import wang.ismy.zbq.annotations.*;
-import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.user.User;
 import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserService;
@@ -102,7 +102,7 @@ public class RedirectController {
     @RequestMapping("/publish/content")
     @MustLogin
     @ErrorPage
-    @Permission(value = PermissionEnum.PUBLISH_CONTENT,msg = "你没有发布内容的权限")
+    @Permission(value = PermissionEnum.PUBLISH_CONTENT,msg = "您没有发布课程的权限，如需开通请发送申请邮件到715711877@qq.com")
     public Object publish(){
         return "publish";
     }
@@ -111,7 +111,7 @@ public class RedirectController {
     @RequestMapping("/publish/course")
     @MustLogin
     @ErrorPage
-    @Permission(PermissionEnum.COURSE_PUBLISH)
+    @Permission(value = PermissionEnum.COURSE_PUBLISH,msg = "您没有发布课程的权限，如需开通请发送申请邮件到715711877@qq.com")
     public Object publish2(){
         return "publish2";
     }

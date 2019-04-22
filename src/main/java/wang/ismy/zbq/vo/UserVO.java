@@ -1,12 +1,13 @@
 package wang.ismy.zbq.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.user.User;
 
 
+/**
+ * @author my
+ */
+@Data
 public class UserVO {
 
     private Integer userId;
@@ -30,27 +31,5 @@ public class UserVO {
         return userVO;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getProfile() {
-        return profile;
-    }
-
-    public void setProfile(String profile) {
-        this.profile = profile;
-    }
 }

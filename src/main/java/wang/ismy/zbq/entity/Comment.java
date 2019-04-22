@@ -1,9 +1,6 @@
 package wang.ismy.zbq.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import wang.ismy.zbq.entity.user.User;
 
 import java.time.LocalDateTime;
 

@@ -1,8 +1,6 @@
 package wang.ismy.zbq.vo;
 
-import lombok.Data;
-import wang.ismy.zbq.entity.Likes;
-import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.like.Likes;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

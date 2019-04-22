@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.user.UserInfoMapper">
+
+
+    <insert id="insertUserInfo" useGeneratedKeys="true" keyProperty="userInfoId" parameterType="wang.ismy.zbq.entity.user.UserInfo">
+
+        INSERT INTO user_info(
+          nick_name, profile, birthday, pen_year, region, gender, description, create_time, update_time
+        ) VALUES (
+                #{nickName},#{profile},#{birthday},#{penYear},#{region},#{gender},#{description},NOW(),NOW()
+        )
+
+    </insert>
+    <update id="updateUserInfo" parameterType="wang.ismy.zbq.entity.user.UserInfo">
+        UPDATE user_info
+        SET
+            nick_name = #{nickName},
+            profile = #{profile},
+            birthday = #{birthday},
+            pen_year = #{penYear},
+            region = #{region},
+            gender = #{gender},
+            description = #{description},
+            update_time = NOW()
+        WHERE
+            user_info_id = #{userInfoId}
+    </update>
+    <select id="selectByPrimaryKey" resultType="wang.ismy.zbq.entity.user.UserInfo">
+        SELECT * FROM user_info WHERE user_info_id = #{key}
+    </select>
+</mapper>

@@ -2,8 +2,8 @@ package wang.ismy.zbq.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.ismy.zbq.dao.UserLoginLogMapper;
-import wang.ismy.zbq.entity.UserLoginLog;
+import wang.ismy.zbq.dao.user.UserLoginLogMapper;
+import wang.ismy.zbq.entity.user.UserLoginLog;
 import wang.ismy.zbq.service.system.ExecuteService;
 
 import java.util.List;

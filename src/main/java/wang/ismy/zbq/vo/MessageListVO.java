@@ -1,7 +1,6 @@
 package wang.ismy.zbq.vo;
 
-import lombok.Data;
-import wang.ismy.zbq.entity.UserInfo;
+import wang.ismy.zbq.entity.user.UserInfo;
 
 
 public class MessageListVO {

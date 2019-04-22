@@ -1,6 +1,6 @@
 package wang.ismy.zbq.entity;
 
-import lombok.Data;
+import wang.ismy.zbq.entity.user.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

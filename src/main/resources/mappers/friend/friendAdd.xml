@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.friend.FriendAddMapper">
+
+    <resultMap id="friendAddMap" type="wang.ismy.zbq.entity.friend.FriendAdd">
+        <id column="friend_add_id" property="friendAddId"/>
+        <result column="msg" property="msg"/>
+        <result column="visible" property="visible"/>
+        <result column="create_time" property="createTime"/>
+        <association property="fromUser" javaType="wang.ismy.zbq.entity.user.User">
+            <id property="userId" column="from_user"/>
+        </association>
+        <association property="toUser" javaType="wang.ismy.zbq.entity.user.User">
+            <id property="userId" column="to_user"/>
+        </association>
+    </resultMap>
+
+
+    <insert id="insertNew" >
+        INSERT INTO friend_add(from_user, to_user, msg, create_time, update_time)
+                VALUE(#{fromUser.userId},#{toUser.userId},#{msg},NOW(),NOW())
+    </insert>
+    <update id="updateVisible">
+        UPDATE friend_add
+        SET visible = FALSE,update_time = NOW()
+        WHERE friend_add_id = #{friendAddId}
+    </update>
+    <select id="selectFriendAddByFromUserAndToUser" resultMap="friendAddMap">
+        SELECT * FROM friend_add WHERE from_user = #{from} AND to_user = #{to} AND visible = TRUE
+    </select>
+    <select id="selectFriendAddListByToUserId" resultMap="friendAddMap">
+        SELECT * FROM friend_add WHERE to_user = #{userId} ORDER BY create_time DESC;
+    </select>
+    <select id="selectFriendAddByPrimaryKey" resultMap="friendAddMap">
+        SELECT * FROM friend_add WHERE friend_add_id = #{friendAddId}
+    </select>
+
+</mapper>

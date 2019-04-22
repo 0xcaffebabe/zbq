@@ -2,18 +2,21 @@ package wang.ismy.zbq.service.friend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.ismy.zbq.dao.FriendMapper;
+import org.springframework.util.StringUtils;
+import wang.ismy.zbq.dao.friend.FriendMapper;
 import wang.ismy.zbq.dto.FriendAddDTO;
 import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.entity.Friend;
-import wang.ismy.zbq.entity.User;
+import wang.ismy.zbq.entity.friend.Friend;
+import wang.ismy.zbq.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.FriendAddVO;
+import wang.ismy.zbq.vo.RecommendFriendVO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FriendService {
@@ -29,7 +32,7 @@ public class FriendService {
 
     public List<Friend> selectCurrentUserAllFriendPaging(Page page) {
         User user = userService.getCurrentUser();
-        return friendMapper.selectFriendByUserIdPaging(user.getUserId(),page);
+        return friendMapper.selectFriendByUserIdPaging(user.getUserId(), page);
     }
 
     public List<Friend> selectCurrentUserFriendByNickName(String nickName) {
@@ -37,14 +40,37 @@ public class FriendService {
         return friendMapper.selectFriendByUserIdAndNickname(user.getUserId(), nickName);
     }
 
-    public List<Friend> selectCurrentUserRecommendFriend() {
+    public List<RecommendFriendVO> selectCurrentUserRecommendFriend() {
         User user = userService.getCurrentUser();
-        return friendMapper.selectRecommendFriendByUserId(user.getUserId());
+
+        // 查询出好友数量前2的用户
+        List<Integer> hotUserId = friendMapper.selectTop2ByUserIdOrderByFriendCount(user.getUserId());
+
+        var hotUser = userService.selectByUserIdBatch(hotUserId);
+
+        var retList = hotUser
+                .stream()
+                .map(RecommendFriendVO::convert)
+                .collect(Collectors.toList());
+        retList.forEach(e->e.setSource("热门用户"));
+
+
+        retList.addAll(
+                friendMapper.selectRecommendFriendByUserId(user.getUserId())
+                        .stream().map(RecommendFriendVO::convert).collect(Collectors.toList())
+        );
+
+        for (var i :retList){
+            if (StringUtils.isEmpty(i.getSource())){
+                i.setSource("随机推荐");
+            }
+        }
+        return retList;
     }
 
-    public List<Friend> selectStrangerByNickNamePaging(String nickName,Page page) {
+    public List<Friend> selectStrangerByNickNamePaging(String nickName, Page page) {
 
-        var list = userService.selectUserByUsernamePaging(nickName,page);
+        var list = userService.selectUserByUsernamePaging(nickName, page);
         var ret = new ArrayList<Friend>();
         User user = userService.getCurrentUser();
 
@@ -70,7 +96,7 @@ public class FriendService {
         }
 
 
-        if (isFriend(friendAddDTO.getFromUser(),friendAddDTO.getToUser())){
+        if (isFriend(friendAddDTO.getFromUser(), friendAddDTO.getToUser())) {
             ErrorUtils.error(R.FRIEND_RELATION_CREATED);
         }
         return friendAddService.insertNew(friendAddDTO);
@@ -84,11 +110,11 @@ public class FriendService {
         List<FriendAddVO> ret = new ArrayList<>();
         for (var i : list) {
             FriendAddVO vo = new FriendAddVO();
-                    vo.setFriendAddId(i.getFriendAddId());
-                    vo.setUserInfo(i.getFromUser().getUserInfo());
-                    vo.setMsg(i.getMsg());
-                    vo.setVisible(i.getVisible());
-                    vo.setCreateTime(i.getCreateTime());
+            vo.setFriendAddId(i.getFriendAddId());
+            vo.setUserInfo(i.getFromUser().getUserInfo());
+            vo.setMsg(i.getMsg());
+            vo.setVisible(i.getVisible());
+            vo.setCreateTime(i.getCreateTime());
             ret.add(vo);
         }
 
@@ -104,13 +130,13 @@ public class FriendService {
     }
 
 
-    public int countCurrentUserFriend(){
+    public int countCurrentUserFriend() {
         User user = userService.getCurrentUser();
 
         return friendMapper.countByUserId(user.getUserId());
     }
 
-    public List<Integer> selectFriendListByUserId(Integer userId){
+    public List<Integer> selectFriendListByUserId(Integer userId) {
 
         return friendMapper.selectFriendListByUserId(userId);
     }

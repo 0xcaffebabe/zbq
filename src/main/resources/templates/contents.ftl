@@ -35,18 +35,18 @@
                         <span style="cursor: pointer;float: right" @click="showComment">&times;</span>
                         <h5 class="modal-title" id="staticModalLabel">{{commentList.length}}条评论</h5>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="height: 500px;overflow: scroll">
 
                         <ul class="media-list">
                             <li class="media" v-for="comment in commentList">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img class="media-object" src="/img/anonymous.jpg" alt="..." width="48">
+                                        <img class="media-object" :src="comment.fromUser.profile" alt="..." width="48">
                                     </a>
                                 </div>
                                 <div class="media-body" style="margin-left: 10px;">
                                     <span style="float: right"><i class="fa fa-clock-o"></i> {{comment.createTime}}</span>
-                                    <h4 class="media-heading">root</h4>
+                                    <h4 class="media-heading">{{comment.fromUser.nickName}}</h4>
                                     <p>{{comment.content}}</p>
                                 </div>
                                 <hr>
@@ -146,7 +146,7 @@
 
 <#include "script.ftl"/>
 
-<script src="/js/content.js?v=20190410"></script>
+<script src="/js/content.js?v=20190422"></script>
 <script>
 
 

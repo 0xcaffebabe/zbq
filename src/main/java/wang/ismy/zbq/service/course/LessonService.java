@@ -3,10 +3,10 @@ package wang.ismy.zbq.service.course;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.ismy.zbq.dao.LessonMapper;
+import wang.ismy.zbq.dao.course.LessonMapper;
 import wang.ismy.zbq.dto.LessonDTO;
-import wang.ismy.zbq.entity.Course;
-import wang.ismy.zbq.entity.Lesson;
+import wang.ismy.zbq.entity.course.Course;
+import wang.ismy.zbq.entity.course.Lesson;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
@@ -102,6 +102,9 @@ public class LessonService {
     }
 
     public List<Lesson> selectBatch(List<Integer> lessonIdList){
+        if (lessonIdList == null || lessonIdList.size() == 0){
+            return List.of();
+        }
         return lessonMapper.selectBatch(lessonIdList);
     }
 }
