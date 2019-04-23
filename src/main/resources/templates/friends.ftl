@@ -74,7 +74,7 @@
                                         <td class="serial">{{stranger.friendUserId}}.</td>
                                         <td>
                                             <div class="round-img">
-                                                <a href="#"><img class="rounded-circle" width="48"
+                                                <a href="#" @click.prevent="visitFriend(stranger.friendUserId)"><img class="rounded-circle" width="48"
                                                                  :src="stranger.friendUserInfo.profile"
                                                                  alt=""></a>
                                             </div>
@@ -132,7 +132,7 @@
                                 <li class="media" style="margin-top: 15px" v-for="(friend,index) in friendList"
                                     :key="index">
                                     <div class="media-left">
-                                        <a href="#">
+                                        <a @click.prevent="visitFriend(friend.friendUserId)" href="#">
                                             <img class="media-object" :src="friend.friendUserInfo.profile" alt="..."
                                                  width="48">
                                         </a>
@@ -184,7 +184,7 @@
                                 <li class="media" style="margin-top: 15px" v-for="(friend,index) in recommendFriendList"
                                     :key="index" class="list-item">
                                     <div class="media-left">
-                                        <a href="#">
+                                        <a href="#" @click.prevent="visitFriend(friend.userId)">
                                             <img class="media-object" :src="friend.profile" alt="..."
                                                  width="48">
                                         </a>
@@ -201,7 +201,8 @@
                                               title="未知"><i class="fa fa-transgender"></i></span>
                                         <span class="badge badge-danger" v-if="friend.gender == -1"
                                               title="女"><i class="fa fa-female"></i></span>
-                                        <span class="badge badge-info"><i class="fa fa-globe"></i> {{friend.region}}</span>
+                                        <span class="badge badge-info"><i
+                                                class="fa fa-globe"></i> {{friend.region}}</span>
                                         <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.penYear}}年</span>
 
                                     </div>
@@ -236,7 +237,7 @@
                                 <li class="media" style="margin-top: 15px" v-for="(friend,index) in friendAddList"
                                     :key="index">
                                     <div class="media-left">
-                                        <a href="#">
+                                        <a href="#" @click.prevent="visitFriend(friend.userId)">
                                             <img class="media-object" :src="friend.userInfo.profile" alt="..."
                                                  width="48">
                                         </a>
@@ -296,7 +297,7 @@
 
 
 <#include "script.ftl"/>
-<script src="js/friends.js?v=2019041302"></script>
+<script src="js/friends.js?v=20190412"></script>
 
 
 </body>

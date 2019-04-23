@@ -21,7 +21,7 @@
     <nav class="navbar navbar-expand-sm navbar-default" id="side">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="space/${user.userId?c}"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
+                <li :class="{active:url.startsWith('/space${user.userId?c}')}"><a href="javascript:jump('/space/${user.userId?c}')"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
                 <li :class="{active:url=='/home'}">
                     <a href="javascript:jump('/home')"><i class="menu-icon fa fa-user"></i>用户中心 </a>
                 </li>
@@ -39,6 +39,8 @@
                 <li :class="{active:url == '/maps'}"><a href="javascript:jump('/maps')" class="dropdown-toggle"> <i
                         class="menu-icon fa fa-street-view"></i>转笔地图</a></li>
 
+                <li :class="{active:url == '/square'}"><a href="javascript:jump('/square')"  class="dropdown-toggle"> <i
+                        class="menu-icon fa fa-microphone"></i>转笔广场</a></li>
 
                 <li class="menu-title">内容</li>
 

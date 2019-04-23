@@ -115,6 +115,7 @@ public class FriendService {
             vo.setMsg(i.getMsg());
             vo.setVisible(i.getVisible());
             vo.setCreateTime(i.getCreateTime());
+            vo.setUserId(i.getFromUser().getUserId());
             ret.add(vo);
         }
 

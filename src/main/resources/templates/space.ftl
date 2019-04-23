@@ -38,7 +38,7 @@
 
 
             <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">
-                <a href="/main">
+                <a href="/main" @click.prevent="jumpMain">
                     <img :src="profile"
                          alt="" height="32" width="32" class="img-circle">
                 </a>
@@ -183,6 +183,10 @@
 <script src="/js/jquery.js"></script>
 <script src="/js/bootstrap.js"></script>
 <script src="/js/common.js?v=20190410"></script>
-<script src="/js/index.js?v=20190410"></script>
+<script src="/js/index.js?v=20190423"></script>
 <script src="/js/space.js?v=20190418"></script>
+
+<script>
+
+</script>
 </html>

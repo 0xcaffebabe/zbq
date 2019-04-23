@@ -240,5 +240,10 @@ var state = new Vue({
             }
 
         }
+        ,
+        visitFriend:function (id) {
+
+            location = "/space/"+id;
+        }
     }
 });

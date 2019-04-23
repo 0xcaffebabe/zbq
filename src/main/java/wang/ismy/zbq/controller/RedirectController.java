@@ -166,5 +166,11 @@ public class RedirectController {
         return "account";
     }
 
+    @RequestMapping("/square")
+    @MustLogin
+    @ErrorPage
+    public Object square(){
+        return "square";
+    }
 
 }

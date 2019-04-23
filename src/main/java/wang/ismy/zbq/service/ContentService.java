@@ -96,7 +96,7 @@ public class ContentService {
                 .map(ContentVO::getContentId)
                 .collect(Collectors.toList());
 
-        var map = commentService.selectCommentCountByCommentTypeAndTopicIdBatch(CommentTypeEnum.CONTENT,list);
+        var map = commentService.selectCommentCount(CommentTypeEnum.CONTENT,list);
 
         for (var i : contentVOList){
             if (map.get(i.getContentId()) != null){
@@ -119,7 +119,7 @@ public class ContentService {
     }
 
     public List<CommentVO> selectContentCommentListPaging(Integer contentId, Page p) {
-        var list = commentService.selectCommentByCommentTypeAndContentIdPaging(CommentTypeEnum.CONTENT,contentId,p);
+        var list = commentService.selectComments(CommentTypeEnum.CONTENT,contentId,p);
 
         List<CommentVO> commentVOList = new ArrayList<>();
         for (var i : list){

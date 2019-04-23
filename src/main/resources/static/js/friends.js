@@ -212,5 +212,9 @@ var friends = new Vue({
             var friendAddId = event.srcElement.dataset.id;
             window.location = "/chat/" + friendAddId;
         }
+        ,
+        visitFriend:function (id) {
+            location="/space/"+id;
+        }
     }
 });

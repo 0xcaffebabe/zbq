@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author my
+ */
 @Service
 public class CommentService {
 
@@ -23,8 +26,15 @@ public class CommentService {
     @Autowired
     private UserService userService;
 
-    public List<Comment> selectCommentByCommentTypeAndTopicId(CommentTypeEnum commentType,
-                                                              List<Integer> topicIds) {
+    /**
+     * 查询评论列表
+     *
+     * @param commentType 评论类型
+     * @param topicIds    主题ID列表
+     * @return 评论列表
+     */
+    public List<Comment> selectComments(CommentTypeEnum commentType,
+                                        List<Integer> topicIds) {
 
         if (topicIds.size() == 0) {
             return List.of();
@@ -32,31 +42,46 @@ public class CommentService {
         return commentMapper.selectCommentListByCommentTypeAndTopicIdBatch(commentType.getCode(), topicIds);
     }
 
-    public List<Comment> selectCommentByCommentTypeAndContentIdPaging(CommentTypeEnum commentType,
-                                                                      Integer contentId,
-                                                                      Page p){
-        return commentMapper.selectCommentByCommentTypeAndContentIdPaging(commentType.getCode(),contentId,p);
+    /**
+     * 取出评论列表
+     *
+     * @param commentType 评论类型
+     * @param contentId   内容ID
+     * @param page        分页组件
+     * @return 评论列表
+     */
+    public List<Comment> selectComments(CommentTypeEnum commentType,
+                                        Integer contentId,
+                                        Page page) {
+        return commentMapper.selectCommentByCommentTypeAndContentIdPaging(commentType.getCode(), contentId, page);
     }
 
-    public Map<Integer,Long> selectCommentCountByCommentTypeAndTopicIdBatch(CommentTypeEnum commentType,List<Integer> idList){
+    /**
+     * 查询主题评论数量
+     *
+     * @param commentType 评论类型
+     * @param idList      主题ID列表
+     * @return 主题ID映射评论数量哈希表
+     */
+    public Map<Integer, Long> selectCommentCount(CommentTypeEnum commentType, List<Integer> idList) {
 
-        if (idList == null || idList.size() == 0){
+        if (idList == null || idList.size() == 0) {
             return Map.of();
         }
+        var list = commentMapper.selectCommentCountByCommentTypeAndTopicIdBatch(commentType.getCode(), idList);
 
-        var list = commentMapper.selectCommentCountByCommentTypeAndTopicIdBatch(commentType.getCode(),idList);
-
-        Map<Integer,Long> ret= new HashMap<>();
-        for (var i : list){
-            ret.put(i.getContentId(),i.getCount());
+        Map<Integer, Long> ret = new HashMap<>();
+        for (var i : list) {
+            ret.put(i.getContentId(), i.getCount());
         }
 
         return ret;
     }
+
     public int createNewCommentRecord(Comment comment) {
 
-        if (comment.getToUser() != null ){
-            if (userService.selectByPrimaryKey(comment.getToUser().getUserId()) == null){
+        if (comment.getToUser() != null) {
+            if (userService.selectByPrimaryKey(comment.getToUser().getUserId()) == null) {
                 ErrorUtils.error(R.TARGET_USER_NOT_EXIST);
             }
         }

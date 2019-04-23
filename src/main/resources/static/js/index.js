@@ -65,6 +65,16 @@ var app = new Vue({
                 }
             })
         }
+        ,
+        jumpMain:function () {
+
+            if (parent === window){
+                location = '/main';
+            }else{
+
+                parent.window.jump("/home");
+            }
+        }
     }
 });
 

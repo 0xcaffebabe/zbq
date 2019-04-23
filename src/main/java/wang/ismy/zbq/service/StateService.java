@@ -221,7 +221,7 @@ public class StateService {
     private void addStateComment(List<StateVO> stateVOList) {
         var stateIdList = getStateIdList(stateVOList);
 
-        var CommentList = commentService.selectCommentByCommentTypeAndTopicId(CommentTypeEnum.STATE, stateIdList);
+        var CommentList = commentService.selectComments(CommentTypeEnum.STATE, stateIdList);
 
         List<Integer> userIdList = new ArrayList<>();
         for (var i : CommentList) {

@@ -5,12 +5,20 @@ import wang.ismy.zbq.entity.user.UserInfo;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author my
+ */
 @Data
 public class FriendAddVO {
 
     private Integer friendAddId;
 
-    private UserInfo userInfo; // 请求添加放用户信息
+    private Integer userId;
+
+    /**
+     * 请求添加放用户信息
+     */
+    private UserInfo userInfo;
 
     private String msg;
 

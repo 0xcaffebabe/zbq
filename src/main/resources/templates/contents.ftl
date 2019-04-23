@@ -71,7 +71,7 @@
 
                 <div class="media">
                     <div class="media-left">
-                        <a href="#">
+                        <a href="#" :href="'/space/'+content.user.userId">
                             <img class="media-object" :src="content.user.profile" alt="..." width="64">
                         </a>
                     </div>

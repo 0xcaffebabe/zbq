@@ -12,17 +12,21 @@
 
     <#include "css.ftl"/>
 
-
     <style>
 
-        .green{
-            color:green;
+        .green {
+            color: green;
         }
-        .hasLearn{
-            color:#878787
+
+        .hasLearn {
+            color: #878787
         }
-        .unLearn{
-            color:#000;
+
+        .unLearn {
+            color: #000;
+        }
+        .bb{
+            background-size:cover
         }
     </style>
 </head>
@@ -30,9 +34,13 @@
 <body>
 
 <div id="course">
-    <div class="jumbotron" style="background:#4183c4">
+    <div class="jumbotron"
+         style="background:#4183c4"
+
+
+    >
         <h1 style="color:white">{{course.courseName}}</h1>
-        <strong>学习进度:{{progress}}%</strong>
+        <strong style="color: white">学习进度:{{progress}}%</strong>
         <p><a class="btn btn-info btn-lg" href="#" role="button">开始学习</a></p>
     </div>
 
@@ -41,7 +49,7 @@
 
         <!-- Animated -->
 
-        <div class="animated fadeIn" >
+        <div class="animated fadeIn">
             <div class="card">
                 <div class="card-header"><h3>简介</h3></div>
                 <div class="card-body">{{course.courseDesc}}</div>
@@ -54,9 +62,12 @@
                         <div class="card-header">他们也在学</div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 col-xs-3 col-sm-3 col-lg3" v-for="classmate in classmateList" style="margin-top: 12px">
-                                    <a href="#" :title="classmate.nickName">
-                                        <img :src="classmate.profile" style="border-radius: 50px" :alt="classmate.nickName" width="48">
+                                <div class="col-md-3 col-xs-3 col-sm-3 col-lg3" v-for="classmate in classmateList"
+                                     style="margin-top: 12px">
+                                    <a href="#" :href="'/space/'+classmate.userId" :title="classmate.nickName">
+                                        <img :src="classmate.profile" style="border-radius: 50px"
+                                             :alt="classmate.nickName" width="48">
+                                        <h5 class="text-center">{{classmate.nickName}}</h5>
                                     </a>
 
                                 </div>
@@ -73,8 +84,10 @@
                             <ul class="list-group">
                                 <li class="list-group-item" v-for="lesson in course.lessonList">
                                     <i class="fa fa-play-circle"></i>
-                                    <i class="fa fa-check-circle" :class="{green:lesson.hasLearn}" style="float: right"></i>
-                                    <a :href="'/lessons/' + lesson.lessonId" :class="{hasLearn:lesson.hasLearn,unLearn:!lesson.hasLearn}">
+                                    <i class="fa fa-check-circle" :class="{green:lesson.hasLearn}"
+                                       style="float: right"></i>
+                                    <a :href="'/lessons/' + lesson.lessonId"
+                                       :class="{hasLearn:lesson.hasLearn,unLearn:!lesson.hasLearn}">
                                         {{lesson.lessonName}}
                                     </a>
                                 </li>
