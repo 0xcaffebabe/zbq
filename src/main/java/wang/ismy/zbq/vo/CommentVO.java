@@ -3,6 +3,7 @@ package wang.ismy.zbq.vo;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import wang.ismy.zbq.entity.Comment;
+import wang.ismy.zbq.vo.user.UserVO;
 
 import java.time.LocalDateTime;
 

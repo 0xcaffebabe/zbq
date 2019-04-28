@@ -1,7 +1,23 @@
 package wang.ismy.zbq.enums;
 
+/**
+ * @author my
+ */
+
 public enum PermissionEnum {
-    LOGIN("login"),PUBLISH_CONTENT("contentPublish"),COURSE_PUBLISH("coursePublish");
+
+    /**
+     * 登录权限
+     */
+    LOGIN("login"),
+    /**
+     * 内容发布权限
+     */
+    PUBLISH_CONTENT("contentPublish"),
+    /**
+     * 课程发布权限
+     */
+    COURSE_PUBLISH("coursePublish");
 
 
     private String permission;

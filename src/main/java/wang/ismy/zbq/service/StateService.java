@@ -19,13 +19,16 @@ import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.CommentVO;
 import wang.ismy.zbq.vo.StateVO;
-import wang.ismy.zbq.vo.UserVO;
+import wang.ismy.zbq.vo.user.UserVO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author my
+ */
 @Service
 public class StateService {
 
@@ -150,12 +153,12 @@ public class StateService {
 
         List<Integer> stateIdList = getStateIdList(stateVOList);
 
-        var LikeList = likeService.selectLikeListByLikeTypeAndContentIdBatch(LikeTypeEnum.STATE, stateIdList);
+        var likeList = likeService.selectLikeListByLikeTypeAndContentIdBatch(LikeTypeEnum.STATE, stateIdList);
 
 
         Map<Integer, Likes> cacheMap = new HashMap<>();
         List<Integer> userIdList = new ArrayList<>();
-        for (var i : LikeList) {
+        for (var i : likeList) {
             userIdList.add(i.getLikeUser().getUserId());
             if (cacheMap.get(i.getContentId()) != null) {
                 var tmp = cacheMap.get(i.getContentId());
@@ -176,7 +179,7 @@ public class StateService {
 
         for (var i : userList) {
 
-            for (var j : LikeList) {
+            for (var j : likeList) {
                 if (j.getLikeUser().equals(i)) {
                     j.setLikeUser(i);
                 }
@@ -221,10 +224,10 @@ public class StateService {
     private void addStateComment(List<StateVO> stateVOList) {
         var stateIdList = getStateIdList(stateVOList);
 
-        var CommentList = commentService.selectComments(CommentTypeEnum.STATE, stateIdList);
+        var commentList = commentService.selectComments(CommentTypeEnum.STATE, stateIdList);
 
         List<Integer> userIdList = new ArrayList<>();
-        for (var i : CommentList) {
+        for (var i : commentList) {
             userIdList.add(i.getFromUser().getUserId());
 
             if (i.getToUser() != null) {
@@ -241,7 +244,7 @@ public class StateService {
             userMap.put(i.getUserId(),i);
         }
 
-        for (var i : CommentList){
+        for (var i : commentList){
             var cl = commentVOMap.get(i.getTopicId());
             var vo = CommentVO.convert(i);
 

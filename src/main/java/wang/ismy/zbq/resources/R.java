@@ -93,6 +93,10 @@ public class R {
     public static final String EMAIL_REPEAT_BIND = "您已绑定";
 
     public static final String EMAIL_VALID_ERROR ="邮箱绑定验证错误" ;
+
+    public static final String BROADCAST_FAIL = "发送广播消息失败";
+
+    public static final String BROADCAST_SUCCESS = "发送广播消息成功";
 }
 
 

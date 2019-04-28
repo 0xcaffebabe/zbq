@@ -6,6 +6,10 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 
+/**
+ * @author my
+ */
+@Data
 public class LocationDTO {
 
     @NotNull(message = "经度不得为空")
@@ -18,35 +22,5 @@ public class LocationDTO {
 
     private Boolean anonymous = false;
 
-    public BigDecimal getLongitude() {
-        return longitude;
-    }
 
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
-    public BigDecimal getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Boolean getAnonymous() {
-        return anonymous;
-    }
-
-    public void setAnonymous(Boolean anonymous) {
-        this.anonymous = anonymous;
-    }
 }

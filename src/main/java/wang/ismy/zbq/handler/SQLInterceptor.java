@@ -19,6 +19,7 @@ import java.util.Properties;
 @Intercepts({@Signature(type= StatementHandler.class,method="prepare",args={Connection.class,Integer.class})})
 @Component
 public class SQLInterceptor implements Interceptor {
+    public static final String PAGING_REGEX = ".+Paging$";
     private Logger logger=LoggerFactory.getLogger(this.getClass());
 
     @Override
@@ -30,7 +31,8 @@ public class SQLInterceptor implements Interceptor {
         MappedStatement mappedStatement = (MappedStatement)metaObject.getValue("delegate.mappedStatement");
         // 配置文件中SQL语句的ID
         String id = mappedStatement.getId();
-        if(id.matches(".+Paging$")) { //需要拦截的ID(正则匹配)
+        //需要拦截的ID(正则匹配)
+        if(id.matches(PAGING_REGEX)) {
             BoundSql boundSql = statementHandler.getBoundSql();
             // 原始的SQL语句
             String sql = boundSql.getSql();

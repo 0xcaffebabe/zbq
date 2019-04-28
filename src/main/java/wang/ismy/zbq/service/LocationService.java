@@ -11,7 +11,7 @@ import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.LocationVO;
-import wang.ismy.zbq.vo.UserVO;
+import wang.ismy.zbq.vo.user.UserVO;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -192,3 +192,13 @@ CREATE TABLE user_login_log(
   login_type INT NOT NULL ,
   create_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
+
+# 创建广播聊天表
+CREATE TABLE broadcast(
+  broadca_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user INT NOT NULL ,
+  content TEXT NOT NULL ,
+  anonymous BOOLEAN NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8mb4;

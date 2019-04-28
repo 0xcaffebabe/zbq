@@ -10,8 +10,8 @@ import wang.ismy.zbq.entity.course.Lesson;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.LessonListVO;
-import wang.ismy.zbq.vo.LessonVO;
+import wang.ismy.zbq.vo.course.LessonListVO;
+import wang.ismy.zbq.vo.course.LessonVO;
 
 import java.util.HashMap;
 import java.util.List;

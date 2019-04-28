@@ -9,10 +9,10 @@ import wang.ismy.zbq.entity.course.Course;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.CourseLessonVO;
-import wang.ismy.zbq.vo.CourseVO;
-import wang.ismy.zbq.vo.LessonListVO;
-import wang.ismy.zbq.vo.UserVO;
+import wang.ismy.zbq.vo.course.CourseLessonVO;
+import wang.ismy.zbq.vo.course.CourseVO;
+import wang.ismy.zbq.vo.course.LessonListVO;
+import wang.ismy.zbq.vo.user.UserVO;
 
 import java.util.ArrayList;
 import java.util.List;

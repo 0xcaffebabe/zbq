@@ -1,9 +1,12 @@
-package wang.ismy.zbq.vo;
+package wang.ismy.zbq.vo.course;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
 
+/**
+ * @author my
+ */
 @Data
 public class LearningVO {
 

@@ -1,9 +1,12 @@
-package wang.ismy.zbq.vo;
+package wang.ismy.zbq.vo.course;
 
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import wang.ismy.zbq.entity.course.Lesson;
 
+/**
+ * @author my
+ */
 @Data
 public class LessonVO {
 

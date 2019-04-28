@@ -19,7 +19,7 @@ import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.vo.CommentVO;
 import wang.ismy.zbq.vo.ContentVO;
-import wang.ismy.zbq.vo.UserVO;
+import wang.ismy.zbq.vo.user.UserVO;
 
 import java.util.*;
 import java.util.stream.Collectors;

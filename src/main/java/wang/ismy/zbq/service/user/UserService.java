@@ -20,11 +20,14 @@ import wang.ismy.zbq.service.*;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.util.ErrorUtils;
+import wang.ismy.zbq.vo.user.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -249,5 +252,13 @@ public class UserService {
 
     public long countOnline(){
         return sessionListener.countOnLine();
+    }
+
+    public static Map<Integer,UserVO> userList2UserVOMap(List<User> userList){
+        Map<Integer,UserVO> userVOMap = new HashMap<>();
+        userList.forEach(e->{
+            userVOMap.put(e.getUserId(),UserVO.convert(e));
+        });
+        return userVOMap;
     }
 }

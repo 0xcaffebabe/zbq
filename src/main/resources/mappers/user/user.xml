@@ -17,6 +17,7 @@
             <result property="profile" column="profile"/>
             <result property="region" column="region"/>
             <result property="gender" column="gender"/>
+            <result property="penYear" column="pen_year"/>
         </association>
     </resultMap>
 
@@ -61,7 +62,9 @@
             user.permission,
             user_info.user_info_id,
             user_info.nick_name,
-            user_info.profile
+            user_info.profile,
+            user_info.region,
+            user_info.pen_year
         FROM user, user_info
         WHERE user.username = #{username} AND user_info.user_info_id = user.user_info
     </select>
@@ -94,7 +97,9 @@
         user_info.nick_name,
         user.permission,
         user_info.profile,
-        user_info.gender
+        user_info.gender,
+        user_info.region,
+        user_info.pen_year
         FROM user, user_info
         WHERE user.user_id
         IN

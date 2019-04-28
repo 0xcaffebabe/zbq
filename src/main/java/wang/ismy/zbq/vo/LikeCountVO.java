@@ -1,5 +1,11 @@
 package wang.ismy.zbq.vo;
 
+import lombok.Data;
+
+/**
+ * @author my
+ */
+@Data
 public class LikeCountVO {
 
     private Long total;
@@ -8,24 +14,4 @@ public class LikeCountVO {
 
     private Long contentLike;
 
-    public Long getTotal() {
-        return stateLike+contentLike;
-    }
-
-
-    public Long getStateLike() {
-        return stateLike;
-    }
-
-    public void setStateLike(Long stateLike) {
-        this.stateLike = stateLike;
-    }
-
-    public Long getContentLike() {
-        return contentLike;
-    }
-
-    public void setContentLike(Long contentLike) {
-        this.contentLike = contentLike;
-    }
 }

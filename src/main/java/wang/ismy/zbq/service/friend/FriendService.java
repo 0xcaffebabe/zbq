@@ -11,8 +11,8 @@ import wang.ismy.zbq.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.FriendAddVO;
-import wang.ismy.zbq.vo.RecommendFriendVO;
+import wang.ismy.zbq.vo.friend.FriendAddVO;
+import wang.ismy.zbq.vo.friend.RecommendFriendVO;
 
 import java.util.ArrayList;
 import java.util.List;

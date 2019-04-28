@@ -7,13 +7,13 @@ import wang.ismy.zbq.dto.message.MessageDTO;
 import wang.ismy.zbq.dto.message.UnreadMessageDTO;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserService;
-import wang.ismy.zbq.vo.MessageListVO;
-import wang.ismy.zbq.vo.MessageVO;
+import wang.ismy.zbq.vo.message.MessageListVO;
+import wang.ismy.zbq.vo.message.MessageVO;
 import wang.ismy.zbq.entity.Message;
 import wang.ismy.zbq.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.UnreadMessageVO;
+import wang.ismy.zbq.vo.message.UnreadMessageVO;
 
 import java.util.*;
 

@@ -14,9 +14,14 @@ import wang.ismy.zbq.util.ErrorUtils;
 
 import java.io.IOException;
 
+/**
+ * @author my
+ */
 @RestController
 @RequestMapping("/upload")
 public class UploadController {
+
+    private static final String[] IMG_FORMATS={"img","png","gif"};
 
     @Autowired
     private OSSService ossService;
@@ -32,7 +37,7 @@ public class UploadController {
             ErrorUtils.error(R.ERROR_IMG_NAME);
         }
 
-        if (!(name.endsWith("png") || name.endsWith("jpg") || name.endsWith("gif"))){
+        if (!canProcess(name)){
             ErrorUtils.error(R.IMG_FORMAT_LIMIT);
         }
 
@@ -52,13 +57,23 @@ public class UploadController {
             ErrorUtils.error(R.ERROR_IMG_NAME);
         }
 
-        if (!(name.endsWith("png") || name.endsWith("jpg") || name.endsWith("gif"))){
+        if (!canProcess(name)){
             ErrorUtils.error(R.IMG_FORMAT_LIMIT);
         }
 
         String format = name.substring(name.lastIndexOf("."),name.length());
 
         return ossService.uploadImg(multipartFile.getBytes(),format,"thumbnail");
+    }
+
+    private boolean canProcess(String fileName){
+
+        for (var i : IMG_FORMATS){
+            if (fileName.startsWith(i)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

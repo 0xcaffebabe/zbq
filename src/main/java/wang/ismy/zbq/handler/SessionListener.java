@@ -17,19 +17,37 @@ import java.util.List;
 @Component
 public class SessionListener implements HttpSessionListener, HttpSessionAttributeListener {
 
-    private List<HttpSession> onlineSession = new LinkedList<>();
+    private final List<HttpSession>  onlineSession = new LinkedList<>();
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
-        onlineSession.add(se.getSession());
+
+        synchronized (onlineSession){
+            onlineSession.add(se.getSession());
+        }
+
+
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        onlineSession.remove(se.getSession());
+        synchronized (onlineSession){
+            onlineSession.remove(se.getSession());
+        }
+
     }
 
     public int countOnLine(){
         return onlineSession.size();
+    }
+
+    public HttpSession getById(String sessionId){
+        sessionId = sessionId.trim();
+        for (var i : onlineSession){
+            if (i.getId().equals(sessionId)){
+                return i;
+            }
+        }
+        return null;
     }
 }

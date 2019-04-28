@@ -1,6 +1,7 @@
 package wang.ismy.zbq.vo;
 
 import lombok.Data;
+import wang.ismy.zbq.vo.user.UserVO;
 
 import java.time.LocalDateTime;
 

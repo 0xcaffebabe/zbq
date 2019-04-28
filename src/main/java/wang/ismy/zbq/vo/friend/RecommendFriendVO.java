@@ -1,4 +1,4 @@
-package wang.ismy.zbq.vo;
+package wang.ismy.zbq.vo.friend;
 
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

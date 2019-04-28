@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+
+<script>
+
+    var socket = new WebSocket("ws://127.0.0.1/socket");
+
+    socket.onopen=function (ev) {
+        console.log("socket open",ev);
+    }
+
+
+</script>
+</html>

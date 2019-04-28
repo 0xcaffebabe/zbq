@@ -1,4 +1,4 @@
-package wang.ismy.zbq.vo;
+package wang.ismy.zbq.vo.user;
 
 import lombok.Data;
 

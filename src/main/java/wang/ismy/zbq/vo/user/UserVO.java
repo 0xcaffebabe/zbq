@@ -1,4 +1,4 @@
-package wang.ismy.zbq.vo;
+package wang.ismy.zbq.vo.user;
 
 import lombok.Data;
 import wang.ismy.zbq.entity.user.User;
@@ -16,6 +16,10 @@ public class UserVO {
 
     private String profile;
 
+    private String region;
+
+    private Integer penYear;
+
     public static UserVO convert(User user) {
         if (user == null) {
             return null;
@@ -23,13 +27,18 @@ public class UserVO {
         UserVO userVO = new UserVO();
 
 
-        userVO
-                .setNickName(user.getUserInfo().getNickName());
+        userVO.setNickName(user.getUserInfo().getNickName());
         userVO.setProfile(user.getUserInfo().getProfile());
         userVO.setUserId(user.getUserId());
-
+        userVO.setRegion(user.getUserInfo().getRegion());
+        userVO.setPenYear(user.getUserInfo().getPenYear());
         return userVO;
     }
 
 
+    public static UserVO empty() {
+        UserVO userVO = new UserVO();
+        userVO.setUserId(-1);
+        return userVO;
+    }
 }

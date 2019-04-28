@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 @Service
 public class InformService {
 
+    public static final String SYSTEM_ACCOUNT_USERNAME = "10000";
     @Autowired
     private MessageService messageService;
 
@@ -41,7 +42,7 @@ public class InformService {
                 e.printStackTrace();
             }
 
-            if( userService.selectByUsername("10000") == null){
+            if( userService.selectByUsername(SYSTEM_ACCOUNT_USERNAME) == null){
                 //TODO
             }
 

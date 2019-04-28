@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service.system;
 
+import com.aliyun.oss.ClientConfiguration;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.OSSException;
@@ -26,7 +27,41 @@ public class OSSService {
         String objectName =folder+"/"+ generateRandomImgName(format);
 
 
-        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+//        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+
+        Credentials credentials = new Credentials() {
+            @Override
+            public String getAccessKeyId() {
+                return "LTAItmWponXWvipx";
+            }
+
+            @Override
+            public String getSecretAccessKey() {
+                return "QAoqNFyNMN9F4M15JVUDSnYsxzXazN";
+            }
+
+            @Override
+            public String getSecurityToken() {
+                return null;
+            }
+
+            @Override
+            public boolean useSecurityToken() {
+                return false;
+            }
+        };
+        OSSClient ossClient =   new OSSClient(endpoint, new CredentialsProvider() {
+            @Override
+            public void setCredentials(Credentials creds) {
+
+            }
+
+            @Override
+            public Credentials getCredentials() {
+                return credentials;
+            }
+        },new ClientConfiguration());
+
 
         PutObjectResult result = ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(bytes));
 

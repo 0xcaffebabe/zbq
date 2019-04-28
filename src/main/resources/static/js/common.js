@@ -166,7 +166,9 @@ function getCommonObject() {
             getUserStateUrl:"/user/state/",
             countUserUrl:"/user/count",
             getClassmatesUrl:"/course/classmates/",
-            countOnlineUserUrl:"/user/online/count"
+            countOnlineUserUrl:"/user/online/count",
+            sendBroadcastUrl:"/broadcast",
+            getBroadcastListUrl:"/broadcast/list"
 
 
         },

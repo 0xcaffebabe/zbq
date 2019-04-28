@@ -1,8 +1,20 @@
 package wang.ismy.zbq.enums;
 
+/**
+ * @author MY
+ */
+
 public enum CommentTypeEnum {
 
-    STATE(0),CONTENT(1);
+    /**
+     * 动态评论
+     */
+    STATE(0),
+
+    /**
+     * 内容评论
+     */
+    CONTENT(1);
 
     public int getCode() {
         return code;

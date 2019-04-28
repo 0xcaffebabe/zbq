@@ -9,7 +9,7 @@ import wang.ismy.zbq.entity.course.Lesson;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.LearningVO;
+import wang.ismy.zbq.vo.course.LearningVO;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

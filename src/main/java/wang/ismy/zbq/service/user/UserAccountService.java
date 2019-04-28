@@ -42,7 +42,7 @@ public class UserAccountService {
     @Value("${config.host}")
     private String host;
 
-    private static final String salt = "fdknfdjkw556dt4023vu[pofdswry7824;ld15.;'[.kje4fdk./.jk";
+    private static final String SALT = "fdknfdjkw556dt4023vu[pofdswry7824;ld15.;'[.kje4fdk./.jk";
 
     public int createUserAccountRecord(UserAccount userAccount) {
 
@@ -66,7 +66,7 @@ public class UserAccountService {
             ErrorUtils.error(R.EMAIL_BOUND);
         }
 
-        String t = currentUser.getUsername() + salt + email;
+        String t = currentUser.getUsername() + SALT + email;
         String sign = DigestUtils.md5DigestAsHex(t.getBytes()).toUpperCase();
 
         try {
@@ -95,7 +95,7 @@ public class UserAccountService {
         if (user == null) {
             ErrorUtils.error(R.USERNAME_NOT_EXIST);
         }
-        String t = username + salt + email;
+        String t = username + SALT + email;
         if (DigestUtils.md5DigestAsHex(t.getBytes()).toUpperCase().equals(sign)) {
 
             UserAccount account = accountMapper.selectByAccountTypeAndUserId(UserAccountEnum.EMAIL.getCode(), user.getUserId());

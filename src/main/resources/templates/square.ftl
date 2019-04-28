@@ -29,7 +29,7 @@
 <div class="content">
     <div class="animated fadeIn">
 
-        <div class="row">
+        <div class="row" id="square">
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-body">
@@ -39,24 +39,25 @@
                                 <div id="msgPane"
                                      style="height:600px;overflow-y: scroll;padding:20px;border:1px #ccc solid;border-radius: 5px">
                                     <ul>
-                                        <li>
+                                        <li v-for="broadcast in broadcastList">
                                             <div class="msg-received msg-container">
                                                 <div class="avatar">
-                                                    <img src="/img/anonymous.jpg" alt="">
+                                                    <img :src="broadcast.user.profile" alt="">
                                                     <div>
-                                                        <div class="send-time">3秒前</div>
+                                                        <div class="send-time">{{timeConvert(broadcast.createTime)}}</div>
                                                     </div>
 
                                                 </div>
                                                 <div class="msg-box" >
-                                                    My、 <span class="badge badge-info"><i class="fa fa-globe"></i>福建泉州</span>
+                                                    {{broadcast.user.nickName}} <span class="badge badge-info"><i class="fa fa-globe"></i>{{broadcast.user.region}}</span>
+                                                    <span class="badge badge-danger"><i class="fa fa-heart"></i>{{broadcast.user.penYear}}年</span>
                                                     <div class="inner-box" style="margin-top: 10px;"
-                                                         :class="{self:message.senderId != friendId}">
+                                                         :class="{self:broadcast.user.userId == user.userId}">
                                                         <div class="name">
 
                                                         </div>
                                                         <div class="meg" style="word-break: break-all">
-                                                            hello，anybody
+                                                            {{broadcast.content}}
                                                         </div>
 
                                                     </div>
@@ -64,30 +65,6 @@
                                             </div><!-- /.msg-received -->
                                         </li>
 
-                                        <li>
-                                            <div class="msg-received msg-container">
-                                                <div class="avatar">
-                                                    <img src="/img/anonymous.jpg" alt="">
-                                                    <div>
-                                                        <div class="send-time">3秒前</div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="msg-box" >
-                                                    My、 <span class="badge badge-info"><i class="fa fa-globe"></i>福建泉州</span>
-                                                    <div class="inner-box self" style="margin-top: 10px;"
-                                                    >
-                                                        <div class="name">
-
-                                                        </div>
-                                                        <div class="meg" style="word-break: break-all">
-                                                            hello，anybody
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div><!-- /.msg-received -->
-                                        </li>
 
 
                                     </ul>
@@ -96,9 +73,9 @@
                                 <div class="send-mgs">
                                     <div class="yourmsg" style="border:1px #ccc solid;border-radius: 5px">
                                 <textarea class="form-control" type="text" v-model="content"
-                                          @keyup.enter="sendMessage"></textarea>
+                                          @keyup.enter="broadcast"></textarea>
                                     </div>
-                                    <button class="btn msg-send-btn" @click="sendMessage">
+                                    <button class="btn msg-send-btn" @click="broadcast">
                                         <i class="pe-7s-paper-plane"></i>
                                     </button>
                                 </div>
@@ -115,17 +92,17 @@
                     </div>
                     <div class="card-body">
                         <ul class="media-list">
-                            <li class="media">
+                            <li class="media" v-for="user in userList" style="margin-top: 10px;">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img class="media-object" src="/img/anonymous.jpg" alt="..." width="48">
+                                        <img class="media-object" :src="user.profile" alt="..." width="48">
                                     </a>
                                 </div>
                                 <div class="media-body" style="margin-left: 8px;">
-                                    <h4 class="media-heading">My、</h4>
-                                    <span class="badge badge-info"><i class="fa fa-globe"></i>福建泉州</span>
+                                    <h4 class="media-heading">{{user.nickName}}</h4>
+                                    <span class="badge badge-info"><i class="fa fa-globe"></i>{{user.region}}</span>
                                     <span class="badge badge-primary"><i class="fa fa-male"></i></span>
-                                    <span class="badge badge-danger"><i class="fa fa-heart"></i> 99年</span>
+                                    <span class="badge badge-danger"><i class="fa fa-heart"></i> {{user.penYear}}年</span>
                                 </div>
                             </li>
                         </ul>
@@ -143,7 +120,7 @@
 
 
 <#include "script.ftl"/>
-
+<script src="/js/square.js?v=20190425045"></script>
 
 </body>
 

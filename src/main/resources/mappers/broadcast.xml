@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.BroadcastMapper">
+
+    <resultMap id="broadcastMap" type="wang.ismy.zbq.entity.Broadcast">
+        <id column="broadcast_id" property="broadcastId"/>
+        <result column="content" property="content"/>
+        <result column="anonymous" property="anonymous"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="user" javaType="wang.ismy.zbq.entity.user.User">
+            <id column="user" property="userId"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertNew">
+        INSERT INTO broadcast(user, content, anonymous, create_time, update_time)
+                VALUES (#{user.userId},#{content},#{anonymous},NOW(),NOW())
+    </insert>
+    <select id="selectNewest10" resultMap="broadcastMap">
+        SELECT * FROM(
+                         SELECT * FROM
+                             broadcast
+                         ORDER BY create_time DESC LIMIT 10
+                     ) AS T ORDER BY create_time
+
+    </select>
+</mapper>
