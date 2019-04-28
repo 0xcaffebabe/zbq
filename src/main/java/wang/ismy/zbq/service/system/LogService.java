@@ -3,7 +3,7 @@ package wang.ismy.zbq.service.system;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.WebLogMapper;
-import wang.ismy.zbq.entity.WebLog;
+import wang.ismy.zbq.model.entity.WebLog;
 import wang.ismy.zbq.service.system.ExecuteService;
 
 import java.util.ArrayList;

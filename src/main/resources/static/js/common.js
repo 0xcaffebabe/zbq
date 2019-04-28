@@ -168,7 +168,8 @@ function getCommonObject() {
             getClassmatesUrl:"/course/classmates/",
             countOnlineUserUrl:"/user/online/count",
             sendBroadcastUrl:"/broadcast",
-            getBroadcastListUrl:"/broadcast/list"
+            getBroadcastListUrl:"/broadcast/list",
+            countDaysUrl:"/user/online/days"
 
 
         },

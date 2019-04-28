@@ -10,18 +10,18 @@
     </insert>
 
 
-    <select id="selectAll" resultType="wang.ismy.zbq.entity.course.Lesson">
+    <select id="selectAll" resultType="wang.ismy.zbq.model.entity.course.Lesson">
         SELECT *
         FROM lesson
         ORDER BY weight
     </select>
-    <select id="selectByCourseId" resultType="wang.ismy.zbq.entity.course.Lesson">
+    <select id="selectByCourseId" resultType="wang.ismy.zbq.model.entity.course.Lesson">
         SELECT *
         FROM lesson
         WHERE course_id = #{id}
         ORDER BY weight
     </select>
-    <select id="selectByPrimaryKey" resultType="wang.ismy.zbq.entity.course.Lesson">
+    <select id="selectByPrimaryKey" resultType="wang.ismy.zbq.model.entity.course.Lesson">
         SELECT *
         FROM lesson
         WHERE lesson_id = #{id}
@@ -40,7 +40,7 @@
         </foreach>
         GROUP BY course_id
     </select>
-    <select id="selectBatch" resultType="wang.ismy.zbq.entity.course.Lesson">
+    <select id="selectBatch" resultType="wang.ismy.zbq.model.entity.course.Lesson">
         SELECT * FROM lesson WHERE lesson_id IN
         <foreach collection="list" open="(" close=")" separator="," item="i">
             #{i}

@@ -3,8 +3,8 @@ package wang.ismy.zbq.service.system;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import wang.ismy.zbq.dto.message.MessageDTO;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.dto.message.MessageDTO;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.MessageService;
 import wang.ismy.zbq.service.friend.FriendService;
@@ -53,7 +53,7 @@ public class InformService {
     * 创建系统通知账号与某个用户的好友关系
      * @param userId 用户ID
     */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void createRelationWithSystemAccount(Integer userId){
         if (friendService.insertNewRelation(userId,0) != 1){
             ErrorUtils.error(R.UNKNOWN_ERROR);

@@ -7,9 +7,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import wang.ismy.zbq.dto.user.RegisterDTO;
-import wang.ismy.zbq.entity.user.User;
-import wang.ismy.zbq.entity.user.UserPermission;
+import wang.ismy.zbq.model.dto.user.RegisterDTO;
+import wang.ismy.zbq.model.entity.user.User;
+import wang.ismy.zbq.model.entity.user.UserPermission;
 import wang.ismy.zbq.service.user.UserService;
 
 import java.security.MessageDigest;

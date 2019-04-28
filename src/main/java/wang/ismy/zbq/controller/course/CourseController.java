@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
-import wang.ismy.zbq.dto.course.CourseDTO;
+import wang.ismy.zbq.model.dto.course.CourseDTO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.course.CourseService;
 

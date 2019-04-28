@@ -4,22 +4,22 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.StateMapper;
-import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.dto.state.StateCommentDTO;
-import wang.ismy.zbq.dto.state.StateDTO;
-import wang.ismy.zbq.entity.Comment;
-import wang.ismy.zbq.entity.like.Likes;
-import wang.ismy.zbq.entity.State;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.dto.state.StateCommentDTO;
+import wang.ismy.zbq.model.dto.state.StateDTO;
+import wang.ismy.zbq.model.entity.Comment;
+import wang.ismy.zbq.model.entity.like.Likes;
+import wang.ismy.zbq.model.entity.State;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.CommentVO;
-import wang.ismy.zbq.vo.StateVO;
-import wang.ismy.zbq.vo.user.UserVO;
+import wang.ismy.zbq.model.vo.CommentVO;
+import wang.ismy.zbq.model.vo.StateVO;
+import wang.ismy.zbq.model.vo.user.UserVO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,8 +48,12 @@ public class StateService {
     private CommentService commentService;
 
 
-
-    public void currentUserPublishState(StateDTO dto) {
+    /**
+     * 以当前用户的身份发布动态
+     *
+     * @param dto 动态DTO
+     */
+    public void publishState(StateDTO dto) {
         User user = userService.getCurrentUser();
 
         State state = new State();
@@ -61,23 +65,28 @@ public class StateService {
         }
     }
 
-    public List<StateVO> selectCurrentUserStatePaging(Page page) {
+    /**
+     * 拉取当前登录用户的动态
+     *
+     * @param page 分页组件
+     * @return 动态视图列表
+     */
+    public List<StateVO> selectState(Page page) {
         User currentUser = userService.getCurrentUser();
 
         List<Integer> stateUserIdList = getStateUserIdList(currentUser);
-
         var stateList = stateMapper.selectStateByUserIdBatchPaging(stateUserIdList, page);
 
         List<Integer> userIdList = new ArrayList<>();
         List<StateVO> stateVOList = new ArrayList<>();
-        Map<Integer,StateVO> stateVOMap = new HashMap<>();
-        Map<Integer,UserVO> userVOMap = new HashMap<>();
+        Map<Integer, StateVO> stateVOMap = new HashMap<>();
+        Map<Integer, UserVO> userVOMap = new HashMap<>();
         for (var i : stateList) {
             StateVO vo = new StateVO();
             UserVO userVO;
-            if (userVOMap.get(i.getUser().getUserId()) != null){
+            if (userVOMap.get(i.getUser().getUserId()) != null) {
                 userVO = userVOMap.get(i.getUser().getUserId());
-            }else{
+            } else {
                 userVO = new UserVO();
                 userVO.setUserId(i.getUser().getUserId());
             }
@@ -86,8 +95,8 @@ public class StateService {
             userIdList.add(i.getUser().getUserId());
             BeanUtils.copyProperties(i, vo);
             stateVOList.add(vo);
-            stateVOMap.put(vo.getUserVO().getUserId(),vo);
-            userVOMap.put(userVO.getUserId(),userVO);
+            stateVOMap.put(vo.getUserVO().getUserId(), vo);
+            userVOMap.put(userVO.getUserId(), userVO);
 
             vo.setSelf(vo.getUserVO().getUserId().equals(currentUser.getUserId()));
 
@@ -96,7 +105,7 @@ public class StateService {
 
         for (var i : userList) {
             var vo = userVOMap.get(i.getUserId());
-            if (vo != null){
+            if (vo != null) {
                 vo.setProfile(i.getUserInfo().getProfile());
                 vo.setNickName(i.getUserInfo().getNickName());
             }
@@ -109,34 +118,44 @@ public class StateService {
     }
 
 
-
     public int countSelfState() {
         User user = userService.getCurrentUser();
         return stateMapper.countStateByUserId(user.getUserId());
     }
 
-    public int createCurrentUserStateComment(StateCommentDTO stateCommentDTO){
+    /**
+     * 以当前登录用户身份发布一条动态评论
+     *
+     * @param commentDTO 动态评论DTO
+     * @return 受影响行数
+     */
+    public int publishComment(StateCommentDTO commentDTO) {
 
         User currentUser = userService.getCurrentUser();
         Comment comment = new Comment();
-                comment.setCommentType(CommentTypeEnum.STATE.getCode());
-                comment.setContent(stateCommentDTO.getContent());
-                comment.setFromUser(currentUser);
-                comment.setTopicId(stateCommentDTO.getStateId());
-                comment.setToUser(userService.selectByPrimaryKey(stateCommentDTO.getToUser()));
-
+        comment.setCommentType(CommentTypeEnum.STATE.getCode());
+        comment.setContent(commentDTO.getContent());
+        comment.setFromUser(currentUser);
+        comment.setTopicId(commentDTO.getStateId());
+        comment.setToUser(userService.selectByPrimaryKey(commentDTO.getToUser()));
 
         return commentService.createNewCommentRecord(comment);
     }
 
-    public int deleteCurrentUserStateById(Integer stateId){
+    /**
+     * 删除当前登录用户的动态（逻辑删除）
+     *
+     * @param stateId 动态ID
+     * @return 受影响行数
+     */
+    public int deleteState(Integer stateId) {
         var state = stateMapper.selectByPrimaryKey(stateId);
         var currentUser = userService.getCurrentUser();
-        if (state == null){
+        if (state == null) {
             ErrorUtils.error(R.TARGET_STATE_NOT_EXIST);
         }
 
-        if (!state.getUser().equals(currentUser)){
+        if (!state.getUser().equals(currentUser)) {
             ErrorUtils.error(R.PERMISSION_DENIED);
         }
 
@@ -196,17 +215,15 @@ public class StateService {
                 likes.setContentId(i.getStateId());
                 i.setLikes(likes);
 
-            }else{
-                for (var e: i.getLikes().getLikeList()){
-                    if (e.getLikeUser().equals(user)){
+            } else {
+                for (var e : i.getLikes().getLikeList()) {
+                    if (e.getLikeUser().equals(user)) {
                         i.getLikes().setHasLike(true);
                         break;
                     }
                 }
 
             }
-
-
 
         }
 
@@ -236,15 +253,15 @@ public class StateService {
         }
         Map<Integer, User> userMap = new HashMap<>();
 
-        Map<Integer,List<CommentVO>> commentVOMap = new HashMap<>();
+        Map<Integer, List<CommentVO>> commentVOMap = new HashMap<>();
 
         var userList = userService.selectByUserIdBatch(userIdList);
 
-        for (var i : userList){
-            userMap.put(i.getUserId(),i);
+        for (var i : userList) {
+            userMap.put(i.getUserId(), i);
         }
 
-        for (var i : commentList){
+        for (var i : commentList) {
             var cl = commentVOMap.get(i.getTopicId());
             var vo = CommentVO.convert(i);
 
@@ -252,12 +269,12 @@ public class StateService {
                 cl = new ArrayList<>();
             }
 
-            commentVOMap.put(i.getTopicId(),cl);
+            commentVOMap.put(i.getTopicId(), cl);
             vo.setFromUser(
                     UserVO.convert(userMap.get(vo.getFromUser().getUserId()))
             );
 
-            if (vo.getToUser() != null){
+            if (vo.getToUser() != null) {
                 vo.setToUser(
                         UserVO.convert(userMap.get(vo.getToUser().getUserId()))
                 );
@@ -266,15 +283,12 @@ public class StateService {
 
         }
 
-        for (var i : stateVOList){
+        for (var i : stateVOList) {
             i.setComments(commentVOMap.get(i.getStateId()));
         }
 
 
     }
-
-
-
 
 }
 

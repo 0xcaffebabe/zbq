@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>测试主页</title>
+    <title>用户中心</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -25,7 +25,7 @@
     <!-- Animated -->
     <div class="animated fadeIn">
         <!-- Widgets  -->
-        <div class="row" id="dashboard">
+        <div class="row" id="dashboard" >
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
                 <div class="card">
                     <div class="card-body">
@@ -36,7 +36,7 @@
                             <div class="stat-content">
                                 <div class="text-left dib">
                                     <div class="stat-text"><span class="count">{{friendQuantity}}</span></div>
-                                    <div class="stat-heading">好友数</div>
+                                    <div class="stat-heading">笔友数</div>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">0</span></div>
+                                    <div class="stat-text"><span class="count">{{days}}</span></div>
                                     <div class="stat-heading">在线天数</div>
                                 </div>
                             </div>

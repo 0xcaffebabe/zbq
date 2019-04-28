@@ -1,6 +1,6 @@
 package wang.ismy.zbq.dao.course;
 
-import wang.ismy.zbq.entity.course.Course;
+import wang.ismy.zbq.model.entity.course.Course;
 
 import java.util.List;
 

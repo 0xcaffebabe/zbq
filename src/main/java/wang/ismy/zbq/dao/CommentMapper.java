@@ -1,9 +1,9 @@
 package wang.ismy.zbq.dao;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.dto.CommentCountDTO;
-import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.entity.Comment;
+import wang.ismy.zbq.model.dto.CommentCountDTO;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.entity.Comment;
 
 import java.util.List;
 

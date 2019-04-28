@@ -5,7 +5,7 @@
 
 <mapper namespace="wang.ismy.zbq.dao.course.CourseMapper">
 
-    <resultMap id="courseMap" type="wang.ismy.zbq.entity.course.Course">
+    <resultMap id="courseMap" type="wang.ismy.zbq.model.entity.course.Course">
         <id column="course_id" property="courseId"/>
         <result column="course_name" property="courseName"/>
         <result column="course_desc" property="courseDesc"/>
@@ -13,7 +13,7 @@
         <result column="course_level" property="courseLevel"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="publisher" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="publisher" javaType="wang.ismy.zbq.model.entity.user.User">
             <id column="publisher" property="userId"/>
         </association>
     </resultMap>

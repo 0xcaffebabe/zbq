@@ -3,13 +3,13 @@ package wang.ismy.zbq.service.course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.course.LearningMapper;
-import wang.ismy.zbq.entity.course.Course;
-import wang.ismy.zbq.entity.course.Learning;
-import wang.ismy.zbq.entity.course.Lesson;
+import wang.ismy.zbq.model.entity.course.Course;
+import wang.ismy.zbq.model.entity.course.Learning;
+import wang.ismy.zbq.model.entity.course.Lesson;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.course.LearningVO;
+import wang.ismy.zbq.model.vo.course.LearningVO;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

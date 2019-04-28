@@ -1,8 +1,8 @@
 package wang.ismy.zbq.dao.friend;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.entity.friend.Friend;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.entity.friend.Friend;
 
 import java.util.List;
 

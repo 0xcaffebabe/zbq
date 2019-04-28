@@ -6,7 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import wang.ismy.zbq.annotations.*;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserService;
@@ -172,5 +172,14 @@ public class RedirectController {
     public Object square(){
         return "square";
     }
+
+    @RequestMapping("/videos")
+    @MustLogin
+    @ErrorPage
+    public Object videos(){
+        return "videos";
+    }
+
+
 
 }

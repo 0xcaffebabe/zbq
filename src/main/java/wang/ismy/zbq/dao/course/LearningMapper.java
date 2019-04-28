@@ -1,8 +1,8 @@
 package wang.ismy.zbq.dao.course;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.dto.course.LearningNumberDTO;
-import wang.ismy.zbq.entity.course.Learning;
+import wang.ismy.zbq.model.dto.course.LearningNumberDTO;
+import wang.ismy.zbq.model.entity.course.Learning;
 
 import java.util.List;
 import java.util.Map;

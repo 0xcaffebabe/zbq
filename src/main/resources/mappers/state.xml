@@ -5,17 +5,17 @@
 
 <mapper namespace="wang.ismy.zbq.dao.StateMapper">
 
-    <resultMap id="stateMap" type="wang.ismy.zbq.entity.State">
+    <resultMap id="stateMap" type="wang.ismy.zbq.model.entity.State">
         <id column="state_id" property="stateId"/>
         <result column="content" property="content"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="user" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="user" javaType="wang.ismy.zbq.model.entity.user.User">
             <id column="user" property="userId"/>
         </association>
     </resultMap>
 
-    <insert id="insertNew" parameterType="wang.ismy.zbq.entity.State">
+    <insert id="insertNew" parameterType="wang.ismy.zbq.model.entity.State">
         INSERT INTO state (content, user, visible,create_time, update_time)
         VALUES (#{content}, #{user.userId}, TRUE,NOW(),NOW())
     </insert>

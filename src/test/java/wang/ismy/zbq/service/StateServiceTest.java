@@ -25,6 +25,6 @@ public class StateServiceTest {
 
         userService.setTestUser(userService.selectByPrimaryKey(1));
 
-        stateService.deleteCurrentUserStateById(17);
+        stateService.deleteState(17);
     }
 }

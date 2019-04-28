@@ -7,10 +7,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
-import wang.ismy.zbq.dto.user.LoginDTO;
-import wang.ismy.zbq.dto.user.RegisterDTO;
-import wang.ismy.zbq.dto.user.UserDTO;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.dto.user.LoginDTO;
+import wang.ismy.zbq.model.dto.user.RegisterDTO;
+import wang.ismy.zbq.model.dto.user.UserDTO;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.service.user.UserLoginLogService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.service.user.UserStateService;
@@ -119,6 +119,13 @@ public class UserController {
     @ResultTarget
     public Object selectUserStateByUserId(@PathVariable("id") Integer userId){
         return userStateService.selectByUserId(userId);
+    }
+
+    @GetMapping("/online/days")
+    @ResultTarget
+    @MustLogin
+    public Object selectCurrentUserOnlineDays(){
+        return userLoginLogService.calcCurrentUserLogDays();
     }
 
 }

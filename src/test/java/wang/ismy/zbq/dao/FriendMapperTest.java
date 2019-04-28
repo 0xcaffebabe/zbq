@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import wang.ismy.zbq.dao.friend.FriendMapper;
-import wang.ismy.zbq.entity.friend.Friend;
+import wang.ismy.zbq.model.entity.friend.Friend;
 
 import java.util.List;
 

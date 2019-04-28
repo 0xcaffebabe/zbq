@@ -3,12 +3,12 @@ package wang.ismy.zbq.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.LikeMapper;
-import wang.ismy.zbq.entity.like.Like;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.entity.like.Like;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.LikeCountVO;
+import wang.ismy.zbq.model.vo.LikeCountVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,10 +66,10 @@ public class LikeService {
     public LikeCountVO countLike(Integer userId) {
         LikeCountVO vo = new LikeCountVO();
         long stateLike = likeMapper.countStateLikeByUserId(userId);
-
         long contentLike = likeMapper.countContentLikeByUserId(userId);
         vo.setStateLike(stateLike);
         vo.setContentLike(contentLike);
+        vo.setTotal(stateLike+contentLike);
         return vo;
     }
 

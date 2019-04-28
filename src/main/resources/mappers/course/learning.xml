@@ -5,13 +5,13 @@
 
 <mapper namespace="wang.ismy.zbq.dao.course.LearningMapper">
 
-    <resultMap id="learningMap" type="wang.ismy.zbq.entity.course.Learning">
+    <resultMap id="learningMap" type="wang.ismy.zbq.model.entity.course.Learning">
         <id column="learning_id" property="learningId"/>
         <result column="course_id" property="courseId"/>
         <result column="lesson_id" property="lessonId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="user" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="user" javaType="wang.ismy.zbq.model.entity.user.User">
             <id column="user" property="userId"/>
         </association>
     </resultMap>
@@ -46,7 +46,7 @@
             #{i}
         </foreach>
     </select>
-    <select id="selectLearningNumberByCourseIdList" resultType="wang.ismy.zbq.dto.course.LearningNumberDTO">
+    <select id="selectLearningNumberByCourseIdList" resultType="wang.ismy.zbq.model.dto.course.LearningNumberDTO">
         SELECT T.course_id,COUNT(1) count FROM
         (
         SELECT course_id,user FROM learning GROUP BY user,course_id

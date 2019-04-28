@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
-import wang.ismy.zbq.dto.Result;
+import wang.ismy.zbq.model.dto.Result;
 
 import java.lang.reflect.Method;
 

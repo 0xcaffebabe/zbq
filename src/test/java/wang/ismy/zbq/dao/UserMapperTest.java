@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import wang.ismy.zbq.dao.user.UserMapper;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.entity.user.User;
 
 import static org.junit.Assert.*;
 

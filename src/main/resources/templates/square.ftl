@@ -120,7 +120,7 @@
 
 
 <#include "script.ftl"/>
-<script src="/js/square.js?v=20190425045"></script>
+<script src="/js/square.js?v=2019042802"></script>
 
 </body>
 

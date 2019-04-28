@@ -2,7 +2,7 @@ package wang.ismy.zbq.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import wang.ismy.zbq.entity.WebLog;
+import wang.ismy.zbq.model.entity.WebLog;
 import wang.ismy.zbq.service.system.LogService;
 import wang.ismy.zbq.service.user.UserService;
 

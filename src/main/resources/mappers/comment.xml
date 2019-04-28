@@ -5,17 +5,17 @@
 
 <mapper namespace="wang.ismy.zbq.dao.CommentMapper">
 
-    <resultMap id="commentMap" type="wang.ismy.zbq.entity.Comment">
+    <resultMap id="commentMap" type="wang.ismy.zbq.model.entity.Comment">
         <id column="comment_id" property="commentId"/>
         <result column="comment_type" property="commentType"/>
         <result column="topic_id" property="topicId"/>
         <result column="content" property="content"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="fromUser" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="fromUser" javaType="wang.ismy.zbq.model.entity.user.User">
             <id column="from_user" property="userId"/>
         </association>
-        <association property="toUser" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="toUser" javaType="wang.ismy.zbq.model.entity.user.User">
             <id column="to_user" property="userId"/>
         </association>
     </resultMap>
@@ -37,7 +37,7 @@
         SELECT * FROM tb_comment WHERE topic_id = #{topicId}
         AND comment_type = #{commentType}
     </select>
-    <select id="selectCommentCountByCommentTypeAndTopicIdBatch" resultType="wang.ismy.zbq.dto.CommentCountDTO">
+    <select id="selectCommentCountByCommentTypeAndTopicIdBatch" resultType="wang.ismy.zbq.model.dto.CommentCountDTO">
         SELECT topic_id content_id,COUNT(1) count
         FROM tb_comment WHERE topic_id IN
         <foreach collection="idList" item="i" open="(" close=")" separator=",">

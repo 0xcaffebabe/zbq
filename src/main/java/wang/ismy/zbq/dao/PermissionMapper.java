@@ -1,6 +1,6 @@
 package wang.ismy.zbq.dao;
 
-import wang.ismy.zbq.entity.user.UserPermission;
+import wang.ismy.zbq.model.entity.user.UserPermission;
 
 public interface PermissionMapper {
 

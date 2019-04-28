@@ -39,5 +39,8 @@
         border-radius: 50px !important;
     }
 
+    [v-cloak] {
+        display: none;
+    }
 
 </style>

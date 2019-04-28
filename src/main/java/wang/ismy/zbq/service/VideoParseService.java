@@ -3,9 +3,9 @@ package wang.ismy.zbq.service;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.video.BiliBiliVideoParser;
-import wang.ismy.zbq.video.VideoParser;
-import wang.ismy.zbq.video.YoukuVideoParser;
+import wang.ismy.zbq.service.video.BiliBiliVideoParser;
+import wang.ismy.zbq.service.video.VideoParser;
+import wang.ismy.zbq.service.video.YoukuVideoParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;

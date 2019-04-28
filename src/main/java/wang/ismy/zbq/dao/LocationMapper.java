@@ -1,6 +1,6 @@
 package wang.ismy.zbq.dao;
 
-import wang.ismy.zbq.entity.Location;
+import wang.ismy.zbq.model.entity.Location;
 
 import java.util.List;
 

@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="wang.ismy.zbq.dao.friend.FriendMapper">
-    <resultMap id="friendMap" type="wang.ismy.zbq.entity.friend.Friend">
+    <resultMap id="friendMap" type="wang.ismy.zbq.model.entity.friend.Friend">
         <result property="friendUserId" column="friend_id"/>
-        <association property="friendUserInfo" javaType="wang.ismy.zbq.entity.user.UserInfo">
+        <association property="friendUserInfo" javaType="wang.ismy.zbq.model.entity.user.UserInfo">
             <result property="nickName" column="nick_name"/>
             <result property="profile" column="profile"/>
             <result property="penYear" column="pen_year"/>

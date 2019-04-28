@@ -1,7 +1,7 @@
 package wang.ismy.zbq.dao.user;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.entity.user.UserAccount;
+import wang.ismy.zbq.model.entity.user.UserAccount;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.user.UserStateVO;
+import wang.ismy.zbq.model.vo.user.UserStateVO;
 
 /**
  * @author my

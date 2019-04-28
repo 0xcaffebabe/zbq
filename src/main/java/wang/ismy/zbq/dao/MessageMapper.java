@@ -1,9 +1,9 @@
 package wang.ismy.zbq.dao;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.dto.message.MessageListDTO;
-import wang.ismy.zbq.dto.message.UnreadMessageDTO;
-import wang.ismy.zbq.entity.Message;
+import wang.ismy.zbq.model.dto.message.MessageListDTO;
+import wang.ismy.zbq.model.dto.message.UnreadMessageDTO;
+import wang.ismy.zbq.model.entity.Message;
 
 import java.util.List;
 

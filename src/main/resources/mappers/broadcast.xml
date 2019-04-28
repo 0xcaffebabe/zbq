@@ -5,13 +5,13 @@
 
 <mapper namespace="wang.ismy.zbq.dao.BroadcastMapper">
 
-    <resultMap id="broadcastMap" type="wang.ismy.zbq.entity.Broadcast">
+    <resultMap id="broadcastMap" type="wang.ismy.zbq.model.entity.Broadcast">
         <id column="broadcast_id" property="broadcastId"/>
         <result column="content" property="content"/>
         <result column="anonymous" property="anonymous"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="user" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="user" javaType="wang.ismy.zbq.model.entity.user.User">
             <id column="user" property="userId"/>
         </association>
     </resultMap>

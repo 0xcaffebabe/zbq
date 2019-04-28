@@ -4,14 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wang.ismy.zbq.dao.user.UserMapper">
 
-    <resultMap id="userMap" type="wang.ismy.zbq.entity.user.User">
+    <resultMap id="userMap" type="wang.ismy.zbq.model.entity.user.User">
         <id property="userId" column="user_id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
-        <association property="userPermission" javaType="wang.ismy.zbq.entity.user.UserPermission">
+        <association property="userPermission" javaType="wang.ismy.zbq.model.entity.user.UserPermission">
             <id column="permission" property="userPermissionId"/>
         </association>
-        <association property="userInfo" javaType="wang.ismy.zbq.entity.user.UserInfo">
+        <association property="userInfo" javaType="wang.ismy.zbq.model.entity.user.UserInfo">
             <id property="userInfoId" column="user_info_id"/>
             <result property="nickName" column="nick_name"/>
             <result property="profile" column="profile"/>
@@ -21,7 +21,7 @@
         </association>
     </resultMap>
 
-    <insert id="insert" parameterType="wang.ismy.zbq.entity.user.User" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="insert" parameterType="wang.ismy.zbq.model.entity.user.User" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user (username, password, user_info, permission, create_time, update_time)
         VALUES (#{username}, #{password}, #{userInfo.userInfoId}, #{userPermission.userPermissionId}, NOW(), NOW())
     </insert>
@@ -50,7 +50,7 @@
         WHERE user_id = #{userId}
     </update>
 
-    <select id="selectAll" resultType="wang.ismy.zbq.entity.user.User">
+    <select id="selectAll" resultType="wang.ismy.zbq.model.entity.user.User">
         SELECT *
         FROM user
     </select>

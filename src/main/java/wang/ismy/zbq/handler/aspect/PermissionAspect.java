@@ -9,7 +9,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wang.ismy.zbq.annotations.Permission;
-import wang.ismy.zbq.entity.user.UserPermission;
+import wang.ismy.zbq.model.entity.user.UserPermission;
 import wang.ismy.zbq.service.PermissionService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;

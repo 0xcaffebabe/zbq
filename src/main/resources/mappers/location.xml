@@ -6,7 +6,7 @@
 <mapper namespace="wang.ismy.zbq.dao.LocationMapper">
 
 
-    <resultMap id="locationMap" type="wang.ismy.zbq.entity.Location">
+    <resultMap id="locationMap" type="wang.ismy.zbq.model.entity.Location">
         <id column="location_id" property="locationId"/>
         <result column="longitude" property="longitude"/>
         <result column="latitude" property="latitude"/>
@@ -14,7 +14,7 @@
         <result column="anonymous" property="anonymous"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
-        <association property="user" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="user" javaType="wang.ismy.zbq.model.entity.user.User">
             <id column="user" property="userId"/>
         </association>
 

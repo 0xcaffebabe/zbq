@@ -1,7 +1,7 @@
 package wang.ismy.zbq.dao;
 
 import lombok.Data;
-import wang.ismy.zbq.entity.Broadcast;
+import wang.ismy.zbq.model.entity.Broadcast;
 
 import java.util.List;
 

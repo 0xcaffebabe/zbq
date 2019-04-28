@@ -4,20 +4,23 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.course.LessonMapper;
-import wang.ismy.zbq.dto.LessonDTO;
-import wang.ismy.zbq.entity.course.Course;
-import wang.ismy.zbq.entity.course.Lesson;
+import wang.ismy.zbq.model.dto.LessonDTO;
+import wang.ismy.zbq.model.entity.course.Course;
+import wang.ismy.zbq.model.entity.course.Lesson;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.course.LessonListVO;
-import wang.ismy.zbq.vo.course.LessonVO;
+import wang.ismy.zbq.model.vo.course.LessonListVO;
+import wang.ismy.zbq.model.vo.course.LessonVO;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author my
+ */
 @Service
 public class LessonService {
 
@@ -87,9 +90,13 @@ public class LessonService {
 
     public Map<Integer,Long> countLessonInBatch(List<Integer> courseIdList){
 
+        if (courseIdList == null || courseIdList.size() == 0){
+            return Map.of();
+        }
+
         var list = lessonMapper.countLessonInBatch(courseIdList);
 
-        Map<Integer,Long> map = new HashMap<>();
+        Map<Integer,Long> map = new HashMap<>(16);
 
         for (var i : courseIdList){
             map.put(i,0L);

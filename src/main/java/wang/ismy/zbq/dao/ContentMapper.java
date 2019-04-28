@@ -1,8 +1,8 @@
 package wang.ismy.zbq.dao;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.entity.Content;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.entity.Content;
 
 import java.util.List;
 

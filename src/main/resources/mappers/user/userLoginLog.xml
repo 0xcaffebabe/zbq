@@ -5,12 +5,12 @@
 
 <mapper namespace="wang.ismy.zbq.dao.user.UserLoginLogMapper">
 
-    <resultMap id="loginLogMap" type="wang.ismy.zbq.entity.user.UserLoginLog">
+    <resultMap id="loginLogMap" type="wang.ismy.zbq.model.entity.user.UserLoginLog">
         <id property="loginId" column="login_id"/>
         <result property="loginIp" column="login_ip"/>
         <result property="loginType" column="login_type"/>
         <result property="createTime" column="create_time"/>
-        <association property="loginUser" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="loginUser" javaType="wang.ismy.zbq.model.entity.user.User">
             <id property="userId" column="login_user"/>
         </association>
     </resultMap>
@@ -21,6 +21,17 @@
     <select id="selectTop10ByUserId" resultMap="loginLogMap">
         SELECT * FROM user_login_log WHERE login_user = #{user}
         ORDER BY create_time DESC LIMIT 10;
+    </select>
+    <select id="countLogByUserId" resultType="java.lang.Long">
+        SELECT SUM(1)
+        FROM
+            (
+                SELECT COUNT(1) AS count
+                FROM user_login_log
+                WHERE login_user = #{id}
+                GROUP BY TO_DAYS(create_time)
+            ) AS T
+
     </select>
 
 

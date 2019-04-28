@@ -1,6 +1,6 @@
 package wang.ismy.zbq.dao;
 
-import wang.ismy.zbq.entity.WebLog;
+import wang.ismy.zbq.model.entity.WebLog;
 
 import java.util.List;
 

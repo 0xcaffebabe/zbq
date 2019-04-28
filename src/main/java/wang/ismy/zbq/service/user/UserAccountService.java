@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import wang.ismy.zbq.dao.user.UserAccountMapper;
-import wang.ismy.zbq.entity.user.UserAccount;
+import wang.ismy.zbq.model.entity.user.UserAccount;
 import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.system.EmailService;

@@ -3,7 +3,7 @@ package wang.ismy.zbq.service.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.user.UserLoginLogMapper;
-import wang.ismy.zbq.entity.user.UserLoginLog;
+import wang.ismy.zbq.model.entity.user.UserLoginLog;
 import wang.ismy.zbq.service.system.ExecuteService;
 
 import java.util.List;
@@ -32,5 +32,14 @@ public class UserLoginLogService {
         var currentUser = userService.getCurrentUser();
 
         return userLoginLogMapper.selectTop10ByUserId(currentUser.getUserId());
+    }
+
+    public Long calcCurrentUserLogDays() {
+
+        var currentUser = userService.getCurrentUser();
+
+        long days = userLoginLogMapper.countLogByUserId(currentUser.getUserId());
+
+        return days;
     }
 }

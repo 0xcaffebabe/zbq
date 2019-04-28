@@ -10,7 +10,7 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import wang.ismy.zbq.dto.Page;
+import wang.ismy.zbq.model.dto.Page;
 
 import java.sql.Connection;
 import java.util.Map;

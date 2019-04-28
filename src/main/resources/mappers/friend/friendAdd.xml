@@ -5,15 +5,15 @@
 
 <mapper namespace="wang.ismy.zbq.dao.friend.FriendAddMapper">
 
-    <resultMap id="friendAddMap" type="wang.ismy.zbq.entity.friend.FriendAdd">
+    <resultMap id="friendAddMap" type="wang.ismy.zbq.model.entity.friend.FriendAdd">
         <id column="friend_add_id" property="friendAddId"/>
         <result column="msg" property="msg"/>
         <result column="visible" property="visible"/>
         <result column="create_time" property="createTime"/>
-        <association property="fromUser" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="fromUser" javaType="wang.ismy.zbq.model.entity.user.User">
             <id property="userId" column="from_user"/>
         </association>
-        <association property="toUser" javaType="wang.ismy.zbq.entity.user.User">
+        <association property="toUser" javaType="wang.ismy.zbq.model.entity.user.User">
             <id property="userId" column="to_user"/>
         </association>
     </resultMap>

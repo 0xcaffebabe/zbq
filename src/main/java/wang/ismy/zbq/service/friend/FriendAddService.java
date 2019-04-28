@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wang.ismy.zbq.dao.friend.FriendAddMapper;
-import wang.ismy.zbq.dto.FriendAddDTO;
-import wang.ismy.zbq.dto.message.MessageDTO;
-import wang.ismy.zbq.entity.friend.FriendAdd;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.dto.FriendAddDTO;
+import wang.ismy.zbq.model.dto.message.MessageDTO;
+import wang.ismy.zbq.model.entity.friend.FriendAdd;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.system.InformService;
 import wang.ismy.zbq.service.MessageService;
@@ -86,7 +86,7 @@ public class FriendAddService {
     }
 
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void agreeFriendAddMsg(Integer friendAddId) {
 
         FriendAdd friendAdd = friendAddMapper.selectFriendAddByPrimaryKey(friendAddId);
@@ -102,7 +102,7 @@ public class FriendAddService {
         sendFriendAddPassMessage(friendAdd);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void rejectFriendAdd(Integer friendAddId) {
 
         FriendAdd friendAdd = friendAddMapper.selectFriendAddByPrimaryKey(friendAddId);

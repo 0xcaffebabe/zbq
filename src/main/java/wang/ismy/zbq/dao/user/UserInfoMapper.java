@@ -1,6 +1,6 @@
 package wang.ismy.zbq.dao.user;
 
-import wang.ismy.zbq.entity.user.UserInfo;
+import wang.ismy.zbq.model.entity.user.UserInfo;
 
 public interface UserInfoMapper {
 

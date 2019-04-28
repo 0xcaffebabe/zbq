@@ -5,13 +5,13 @@ var square = new Vue({
        content:'',
        broadcastList:[],
        userList:[],
-       self:{}
+       self:{},
+       user:{}
    }
    ,
     created:function () {
 
        this.getBroadcast();
-
 
         moment.locale("zh-cn");
 
@@ -22,7 +22,7 @@ var square = new Vue({
 
            host = location.host;
 
-           if (host != "127.0.0.1"){
+           if (host == "zbq.ismy.wang"){
                protocol = "wss";
            }
 

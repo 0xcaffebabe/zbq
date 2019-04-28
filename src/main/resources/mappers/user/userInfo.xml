@@ -6,7 +6,7 @@
 <mapper namespace="wang.ismy.zbq.dao.user.UserInfoMapper">
 
 
-    <insert id="insertUserInfo" useGeneratedKeys="true" keyProperty="userInfoId" parameterType="wang.ismy.zbq.entity.user.UserInfo">
+    <insert id="insertUserInfo" useGeneratedKeys="true" keyProperty="userInfoId" parameterType="wang.ismy.zbq.model.entity.user.UserInfo">
 
         INSERT INTO user_info(
           nick_name, profile, birthday, pen_year, region, gender, description, create_time, update_time
@@ -15,7 +15,7 @@
         )
 
     </insert>
-    <update id="updateUserInfo" parameterType="wang.ismy.zbq.entity.user.UserInfo">
+    <update id="updateUserInfo" parameterType="wang.ismy.zbq.model.entity.user.UserInfo">
         UPDATE user_info
         SET
             nick_name = #{nickName},
@@ -29,7 +29,7 @@
         WHERE
             user_info_id = #{userInfoId}
     </update>
-    <select id="selectByPrimaryKey" resultType="wang.ismy.zbq.entity.user.UserInfo">
+    <select id="selectByPrimaryKey" resultType="wang.ismy.zbq.model.entity.user.UserInfo">
         SELECT * FROM user_info WHERE user_info_id = #{key}
     </select>
 </mapper>

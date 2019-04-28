@@ -139,13 +139,15 @@ var dashboard = new Vue({
        friendQuantity:0,
        stateQuantity:0,
        likeQuantity:0,
-       likeDetail:{}
+       likeDetail:{},
+       days:0
    },
     created:function () {
 
        this.countFriend();
        this.countState();
        this.countLike();
+       this.countDays();
     }
 
     ,
@@ -184,6 +186,18 @@ var dashboard = new Vue({
                    that.likeDetail= response.data;
                }else{
                    alert("获取收获赞数失败:"+response.msg);
+               }
+           })
+        }
+        ,
+        countDays:function () {
+
+           var that = this;
+           common.ajax.get(common.data.countDaysUrl,function (r) {
+               if (r.success){
+                   that.days = r.data;
+               }else{
+                   alert(r.msg);
                }
            })
         }

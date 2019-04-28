@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.Limit;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
-import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.dto.state.StateCommentDTO;
-import wang.ismy.zbq.dto.state.StateDTO;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.dto.state.StateCommentDTO;
+import wang.ismy.zbq.model.dto.state.StateDTO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.StateService;
 import wang.ismy.zbq.util.ErrorUtils;
@@ -26,7 +26,7 @@ public class StateController {
     @MustLogin
     @Limit(maxRequestPerMinute = 2)
     public Object publishState(@RequestBody @Valid StateDTO stateDTO){
-        stateService.currentUserPublishState(stateDTO);
+        stateService.publishState(stateDTO);
         return R.STATE_PUBLISH_SUCCESS;
     }
 
@@ -37,7 +37,7 @@ public class StateController {
         Page p = new Page();
         p.setPageNumber(pageNo);
         p.setLength(length);
-        return stateService.selectCurrentUserStatePaging(p);
+        return stateService.selectState(p);
     }
 
     @GetMapping("/self/count")
@@ -51,7 +51,7 @@ public class StateController {
     @ResultTarget
     @MustLogin
     public Object createCurrentUserStateComment(@Valid @RequestBody StateCommentDTO stateCommentDTO){
-        if (stateService.createCurrentUserStateComment(stateCommentDTO) == 1){
+        if (stateService.publishComment(stateCommentDTO) == 1){
             return "评论成功";
         }
         return "评论失败";
@@ -61,7 +61,7 @@ public class StateController {
     @ResultTarget
     @MustLogin
     public Object deleteState(@PathVariable Integer stateId){
-        if (stateService.deleteCurrentUserStateById(stateId) != 1){
+        if (stateService.deleteState(stateId) != 1){
             ErrorUtils.error(R.DELETE_STATE_FAIL);
         }
         return R.DELETE_STATE_SUCCESS ;

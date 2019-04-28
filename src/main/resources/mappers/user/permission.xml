@@ -5,11 +5,11 @@
 <mapper namespace="wang.ismy.zbq.dao.PermissionMapper">
 
 
-    <insert id="insertPermission" parameterType="wang.ismy.zbq.entity.user.UserPermission" useGeneratedKeys="true" keyProperty="userPermissionId">
+    <insert id="insertPermission" parameterType="wang.ismy.zbq.model.entity.user.UserPermission" useGeneratedKeys="true" keyProperty="userPermissionId">
         INSERT INTO tb_user_permission(create_time,update_time)
                 VALUES (NOW(),NOW())
     </insert>
-    <select id="selectById" resultType="wang.ismy.zbq.entity.user.UserPermission">
+    <select id="selectById" resultType="wang.ismy.zbq.model.entity.user.UserPermission">
         SELECT * FROM tb_user_permission WHERE user_permission_id = #{id}
     </select>
 </mapper>

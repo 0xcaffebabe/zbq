@@ -3,17 +3,17 @@ package wang.ismy.zbq.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.MessageMapper;
-import wang.ismy.zbq.dto.message.MessageDTO;
-import wang.ismy.zbq.dto.message.UnreadMessageDTO;
+import wang.ismy.zbq.model.dto.message.MessageDTO;
+import wang.ismy.zbq.model.dto.message.UnreadMessageDTO;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserService;
-import wang.ismy.zbq.vo.message.MessageListVO;
-import wang.ismy.zbq.vo.message.MessageVO;
-import wang.ismy.zbq.entity.Message;
-import wang.ismy.zbq.entity.user.User;
+import wang.ismy.zbq.model.vo.message.MessageListVO;
+import wang.ismy.zbq.model.vo.message.MessageVO;
+import wang.ismy.zbq.model.entity.Message;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.vo.message.UnreadMessageVO;
+import wang.ismy.zbq.model.vo.message.UnreadMessageVO;
 
 import java.util.*;
 

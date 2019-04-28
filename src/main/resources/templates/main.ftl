@@ -45,6 +45,9 @@
                 <li class="menu-title">内容</li>
 
 
+                <li :class="{active:url == '/videos'}"><a href="javascript:jump('/videos')"> <i
+                        class="menu-icon fa fa-internet-explorer"></i>全网转笔</a></li>
+
                 <li :class="{active:url == '/contents'}"><a href="javascript:jump('/contents')"> <i
                         class="menu-icon fa fa-search"></i>发现内容</a></li>
                 <li :class="{active:url == '/publish/content'}">

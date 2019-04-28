@@ -12,7 +12,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import wang.ismy.zbq.annotations.Limit;
 import wang.ismy.zbq.annotations.Permission;
-import wang.ismy.zbq.dto.RequestLimitDTO;
+import wang.ismy.zbq.model.dto.RequestLimitDTO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 

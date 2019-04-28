@@ -1,11 +1,14 @@
 package wang.ismy.zbq.dao;
 
 import org.apache.ibatis.annotations.Param;
-import wang.ismy.zbq.dto.Page;
-import wang.ismy.zbq.entity.State;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.entity.State;
 
 import java.util.List;
 
+/**
+ * @author my
+ */
 public interface StateMapper {
 
     int insertNew(State state);

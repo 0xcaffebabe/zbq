@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import wang.ismy.zbq.dto.Result;
+import wang.ismy.zbq.model.dto.Result;
 
 @Aspect
 @Component
