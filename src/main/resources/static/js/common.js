@@ -169,7 +169,8 @@ function getCommonObject() {
             countOnlineUserUrl:"/user/online/count",
             sendBroadcastUrl:"/broadcast",
             getBroadcastListUrl:"/broadcast/list",
-            countDaysUrl:"/user/online/days"
+            countDaysUrl:"/user/online/days",
+            searchVideoUrl:"/video/search"
 
 
         },

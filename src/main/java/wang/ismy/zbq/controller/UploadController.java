@@ -21,7 +21,7 @@ import java.io.IOException;
 @RequestMapping("/upload")
 public class UploadController {
 
-    private static final String[] IMG_FORMATS={"img","png","gif"};
+    private static final String[] IMG_FORMATS={"jpg","png","gif"};
 
     @Autowired
     private OSSService ossService;
@@ -37,11 +37,11 @@ public class UploadController {
             ErrorUtils.error(R.ERROR_IMG_NAME);
         }
 
-        if (!canProcess(name)){
+        String format = name.substring(name.lastIndexOf("."),name.length());
+
+        if (!canProcess(format)){
             ErrorUtils.error(R.IMG_FORMAT_LIMIT);
         }
-
-        String format = name.substring(name.lastIndexOf("."),name.length());
 
         return ossService.uploadImg(multipartFile.getBytes(),format,"img")+"?x-oss-process=style/square";
     }
@@ -57,19 +57,21 @@ public class UploadController {
             ErrorUtils.error(R.ERROR_IMG_NAME);
         }
 
-        if (!canProcess(name)){
+        String format = name.substring(name.lastIndexOf("."),name.length());
+
+        if (!canProcess(format)){
             ErrorUtils.error(R.IMG_FORMAT_LIMIT);
         }
-
-        String format = name.substring(name.lastIndexOf("."),name.length());
 
         return ossService.uploadImg(multipartFile.getBytes(),format,"thumbnail");
     }
 
-    private boolean canProcess(String fileName){
+    private boolean canProcess(String format){
+
+        format = format.replaceAll("\\.","");
 
         for (var i : IMG_FORMATS){
-            if (fileName.startsWith(i)){
+            if (format.equalsIgnoreCase(i)){
                 return true;
             }
         }

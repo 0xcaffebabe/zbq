@@ -1,4 +1,4 @@
-package wang.ismy.zbq.service.video;
+package wang.ismy.zbq.service.video.parser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
