@@ -97,6 +97,8 @@ public class R {
     public static final String BROADCAST_FAIL = "发送广播消息失败";
 
     public static final String BROADCAST_SUCCESS = "发送广播消息成功";
+
+    public static final String UNKNOWN_SEARCH_ENGINE = "未知搜索引擎";
 }
 
 

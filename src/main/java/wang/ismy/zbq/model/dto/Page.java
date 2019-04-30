@@ -6,6 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+
+/**
+ * @author my
+ */
+@Data
 public class Page {
 
     private int pageNumber;
@@ -21,19 +26,10 @@ public class Page {
 
     }
 
-    public int getPageNumber() {
-        return pageNumber;
+    @Override
+    public int hashCode(){
+        return 10*pageNumber+20*length;
     }
 
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
-    }
 
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
 }

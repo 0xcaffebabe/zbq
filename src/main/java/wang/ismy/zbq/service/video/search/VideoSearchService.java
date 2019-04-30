@@ -1,74 +1,136 @@
 package wang.ismy.zbq.service.video.search;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.spider.Spider;
 import wang.ismy.spider.request.Request;
+import wang.ismy.zbq.enums.VideoSearchEngineEnum;
 import wang.ismy.zbq.model.Video;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.vo.HotKWVO;
+import wang.ismy.zbq.model.vo.VideoSearchEngineVO;
+import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.CacheService;
+import wang.ismy.zbq.util.ErrorUtils;
 
+import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author my
  */
 @Service
+@Slf4j
 public class VideoSearchService {
 
     @Autowired
-    private Spider spider;
+    private List<VideoFetch> videoFetchList;
 
-    public List<Video> search(String kw){
-        try {
-            return bilibiliSearch(kw);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+    private Map<VideoSearchEngineEnum,VideoFetch> searchEngineMapper;
+
+    @Autowired
+    private CacheService cacheService;
+
+    @Autowired
+    private Gson gson;
+
+    @PostConstruct
+    public void init(){
+        searchEngineMapper = videoFetchList.stream()
+                .collect(Collectors.toMap(VideoFetch::getEngine,e-> e));
     }
 
-    private List<Video> bilibiliSearch(String kw) throws UnsupportedEncodingException {
+    public List<Video> search(VideoSearchEngineEnum engineEnum, String kw, Page page){
+        increaseKwCount(kw);
+        String key = "videoSearch#"+engineEnum.toString()+"#"+kw+"#"+page.getPageNumber()+","+page.getLength();
 
-        kw = URLEncoder.encode(kw,"utf8");
-        String url =
-                "https://api.bilibili.com/x/web-interface/search/type?jsonp=jsonp&search_type=video&highlight=1&keyword="+kw+"&from_source=banner_search&page=1";
+        long time = System.currentTimeMillis();
+        String str = cacheService.get(key);
+        if (str!=null){
+            str = str.trim();
+        }
 
-        Spider spider = new Spider();
-        Request request = new Request();
-        request.setUrl(url);
-        request.header("Referer","https://search.bilibili.com/all?keyword="+kw+"&from_source=banner_search");
-
-
-        List<Video> videoList = new ArrayList<>();
-        spider.request(request,response -> {
-
-            JsonObject jsonObject = new JsonParser().parse(response.toText("utf8")).getAsJsonObject();
-
-            JsonArray jsonArray = jsonObject.get("data")
-                    .getAsJsonObject()
-                    .get("result")
-                    .getAsJsonArray();
-
-
-            for (var i : jsonArray){
-                var obj = i.getAsJsonObject();
-                Video video = new Video();
-                video.setTitle(obj.get("title").getAsString());
-                video.setThumbnail(obj.get("pic").getAsString());
-                video.setLink(obj.get("arcurl").getAsString());
-                video.setSource("B站");
-                videoList.add(video);
+        List ret = gson.fromJson(str, new TypeToken<List<Video>>() {}.getType());
+        if (ret != null){
+            if (ret.size() != 0){
+                log.info("缓存命中：{},耗时:{}",key, System.currentTimeMillis()-time);
+                return ret;
             }
 
-        },false);
+        }
+        if (engineEnum == VideoSearchEngineEnum.UNKNOWN){
+            ErrorUtils.error(R.UNKNOWN_SEARCH_ENGINE);
+        }
 
+        try {
+            var engine = searchEngineMapper.get(engineEnum);
 
-        return videoList;
+            if (engine == null){
+                ErrorUtils.error(engineEnum.getEngineName()+"搜索暂未实现");
+            }
+            var list = engine.fetch(kw,page);
+
+            if (list == null || list.size() == 0){
+
+            }else{
+                cacheService.put(key,list,1000);
+                log.info("缓存新增:{}",key);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
+
+    public void increaseKwCount(String kw){
+        cacheService.hIncreasement("hot_kw",kw,1L);
+    }
+
+    public List<HotKWVO> selectHotKw(){
+        List<HotKWVO> list = new LinkedList<>();
+        cacheService.getHashEntry("hot_kw")
+                .forEach((k,v)->{
+                    HotKWVO vo = new HotKWVO();
+                    vo.setKw(k);
+                    vo.setHeat(v);
+                    list.add(vo);
+                });
+        list.sort(Comparator.comparing(HotKWVO::getHeat).reversed());
+        return list;
+    }
+
+    public List<VideoSearchEngineVO> selectAllEngine(){
+
+        var values = VideoSearchEngineEnum.values();
+
+        List<VideoSearchEngineVO> voList = new ArrayList<>();
+        for (var i :values){
+            if (i.getCode() == -1){
+                continue;
+            }
+
+            VideoSearchEngineVO vo = new VideoSearchEngineVO();
+            vo.setCode(i.getCode());
+            vo.setEngineName(i.getEngineName());
+
+            voList.add(vo);
+
+        }
+
+        return voList;
+    }
+
 }

@@ -32,13 +32,16 @@
                     <div class="input-group-btn">
                         <div class="btn-group">
                             <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                    class="dropdown-toggle btn btn-primary">百度
+                                    class="dropdown-toggle btn btn-primary">{{engine.engineName}}
                             </button>
                             <div tabindex="-1" aria-hidden="true" role="menu" class="dropdown-menu">
-                                <button type="button" tabindex="0" class="dropdown-item">百度</button>
-                                <button type="button" tabindex="0" class="dropdown-item">搜狗</button>
-                                <button type="button" tabindex="0" class="dropdown-item">优酷</button>
-                                <button type="button" tabindex="0" class="dropdown-item">B站</button>
+                                <ul class="list-group">
+                                    <li class="list-group-item" v-for="engine in engineList">
+                                        <button type="button" tabindex="0" class="dropdown-item" @click="changeEngine(engine)">{{engine.engineName}}</button>
+                                    </li>
+
+                                </ul>
+
                             </div>
                         </div>
                     </div>
@@ -49,6 +52,14 @@
                         <button class="btn btn-info" type="button" @click="searchVideo">搜索</button>
                     </span>
                 </div>
+            </div>
+        </div>
+
+        <div>
+            <h5>热门搜索</h5>
+            <div class="inline" style="margin-top: 5px">
+
+                <button class="btn btn-default btn-sm" v-for="kw in hotKw" @click="changeKw(kw.kw)">{{kw.kw}}({{kw.heat}})</button>
             </div>
         </div>
 
@@ -89,6 +100,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/videos.js"></script>
+<script src="/js/videos.js?v=20190501"></script>
 </body>
 </html>

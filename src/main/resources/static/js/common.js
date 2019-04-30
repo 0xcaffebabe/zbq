@@ -170,7 +170,9 @@ function getCommonObject() {
             sendBroadcastUrl:"/broadcast",
             getBroadcastListUrl:"/broadcast/list",
             countDaysUrl:"/user/online/days",
-            searchVideoUrl:"/video/search"
+            searchVideoUrl:"/video/search",
+            getVideoSearchEngineUrl:"/video/engine/list",
+            getHotKwUrl:"/video/hotKw"
 
 
         },

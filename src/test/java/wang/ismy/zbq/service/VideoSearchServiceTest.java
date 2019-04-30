@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,25 @@ public class VideoSearchServiceTest {
     @Test
     public void testB(){
 
-        var list = videoSearchService.search("转笔探讨");
 
-        list.forEach(System.out::println);
+
+
+    }
+
+
+    @Test
+    public void testEngine(){
+        var list = videoSearchService.selectAllEngine();
+
+        Assert.assertEquals(4,list.size());
+    }
+
+
+    @Test
+    public void getEntry(){
+
+        var map = videoSearchService.selectHotKw();
+
+        System.out.println(map);
     }
 }
