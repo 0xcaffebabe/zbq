@@ -42,7 +42,9 @@ public class InformService {
                 e.printStackTrace();
             }
 
+            // 找不到系统通知账号
             if( userService.selectByUsername(SYSTEM_ACCOUNT_USERNAME) == null){
+
                 //TODO
             }
 

@@ -119,6 +119,9 @@
 
                                                 <a href="" style="color: midnightblue;font-weight: bold"><h4
                                                         class="media-heading">{{i.userVO.nickName}}</h4></a>
+                                                <button v-if="i.self" class="btn btn-sm btn-danger"
+                                                        style="float: right" @click="deleteState(i.stateId)">删除
+                                                </button>
                                             <#--动态内容开始-->
                                                 <div>
                                                     <div v-if="i.content.content == undefined">{{i.content}}</div>
@@ -143,7 +146,8 @@
 
                                                     <div>
                                                         <span class="fa fa-heart-o"></span> {{i.likes.likeCount}}
-                                                        <a href="#" @click.prevent="visitFriend(like.likeUser.userId)" v-for="like in i.likes.likeList"
+                                                        <a href="#" @click.prevent="visitFriend(like.likeUser.userId)"
+                                                           v-for="like in i.likes.likeList"
                                                            style="margin-left: 5px"
                                                            :title="like.likeUser.userInfo.nickName">
                                                             <img :src="like.likeUser.userInfo.profile" alt=""

@@ -1,5 +1,6 @@
 package wang.ismy.zbq.handler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wang.ismy.zbq.model.entity.WebLog;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
  */
 @WebFilter
 @Component
+@Slf4j
 public class WebLogFilter implements Filter {
 
     public static final String X_REAL_IP = "X-Real-Ip";
@@ -46,14 +48,14 @@ public class WebLogFilter implements Filter {
         try {
             user = userService.getCurrentUser().getUserId();
         }catch (Exception e){
-            //TODO
+            log.error("web log filter 发送错误:{}",e.getMessage());
         }
 
         long time = System.currentTimeMillis();
         try{
             filterChain.doFilter(servletRequest, servletResponse);
         }catch (Exception e){
-            //TODO
+            log.error("web log filter 发送错误:{}",e.getMessage());
         }
 
         int timeConsuming = (int) (System.currentTimeMillis()-time);

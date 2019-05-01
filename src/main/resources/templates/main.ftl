@@ -89,7 +89,7 @@
     <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
-                <a href="#" class="navbar-brand">Zbq</a>
+                <a  class="navbar-brand">Zbq</a>
                 <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             </div>
         </div>
