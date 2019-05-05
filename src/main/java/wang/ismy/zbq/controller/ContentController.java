@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
+import wang.ismy.zbq.model.dto.CollectionDTO;
 import wang.ismy.zbq.model.dto.content.ContentCommentDTO;
 import wang.ismy.zbq.model.dto.content.ContentDTO;
 import wang.ismy.zbq.model.dto.Page;
@@ -13,6 +14,9 @@ import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.validation.Valid;
 
+/**
+ * @author my
+ */
 @RestController
 @RequestMapping("/content")
 public class ContentController {
@@ -60,5 +64,15 @@ public class ContentController {
     public Object commentList(@PathVariable("contentId") Integer contentId,@RequestParam("page") Integer page,@RequestParam("length") Integer length){
         Page p = new Page(page,length);
         return contentService.selectContentCommentListPaging(contentId,p);
+    }
+
+    @PutMapping("/collect")
+    @ResultTarget
+    @MustLogin
+    public Object collect(@RequestBody @Valid CollectionDTO dto){
+
+        contentService.currentUserCollectContent(dto);
+
+        return R.COLLECT_SUCCESS;
     }
 }

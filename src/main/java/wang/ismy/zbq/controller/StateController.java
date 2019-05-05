@@ -37,7 +37,7 @@ public class StateController {
         Page p = new Page();
         p.setPageNumber(pageNo);
         p.setLength(length);
-        return stateService.selectState(p);
+        return stateService.pullState(p);
     }
 
     @GetMapping("/self/count")

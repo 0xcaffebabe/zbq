@@ -11,9 +11,15 @@ import java.util.List;
  */
 public interface StateMapper {
 
+    /**
+     * 新增一条动态
+     *
+     * @param state 动态实体
+     * @return 受影响行数
+     */
     int insertNew(State state);
 
-    List<State> selectStateByUserIdBatchPaging(@Param("list") List<Integer> list, @Param("page")Page page);
+    List<State> selectStateByUserIdBatchPaging(@Param("list") List<Integer> list, @Param("page") Page page);
 
     int countStateByUserId(Integer userId);
 

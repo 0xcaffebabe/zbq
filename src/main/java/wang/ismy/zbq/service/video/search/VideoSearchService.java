@@ -2,16 +2,10 @@ package wang.ismy.zbq.service.video.search;
 
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.ismy.spider.Spider;
-import wang.ismy.spider.request.Request;
 import wang.ismy.zbq.enums.VideoSearchEngineEnum;
 import wang.ismy.zbq.model.Video;
 import wang.ismy.zbq.model.dto.Page;
@@ -22,8 +16,6 @@ import wang.ismy.zbq.service.CacheService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.annotation.PostConstruct;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -84,7 +76,7 @@ public class VideoSearchService {
             if (list == null || list.size() == 0){
 
             }else{
-                cacheService.put(key,list,1000);
+                cacheService.put(key,list,86400);
                 log.info("缓存新增:{}",key);
             }
 
@@ -96,7 +88,7 @@ public class VideoSearchService {
     }
 
     public void increaseKwCount(String kw){
-        cacheService.hIncreasement("hot_kw",kw,1L);
+        cacheService.hIncrement("hot_kw",kw,1L);
     }
 
     public List<HotKWVO> selectHotKw(){

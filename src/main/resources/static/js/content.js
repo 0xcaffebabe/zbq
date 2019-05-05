@@ -159,6 +159,17 @@ var content = new Vue({
                 }
             },{contentId:this.currentContent.contentId,content:this.commentContent});
         }
+        ,
+        collect:function (id) {
+
+            common.ajax.put(common.data.collectContentUrl,function (r) {
+                if (r.success){
+                    alert(r.data);
+                }else {
+                    alert(r.msg);
+                }
+            },{collectionType:1,contentId:id})
+        }
 
     }
 });

@@ -13,6 +13,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <#include "css.ftl">
+
+    <style>
+
+        .split{
+            font-weight: bold;
+            font-size: 16px;
+            color:#607d8b;
+        }
+    </style>
 </head>
 
 <body>
@@ -29,20 +38,25 @@
                 <li :class="{active:url=='/account'}">
                     <a href="javascript:jump('/account')"><i class="menu-icon fa fa-shield"></i>安全中心 </a>
                 </li>
-                <li class="menu-title">社交</li><!-- /.menu-title -->
+                <li class="text-sm-center split">
+                    社交
+                </li>
 
 
                 <li :class="{active:url == '/friends'}"><a href="javascript:jump('/friends')"> <i
                         class="menu-icon fa fa-users"></i>我的笔友 </a></li>
                 <li :class="{active:url == '/states'}"><a href="javascript:jump('/states')"> <i
                         class="menu-icon fa fa-star"></i> 笔圈动态</a></li>
+
+                <li ><a > <i
+                        class="menu-icon fa fa-at"></i> 与我相关（不可用）</a></li>
                 <li :class="{active:url == '/maps'}"><a href="javascript:jump('/maps')" class="dropdown-toggle"> <i
                         class="menu-icon fa fa-street-view"></i>转笔地图</a></li>
 
                 <li :class="{active:url == '/square'}"><a href="javascript:jump('/square')"  class="dropdown-toggle"> <i
                         class="menu-icon fa fa-microphone"></i>转笔广场</a></li>
 
-                <li class="menu-title">内容</li>
+                <li class="text-sm-center split">内容</li>
 
 
                 <li :class="{active:url == '/videos'}"><a href="javascript:jump('/videos')"> <i
@@ -54,13 +68,12 @@
                     <a href="javascript:jump('/publish/content')"> <i class="menu-icon fa fa-plus"></i>发布内容</a>
                 </li>
 
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                       aria-expanded="false"> <i class="menu-icon fa fa-heart"></i>我的收藏（不可用）</a>
+                <li :class="{active:url == '/collections'}">
+                    <a href="javascript:jump('/collections')"> <i class="menu-icon fa fa-heart"></i>我的收藏（开发中）</a>
                 </li>
 
 
-                <li class="menu-title">学习</li><!-- /.menu-title -->
+                <li class="text-sm-center split">学习</li><!-- /.menu-title -->
 
                 <li :class="{active:url == '/courses'}"><a href="javascript:jump('/courses')"> <i
                         class="menu-icon fa fa-book"></i>课程中心</a></li>

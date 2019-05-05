@@ -172,7 +172,8 @@ function getCommonObject() {
             countDaysUrl:"/user/online/days",
             searchVideoUrl:"/video/search",
             getVideoSearchEngineUrl:"/video/engine/list",
-            getHotKwUrl:"/video/hotKw"
+            getHotKwUrl:"/video/hotKw",
+            collectContentUrl:"/content/collect"
 
 
         },

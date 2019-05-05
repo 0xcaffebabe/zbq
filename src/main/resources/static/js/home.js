@@ -205,5 +205,9 @@ var dashboard = new Vue({
         showLikeDetail:function () {
             alert("动态:"+this.likeDetail.stateLike+",内容:"+this.likeDetail.contentLike);
         }
+        ,
+        jump:function (url) {
+            parent.window.jump(url);
+        }
     }
 });

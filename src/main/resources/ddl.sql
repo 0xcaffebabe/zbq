@@ -188,7 +188,7 @@ CREATE TABLE user_account(
 CREATE TABLE user_login_log(
   login_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   login_user INT NOT NULL ,
-  login_ip VARCHAR(255) NOT NULL ,
+  login_ip VARCHAR(255) NOT NULL,
   login_type INT NOT NULL ,
   create_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8;
@@ -199,6 +199,16 @@ CREATE TABLE broadcast(
   user INT NOT NULL ,
   content TEXT NOT NULL ,
   anonymous BOOLEAN NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8mb4;
+
+# 创建收藏联系表
+CREATE TABLE collection(
+  collection_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  collection_type TINYINT NOT NULL COMMENT '收藏类型：0代表视频，1代表内容，2代表课程',
+  content_id INT NOT NULL ,
+  user INT NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_time DATETIME
 )ENGINE=InnoDB CHARSET=utf8mb4;

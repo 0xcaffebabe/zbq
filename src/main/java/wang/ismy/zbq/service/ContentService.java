@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.annotations.Permission;
 import wang.ismy.zbq.dao.ContentMapper;
+import wang.ismy.zbq.enums.CollectionTypeEnum;
+import wang.ismy.zbq.model.dto.CollectionDTO;
 import wang.ismy.zbq.model.dto.content.ContentCommentDTO;
 import wang.ismy.zbq.model.dto.content.ContentDTO;
 import wang.ismy.zbq.model.dto.Page;
@@ -24,6 +26,9 @@ import wang.ismy.zbq.model.vo.user.UserVO;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author my
+ */
 @Service
 public class ContentService {
 
@@ -38,6 +43,9 @@ public class ContentService {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private CollectionService collectionService;
 
     @Permission(PermissionEnum.PUBLISH_CONTENT)
     public void currentUserPublish(ContentDTO contentDTO){
@@ -68,6 +76,25 @@ public class ContentService {
         addContentUser(contentVOList);
         return contentVOList;
 
+    }
+
+    public void currentUserCollectContent(CollectionDTO collectionDTO){
+
+        var currentUser = userService.getCurrentUser();
+        if (collectionService.selectByTypeAndContentId(CollectionTypeEnum.CONTENT,
+                collectionDTO.getContentId(),
+                userService.getCurrentUser().getUserId()) != null){
+            ErrorUtils.error(R.COLLECT_EXIST);
+        }
+
+        if (collectionDTO.getCollectionType().equals(CollectionTypeEnum.CONTENT.getCode())){
+            if (collectionService.currentUserAddCollection(collectionDTO) != 1){
+                ErrorUtils.error(R.COLLECT_FAIL);
+            }
+
+        }else{
+            ErrorUtils.error(R.TYPE_NOT_MATCH);
+        }
     }
 
     private void addContentUser(List<ContentVO> contentVOList) {

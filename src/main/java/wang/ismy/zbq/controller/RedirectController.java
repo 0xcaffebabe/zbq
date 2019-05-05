@@ -180,6 +180,12 @@ public class RedirectController {
         return "videos";
     }
 
+    @RequestMapping("/collections")
+    @MustLogin
+    @ErrorPage
+    public Object collections(){
+        return "collections";
+    }
 
 
 }

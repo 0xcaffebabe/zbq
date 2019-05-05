@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.CollectionMapper">
+
+    <resultMap id="collectionMap" type="wang.ismy.zbq.model.entity.Collection">
+        <id column="collection_id" property="collectionId"/>
+        <result column="collection_type" property="collectionType"/>
+        <result column="content_id" property="contentId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="user" javaType="wang.ismy.zbq.model.entity.user.User">
+            <id column="user" property="userId"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertNew">
+        INSERT INTO collection
+        (collection_type, content_id, user, create_time, update_time)
+                VALUES (#{collectionType},
+                #{contentId},
+                #{user.userId},
+                NOW(),NOW())
+    </insert>
+    <select id="selectByTypeAndContentIdAndUserId" resultType="wang.ismy.zbq.model.entity.Collection">
+
+        SELECT * FROM collection
+        WHERE collection_type = #{type}
+        AND content_id = #{contentId}
+        AND user = #{userId}
+    </select>
+</mapper>

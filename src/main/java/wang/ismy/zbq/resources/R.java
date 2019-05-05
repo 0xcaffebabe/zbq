@@ -99,6 +99,15 @@ public class R {
     public static final String BROADCAST_SUCCESS = "发送广播消息成功";
 
     public static final String UNKNOWN_SEARCH_ENGINE = "未知搜索引擎";
+
+    public static final String TYPE_NOT_MATCH = "类型不匹配";
+
+    public static final String COLLECT_FAIL = "收藏失败";
+
+    public static final String COLLECT_SUCCESS = "收藏成功";
+
+    public static final String COLLECT_EXIST = "已收藏过了";
+
 }
 
 

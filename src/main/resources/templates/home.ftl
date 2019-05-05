@@ -17,6 +17,12 @@
 
     <#include "css.ftl"/>
 
+    <style>
+        .dashboard :hover{
+            background: #ccc;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -26,7 +32,7 @@
     <div class="animated fadeIn">
         <!-- Widgets  -->
         <div class="row" id="dashboard" >
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 dashboard" @click="jump('/friends')">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-five">
@@ -44,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 dashboard" @click="jump('/states')">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-five">
@@ -62,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 dashboard" @click="jump('/account')">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-five">
@@ -80,7 +86,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 dashboard">
                 <div class="card">
                     <div class="card-body">
                         <div class="stat-widget-five">
@@ -214,7 +220,7 @@
 
 
 <#include "script.ftl"/>
-<script src="js/home.js?v=20190417"></script>
+<script src="js/home.js?v=20190504"></script>
 
 
 </body>

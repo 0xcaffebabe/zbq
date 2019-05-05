@@ -120,7 +120,7 @@
                         {{content.commentCount}} 评论
                     </a>
 
-                    <a href="" style="margin-left: 50px">
+                    <a href="#" @click.prevent="collect(content.contentId)" style="margin-left: 50px">
                         <i class="fa fa-star"></i>
                         485 收藏
                     </a>

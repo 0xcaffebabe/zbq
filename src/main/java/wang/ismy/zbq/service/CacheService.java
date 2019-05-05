@@ -9,6 +9,7 @@ import wang.ismy.zbq.service.system.ExecuteService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author my
@@ -28,30 +29,27 @@ public class CacheService {
 
     public void put(String key,Object value){
 
-        executeService.submit(()->{
-            if (value instanceof String){
-                redisTemplate.opsForValue().set(key,value.toString());
-                log.info("设置字符串缓存:{}",key);
-            }else{
-                redisTemplate.opsForValue().set(key,gson.toJson(value));
-                log.info("设置对象缓存:{}",key);
-            }
-        });
+        executeService.submit(()-> saveInRedis(key, value));
 
     }
 
     public void put(String key,Object value,long expired){
 
         executeService.submit(()->{
-            if (value instanceof String){
-                redisTemplate.opsForValue().set(key,value.toString(),expired);
-                log.info("设置字符串缓存:{}",key);
-            }else{
-                redisTemplate.opsForValue().set(key,gson.toJson(value),expired);
-                log.info("设置对象缓存:{}",key);
-            }
+            saveInRedis(key, value);
+            redisTemplate.expire(key,expired,TimeUnit.SECONDS);
         });
 
+    }
+
+    private void saveInRedis(String key, Object value) {
+        if (value instanceof String){
+            redisTemplate.opsForValue().set(key,value.toString());
+            log.info("设置字符串缓存:{}",key);
+        }else{
+            redisTemplate.opsForValue().set(key,gson.toJson(value));
+            log.info("设置对象缓存:{}",key);
+        }
     }
 
     public String get(String key){
@@ -60,7 +58,11 @@ public class CacheService {
 
     }
 
-    public void hIncreasement(String hash,String key,Long step){
+    public Object getFromJson(String key){
+        return null;
+    }
+
+    public void hIncrement(String hash, String key, Long step){
         executeService.submit(()->{
             redisTemplate.opsForHash().increment(hash,key,step);
         });

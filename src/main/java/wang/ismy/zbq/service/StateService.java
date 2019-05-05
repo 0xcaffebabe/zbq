@@ -71,16 +71,30 @@ public class StateService {
      * @param page 分页组件
      * @return 动态视图列表
      */
-    public List<StateVO> selectState(Page page) {
+    public List<StateVO> pullState(Page page) {
         User currentUser = userService.getCurrentUser();
 
+        // 根据当前用户获取需要哪些用户的动态（用户本身+他的好友）
         List<Integer> stateUserIdList = getStateUserIdList(currentUser);
         var stateList = stateMapper.selectStateByUserIdBatchPaging(stateUserIdList, page);
 
         List<Integer> userIdList = new ArrayList<>();
+        // 最终结果列表↓
         List<StateVO> stateVOList = new ArrayList<>();
+
+        /*
+         * 这两个map的作用是用来存储ID与VO的映射关系，
+         * 在需要对应VO的时候，可以直接通过ID快速查找
+         *
+         */
         Map<Integer, StateVO> stateVOMap = new HashMap<>();
         Map<Integer, UserVO> userVOMap = new HashMap<>();
+
+        /*
+         * 循环内部将state实体转换成stateVO，
+         * user转成VO，并将两个VO分别放入上面的map
+         *
+         */
         for (var i : stateList) {
             StateVO vo = new StateVO();
             UserVO userVO;
@@ -97,13 +111,15 @@ public class StateService {
             stateVOList.add(vo);
             stateVOMap.put(vo.getUserVO().getUserId(), vo);
             userVOMap.put(userVO.getUserId(), userVO);
-
             vo.setSelf(vo.getUserVO().getUserId().equals(currentUser.getUserId()));
 
         }
+
+        // 对userVOMap 中的每个VO 添加用户详细资料
         var userList = userService.selectByUserIdBatch(userIdList);
 
         for (var i : userList) {
+            //TODO 这里的逻辑可以转换成使用UserVO的静态方法
             var vo = userVOMap.get(i.getUserId());
             if (vo != null) {
                 vo.setProfile(i.getUserInfo().getProfile());
