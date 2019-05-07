@@ -48,14 +48,14 @@ public class WebLogFilter implements Filter {
         try {
             user = userService.getCurrentUser().getUserId();
         }catch (Exception e){
-            log.error("web log filter 发送错误:{}",e.getMessage());
+            log.error("web log filter 发生错误:{}",e.getMessage());
         }
 
         long time = System.currentTimeMillis();
         try{
             filterChain.doFilter(servletRequest, servletResponse);
         }catch (Exception e){
-            log.error("web log filter 发送错误:{}",e.getMessage());
+            log.error("web log filter 发生错误:{}",e.getMessage());
         }
 
         int timeConsuming = (int) (System.currentTimeMillis()-time);

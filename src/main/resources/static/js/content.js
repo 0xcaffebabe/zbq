@@ -160,15 +160,17 @@ var content = new Vue({
             },{contentId:this.currentContent.contentId,content:this.commentContent});
         }
         ,
-        collect:function (id) {
+        collect:function (content) {
 
             common.ajax.put(common.data.collectContentUrl,function (r) {
                 if (r.success){
                     alert(r.data);
+                    content.collectCount++;
+                    content.hasCollect = true;
                 }else {
                     alert(r.msg);
                 }
-            },{collectionType:1,contentId:id})
+            },{collectionType:1,contentId:content.contentId})
         }
 
     }

@@ -31,7 +31,7 @@ public class ContentServiceTest {
             contentDTO.setTitle("转笔的转后护理"+i);
             contentDTO.setContent("假装这里有内容");
             contentDTO.setTags("转笔;ivan");
-            contentService.currentUserPublish(contentDTO);
+            contentService.publishContent(contentDTO);
         }
 
     }
@@ -40,7 +40,7 @@ public class ContentServiceTest {
     @Test
     public void testSelect(){
         Page page = new Page(1,5);
-        var list = contentService.selectContentListPaging(page);
+        var list = contentService.pullContents(page);
 
         assertEquals(5,list.size());
 

@@ -16,6 +16,11 @@
         </association>
     </resultMap>
 
+    <resultMap id="collectionCountMap" type="wang.ismy.zbq.model.dto.CollectionCountDTO">
+        <id column="i" property="collectionId"/>
+        <result column="count" property="collectionCount"/>
+        <result column="has_collect" property="hasCollect"/>
+    </resultMap>
     <insert id="insertNew">
         INSERT INTO collection
         (collection_type, content_id, user, create_time, update_time)
@@ -30,5 +35,17 @@
         WHERE collection_type = #{type}
         AND content_id = #{contentId}
         AND user = #{userId}
+    </select>
+    <select id="selectCollectionCountBatchByType" resultMap="collectionCountMap">
+        SELECT content_id AS i,
+            COUNT(1) AS count,
+               #{user} IN (SELECT T.user FROM collection T
+               WHERE T.user = #{user} AND T.content_id = i AND T.collection_type=#{type}) AS has_collect
+        FROM
+            collection WHERE collection_type = #{type} AND content_id IN
+        <foreach collection="list" separator="," close=")" open="(" item="i">
+            #{i}
+        </foreach>
+        GROUP BY content_id
     </select>
 </mapper>

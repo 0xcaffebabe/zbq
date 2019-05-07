@@ -25,8 +25,6 @@ public class UserVO {
             return null;
         }
         UserVO userVO = new UserVO();
-
-
         userVO.setNickName(user.getUserInfo().getNickName());
         userVO.setProfile(user.getUserInfo().getProfile());
         userVO.setUserId(user.getUserId());

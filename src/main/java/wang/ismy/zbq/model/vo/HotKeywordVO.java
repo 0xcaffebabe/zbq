@@ -6,7 +6,7 @@ import lombok.Data;
  * @author my
  */
 @Data
-public class HotKWVO {
+public class HotKeywordVO {
 
     private String kw;
 

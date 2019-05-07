@@ -29,7 +29,7 @@ public class ContentController {
     @MustLogin
     public Object list(@RequestParam("page") Integer page,@RequestParam("length") Integer length){
         Page p = new Page(page,length);
-        return contentService.selectContentListPaging(p);
+        return contentService.pullContents(p);
     }
 
     @GetMapping("/{id}")
@@ -43,7 +43,7 @@ public class ContentController {
     @ResultTarget
     @MustLogin
     public Object createContent(@RequestBody @Valid ContentDTO contentDTO){
-        contentService.currentUserPublish(contentDTO);
+        contentService.publishContent(contentDTO);
         return "发布成功";
     }
 

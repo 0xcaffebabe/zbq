@@ -56,7 +56,7 @@ public class BroadcastService {
 
         broadcast.setUser(currentUser);
         broadcast.setCreateTime(LocalDateTime.now());
-        //TODO 向各客户端推送消息
+
         broadcast(broadcast);
         if (broadcastMapper.insertNew(broadcast) != 1) {
             ErrorUtils.error(R.BROADCAST_FAIL);

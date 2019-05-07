@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author myx
+ * @author my
  */
 @Configuration
 public class GsonConfig {

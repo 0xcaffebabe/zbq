@@ -14,6 +14,9 @@ import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.validation.Valid;
 
+/**
+ * @author my
+ */
 @RestController
 @RequestMapping("/state")
 public class StateController {
@@ -33,7 +36,8 @@ public class StateController {
     @GetMapping("/self")
     @ResultTarget
     @MustLogin
-    public Object getCurrentUserStates(@RequestParam("page") Integer pageNo, @RequestParam("length")Integer length){
+    public Object getCurrentUserStates(@RequestParam("page") Integer pageNo,
+                                       @RequestParam("length")Integer length){
         Page p = new Page();
         p.setPageNumber(pageNo);
         p.setLength(length);
@@ -50,6 +54,7 @@ public class StateController {
     @PutMapping("/comment")
     @ResultTarget
     @MustLogin
+    @Limit(maxRequestPerMinute = 3)
     public Object createCurrentUserStateComment(@Valid @RequestBody StateCommentDTO stateCommentDTO){
         if (stateService.publishComment(stateCommentDTO) == 1){
             return "评论成功";

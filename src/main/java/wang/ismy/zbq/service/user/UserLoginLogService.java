@@ -38,8 +38,11 @@ public class UserLoginLogService {
 
         var currentUser = userService.getCurrentUser();
 
-        long days = userLoginLogMapper.countLogByUserId(currentUser.getUserId());
+        Long days = userLoginLogMapper.countLogByUserId(currentUser.getUserId());
 
+        if (days == null){
+            return 0L;
+        }
         return days;
     }
 }

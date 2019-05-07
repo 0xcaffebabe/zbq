@@ -130,8 +130,11 @@ public class StateService {
 
         addStateLikes(stateVOList);
         addStateComment(stateVOList);
+
         return stateVOList;
     }
+
+
 
 
     public int countSelfState() {

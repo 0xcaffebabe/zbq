@@ -1,0 +1,22 @@
+{
+  "name": "转笔圈",
+  "short_name": "Zbq",
+  "description": "属于PSER的社交平台",
+  "icons": [
+    {
+      "src": "/img/512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F3F3F3",
+  "theme_color": "#F3F3F3",
+  "related_applications": [
+
+  ],
+  "prefer_related_applications": false
+}

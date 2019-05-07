@@ -22,7 +22,7 @@
         SELECT * FROM user_login_log WHERE login_user = #{user}
         ORDER BY create_time DESC LIMIT 10;
     </select>
-    <select id="countLogByUserId" resultType="java.lang.Long">
+    <select id="countLogByUserId" resultType="long">
         SELECT SUM(1)
         FROM
             (

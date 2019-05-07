@@ -21,7 +21,9 @@ public class ContentVO {
 
     private Long commentCount;
 
-    private Integer collectCount;
+    private Long collectCount;
+
+    private Boolean hasCollect;
 
     private LocalDateTime createTime;
 

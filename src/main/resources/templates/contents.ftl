@@ -120,10 +120,12 @@
                         {{content.commentCount}} 评论
                     </a>
 
-                    <a href="#" @click.prevent="collect(content.contentId)" style="margin-left: 50px">
+                    <button class="btn btn-default btn-sm"
+                            :class="{'btn-primary':content.hasCollect,'btn-default':!content.hasCollect}"
+                            @click="collect(content)" style="margin-left: 50px">
                         <i class="fa fa-star"></i>
-                        485 收藏
-                    </a>
+                        {{content.collectCount}} 收藏
+                    </button>
 
                     <a href="" style="margin-left: 50px">
                         <i class="fa fa-paper-plane"></i>
@@ -146,7 +148,7 @@
 
 <#include "script.ftl"/>
 
-<script src="/js/content.js?v=20190422"></script>
+<script src="/js/content.js?v=20190507"></script>
 <script>
 
 

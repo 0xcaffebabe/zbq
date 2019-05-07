@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import wang.ismy.zbq.enums.VideoSearchEngineEnum;
 import wang.ismy.zbq.model.Video;
 import wang.ismy.zbq.model.dto.Page;
-import wang.ismy.zbq.model.vo.HotKWVO;
+import wang.ismy.zbq.model.vo.HotKeywordVO;
 import wang.ismy.zbq.model.vo.VideoSearchEngineVO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.CacheService;
@@ -91,16 +91,16 @@ public class VideoSearchService {
         cacheService.hIncrement("hot_kw",kw,1L);
     }
 
-    public List<HotKWVO> selectHotKw(){
-        List<HotKWVO> list = new LinkedList<>();
+    public List<HotKeywordVO> selectHotKw(){
+        List<HotKeywordVO> list = new LinkedList<>();
         cacheService.getHashEntry("hot_kw")
                 .forEach((k,v)->{
-                    HotKWVO vo = new HotKWVO();
+                    HotKeywordVO vo = new HotKeywordVO();
                     vo.setKw(k);
                     vo.setHeat(v);
                     list.add(vo);
                 });
-        list.sort(Comparator.comparing(HotKWVO::getHeat).reversed());
+        list.sort(Comparator.comparing(HotKeywordVO::getHeat).reversed());
         return list;
     }
 

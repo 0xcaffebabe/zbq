@@ -28,6 +28,6 @@ public interface UserLoginLogMapper {
      * @param userId 用户ID
      * @return 数量
      */
-    long countLogByUserId(Integer userId);
+    Long countLogByUserId(Integer userId);
 
 }
