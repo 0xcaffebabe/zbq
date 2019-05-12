@@ -30,7 +30,7 @@
     <div class="animated fadeIn">
 
         <div class="row" id="square">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title box-title">转笔广场</h4>
@@ -42,7 +42,10 @@
                                         <li v-for="broadcast in broadcastList">
                                             <div class="msg-received msg-container">
                                                 <div class="avatar">
-                                                    <img :src="broadcast.user.profile" alt="">
+                                                    <a :href="'/space/' + broadcast.user.userId">
+                                                        <img :src="broadcast.user.profile" alt="">
+                                                    </a>
+
                                                     <div>
                                                         <div class="send-time">{{timeConvert(broadcast.createTime)}}</div>
                                                     </div>
@@ -85,10 +88,10 @@
                 </div><!-- /.card -->
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">
-                        在线PSER
+                        {{userList.length}}位在线PSER
                     </div>
                     <div class="card-body">
                         <ul class="media-list">

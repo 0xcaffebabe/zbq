@@ -48,4 +48,9 @@
         </foreach>
         GROUP BY content_id
     </select>
+    <select id="selectPaging" resultType="wang.ismy.zbq.model.entity.Collection">
+        SELECT * FROM collection
+        WHERE user = #{user}
+        ORDER BY create_time DESC
+    </select>
 </mapper>

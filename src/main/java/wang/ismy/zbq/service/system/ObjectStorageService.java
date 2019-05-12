@@ -14,20 +14,20 @@ import java.io.InputStream;
 import java.util.Random;
 
 
+/**
+ * @author my
+ */
 @Service
-public class OSSService {
+public class ObjectStorageService {
 
-    public String uploadImg(byte[] bytes, String format,String folder) {
+    public String uploadImg(byte[] bytes, String format, String folder) {
         String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
         String accessKeyId = "LTAItmWponXWvipx";
         String accessKeySecret = "QAoqNFyNMN9F4M15JVUDSnYsxzXazN";
         String bucketName = "zbq88";
 
 
-        String objectName =folder+"/"+ generateRandomImgName(format);
-
-
-//        OSSClient ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+        String objectName = folder + "/" + generateRandomImgName(format);
 
         Credentials credentials = new Credentials() {
             @Override
@@ -50,7 +50,7 @@ public class OSSService {
                 return false;
             }
         };
-        OSSClient ossClient =   new OSSClient(endpoint, new CredentialsProvider() {
+        OSSClient ossClient = new OSSClient(endpoint, new CredentialsProvider() {
             @Override
             public void setCredentials(Credentials creds) {
 
@@ -60,19 +60,19 @@ public class OSSService {
             public Credentials getCredentials() {
                 return credentials;
             }
-        },new ClientConfiguration());
+        }, new ClientConfiguration());
 
 
         PutObjectResult result = ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(bytes));
 
         ossClient.shutdown();
 
-        return "http://zbq88.oss-cn-hangzhou.aliyuncs.com/"+objectName;
+        return "//zbq88.oss-cn-hangzhou.aliyuncs.com/" + objectName;
 
     }
 
-    private String generateRandomImgName(String format){
+    private String generateRandomImgName(String format) {
         Random random = new Random(9999999);
-        return String.valueOf(System.currentTimeMillis())+String.valueOf(random.nextInt())+"."+format;
+        return String.valueOf(System.currentTimeMillis()) + String.valueOf(random.nextInt()) + "." + format;
     }
 }

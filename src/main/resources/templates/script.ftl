@@ -13,6 +13,6 @@
 <script>
     var $ = jQuery;
 </script>
-<script src="/js/common.js?v=20190501"></script>
+<script src="/js/common.js?v=20190512"></script>
 
 

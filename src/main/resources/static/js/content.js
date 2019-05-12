@@ -56,7 +56,6 @@ var content = new Vue({
                                 $(this).addClass("fold");
                                 $(this).parent(".mx-auto").append("<button class=\"btn btn-sm btn-primary\"  onclick=\"content.unfold(event)\">展开全文 <i class=\"fa fa-caret-down\"></i>");
                             }
-
                         })
                     }, 1500);
 

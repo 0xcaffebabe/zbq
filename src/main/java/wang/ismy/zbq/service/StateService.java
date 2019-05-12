@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.friend.FriendService;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.CommentVO;
@@ -25,11 +27,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * @author my
  */
 @Service
+@Slf4j
 public class StateService {
 
     @Autowired
@@ -46,6 +51,9 @@ public class StateService {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private ExecuteService executeService;
 
 
     /**
@@ -72,6 +80,7 @@ public class StateService {
      * @return 动态视图列表
      */
     public List<StateVO> pullState(Page page) {
+        long time = System.currentTimeMillis();
         User currentUser = userService.getCurrentUser();
 
         // 根据当前用户获取需要哪些用户的动态（用户本身+他的好友）
@@ -128,10 +137,22 @@ public class StateService {
 
         }
 
-        addStateLikes(stateVOList);
-        addStateComment(stateVOList);
 
-        return stateVOList;
+        Future<?> task1 = executeService.submit(()-> addStateLikes(stateVOList,currentUser)) ;
+
+        Future<?> task2 = executeService.submit(()->addStateComment(stateVOList));
+
+        try {
+            task1.get();
+            task2.get();
+            log.warn("获取动态列表，耗时:{}",System.currentTimeMillis()-time);
+            return stateVOList;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
     }
 
 
@@ -187,11 +208,11 @@ public class StateService {
         return stateUserIdList;
     }
 
-    private void addStateLikes(List<StateVO> stateVOList) {
+    private void addStateLikes(List<StateVO> stateVOList,User user) {
 
         List<Integer> stateIdList = getStateIdList(stateVOList);
 
-        var likeList = likeService.selectLikeListByLikeTypeAndContentIdBatch(LikeTypeEnum.STATE, stateIdList);
+        var likeList = likeService.selectLikeBatch(LikeTypeEnum.STATE, stateIdList);
 
 
         Map<Integer, Likes> cacheMap = new HashMap<>();
@@ -224,7 +245,7 @@ public class StateService {
             }
         }
 
-        User user = userService.getCurrentUser();
+
         for (var i : stateVOList) {
             i.setLikes(cacheMap.get(i.getStateId()));
             if (i.getLikes() == null) {

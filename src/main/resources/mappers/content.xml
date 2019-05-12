@@ -34,4 +34,11 @@
     <select id="selectByPrimaryKey" resultMap="contentMap">
         SELECT * FROM content WHERE content_id = #{id}
     </select>
+    <select id="selectBatch" resultMap="contentMap">
+        SELECT * FROM content
+        WHERE content_id IN
+        <foreach collection="list" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+    </select>
 </mapper>

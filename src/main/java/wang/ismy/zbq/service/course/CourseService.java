@@ -38,7 +38,6 @@ public class CourseService {
 
         List<CourseVO> ret = getCourseVOList(list);
         return ret;
-
     }
 
     private List<CourseVO> getCourseVOList(List<Course> list) {
@@ -160,9 +159,7 @@ public class CourseService {
     public List<UserVO> selectClassmatesByCourseId(Integer courseId){
 
         var userIdList = courseMapper.selectUserIdListByCourseId(courseId);
-
         var userList = userService.selectByUserIdBatch(userIdList);
-
         return userList
                 .stream()
                 .map(UserVO::convert)

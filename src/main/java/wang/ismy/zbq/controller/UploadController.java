@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.resources.R;
-import wang.ismy.zbq.service.system.OSSService;
+import wang.ismy.zbq.service.system.ObjectStorageService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class UploadController {
     private static final String[] IMG_FORMATS={"jpg","png","gif"};
 
     @Autowired
-    private OSSService ossService;
+    private ObjectStorageService objectStorageService;
 
     @PostMapping("/profile")
     @ResultTarget
@@ -43,7 +43,7 @@ public class UploadController {
             ErrorUtils.error(R.IMG_FORMAT_LIMIT);
         }
 
-        return ossService.uploadImg(multipartFile.getBytes(),format,"img")+"?x-oss-process=style/square";
+        return objectStorageService.uploadImg(multipartFile.getBytes(),format,"img")+"?x-oss-process=style/square";
     }
 
     @PostMapping("/thumbnail")
@@ -63,7 +63,7 @@ public class UploadController {
             ErrorUtils.error(R.IMG_FORMAT_LIMIT);
         }
 
-        return ossService.uploadImg(multipartFile.getBytes(),format,"thumbnail");
+        return objectStorageService.uploadImg(multipartFile.getBytes(),format,"thumbnail");
     }
 
     private boolean canProcess(String format){

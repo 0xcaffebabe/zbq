@@ -12,8 +12,13 @@ public class ExecuteService {
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(6);
 
-    public void submit(Runnable runnable){
-        executorService.submit(runnable);
+    public Future<?> submit(Runnable runnable){
+        return executorService.submit(runnable);
+    }
+
+    public <T> Future<T>  submit(Callable<T> callable){
+
+        return executorService.submit(callable);
     }
 
 }

@@ -25,7 +25,7 @@ public class EmailService {
     private String from;
 
     public void sendtTextMail(String to,String subject,String content){
-        System.err.println("发送一封邮件给"+to);
+        log.info("发送一封邮件给{}",to);
 
         SimpleMailMessage message=new SimpleMailMessage();
         message.setTo(to);

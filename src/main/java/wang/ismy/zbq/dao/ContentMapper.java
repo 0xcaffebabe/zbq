@@ -10,8 +10,16 @@ public interface ContentMapper {
 
     int insertNew(Content content);
 
-    List<Content> selectContentListPaging(@Param("page")Page page);
+    List<Content> selectContentListPaging(@Param("page") Page page);
 
     Content selectByPrimaryKey(Integer contentId);
+
+    /**
+     * 批量查询内容
+     *
+     * @param list 内容ID列表
+     * @return 内容列表
+     */
+    List<Content> selectBatch(List<Integer> list);
 
 }

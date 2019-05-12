@@ -26,7 +26,7 @@
 
         <div class="container-fluid">
 
-            <div class="card">
+            <div class="card" id="collections">
                 <div class="card-header">
                     <h1 id="timeline">收藏列表</h1>
                 </div>
@@ -46,75 +46,32 @@
                         </div>
                     </div>
 
+                    <div class="text-center" v-if="collectionList.length == 0">收藏列表为空</div>
                     <ul class="timeline">
-                        <li>
-                            <div class="timeline-badge info fa fa-video-camera"></div>
+
+                        <li v-for="(collection,index) in collectionList" :class="{'timeline' : index%2 == 0,'timeline-inverted':index%2 == 1}">
+                            <div class="timeline-badge info fa"
+                                 :class="{'fa-search':collection.collectionType == 1,'fa-video-camera':collection.collectionType ==2}"></div>
                             <div class="timeline-panel">
                                 <div class="timeline-heading">
 
                                     <h4 class="timeline-title">
-                                        <a href="#" style="color:black">
-                                            《论转笔的转后清理》
+                                        <a href="#" @click.prevent="clickHandler(collection)" style="color:black">
+                                            {{collection.summary}}
                                         </a>
-                                        <strong style="float: right"> 11小时前</strong>
+                                        <strong style="float: right"> {{collection.createTime}}</strong>
                                     </h4>
 
 
                                 </div>
                                 <div class="timeline-body">
                                     <p class="text-sm-right">
-                                        568人收藏
+                                        {{collection.collectCount}}人收藏
                                     </p>
 
                                 </div>
                             </div>
                         </li>
-                        <li class="timeline-inverted">
-                            <div class="timeline-badge warning fa fa-search"></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="timeline-title">
-                                        <a href="#" style="color:black">
-                                            《【转】给想学转笔的人》
-                                        </a>
-                                        <strong style="float: right"> 12小时前</strong>
-                                    </h4>
-                                </div>
-
-                                <div class="timeline-body">
-                                    <p class="text-sm-right">
-                                        568人收藏
-                                    </p>
-
-                                </div>
-
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="timeline-badge danger fa fa-book    "></div>
-                            <div class="timeline-panel">
-                                <div class="timeline-heading">
-                                    <h4 class="timeline-title">
-                                        <a href="#" style="color:black">
-                                            《转笔探讨新手入门篇》
-                                        </a>
-                                        <strong style="float: right"> 13小时前</strong>
-                                    </h4>
-                                </div>
-
-
-                                <div class="timeline-body">
-                                    <p class="text-sm-right">
-                                        568人收藏
-                                    </p>
-
-                                </div>
-                            </div>
-
-
-                        </li>
-
 
                     </ul>
 
@@ -135,7 +92,7 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-
+<script src="/js/collections.js?v=20190512"></script>
 <script>
 
 

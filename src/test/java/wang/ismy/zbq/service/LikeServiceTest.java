@@ -9,8 +9,6 @@ import wang.ismy.zbq.enums.LikeTypeEnum;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,7 +28,7 @@ public class LikeServiceTest {
     @Test
     public void testHasLike(){
         var map = likeService.
-                selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(LikeTypeEnum.CONTENT, List.of( 14 , 13 , 12 , 2 , 3),60);
+                hasLikeBatch(LikeTypeEnum.CONTENT, List.of( 14 , 13 , 12 , 2 , 3),60);
 
         System.out.println(map);
     }

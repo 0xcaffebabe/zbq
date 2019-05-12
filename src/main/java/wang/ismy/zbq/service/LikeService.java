@@ -14,12 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author my
+ */
 @Service
 public class LikeService {
 
     @Autowired
     private LikeMapper likeMapper;
-
 
     public int createLikeRecord(LikeTypeEnum likeType, Integer contentId, User user) {
 
@@ -42,19 +44,19 @@ public class LikeService {
         return likeMapper.selectLikeListByLikeTypeAndContentId(likeType.getCode(), contentId);
     }
 
-    public List<Like> selectLikeListByLikeTypeAndContentIdBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
+    public List<Like> selectLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
         if (contentIdList.size() == 0) {
             return List.of();
         }
         return likeMapper.selectLikeListByLikeTypeAndContentIdBatch(likeType.getCode(), contentIdList);
     }
 
-    public Map<Integer, Long> countLikeByLikeTypeAndContentIdBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
+    public Map<Integer, Long> countLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
         if (contentIdList.size() == 0) {
             return Map.of();
         }
         var list = likeMapper.countLikeByLikeTypeAndContentIdBatch(likeType.getCode(), contentIdList);
-        Map map = new HashMap();
+        Map<Integer,Long> map = new HashMap<>();
 
         for (var i : list) {
 
@@ -73,7 +75,7 @@ public class LikeService {
         return vo;
     }
 
-    public Map<Integer, Boolean> selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(LikeTypeEnum likeType, List<Integer> contentIdList
+    public Map<Integer, Boolean> hasLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList
             , Integer userId) {
         if (contentIdList.size() == 0) {
             return Map.of();

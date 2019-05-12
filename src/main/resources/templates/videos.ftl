@@ -91,6 +91,10 @@
 
 
         </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary" v-show="kw">加载更多</button>
+        </div>
     </div>
 
 </div>

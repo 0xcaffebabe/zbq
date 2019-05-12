@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import wang.ismy.zbq.enums.CollectionTypeEnum;
 import wang.ismy.zbq.model.dto.CollectionCountDTO;
+import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.Collection;
 
 import java.util.List;
@@ -39,4 +40,14 @@ public interface CollectionMapper {
     List<CollectionCountDTO> selectCollectionCountBatchByType(@Param("type") Integer typeEnum,
                                                               @Param("list") List<Integer> contentIdList,
                                                               @Param("user") Integer userId);
+
+    /**
+     * 分页查询用户收藏列表
+     *
+     * @param userId 用户ID
+     * @param page   分页组件
+     * @return 收藏列表
+     */
+    List<Collection> selectPaging(@Param("user") Integer userId,
+                                  @Param("page") Page page);
 }

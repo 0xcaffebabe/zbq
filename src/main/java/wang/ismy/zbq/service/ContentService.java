@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.CommentVO;
@@ -24,12 +26,14 @@ import wang.ismy.zbq.model.vo.ContentVO;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
  * @author my
  */
 @Service
+@Slf4j
 public class ContentService {
 
     @Autowired
@@ -46,6 +50,9 @@ public class ContentService {
 
     @Autowired
     private CollectionService collectionService;
+
+    @Autowired
+    private ExecuteService executeService;
 
     /**
     * 以当前登录用户身份发布内容，需要有PUBLISH_CONTENT权限
@@ -68,6 +75,7 @@ public class ContentService {
      * @return 内容视图列表
     */
     public List<ContentVO> pullContents(Page page) {
+        long time = System.currentTimeMillis();
         var contentList = contentMapper.selectContentListPaging(page);
 
         List<ContentVO> contentVOList = new ArrayList<>();
@@ -80,17 +88,28 @@ public class ContentService {
             contentVOList.add(vo);
         }
 
-        addContentLikes(contentVOList);
-        addContentContentCount(contentVOList);
-        addContentUser(contentVOList);
-        addContentCollection(contentVOList);
+
+        var currentUser = userService.getCurrentUser();
+
+        var task1 = executeService.submit(()->addContentLikes(contentVOList,currentUser));
+        var task2 = executeService.submit(()->addContentCommentCount(contentVOList));
+        var task3 = executeService.submit(()->addContentUser(contentVOList));
+        var task4 = executeService.submit(()->addContentCollection(contentVOList,currentUser));
+
+        try {
+            task1.get();
+            task2.get();
+            task3.get();
+            task4.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        log.warn("获取内容列表，耗时:{}", System.currentTimeMillis()-time);
         return contentVOList;
 
     }
 
-    private void addContentCollection(List<ContentVO> contentVOList) {
-
-        var currentUser = userService.getCurrentUser();
+    private void addContentCollection(List<ContentVO> contentVOList,User currentUser) {
         var contentIdList = contentVOList.stream()
                 .map(ContentVO::getContentId)
                 .collect(Collectors.toList());
@@ -148,7 +167,7 @@ public class ContentService {
         }
     }
 
-    private void addContentContentCount(List<ContentVO> contentVOList) {
+    private void addContentCommentCount(List<ContentVO> contentVOList) {
 
         var list = contentVOList.stream()
                 .map(ContentVO::getContentId)
@@ -183,7 +202,6 @@ public class ContentService {
         for (var i : list) {
             commentVOList.add(CommentVO.convert(i));
         }
-
 
         addContentCommentUser(commentVOList);
 
@@ -222,19 +240,20 @@ public class ContentService {
         }
     }
 
-    private void addContentLikes(List<ContentVO> contentVOList) {
+    private void addContentLikes(List<ContentVO> contentVOList,User currentUser) {
 
-        var currentUser = userService.getCurrentUser();
+
         List<Integer> contentIdList = new ArrayList<>();
 
         for (var i : contentVOList) {
             contentIdList.add(i.getContentId());
         }
 
-        Map<Integer, Long> contentLikeCount = likeService.countLikeByLikeTypeAndContentIdBatch(LikeTypeEnum.CONTENT, contentIdList);
+        Map<Integer, Long> contentLikeCount =
+                likeService.countLikeBatch(LikeTypeEnum.CONTENT, contentIdList);
 
         var hasLikeMap =
-                likeService.selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(
+                likeService.hasLikeBatch(
                         LikeTypeEnum.CONTENT, contentIdList, currentUser.getUserId());
         for (var i : contentVOList) {
             i.setLikeCount(contentLikeCount.get(i.getContentId()));
@@ -272,5 +291,20 @@ public class ContentService {
         BeanUtils.copyProperties(content, contentVO);
         contentVO.setUser(userVO);
         return contentVO;
+    }
+
+    public Map<Integer,String> selectTitleBatch(List<Integer> contentIdList){
+        if (contentIdList == null || contentIdList.size() == 0){
+            return Map.of();
+        }
+
+        var list = contentMapper.selectBatch(contentIdList);
+
+        Map<Integer,String> map = new HashMap<>();
+        for (var i : list){
+            map.put(i.getContentId(),i.getTitle());
+        }
+
+        return map;
     }
 }

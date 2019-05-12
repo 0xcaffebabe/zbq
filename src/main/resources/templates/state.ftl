@@ -195,6 +195,10 @@
 
                                                             </li>
 
+                                                            <li class="media" v-if="i.comments.length >= 5">
+                                                                <button class="btn btn-primary btn-sm">加载更多</button>
+                                                            </li>
+
                                                             <li class="media">
                                                                 <div class="media-left media-middle">
                                                                     <a href="#">

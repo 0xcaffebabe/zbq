@@ -1,12 +1,14 @@
 package wang.ismy.zbq.service;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.service.system.ExecuteService;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -58,8 +60,15 @@ public class CacheService {
 
     }
 
-    public Object getFromJson(String key){
-        return null;
+    public <T> T getFromJson(String key, Type type){
+
+        String value = get(key);
+
+        if (value != null){
+            value = value.trim();
+        }
+
+        return gson.fromJson(value,type);
     }
 
     public void hIncrement(String hash, String key, Long step){

@@ -15,6 +15,7 @@ import wang.ismy.zbq.util.ErrorUtils;
 import javax.annotation.PostConstruct;
 
 /**
+ * 消息通知服务，此接口负责给用户下发消息
  * @author my
  */
 @Service
@@ -35,11 +36,9 @@ public class InformService {
     @Autowired
     private ExecuteService executeService;
 
-
     @PostConstruct
     public void init(){
         executeService.submit(()->{
-
             // 找不到系统通知账号
             if( userService.selectByUsername(SYSTEM_ACCOUNT_USERNAME) == null){
 
