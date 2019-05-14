@@ -6,13 +6,17 @@ import wang.ismy.zbq.dao.CommentMapper;
 import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.Comment;
 import wang.ismy.zbq.enums.CommentTypeEnum;
+import wang.ismy.zbq.model.vo.CommentVO;
+import wang.ismy.zbq.model.vo.user.UserVO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author my
@@ -54,6 +58,50 @@ public class CommentService {
                                         Integer contentId,
                                         Page page) {
         return commentMapper.selectCommentByCommentTypeAndContentIdPaging(commentType.getCode(), contentId, page);
+    }
+
+    public List<CommentVO> selectCommentVOList(CommentTypeEnum commentType,
+                                               Integer contentId,
+                                               Page page) {
+        var commentList = selectComments(commentType, contentId, page);
+
+        var commentVOList = commentList.stream()
+                .map(CommentVO::convert)
+                .collect(Collectors.toList());
+
+        List<Integer> userIdList = new ArrayList<>();
+
+        for (var i : commentVOList) {
+            if (i.getToUser() != null && !userIdList.contains(i.getToUser().getUserId())) {
+                userIdList.add(i.getToUser().getUserId());
+
+            }
+
+            if (!userIdList.contains(i.getFromUser().getUserId())) {
+                userIdList.add(i.getFromUser().getUserId());
+            }
+
+
+        }
+
+        var userList = userService.selectByUserIdBatch(userIdList);
+
+        Map<Integer, UserVO> userVOMap = new HashMap<>();
+        for (var i : userList) {
+            userVOMap.put(i.getUserId(), UserVO.convert(i));
+        }
+
+        for (var i : commentVOList) {
+
+            i.setFromUser(userVOMap.get(i.getFromUser().getUserId()));
+
+            if (i.getToUser() != null) {
+                i.setToUser(userVOMap.get(i.getToUser().getUserId()));
+            }
+        }
+
+        return commentVOList;
+
     }
 
     /**

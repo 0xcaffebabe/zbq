@@ -8,13 +8,17 @@ import org.springframework.stereotype.Service;
 import wang.ismy.zbq.enums.VideoSearchEngineEnum;
 import wang.ismy.zbq.model.Video;
 import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.entity.VideoSearchLog;
 import wang.ismy.zbq.model.vo.HotKeywordVO;
 import wang.ismy.zbq.model.vo.VideoSearchEngineVO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.CacheService;
+import wang.ismy.zbq.service.VideoSearchLogService;
+import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,6 +37,12 @@ public class VideoSearchService {
     @Autowired
     private CacheService cacheService;
 
+    @Autowired
+    private VideoSearchLogService videoSearchLogService;
+
+    @Autowired
+    private UserService userService;
+
     @PostConstruct
     public void init() {
         searchEngineMapper = videoFetchList.stream()
@@ -41,6 +51,7 @@ public class VideoSearchService {
 
     public List<Video> search(VideoSearchEngineEnum engineEnum, String kw, Page page) {
         increaseKwCount(kw);
+        recordLog(engineEnum,kw);
         String key = "videoSearch#" + engineEnum.toString() + "#" + kw + "#" + page.getPageNumber() + "," + page.getLength();
 
         long time = System.currentTimeMillis();
@@ -77,6 +88,16 @@ public class VideoSearchService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void recordLog(VideoSearchEngineEnum engineEnum, String kw) {
+
+        VideoSearchLog log = new VideoSearchLog();
+        log.setCreateTime(LocalDateTime.now());
+        log.setKw(kw);
+        log.setUser(userService.getCurrentUser());
+
+        videoSearchLogService.push(log);
     }
 
     public void increaseKwCount(String kw) {

@@ -96,7 +96,7 @@ CREATE TABLE tb_like(
 # 创建评论表
 CREATE TABLE tb_comment(
   comment_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  comment_type TINYINT NOT NULL COMMENT '0代表动态评论,1代表内容评论',
+  comment_type TINYINT NOT NULL COMMENT '0代表动态评论,1代表内容评论,2代表章节',
   topic_id INT NOT NULL ,
   content TEXT NOT NULL ,
   from_user INT NOT NULL ,
@@ -211,4 +211,13 @@ CREATE TABLE collection(
   user INT NOT NULL ,
   create_time DATETIME NOT NULL ,
   update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8mb4;
+
+# 创建视频搜索日志表
+CREATE TABLE video_search_log(
+  log_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user INT NOT NULL ,
+  kw VARCHAR(255) NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8mb4;

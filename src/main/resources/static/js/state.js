@@ -66,7 +66,7 @@ var state = new Vue({
                 if (response.success) {
                     var list = response.data;
                     if (list.length == 0) {
-                        alert("没有更多数据!");
+                        console.warn("没有更多数据!");
                         that.pageNo--;
                     }
                     for (var i = 0; i < list.length; i++) {

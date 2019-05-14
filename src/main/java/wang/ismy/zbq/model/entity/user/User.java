@@ -1,12 +1,16 @@
 package wang.ismy.zbq.model.entity.user;
 
 import lombok.Data;
+import wang.ismy.zbq.model.UserIdGetter;
 
 import java.time.LocalDateTime;
 
 
+/**
+ * @author my
+ */
 @Data
-public class User {
+public class User implements UserIdGetter {
 
     private Integer userId;
 

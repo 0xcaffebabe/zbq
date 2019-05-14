@@ -24,7 +24,7 @@ public class LearningServiceTest {
     UserService userService;
     @Test
     public void testState(){
-        var map = learningService.selectLearningStateByUserIdAndLessonIdList(2,1, List.of(1,2,3,4));
+        var map = learningService.selectLearningState(2,1, List.of(1,2,3,4));
 
         assertEquals(true,map.get(1));
 

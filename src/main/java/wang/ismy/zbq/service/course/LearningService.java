@@ -16,6 +16,9 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * @author my
+ */
 @Service
 public class LearningService {
 
@@ -31,7 +34,12 @@ public class LearningService {
     @Autowired
     private UserService userService;
 
-    public void createCurrentUserLearningRecord(Integer lessonId) {
+    /**
+     * 以当前登录用户的身份创建一条学习记录
+     *
+     * @param lessonId 章节ID
+     */
+    public void createLearningRecord(Integer lessonId) {
         var currentUser = userService.getCurrentUser();
         Lesson lesson = lessonService.selectRawByPrimaryKey(lessonId);
         if (lesson == null) {
@@ -62,7 +70,12 @@ public class LearningService {
 
     }
 
-    public void deleteCurrentUserLearningByLearningId(Integer learningId) {
+    /**
+     * 删除当前登录用户的一条学习记录
+     *
+     * @param learningId 学习记录ID
+     */
+    public void deleteLearning(Integer learningId) {
         Learning learning = learningMapper.selectByPrimaryKey(learningId);
         var currentUser = userService.getCurrentUser();
 
@@ -79,14 +92,25 @@ public class LearningService {
 
     }
 
-    public Learning selectSelfLearningById(Integer lessonId) {
+    /**
+     * 根据章节ID查询当前登录用户学习记录
+     *
+     * @param lessonId 章节ID
+     * @return 学习记录
+     */
+    public Learning selectSelfLearning(Integer lessonId) {
 
         var currentUser = userService.getCurrentUser();
         Learning learning = learningMapper.selectByUserIdAndLessonId(currentUser.getUserId(), lessonId);
         return learning;
     }
 
-    public BigDecimal calcCurrentUserLearningProgress(Integer courseId) {
+    /**
+    * 计算当前登录用户课程学习进度
+     * @param courseId 课程ID
+    * @return 学习进度百分比
+    */
+    public BigDecimal calcLearningProgress(Integer courseId) {
         var currentUser = userService.getCurrentUser();
         long lessonCount = lessonService.countLessonByCourseId(courseId);
         long learningCount = learningMapper.countLearningByCourseIdAndUserId(courseId, currentUser.getUserId());
@@ -96,6 +120,7 @@ public class LearningService {
         }
         return new BigDecimal(((double) learningCount) / lessonCount * 100).setScale(2, RoundingMode.HALF_DOWN);
     }
+
 
     public Map<Integer, BigDecimal> calcCurrentUserLearningProgressInBatch(List<Integer> courseIdList) {
         var currentUser = userService.getCurrentUser();
@@ -129,9 +154,9 @@ public class LearningService {
      * @param courseId     课程ID
      * @param lessonIdList 章节ID列表
      */
-    public Map<Integer, Boolean> selectLearningStateByUserIdAndLessonIdList(Integer userId,
-                                                                            Integer courseId,
-                                                                            List<Integer> lessonIdList) {
+    public Map<Integer, Boolean> selectLearningState(Integer userId,
+                                                     Integer courseId,
+                                                     List<Integer> lessonIdList) {
         if (lessonIdList == null || lessonIdList.size() == 0) {
             return Map.of();
         }
@@ -217,7 +242,7 @@ public class LearningService {
         // 添加学习进度
         addLearningProgress(learningVOCourseMap);
 
-        return learningVOCourseMap.values().stream().collect(Collectors.toList());
+        return new ArrayList<>(learningVOCourseMap.values());
     }
 
     private void addLearningProgress(Map<Integer, LearningVO> learningVOCourseMap) {
@@ -226,7 +251,7 @@ public class LearningService {
                 new ArrayList<>(learningVOCourseMap.keySet())
         );
 
-        for (var key :map.keySet()){
+        for (var key : map.keySet()) {
             learningVOCourseMap.get(key).setLearningProgress(map.get(key));
         }
 

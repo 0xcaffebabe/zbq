@@ -174,7 +174,9 @@ function getCommonObject() {
             getVideoSearchEngineUrl:"/video/engine/list",
             getHotKwUrl:"/video/hotKw",
             collectContentUrl:"/content/collect",
-            getCollectionListUrl:"/collection/list"
+            getCollectionListUrl:"/collection/list",
+            publishLessonCommentUrl:"/lesson/comment",
+            getCommentListUrl:"/comment/list"
 
 
         },

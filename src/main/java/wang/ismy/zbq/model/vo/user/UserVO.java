@@ -1,6 +1,7 @@
 package wang.ismy.zbq.model.vo.user;
 
 import lombok.Data;
+import wang.ismy.zbq.model.UserIdGetter;
 import wang.ismy.zbq.model.entity.user.User;
 
 
@@ -8,7 +9,7 @@ import wang.ismy.zbq.model.entity.user.User;
  * @author my
  */
 @Data
-public class UserVO {
+public class UserVO implements UserIdGetter {
 
     private Integer userId;
 

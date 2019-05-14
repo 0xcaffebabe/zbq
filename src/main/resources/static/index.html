@@ -11,12 +11,23 @@
     <link rel="manifest" href="/manifest.json" />
     <title>转笔圈 -- spin ,world</title>
 
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 1.5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+        }
+    </style>
 </head>
-<body>
 
 
 <!-- Static navbar -->
-<div id="nav">
+
+<div id="nav" v-cloak="">
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" >
         <div class="container">
             <div class="navbar-header">
@@ -63,7 +74,12 @@
             <div class="row">
                 <div class="col-lg-6 col-lg-offset-3">
 
+                    <div class="alert alert-success alert-dismissible" v-show="showQQPromot">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>提示:</strong> 检测你使用QQ内置浏览器访问本网站，为获得更好的浏览体验，建议使用内置浏览器。
+                    </div>
                     <h1>SPIN,</br>WORLD</h1>
+
 
                 </div>
             </div>
@@ -96,6 +112,7 @@
         <! --/row -->
     </div>
 </div>
+
 <div id="footerwrap">
     <div class="container">
         <div class="row centered">
@@ -118,7 +135,7 @@
 <script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/jquery.min.js"></script>
 <script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/bootstrap.min.js"></script>
 <script src="js/common.js?v=20190410"></script>
-<script src="js/index.js?v=2019050702"></script>
+<script src="js/index.js?v=2019051401"></script>
 
 <script>
 

@@ -8,7 +8,8 @@ var app = new Vue({
     el: "#nav",
     data: {
         username: '未登录', nickName: '', profile: '', hasLogin: false,
-        userCount: 0, onlineCount: 0
+        userCount: 0, onlineCount: 0,
+        showQQPromot:false
     }
     ,
     created: function () {
@@ -36,7 +37,7 @@ var app = new Vue({
 
         if (navigator.userAgent.indexOf("TBS") != -1){
             if(navigator.userAgent.indexOf("MQQBrowser") != -1){
-                alert("您使用了QQ内置浏览器使用本网站，为获得更好的使用体验，推荐使用系统浏览访问。");
+                this.showQQPromot = true;
             }
         }
 

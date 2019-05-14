@@ -5,9 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.course.LessonMapper;
 import wang.ismy.zbq.model.dto.LessonDTO;
+import wang.ismy.zbq.model.dto.course.LessonCommentDTO;
+import wang.ismy.zbq.model.entity.Comment;
 import wang.ismy.zbq.model.entity.course.Course;
 import wang.ismy.zbq.model.entity.course.Lesson;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.CommentService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.course.LessonListVO;
@@ -35,6 +39,9 @@ public class LessonService {
 
     @Autowired
     private LearningService learningService;
+
+    @Autowired
+    private CommentService commentService;
 
     public List<LessonListVO> selectAll(){
 
@@ -113,5 +120,31 @@ public class LessonService {
             return List.of();
         }
         return lessonMapper.selectBatch(lessonIdList);
+    }
+
+    public void publishLessonComment(LessonCommentDTO dto){
+
+        Lesson lesson = lessonMapper.selectByPrimaryKey(dto.getLessonId());
+
+        if (lesson == null){
+            ErrorUtils.error(R.TARGET_LESSON_NOT_EXIST);
+        }
+
+        if (dto.getToUser() != null){
+
+            User toUser = userService.selectByPrimaryKey(dto.getToUser());
+            if (toUser == null){
+                ErrorUtils.error(R.TARGET_USER_NOT_EXIST);
+            }
+        }
+
+        User fromUser = userService.getCurrentUser();
+
+        Comment comment = Comment.convert(dto,fromUser);
+
+        if (commentService.createNewCommentRecord(comment) != 1){
+            ErrorUtils.error(R.UNKNOWN_ERROR);
+        }
+
     }
 }

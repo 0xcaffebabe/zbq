@@ -41,7 +41,7 @@ var content = new Vue({
                     var list = response.data;
 
                     if (list.length == 0) {
-                        alert("无数据");
+                        console.warn("无数据");
                         return;
                     }
 

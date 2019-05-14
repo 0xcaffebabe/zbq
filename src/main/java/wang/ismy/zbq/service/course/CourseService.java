@@ -99,7 +99,7 @@ public class CourseService {
                 .map(LessonListVO::getLessonId)
                 .collect(Collectors.toList());
 
-        var map = learningService.selectLearningStateByUserIdAndLessonIdList(currentUser.getUserId(),courseId,lessonIdList);
+        var map = learningService.selectLearningState(currentUser.getUserId(),courseId,lessonIdList);
 
         list.stream().forEach(e->{
             e.setHasLearn(map.get(e.getLessonId()));

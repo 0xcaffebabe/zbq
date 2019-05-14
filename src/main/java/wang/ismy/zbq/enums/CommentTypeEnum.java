@@ -14,7 +14,12 @@ public enum CommentTypeEnum {
     /**
      * 内容评论
      */
-    CONTENT(1);
+    CONTENT(1),
+
+    /**
+     * 章节评论
+     */
+    LESSON(2);
 
     public int getCode() {
         return code;
@@ -22,8 +27,17 @@ public enum CommentTypeEnum {
 
     private int code;
 
-    CommentTypeEnum(int i) {
+    public static CommentTypeEnum of(int code){
+        var values = CommentTypeEnum.values();
+        for (var i : values){
+            if (i.getCode() == code){
+                return i;
+            }
+        }
+        return null;
+    }
 
+    CommentTypeEnum(int i) {
         code = i;
     }
 }

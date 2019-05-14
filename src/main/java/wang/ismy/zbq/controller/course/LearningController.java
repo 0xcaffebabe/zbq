@@ -22,7 +22,7 @@ public class LearningController {
     @MustLogin
     public Object createLearningRecord(@PathVariable("id") Integer lessonId){
 
-        learningService.createCurrentUserLearningRecord(lessonId);
+        learningService.createLearningRecord(lessonId);
         return R.CREATE_SUCCESS;
     }
 
@@ -30,7 +30,7 @@ public class LearningController {
     @ResultTarget
     @MustLogin
     public Object selectSelfLearningById(@PathVariable("id") Integer lessonId){
-        return learningService.selectSelfLearningById(lessonId);
+        return learningService.selectSelfLearning(lessonId);
     }
 
     @GetMapping("/self/list")
@@ -44,7 +44,7 @@ public class LearningController {
     @ResultTarget
     @MustLogin
     public Object delete(@PathVariable("id") Integer learningId){
-        learningService.deleteCurrentUserLearningByLearningId(learningId);
+        learningService.deleteLearning(learningId);
         return R.DELETE_SUCCESS;
     }
 
@@ -52,6 +52,6 @@ public class LearningController {
     @ResultTarget
     @MustLogin
     public Object calcProgress(@PathVariable("id") Integer courseId){
-        return learningService.calcCurrentUserLearningProgress(courseId);
+        return learningService.calcLearningProgress(courseId);
     }
 }

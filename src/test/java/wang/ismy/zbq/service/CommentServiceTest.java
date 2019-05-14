@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import wang.ismy.zbq.enums.CommentTypeEnum;
+import wang.ismy.zbq.model.dto.Page;
 
 import java.util.List;
 
@@ -23,6 +24,11 @@ public class CommentServiceTest {
     @Test
     public void testSelect(){
 
+        var list = commentService.selectCommentVOList(CommentTypeEnum.LESSON,1,Page.of(1,10));
+
+        assertEquals(2,list.size());
+
+        assertEquals("My、",list.get(0).getFromUser().getNickName());
     }
 
 
@@ -36,5 +42,7 @@ public class CommentServiceTest {
         }
 
     }
+
+
 
 }

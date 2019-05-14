@@ -36,6 +36,7 @@
     <select id="selectCommentByCommentTypeAndContentIdPaging" resultMap="commentMap">
         SELECT * FROM tb_comment WHERE topic_id = #{topicId}
         AND comment_type = #{commentType}
+        ORDER BY create_time DESC
     </select>
     <select id="selectCommentCountByCommentTypeAndTopicIdBatch" resultType="wang.ismy.zbq.model.dto.CommentCountDTO">
         SELECT topic_id content_id,COUNT(1) count

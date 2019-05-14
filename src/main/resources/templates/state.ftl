@@ -13,6 +13,9 @@
     <#include "css.ftl"/>
 
     <style>
+        [v-cloak]{
+            display: none;
+        }
         .list-enter-active, .list-leave-active {
             transition: all 1s;
         }
@@ -30,10 +33,10 @@
 
 <!-- Content -->
 <div class="content">
-    <div class="animated fadeIn" id="state">
+    <div class="animated fadeIn" id="state" v-cloak>
 
 
-        <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
+        <div  class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
@@ -240,6 +243,10 @@
                                             <hr>
                                         </li>
                                     </transition-group>
+
+                                    <li style="list-style: none">
+                                        <p class="text-center">没有更多数据</p>
+                                    </li>
                                 </ul>
 
 
@@ -247,12 +254,7 @@
 
                             <div class="tab-pane fade" id="nav-profile" role="tabpanel"
                                  aria-labelledby="nav-profile-tab">
-                                <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt
-                                    tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor,
-                                    williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-                                    dreamcatcher synth. Cosby sweater eu banh mi, irure terry richardson ex sd.
-                                    Alip placeat salvia cillum iphone. Seitan alip s cardigan american apparel,
-                                    butcher voluptate nisi .</p>
+                                <p>世界动态开发中 .</p>
                             </div>
                         </div>
 
@@ -272,7 +274,7 @@
 
 
 <#include "script.ftl"/>
-<script src="/js/state.js?v=20190423"></script>
+<script src="/js/state.js?v=20190514"></script>
 
 
 </body>

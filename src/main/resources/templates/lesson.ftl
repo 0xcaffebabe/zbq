@@ -61,23 +61,23 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-9">
-                            <textarea class="form-control"></textarea>
+                            <textarea class="form-control" v-model="commentContent"></textarea>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-sm btn-primary">发表评论</button>
+                            <button class="btn btn-sm btn-primary" @click="publishComment">发表评论</button>
                         </div>
                     </div>
 
                     <ul class="media-list">
-                        <li class="media" style="margin-top: 15px;">
+                        <li class="media" style="margin-top: 15px;" v-for="comment in commentList">
                             <div class="media-left">
                                 <a href="#">
-                                    <img class="media-object" src="/img/anonymous.jpg" alt="..." width="64">
+                                    <img class="media-object" :src="comment.fromUser.profile" alt="..." width="48">
                                 </a>
                             </div>
                             <div class="media-body" style="margin-left: 10px;">
-                                <h4 class="media-heading">My、 <span style="color: #878787;font-size: 16px">3天前</span></h4>
-                                <p style="margin-top: 8px">太垃圾了吧 <a href="#" style="font-weight: bold">回复</a></p>
+                                <h4 class="media-heading">{{comment.fromUser.nickName}}<span style="color: #878787;font-size: 16px">{{comment.createTime}}</span></h4>
+                                <p style="margin-top: 8px">{{comment.content}}<a href="#" style="font-weight: bold">回复</a></p>
                             </div>
                         </li>
                     </ul>

@@ -7,6 +7,9 @@ import wang.ismy.zbq.model.vo.user.UserVO;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author my
+ */
 @Data
 public class CommentVO {
 
