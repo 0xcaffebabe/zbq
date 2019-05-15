@@ -47,6 +47,22 @@ public class CommentService {
     }
 
     /**
+     * 分页查询评论列表
+     *
+     * @param commentType 评论类型
+     * @param topicIds    主题ID列表
+     * @return 评论列表
+     */
+    public List<Comment> selectComments(CommentTypeEnum commentType,
+                                        List<Integer> topicIds,Page page) {
+
+        if (topicIds.size() == 0) {
+            return List.of();
+        }
+        return commentMapper.selectCommentListByCommentTypeAndTopicIdBatchPaging(commentType.getCode(), topicIds,page);
+    }
+
+    /**
      * 取出评论列表
      *
      * @param commentType 评论类型

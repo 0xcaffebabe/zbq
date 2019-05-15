@@ -12,7 +12,6 @@
 
     <#include "css.ftl"/>
 
-
     <style>
 
         .mirror {
@@ -39,8 +38,8 @@
 
         <!-- Animated -->
 
-        <div class="animated fadeIn" >
-            <button onclick="window.history.back()"> <i class="fa fa-backward"></i></button>
+        <div class="animated fadeIn">
+            <button onclick="window.history.back()"><i class="fa fa-backward"></i></button>
             <div class="card">
                 <div class="card-header"><h3>正文</h3></div>
                 <div class="card-body">
@@ -51,8 +50,12 @@
                     <hr>
 
                     <button class="btn btn-sm btn-info" @click="videoMirror">{{mirrorButton}}</button>
-                    <button v-if="learning == null" class="btn btn-sm btn-info" style="float: right" @click="createLearning">标记为已学会</button>
-                    <button v-if="learning != null" class="btn btn-sm btn-warning" style="float: right" @click="deleteLearning">标记为未学会</button>
+                    <button v-if="learning == null" class="btn btn-sm btn-info" style="float: right"
+                            @click="createLearning">标记为已学会
+                    </button>
+                    <button v-if="learning != null" class="btn btn-sm btn-warning" style="float: right"
+                            @click="deleteLearning">标记为未学会
+                    </button>
                 </div>
             </div>
 
@@ -76,8 +79,10 @@
                                 </a>
                             </div>
                             <div class="media-body" style="margin-left: 10px;">
-                                <h4 class="media-heading">{{comment.fromUser.nickName}}<span style="color: #878787;font-size: 16px">{{comment.createTime}}</span></h4>
-                                <p style="margin-top: 8px">{{comment.content}}<a href="#" style="font-weight: bold">回复</a></p>
+                                <h4 class="media-heading">{{comment.fromUser.nickName}}<span
+                                        style="color: #878787;font-size: 16px">{{comment.createTime}}</span></h4>
+                                <p style="margin-top: 8px">{{comment.content}}<a href="#"
+                                                                                 style="font-weight: bold">回复</a></p>
                             </div>
                         </li>
                     </ul>

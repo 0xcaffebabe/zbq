@@ -4,7 +4,12 @@ var id = location.pathname.replace("courses/","");
 var course = new Vue({
    el:"#course",
    data:{
-       course:{},progress:0,classmateList:[]
+       course:{
+           author:{}
+           },
+       progress:0,
+       classmateList:[],
+       commentList:[]
    }
    ,
     created:function () {
@@ -12,6 +17,8 @@ var course = new Vue({
        this.getCourseLesson();
        this.getLearningProgress();
        this.getClassmates();
+       this.getCommentList();
+       moment.locale("zh-cn");
     }
    ,
     methods:{
@@ -48,5 +55,24 @@ var course = new Vue({
                }
            })
         }
+        ,
+        getCommentList:function () {
+
+           var that = this;
+           common.ajax.get(common.data.getCourseCommentListUrl+id,function (r) {
+               if (r.success){
+                   var list = r.data;
+
+                   list.forEach(function (e) {
+                       e.createTime = moment(e.createTime).fromNow();
+                   });
+
+                   that.commentList = list;
+               }else{
+                   alert(r.msg);
+               }
+           },{page:1,length:10});
+        }
+
     }
 });

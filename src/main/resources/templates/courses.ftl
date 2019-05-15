@@ -71,6 +71,8 @@
                         {{course.courseLevel}}
                         &nbsp;&nbsp;&nbsp;
                         {{course.learningNumber}} 人正在学习
+                        &nbsp;&nbsp;
+                        10.0分
                     </p>
 
                     <p style="white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" :title="course.courseDesc">

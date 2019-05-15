@@ -4,18 +4,21 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.course.CourseMapper;
+import wang.ismy.zbq.enums.CommentTypeEnum;
+import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.dto.course.CourseDTO;
 import wang.ismy.zbq.model.entity.course.Course;
+import wang.ismy.zbq.model.vo.course.*;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.CommentService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
-import wang.ismy.zbq.model.vo.course.CourseLessonVO;
-import wang.ismy.zbq.model.vo.course.CourseVO;
-import wang.ismy.zbq.model.vo.course.LessonListVO;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +35,9 @@ public class CourseService {
 
     @Autowired
     private LearningService learningService;
+
+    @Autowired
+    private CommentService commentService;
 
     public List<CourseVO> selectAll() {
         var list = courseMapper.selectAll();
@@ -92,7 +98,12 @@ public class CourseService {
         var currentUser = userService.getCurrentUser();
 
         Course course = courseMapper.selectByPrimaryKey(courseId);
+
+        UserVO author = UserVO.convert(userService.selectByPrimaryKey(course.getPublisher().getUserId()));
         CourseLessonVO courseLessonVO = CourseLessonVO.convert(course);
+        courseLessonVO.setLearningCount(learningService.countLearningByCourseId(courseId));
+
+        courseLessonVO.setAuthor(author);
         var list = lessonService.selectByCourseId(courseId);
 
         var lessonIdList = list.stream()
@@ -166,4 +177,77 @@ public class CourseService {
                 .collect(Collectors.toList());
 
     }
+
+    public List<CourseCommentVO> selectComment(Integer courseId, Page page){
+
+        if (courseMapper.selectByPrimaryKey(courseId) == null){
+            ErrorUtils.error(R.TARGET_COURSE_NOT_EXIST);
+        }
+
+        var lessonList = lessonService.selectByCourseId(courseId);
+
+        var lessonIdList = lessonList.stream()
+                .map(LessonListVO::getLessonId)
+                .collect(Collectors.toList());
+
+        var commentList = commentService.selectComments(CommentTypeEnum.LESSON,lessonIdList,page);
+
+        var courseCommentVOList = commentList.stream()
+                .map(CourseCommentVO::convert)
+                .collect(Collectors.toList());
+
+        addUserVO(courseCommentVOList);
+        addLessonListVO(courseCommentVOList);
+        return courseCommentVOList;
+    }
+
+    private void addLessonListVO(List<CourseCommentVO> courseCommentVOList) {
+
+        List<Integer> lessonIdList = new ArrayList<>();
+
+        for (var i : courseCommentVOList){
+            lessonIdList.add(i.getLesson().getLessonId());
+        }
+
+        var lessonList = lessonService.selectBatch(lessonIdList);
+
+        Map<Integer,LessonListVO> lessonListVOMap = new HashMap<>();
+        for (var i : lessonList){
+            lessonListVOMap.put(i.getLessonId(),LessonListVO.convert(i));
+        }
+
+        for (var i : courseCommentVOList){
+            i.setLesson(lessonListVOMap.get(i.getLesson().getLessonId()));
+        }
+    }
+
+    private void addUserVO(List<CourseCommentVO> courseCommentVOList) {
+
+        List<Integer> userIdList = new ArrayList<>();
+
+        courseCommentVOList.forEach(i->{
+            userIdList.add(i.getFromUser().getUserId());
+            if (i.getToUser() != null){
+                userIdList.add(i.getToUser().getUserId());
+            }
+        });
+
+        var userList = userService.selectByUserIdBatch(userIdList);
+
+        Map<Integer,UserVO> userVOMap = new HashMap<>();
+        for (var i : userList){
+            userVOMap.put(i.getUserId(),UserVO.convert(i));
+        }
+
+        for (var i : courseCommentVOList){
+            i.setFromUser(userVOMap.get(i.getFromUser().getUserId()));
+
+            if (i.getToUser() != null){
+                i.setToUser(userVOMap.get(i.getToUser().getUserId()));
+            }
+        }
+
+    }
+
+
 }

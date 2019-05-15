@@ -176,7 +176,8 @@ function getCommonObject() {
             collectContentUrl:"/content/collect",
             getCollectionListUrl:"/collection/list",
             publishLessonCommentUrl:"/lesson/comment",
-            getCommentListUrl:"/comment/list"
+            getCommentListUrl:"/comment/list",
+            getCourseCommentListUrl:"/course/comment/"
 
 
         },

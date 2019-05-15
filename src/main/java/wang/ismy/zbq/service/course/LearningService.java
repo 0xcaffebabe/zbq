@@ -245,6 +245,14 @@ public class LearningService {
         return new ArrayList<>(learningVOCourseMap.values());
     }
 
+    public Long countLearningByCourseId(Integer courseId){
+        Long val = learningMapper.countLearningByCourseId(courseId);
+        if (val == null) {
+            return 0L;
+        }
+        return val;
+    }
+
     private void addLearningProgress(Map<Integer, LearningVO> learningVOCourseMap) {
 
         var map = calcCurrentUserLearningProgressInBatch(

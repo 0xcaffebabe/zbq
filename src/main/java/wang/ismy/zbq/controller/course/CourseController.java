@@ -4,12 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
+import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.dto.course.CourseDTO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.course.CourseService;
 
 import javax.validation.Valid;
 
+/**
+ * @author my
+ */
 @RestController
 @RequestMapping("/course")
 public class CourseController {
@@ -53,5 +57,15 @@ public class CourseController {
     public Object selectClassmates(@PathVariable("courseId") Integer courseId){
 
         return courseService.selectClassmatesByCourseId(courseId);
+    }
+
+    @GetMapping("/comment/{courseId}")
+    @MustLogin
+    @ResultTarget
+    public Object selectComment(@PathVariable("courseId") Integer courseId,
+                                @RequestParam("page") Integer page,
+                                @RequestParam("length") Integer length){
+
+        return courseService.selectComment(courseId,Page.of(page,length));
     }
 }

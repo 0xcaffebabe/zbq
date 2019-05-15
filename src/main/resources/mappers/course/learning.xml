@@ -65,13 +65,21 @@
         <foreach collection="list" item="i" open="(" close=")" separator=",">
             #{i}
         </foreach>
-        AND user = 2
+        AND user = #{userId}
         GROUP BY course_id
     </select>
     <select id="selectLearningListByUserIdGroupByCourseId" resultMap="learningMap">
         select * from learning
         where learning_id
               in (select max(learning_id) from learning WHERE user = #{userId} group by course_id) order by create_time desc
+    </select>
+    <select id="countLearningByCourseId" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM
+            (
+                SELECT DISTINCT user FROM learning WHERE course_id = #{id}
+            ) AS T
+
     </select>
 
 </mapper>

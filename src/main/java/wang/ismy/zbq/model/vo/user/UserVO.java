@@ -26,11 +26,15 @@ public class UserVO implements UserIdGetter {
             return null;
         }
         UserVO userVO = new UserVO();
-        userVO.setNickName(user.getUserInfo().getNickName());
-        userVO.setProfile(user.getUserInfo().getProfile());
         userVO.setUserId(user.getUserId());
-        userVO.setRegion(user.getUserInfo().getRegion());
-        userVO.setPenYear(user.getUserInfo().getPenYear());
+
+        if (user.getUserInfo() != null){
+            userVO.setNickName(user.getUserInfo().getNickName());
+            userVO.setProfile(user.getUserInfo().getProfile());
+            userVO.setRegion(user.getUserInfo().getRegion());
+            userVO.setPenYear(user.getUserInfo().getPenYear());
+        }
+
         return userVO;
     }
 

@@ -3,10 +3,14 @@ package wang.ismy.zbq.model.vo.course;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import wang.ismy.zbq.model.entity.course.Course;
+import wang.ismy.zbq.model.vo.user.UserVO;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author my
+ */
 @Data
 public class CourseLessonVO {
 
@@ -15,6 +19,10 @@ public class CourseLessonVO {
     private String courseName;
 
     private String courseImg;
+
+    private UserVO author;
+
+    private Long learningCount;
 
     private String courseLevel;
 

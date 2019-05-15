@@ -46,6 +46,15 @@
         </foreach>
         AND comment_type = #{commentType} GROUP BY topic_id
     </select>
+    <select id="selectCommentListByCommentTypeAndTopicIdBatchPaging"
+            resultMap="commentMap">
+        SELECT * FROM tb_comment WHERE topic_id IN
+        <foreach collection="list" item="item" separator="," close=")" open="(">
+            #{item}
+        </foreach>
+        AND comment_type = #{type}
+        ORDER BY create_time DESC
+    </select>
 
 
 </mapper>

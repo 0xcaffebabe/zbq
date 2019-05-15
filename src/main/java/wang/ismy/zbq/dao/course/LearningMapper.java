@@ -27,7 +27,8 @@ public interface LearningMapper {
 
     List<LearningNumberDTO> selectLearningNumberByCourseIdList(List<Integer> courseIdList);
 
-    List<Map<String, Object>> countLearningByUserIdAndCourseIdList(@Param("userId") Integer userId, @Param("list") List<Integer> courseIdList);
+    List<Map<String, Object>> countLearningByUserIdAndCourseIdList(@Param("userId") Integer userId,
+                                                                   @Param("list") List<Integer> courseIdList);
 
     /**
      * 根据用户ID查询出该用户对应的课程学习记录
@@ -36,4 +37,7 @@ public interface LearningMapper {
      * @return 课程学习记录列表
      */
     List<Learning> selectLearningListByUserIdGroupByCourseId(Integer userId);
+
+    Long countLearningByCourseId(Integer courseId);
+
 }

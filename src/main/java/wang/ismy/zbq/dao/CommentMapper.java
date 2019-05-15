@@ -47,4 +47,15 @@ public interface CommentMapper {
 
     List<CommentCountDTO> selectCommentCountByCommentTypeAndTopicIdBatch(@Param("commentType") int code, @Param("idList") List<Integer> list);
 
+    /**
+     * 根据commentType和topicIdList分页地查询出评论列表
+     *
+     * @param type 评论类型
+     * @param topicIds 内容ID列表
+     * @param page 分页组件
+     * @return 评论列表
+     */
+    List<Comment> selectCommentListByCommentTypeAndTopicIdBatchPaging(@Param("type") int type,
+                                                                      @Param("list") List<Integer> topicIds,
+                                                                      @Param("page") Page page);
 }

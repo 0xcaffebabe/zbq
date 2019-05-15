@@ -4,6 +4,9 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import wang.ismy.zbq.model.entity.course.Lesson;
 
+/**
+ * @author my
+ */
 @Data
 public class LessonListVO {
 
@@ -13,6 +16,13 @@ public class LessonListVO {
 
     private Boolean hasLearn;
 
+    public LessonListVO(){
+
+    }
+
+    public LessonListVO(Integer lessonId){
+        this.lessonId = lessonId;
+    }
     public static LessonListVO convert(Lesson lesson){
         LessonListVO vo = new LessonListVO();
         BeanUtils.copyProperties(lesson,vo);

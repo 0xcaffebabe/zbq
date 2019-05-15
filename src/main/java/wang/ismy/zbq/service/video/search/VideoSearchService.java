@@ -113,8 +113,12 @@ public class VideoSearchService {
                     vo.setHeat(v);
                     list.add(vo);
                 });
-        list.sort(Comparator.comparing(HotKeywordVO::getHeat).reversed());
-        return list;
+
+        return list.stream()
+                .sorted(Comparator.comparing(HotKeywordVO::getHeat).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+
     }
 
     public List<VideoSearchEngineVO> selectAllEngine() {
