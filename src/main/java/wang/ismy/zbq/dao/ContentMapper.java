@@ -22,4 +22,12 @@ public interface ContentMapper {
      */
     List<Content> selectBatch(List<Integer> list);
 
+    /**
+     * 分页根据用户查询（根据时间降序）
+     *
+     * @param userId 用户ID
+     * @param page   分页组件
+     * @return 内容列表
+     */
+    List<Content> selectByUserIdPaging(@Param("user") Integer userId, @Param("page") Page page);
 }

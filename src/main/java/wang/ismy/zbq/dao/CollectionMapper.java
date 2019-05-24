@@ -42,7 +42,7 @@ public interface CollectionMapper {
                                                               @Param("user") Integer userId);
 
     /**
-     * 分页查询用户收藏列表
+     * 分页查询用户收藏列表（根据时间降序）
      *
      * @param userId 用户ID
      * @param page   分页组件

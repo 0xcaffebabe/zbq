@@ -3,12 +3,15 @@ var space = new Vue({
     el: "#space",
     data: {
         nickName: '',
-        profile:''
+        profile:'',
+        actionList:[]
     }
     ,
     created:function () {
 
+        moment.locale("zh-cn");
         this.getUserState();
+        this.getAction();
     }
     ,
     methods: {
@@ -23,6 +26,25 @@ var space = new Vue({
                     alert(r.msg);
                 }
             })
+        },
+        getAction:function () {
+            var that = this;
+            common.ajax.get(common.data.getActionListUrl+id,function (r) {
+                if (r.success){
+                    var list = r.data;
+
+                    list.forEach(function (e) {
+                        e.createTime = moment(e.createTime).fromNow();
+                    })
+                    that.actionList = list;
+                }else{
+                    alert(r.msg);
+                }
+            },{page:1,length:5})
+        }
+        ,
+        actionClickHandler:function (action) {
+
         }
     }
 });

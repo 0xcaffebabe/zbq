@@ -221,3 +221,16 @@ CREATE TABLE video_search_log(
   create_time DATETIME NOT NULL ,
   update_time DATETIME NOT NULL
 )ENGINE=InnoDB CHARSET=utf8mb4;
+
+# 创建课程评分表
+CREATE TABLE course_rating(
+  rating_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  course INT NOT NULL ,
+  user INT NOT NULL ,
+  rating DECIMAL(4,1) NOT NULL,
+  content VARCHAR(255) NOT NULL ,
+  create_time DATETIME NOT NULL ,
+  update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8mb4;
+
+# 创建订阅关注表

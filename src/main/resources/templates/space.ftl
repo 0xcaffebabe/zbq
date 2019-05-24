@@ -87,70 +87,26 @@
                     <h1 id="timeline">最近动态</h1>
                 </div>
                 <ul class="timeline">
-                    <li>
-                        <div class="timeline-badge"><i class="glyphicon glyphicon-check"></i></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title">发表了《论转笔的转后清理》</h4>
-                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 11小时前</small></p>
-                            </div>
-                            <div class="timeline-body">
+                    <li v-for="(action,index) in actionList" :class="{'timeline-inverted' :index % 2 == 1 }">
 
-                            </div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-badge warning"><i class="glyphicon glyphicon-comment"></i></div>
+                        <div class="timeline-badge primary" v-if="action.actionType == 'PUBLISH'"><i class="glyphicon glyphicon-check"></i></div>
+                        <div class="timeline-badge warning" v-if="action.actionType == 'COMMENT'"><i class="glyphicon glyphicon-comment"></i></div>
+                        <div class="timeline-badge danger" v-if="action.actionType == 'LIKE'"><i class="glyphicon glyphicon-thumbs-up"></i></div>
+                        <div class="timeline-badge success" v-if="action.actionType == 'COLLECT'"><i class="glyphicon glyphicon-heart"></i></div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">
-                                <h4 class="timeline-title">评论了《【转】给想学转笔的人》</h4>
-                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 12小时前</small></p>
+                                <a href="#" @click.prevent="actionClickHandler(action)">
+                                    <h4 class="timeline-title">{{action.title}}</h4>
+                                </a>
+
+                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{action.createTime}}</small></p>
                             </div>
                             <div class="timeline-body">
-                                <p>说的真好，跟放屁一样</p>
+                                {{action.body}}
                             </div>
                         </div>
                     </li>
 
-                    <li>
-                        <div class="timeline-badge danger"><i class="glyphicon glyphicon-thumbs-up"></i></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title">点赞了My、的动态</h4>
-                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 13小时前</small></p>
-                            </div>
-                            <div class="timeline-body">
-                                <p>
-                                    [视频内容].</p>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="timeline-inverted">
-                        <div class="timeline-badge warning"><i class="glyphicon glyphicon-comment"></i></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title">评论了My、的动态</h4>
-                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 12小时前</small></p>
-                            </div>
-                            <div class="timeline-body">
-                                <p>说的真好，跟放屁一样</p>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li>
-                        <div class="timeline-badge success"><i class="glyphicon glyphicon-list"></i></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4 class="timeline-title">开始学习《转笔探讨新手入门篇》</h4>
-                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 14小时前</small></p>
-                            </div>
-                            <div class="timeline-body">
-
-                            </div>
-                        </div>
-                    </li>
                 </ul>
             </div>
 
@@ -179,12 +135,10 @@
 </div>
 
 </body>
-<script src="/js/vue.js"></script>
-<script src="/js/jquery.js"></script>
-<script src="/js/bootstrap.js"></script>
-<script src="/js/common.js?v=20190410"></script>
+
+<#include "script.ftl"/>
 <script src="/js/index.js?v=20190423"></script>
-<script src="/js/space.js?v=20190418"></script>
+<script src="/js/space.js?v=20190524"></script>
 
 <script>
 

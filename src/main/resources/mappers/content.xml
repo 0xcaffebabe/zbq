@@ -41,4 +41,9 @@
             #{i}
         </foreach>
     </select>
+    <select id="selectByUserIdPaging" resultMap="contentMap">
+        SELECT * FROM content
+        WHERE user = #{user}
+        ORDER BY create_time DESC
+    </select>
 </mapper>

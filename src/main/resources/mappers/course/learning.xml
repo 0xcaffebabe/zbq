@@ -23,8 +23,9 @@
     <delete id="deleteByPrimaryKey">
         DELETE FROM learning WHERE learning_id = #{id}
     </delete>
-    <select id="selectByCourseIdAndLessonId" resultMap="learningMap">
+    <select id="selectByCourseIdAndLessonIdAndUserId" resultMap="learningMap">
         SELECT * FROM learning WHERE course_id = #{courseId} AND lesson_id = #{lessonId}
+        AND user = #{user}
     </select>
     <select id="selectByUserIdAndLessonId" resultMap="learningMap">
         SELECT * FROM learning WHERE user = #{userId} AND lesson_id = #{lessonId}
@@ -80,6 +81,11 @@
                 SELECT DISTINCT user FROM learning WHERE course_id = #{id}
             ) AS T
 
+    </select>
+    <select id="selectByUserPaging" resultMap="learningMap">
+        SELECT * FROM learning
+        WHERE user = #{user}
+        ORDER BY create_time DESC
     </select>
 
 </mapper>

@@ -7,10 +7,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
+import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.dto.user.LoginDTO;
 import wang.ismy.zbq.model.dto.user.RegisterDTO;
 import wang.ismy.zbq.model.dto.user.UserDTO;
 import wang.ismy.zbq.model.entity.user.User;
+import wang.ismy.zbq.service.action.ActionService;
 import wang.ismy.zbq.service.user.UserLoginLogService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.service.user.UserStateService;
@@ -33,6 +35,9 @@ public class UserController {
 
     @Autowired
     private UserLoginLogService userLoginLogService;
+
+    @Autowired
+    private ActionService actionService;
 
     @PutMapping("/register")
     @ResultTarget
@@ -128,4 +133,12 @@ public class UserController {
         return userLoginLogService.calcCurrentUserLogDays();
     }
 
+    @GetMapping("/action/{id}")
+    @ResultTarget
+    @MustLogin
+    public Object action(@PathVariable("id") Integer userId,
+                         @RequestParam("page") Integer page,
+                         @RequestParam("length") Integer length){
+        return actionService.pullActions(userId,Page.of(page,length));
+    }
 }

@@ -3,6 +3,8 @@ package wang.ismy.zbq.service.course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.course.LearningMapper;
+import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.entity.Content;
 import wang.ismy.zbq.model.entity.course.Course;
 import wang.ismy.zbq.model.entity.course.Learning;
 import wang.ismy.zbq.model.entity.course.Lesson;
@@ -51,7 +53,7 @@ public class LearningService {
             ErrorUtils.error(R.TARGET_COURSE_NOT_EXIST);
         }
 
-        var t = learningMapper.selectByCourseIdAndLessonId(course.getCourseId(), lessonId);
+        var t = learningMapper.selectByCourseIdAndLessonIdAndUserId(course.getCourseId(), lessonId,currentUser.getUserId());
         if (t != null) {
             if (t.getUser().equals(currentUser)) {
                 ErrorUtils.error(R.LEARNING_EXIST);
@@ -283,4 +285,7 @@ public class LearningService {
     }
 
 
+    public List<Learning> select(Integer userId, Page page) {
+        return learningMapper.selectByUserPaging(userId,page);
+    }
 }

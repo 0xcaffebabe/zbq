@@ -37,4 +37,16 @@
     <select id="selectByPrimaryKey" resultMap="stateMap">
         SELECT * FROM state WHERE state_id = #{stateId}
     </select>
+    <select id="selectStateByUserIdPaging" resultMap="stateMap">
+        SELECT * FROM state
+        WHERE user = #{user}
+        ORDER BY create_time DESC
+    </select>
+    <select id="selectBatch" resultMap="stateMap">
+        SELECT * FROM state
+        WHERE state_id IN
+        <foreach collection="list" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+    </select>
 </mapper>

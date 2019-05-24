@@ -6,7 +6,10 @@ package wang.ismy.zbq.enums;
 
 public enum LikeTypeEnum {
 
-
+    /**
+     * 未定义
+     */
+    UNDEFINED(-1),
     /**
      * 动态点赞
      */
@@ -26,5 +29,15 @@ public enum LikeTypeEnum {
     LikeTypeEnum(int i) {
 
         code = i;
+    }
+
+    public static LikeTypeEnum valueOf(int code) {
+
+        for (var i : values()) {
+            if (i.getCode() == code) {
+                return i;
+            }
+        }
+        return UNDEFINED;
     }
 }

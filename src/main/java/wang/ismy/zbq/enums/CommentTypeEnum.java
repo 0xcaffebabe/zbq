@@ -7,6 +7,10 @@ package wang.ismy.zbq.enums;
 public enum CommentTypeEnum {
 
     /**
+     * 未定义
+     */
+    UNDEFINED(-1),
+    /**
      * 动态评论
      */
     STATE(0),
@@ -27,17 +31,20 @@ public enum CommentTypeEnum {
 
     private int code;
 
-    public static CommentTypeEnum of(int code){
+    public static CommentTypeEnum of(int code) {
         var values = CommentTypeEnum.values();
-        for (var i : values){
-            if (i.getCode() == code){
+        for (var i : values) {
+            if (i.getCode() == code) {
                 return i;
             }
         }
-        return null;
+        return UNDEFINED;
     }
 
     CommentTypeEnum(int i) {
         code = i;
     }
+
+
+
 }

@@ -58,4 +58,12 @@ public interface CommentMapper {
     List<Comment> selectCommentListByCommentTypeAndTopicIdBatchPaging(@Param("type") int type,
                                                                       @Param("list") List<Integer> topicIds,
                                                                       @Param("page") Page page);
+
+    /**
+    * 分页查询用户评论列表（根据时间降序）
+    * @param userId 用户ID
+     * @param page 分页组件
+     * @return 评论列表
+    */
+    List<Comment> selectCommentByUserPaging(@Param("user") Integer userId, @Param("page") Page page);
 }

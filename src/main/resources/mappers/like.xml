@@ -65,5 +65,10 @@
         </foreach>
         AND like_type = 1 AND like_user = #{userId}
     </select>
+    <select id="selectLikeListByUserPaging" resultMap="likeMap">
+        SELECT * FROM tb_like
+        WHERE like_user = #{user}
+        ORDER BY create_time DESC
+    </select>
 
 </mapper>

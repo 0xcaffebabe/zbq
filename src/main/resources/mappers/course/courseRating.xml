@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.course.CourseRatingMapper">
+
+    <resultMap id="ratingMap" type="wang.ismy.zbq.model.entity.course.CourseRating">
+        <id column="rating_id" property="ratingId"/>
+        <result property="rating" column="rating"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="content" column="content"/>
+        <association property="course" javaType="wang.ismy.zbq.model.entity.course.Course">
+            <id property="courseId" column="course"/>
+        </association>
+        <association property="user" javaType="wang.ismy.zbq.model.entity.user.User">
+            <id column="user" property="userId"/>
+        </association>
+
+    </resultMap>
+
+    <insert id="insertNew">
+        INSERT INTO course_rating (course, user, rating, content, create_time)
+                VALUES (#{course.courseId},#{user.userId},#{rating},#{content},NOW())
+    </insert>
+    <select id="selectByCourseAndUser" resultMap="ratingMap">
+        SELECT * FROM course_rating WHERE course = #{course} AND user = #{user}
+    </select>
+    <select id="selectByCoursePaging" resultMap="ratingMap">
+        SELECT * FROM course_rating WHERE course = #{course}
+        ORDER BY create_time DESC
+    </select>
+</mapper>

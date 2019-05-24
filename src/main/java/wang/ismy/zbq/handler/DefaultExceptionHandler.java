@@ -30,6 +30,7 @@ public class DefaultExceptionHandler {
         Result result = new Result();
         result.setSuccess(false);
         result.setMsg(e.getMessage());
+        e.printStackTrace();
         return result;
     }
 

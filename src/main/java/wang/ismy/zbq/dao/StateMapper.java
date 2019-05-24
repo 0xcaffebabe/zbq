@@ -27,4 +27,14 @@ public interface StateMapper {
 
     int setInvisibleByPrimaryKey(Integer stateId);
 
+    /**
+     * 根据用户分页查询动态列表（根据时间降序）
+     *
+     * @param userId 用户ID
+     * @param page   分页组件
+     * @return 动态列表
+     */
+    List<State> selectStateByUserIdPaging(@Param("user") Integer userId, @Param("page") Page page);
+
+    List<State> selectBatch(List<Integer> stateIdList);
 }

@@ -3,6 +3,7 @@ package wang.ismy.zbq.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.LikeMapper;
+import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.like.Like;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.enums.LikeTypeEnum;
@@ -94,5 +95,9 @@ public class LikeService {
             }
         }
         return map;
+    }
+
+    public List<Like> select(Integer userId, Page page) {
+        return likeMapper.selectLikeListByUserPaging(userId,page);
     }
 }

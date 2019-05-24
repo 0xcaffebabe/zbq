@@ -9,21 +9,15 @@ import java.time.LocalDateTime;
  * @author my
  */
 @Data
-public class Content {
-    private Integer contentId;
+public class Subscription {
+
+    private Integer subscriptionId;
 
     private User user;
 
-    private String title;
-
-    private String content;
-
-    private String tags;
-
-    private Boolean visible;
+    private User author;
 
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
-
 }

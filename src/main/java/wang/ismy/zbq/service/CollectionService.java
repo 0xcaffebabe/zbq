@@ -115,4 +115,9 @@ public class CollectionService {
             }
         }
     }
+
+    public List<Collection> select(Integer userId, Page page) {
+
+        return collectionMapper.selectPaging(userId,page);
+    }
 }

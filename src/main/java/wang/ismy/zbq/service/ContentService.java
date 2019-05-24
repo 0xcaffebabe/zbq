@@ -55,9 +55,10 @@ public class ContentService {
     private ExecuteService executeService;
 
     /**
-    * 以当前登录用户身份发布内容，需要有PUBLISH_CONTENT权限
-    * @param contentDTO 内容数据传输对象
-    */
+     * 以当前登录用户身份发布内容，需要有PUBLISH_CONTENT权限
+     *
+     * @param contentDTO 内容数据传输对象
+     */
     @Permission(PermissionEnum.PUBLISH_CONTENT)
     public void publishContent(ContentDTO contentDTO) {
         var currentUser = userService.getCurrentUser();
@@ -70,10 +71,11 @@ public class ContentService {
     }
 
     /**
-    * 拉取内容列表
-    * @param page 分页组件
+     * 拉取内容列表
+     *
+     * @param page 分页组件
      * @return 内容视图列表
-    */
+     */
     public List<ContentVO> pullContents(Page page) {
         long time = System.currentTimeMillis();
         var contentList = contentMapper.selectContentListPaging(page);
@@ -91,10 +93,10 @@ public class ContentService {
 
         var currentUser = userService.getCurrentUser();
 
-        var task1 = executeService.submit(()->addContentLikes(contentVOList,currentUser));
-        var task2 = executeService.submit(()->addContentCommentCount(contentVOList));
-        var task3 = executeService.submit(()->addContentUser(contentVOList));
-        var task4 = executeService.submit(()->addContentCollection(contentVOList,currentUser));
+        var task1 = executeService.submit(() -> addContentLikes(contentVOList, currentUser));
+        var task2 = executeService.submit(() -> addContentCommentCount(contentVOList));
+        var task3 = executeService.submit(() -> addContentUser(contentVOList));
+        var task4 = executeService.submit(() -> addContentCollection(contentVOList, currentUser));
 
         try {
             task1.get();
@@ -104,27 +106,27 @@ public class ContentService {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-        log.warn("获取内容列表，耗时:{}", System.currentTimeMillis()-time);
+        log.warn("获取内容列表，耗时:{}", System.currentTimeMillis() - time);
         return contentVOList;
 
     }
 
-    private void addContentCollection(List<ContentVO> contentVOList,User currentUser) {
+    private void addContentCollection(List<ContentVO> contentVOList, User currentUser) {
         var contentIdList = contentVOList.stream()
                 .map(ContentVO::getContentId)
                 .collect(Collectors.toList());
 
         var map = collectionService.selectCollectionCountBatchByType(CollectionTypeEnum.CONTENT,
-                contentIdList,currentUser.getUserId());
+                contentIdList, currentUser.getUserId());
 
-        for (var i : contentVOList){
+        for (var i : contentVOList) {
 
             var collectionCount = map.get(i.getContentId());
 
-            if (collectionCount != null){
+            if (collectionCount != null) {
                 i.setCollectCount(collectionCount.getCollectionCount());
                 i.setHasCollect(collectionCount.getHasCollect());
-            }else{
+            } else {
                 i.setCollectCount(0L);
                 i.setHasCollect(false);
             }
@@ -240,7 +242,7 @@ public class ContentService {
         }
     }
 
-    private void addContentLikes(List<ContentVO> contentVOList,User currentUser) {
+    private void addContentLikes(List<ContentVO> contentVOList, User currentUser) {
 
 
         List<Integer> contentIdList = new ArrayList<>();
@@ -293,18 +295,37 @@ public class ContentService {
         return contentVO;
     }
 
-    public Map<Integer,String> selectTitleBatch(List<Integer> contentIdList){
-        if (contentIdList == null || contentIdList.size() == 0){
+    public Map<Integer, String> selectTitleBatch(List<Integer> contentIdList) {
+        if (contentIdList == null || contentIdList.size() == 0) {
             return Map.of();
         }
 
         var list = contentMapper.selectBatch(contentIdList);
 
-        Map<Integer,String> map = new HashMap<>();
-        for (var i : list){
-            map.put(i.getContentId(),i.getTitle());
+        Map<Integer, String> map = new HashMap<>();
+        for (var i : list) {
+            map.put(i.getContentId(), i.getTitle());
         }
 
         return map;
+    }
+
+    /**
+     * 根据用户ID分页查询
+     *
+     * @param userId 用户ID
+     * @param page   分页组件
+     * @return 内容列表
+     */
+    public List<Content> select(Integer userId, Page page) {
+
+        return contentMapper.selectByUserIdPaging(userId,page);
+    }
+
+    public List<Content> selectBatch(List<Integer> contentIdList) {
+        if (contentIdList == null || contentIdList.size() == 0){
+            return List.of();
+        }
+        return contentMapper.selectBatch(contentIdList);
     }
 }

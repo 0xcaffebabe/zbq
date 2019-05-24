@@ -151,4 +151,9 @@ public class CommentService {
         }
         return commentMapper.insertNew(comment);
     }
+
+    public List<Comment> select(Integer userId, Page page) {
+
+        return commentMapper.selectCommentByUserPaging(userId,page);
+    }
 }

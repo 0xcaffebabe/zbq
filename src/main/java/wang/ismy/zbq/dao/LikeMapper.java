@@ -1,6 +1,7 @@
 package wang.ismy.zbq.dao;
 
 import org.apache.ibatis.annotations.Param;
+import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.dto.content.ContentLikeDTO;
 import wang.ismy.zbq.model.entity.like.Like;
 
@@ -15,10 +16,10 @@ public interface LikeMapper {
 
     List<Like> selectLikeListByLikeTypeAndContentIdBatch(@Param("likeType") Integer likeType, @Param("contentIdList") List<Integer> contentIdList);
 
-    Like selectLikeByLikeTypeAndContentIdAndUserId(@Param("likeType") Integer likeType,@Param("contentId") Integer contentId,
+    Like selectLikeByLikeTypeAndContentIdAndUserId(@Param("likeType") Integer likeType, @Param("contentId") Integer contentId,
                                                    @Param("userId") Integer userId);
 
-    int deleteLikeByLikeTypeAndContentIdAndUserId(@Param("likeType") Integer likeType,@Param("contentId") Integer contentId,
+    int deleteLikeByLikeTypeAndContentIdAndUserId(@Param("likeType") Integer likeType, @Param("contentId") Integer contentId,
                                                   @Param("userId") Integer userId);
 
     long countStateLikeByUserId(Integer userId);
@@ -27,6 +28,14 @@ public interface LikeMapper {
 
     List<ContentLikeDTO> countLikeByLikeTypeAndContentIdBatch(@Param("likeType") Integer likeType, @Param("contentIdList") List<Integer> contentIdList);
 
-    List<Map<String,Object>> selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(@Param("likeType") Integer likeType, @Param("contentIdList") List<Integer> contentIdList,@Param("userId") Integer userId);
+    List<Map<String, Object>> selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(@Param("likeType") Integer likeType, @Param("contentIdList") List<Integer> contentIdList, @Param("userId") Integer userId);
 
+    /**
+     * 根据用户分页查询点赞列表（根据时间降序）
+     *
+     * @param userId 用户ID
+     * @param page   分页组件
+     * @return 点赞列表
+     */
+    List<Like> selectLikeListByUserPaging(@Param("user") Integer userId, @Param("page") Page page);
 }

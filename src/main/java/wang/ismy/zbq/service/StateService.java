@@ -9,6 +9,7 @@ import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.dto.state.StateCommentDTO;
 import wang.ismy.zbq.model.dto.state.StateDTO;
 import wang.ismy.zbq.model.entity.Comment;
+import wang.ismy.zbq.model.entity.Content;
 import wang.ismy.zbq.model.entity.like.Likes;
 import wang.ismy.zbq.model.entity.State;
 import wang.ismy.zbq.model.entity.user.User;
@@ -137,11 +138,8 @@ public class StateService {
 
         }
 
-
         Future<?> task1 = executeService.submit(()-> addStateLikes(stateVOList,currentUser)) ;
-
         Future<?> task2 = executeService.submit(()->addStateComment(stateVOList));
-
         try {
             task1.get();
             task2.get();
@@ -151,12 +149,7 @@ public class StateService {
             throw new RuntimeException(e);
         }
 
-
-
     }
-
-
-
 
     public int countSelfState() {
         User user = userService.getCurrentUser();
@@ -170,7 +163,6 @@ public class StateService {
      * @return 受影响行数
      */
     public int publishComment(StateCommentDTO commentDTO) {
-
         User currentUser = userService.getCurrentUser();
         Comment comment = new Comment();
         comment.setCommentType(CommentTypeEnum.STATE.getCode());
@@ -209,11 +201,9 @@ public class StateService {
     }
 
     private void addStateLikes(List<StateVO> stateVOList,User user) {
-
         List<Integer> stateIdList = getStateIdList(stateVOList);
 
         var likeList = likeService.selectLikeBatch(LikeTypeEnum.STATE, stateIdList);
-
 
         Map<Integer, Likes> cacheMap = new HashMap<>();
         List<Integer> userIdList = new ArrayList<>();
@@ -237,14 +227,12 @@ public class StateService {
         var userList = userService.selectByUserIdBatch(userIdList);
 
         for (var i : userList) {
-
             for (var j : likeList) {
                 if (j.getLikeUser().equals(i)) {
                     j.setLikeUser(i);
                 }
             }
         }
-
 
         for (var i : stateVOList) {
             i.setLikes(cacheMap.get(i.getStateId()));
@@ -254,7 +242,6 @@ public class StateService {
                 likes.setLikeCount(0);
                 likes.setContentId(i.getStateId());
                 i.setLikes(likes);
-
             } else {
                 for (var e : i.getLikes().getLikeList()) {
                     if (e.getLikeUser().equals(user)) {
@@ -266,8 +253,6 @@ public class StateService {
             }
 
         }
-
-
     }
 
     private List<Integer> getStateIdList(List<StateVO> stateVOList) {
@@ -330,6 +315,16 @@ public class StateService {
 
     }
 
+    public List<State> select(Integer userId, Page page) {
+        return stateMapper.selectStateByUserIdPaging(userId,page);
+    }
+
+    public List<State> selectBatch(List<Integer> stateIdList) {
+        if (stateIdList == null || stateIdList.size() == 0){
+            return List.of();
+        }
+        return stateMapper.selectBatch(stateIdList);
+    }
 }
 
 

@@ -55,6 +55,11 @@
         AND comment_type = #{type}
         ORDER BY create_time DESC
     </select>
+    <select id="selectCommentByUserPaging" resultMap="commentMap">
+        SELECT * FROM tb_comment
+        WHERE from_user = #{user}
+        ORDER BY create_time DESC
+    </select>
 
 
 </mapper>

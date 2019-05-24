@@ -177,7 +177,10 @@ function getCommonObject() {
             getCollectionListUrl:"/collection/list",
             publishLessonCommentUrl:"/lesson/comment",
             getCommentListUrl:"/comment/list",
-            getCourseCommentListUrl:"/course/comment/"
+            getCourseCommentListUrl:"/course/comment/",
+            courseRatingUrl:"/course/rating",
+            getCourseRatingListUrl:"/course/rating/",
+            getActionListUrl:"/user/action/"
 
 
         },

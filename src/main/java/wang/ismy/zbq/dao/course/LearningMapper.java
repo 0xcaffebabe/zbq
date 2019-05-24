@@ -1,8 +1,10 @@
 package wang.ismy.zbq.dao.course;
 
 import org.apache.ibatis.annotations.Param;
+import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.dto.course.LearningNumberDTO;
 import wang.ismy.zbq.model.entity.course.Learning;
+import wang.ismy.zbq.model.entity.course.Lesson;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,17 @@ public interface LearningMapper {
 
     int insertNew(Learning learning);
 
-    Learning selectByCourseIdAndLessonId(@Param("courseId") Integer courseId, @Param("lessonId") Integer lessonId);
+    /**
+    * 根据课程、章节ID、用户查询学习记录
+     * @param courseId 课程ID
+     * @param lessonId 章节ID
+     * @param user 用户ID
+     * @return 学习记录实体
+    *
+    */
+    Learning selectByCourseIdAndLessonIdAndUserId(@Param("courseId") Integer courseId,
+                                                  @Param("lessonId") Integer lessonId,
+                                                  @Param("user") Integer user);
 
     Learning selectByUserIdAndLessonId(@Param("userId") Integer userId, @Param("lessonId") Integer lessonId);
 
@@ -40,4 +52,11 @@ public interface LearningMapper {
 
     Long countLearningByCourseId(Integer courseId);
 
+    /**
+    * 分页查询用户学习记录（根据时间降序）
+    * @param userId 用户ID
+     * @param page 分页组件
+     * @return 学习记录列表
+    */
+    List<Learning> selectByUserPaging(@Param("user") Integer userId, @Param("page") Page page);
 }

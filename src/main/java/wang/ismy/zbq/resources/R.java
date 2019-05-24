@@ -109,6 +109,11 @@ public class R {
     public static final String COLLECT_EXIST = "已收藏过了";
 
     public static final String TIME_OUT = "超时";
+
+    public static final String RATING_SUCCESS = "评分成功";
+
+    public static final String RATING_EXIST = "您已评分过了";
+
 }
 
 
