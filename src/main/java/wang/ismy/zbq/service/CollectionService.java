@@ -1,16 +1,28 @@
 package wang.ismy.zbq.service;
 
+import freemarker.template.TemplateException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.CollectionMapper;
 import wang.ismy.zbq.enums.CollectionTypeEnum;
+import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.model.dto.CollectionCountDTO;
 import wang.ismy.zbq.model.dto.CollectionDTO;
 import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.Collection;
+import wang.ismy.zbq.model.entity.Content;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.model.vo.CollectionVO;
+import wang.ismy.zbq.service.system.EmailService;
+import wang.ismy.zbq.service.system.ExecuteService;
+import wang.ismy.zbq.service.system.InformService;
+import wang.ismy.zbq.service.user.UserAccountService;
 import wang.ismy.zbq.service.user.UserService;
+import wang.ismy.zbq.util.TimeUtils;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +33,7 @@ import java.util.stream.Collectors;
  * @author my
  */
 @Service
+@Slf4j
 public class CollectionService {
 
     @Autowired
@@ -32,7 +45,22 @@ public class CollectionService {
     @Autowired
     private ContentService contentService;
 
-    public int currentUserAddCollection(CollectionDTO collectionDTO){
+    @Autowired
+    private ExecuteService executeService;
+
+    @Autowired
+    private InformService informService;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private TemplateEngineService templateEngineService;
+
+    @Autowired
+    private UserAccountService userAccountService;
+
+    public int currentUserAddCollection(CollectionDTO collectionDTO) {
 
         var currentUser = userService.getCurrentUser();
 
@@ -41,35 +69,95 @@ public class CollectionService {
         collection.setCollectionType(collectionDTO.getCollectionType());
         collection.setContentId(collectionDTO.getContentId());
 
+        informUser(collectionDTO,currentUser);
         return collectionMapper.insertNew(collection);
     }
 
-    public Collection selectByTypeAndContentId(CollectionTypeEnum typeEnum,Integer contentId,Integer userId){
-        return collectionMapper.selectByTypeAndContentIdAndUserId(typeEnum.getCode(),contentId,userId);
+    private void informUser(CollectionDTO collectionDTO,User collectUser) {
+        executeService.submit(() -> {
+
+            switch (CollectionTypeEnum.valueOf(collectionDTO.getCollectionType())) {
+                case CONTENT:
+                    // TODO
+                    Content content = contentService.selectRaw(collectionDTO.getContentId());
+                    informUserCollect(collectUser,content.getUser().getUserId(),
+                            "转笔内容",
+                            content.getTitle());
+                    break;
+                case VIDEO:
+                    // TODO
+                    break;
+                case COURSE:
+                    // TODO
+                    break;
+                default:
+                    log.error("未知收藏类型:"+collectionDTO.getCollectionType());
+            }
+        });
     }
 
-    public Map<Integer,CollectionCountDTO> selectCollectionCountBatchByType(
+    private void informUserCollect(User collectUser,Integer authorId,String type,String content){
+
+        var author = userService.selectByPrimaryKey(authorId);
+        if (author == null){
+            log.error("收藏通知用户不存在:{}",authorId);
+            return;
+        }
+
+        String nickName = collectUser.getUserInfo().getNickName();
+
+        var map = Map.of("user",nickName,
+                "time",TimeUtils.getStrTime(),
+                "type",type,
+                "content",content);
+        // 系统通知用户
+        String msg = templateEngineService.parseStr(TemplateEngineService.COLLECT_TEMPLATE,map);
+        informService.informUser(authorId,msg);
+
+        // 邮箱通知用户
+        String email = userAccountService.selectAccountName(UserAccountEnum.EMAIL,authorId);
+
+        if (email == null){
+            log.info("用户没有绑定邮箱,取消发送:{}",author);
+            return;
+        }
+
+        try {
+            String html = templateEngineService.parseModel("email/collectInform.html",map);
+            emailService.sendHtmlMail(email,"【转笔圈】收藏通知",html);
+        } catch (IOException | TemplateException | MessagingException e) {
+            log.error("发送邮件时发生异常：{}",e.getMessage());
+        }
+
+
+    }
+
+    public Collection selectByTypeAndContentId(CollectionTypeEnum typeEnum, Integer contentId, Integer userId) {
+        return collectionMapper.selectByTypeAndContentIdAndUserId(typeEnum.getCode(), contentId, userId);
+    }
+
+    public Map<Integer, CollectionCountDTO> selectCollectionCountBatchByType(
             CollectionTypeEnum typeEnum,
             List<Integer> contentIdList,
-            Integer userId){
+            Integer userId) {
 
-        if (contentIdList == null || contentIdList.size() == 0){
+        if (contentIdList == null || contentIdList.size() == 0) {
             return Map.of();
         }
 
-        var list = collectionMapper.selectCollectionCountBatchByType(typeEnum.getCode(),contentIdList,userId);
+        var list = collectionMapper.selectCollectionCountBatchByType(typeEnum.getCode(), contentIdList, userId);
 
-        Map<Integer,CollectionCountDTO> ret = new HashMap<>();
-        for (var i : list){
-            ret.put(i.getCollectionId(),i);
+        Map<Integer, CollectionCountDTO> ret = new HashMap<>();
+        for (var i : list) {
+            ret.put(i.getCollectionId(), i);
         }
         return ret;
     }
 
-    public List<CollectionVO> selectCurrentUserCollectionList(Page page){
+    public List<CollectionVO> selectCurrentUserCollectionList(Page page) {
         var currentUser = userService.getCurrentUser();
 
-        var collectionList = collectionMapper.selectPaging(currentUser.getUserId(),page);
+        var collectionList = collectionMapper.selectPaging(currentUser.getUserId(), page);
 
         List<CollectionVO> collectionVOList = collectionList.stream()
                 .map(CollectionVO::convert)
@@ -79,13 +167,13 @@ public class CollectionService {
                 .map(CollectionVO::getContentId)
                 .collect(Collectors.toList());
 
-        var countMap = selectCollectionCountBatchByType(CollectionTypeEnum.CONTENT,contentIdList,currentUser.getUserId());
+        var countMap = selectCollectionCountBatchByType(CollectionTypeEnum.CONTENT, contentIdList, currentUser.getUserId());
 
-        for (var i :collectionVOList){
+        for (var i : collectionVOList) {
 
             var countVO = countMap.get(i.getContentId());
 
-            if (countVO != null){
+            if (countVO != null) {
                 i.setCollectCount(countVO.getCollectionCount());
             }
         }
@@ -100,16 +188,16 @@ public class CollectionService {
 
         List<Integer> contentIdList = new ArrayList<>();
 
-        for (var i :collectionVOList){
-            if (i.getCollectionType().equals(CollectionTypeEnum.CONTENT.getCode())){
+        for (var i : collectionVOList) {
+            if (i.getCollectionType().equals(CollectionTypeEnum.CONTENT.getCode())) {
                 contentIdList.add(i.getContentId());
             }
         }
 
         var map = contentService.selectTitleBatch(contentIdList);
 
-        for (var i : collectionVOList){
-            if (i.getCollectionType().equals(CollectionTypeEnum.CONTENT.getCode())){
+        for (var i : collectionVOList) {
+            if (i.getCollectionType().equals(CollectionTypeEnum.CONTENT.getCode())) {
                 String title = map.get(i.getContentId());
                 i.setSummary(title);
             }
@@ -118,6 +206,6 @@ public class CollectionService {
 
     public List<Collection> select(Integer userId, Page page) {
 
-        return collectionMapper.selectPaging(userId,page);
+        return collectionMapper.selectPaging(userId, page);
     }
 }

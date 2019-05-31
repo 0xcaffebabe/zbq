@@ -13,10 +13,12 @@ import wang.ismy.zbq.model.dto.content.ContentDTO;
 import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.Comment;
 import wang.ismy.zbq.model.entity.Content;
+import wang.ismy.zbq.model.entity.Subscription;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.enums.CommentTypeEnum;
 import wang.ismy.zbq.enums.LikeTypeEnum;
 import wang.ismy.zbq.enums.PermissionEnum;
+import wang.ismy.zbq.model.vo.user.AuthorVO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.user.UserService;
@@ -54,6 +56,9 @@ public class ContentService {
     @Autowired
     private ExecuteService executeService;
 
+    @Autowired
+    private SubscriptionService subscriptionService;
+
     /**
      * 以当前登录用户身份发布内容，需要有PUBLISH_CONTENT权限
      *
@@ -84,9 +89,7 @@ public class ContentService {
         for (var i : contentList) {
             ContentVO vo = new ContentVO();
             BeanUtils.copyProperties(i, vo);
-            UserVO userVO = new UserVO();
-            userVO.setUserId(i.getUser().getUserId());
-            vo.setUser(userVO);
+            vo.setUser(AuthorVO.of(i.getUser().getUserId()));
             contentVOList.add(vo);
         }
 
@@ -95,7 +98,7 @@ public class ContentService {
 
         var task1 = executeService.submit(() -> addContentLikes(contentVOList, currentUser));
         var task2 = executeService.submit(() -> addContentCommentCount(contentVOList));
-        var task3 = executeService.submit(() -> addContentUser(contentVOList));
+        var task3 = executeService.submit(() -> addContentUser(contentVOList,currentUser));
         var task4 = executeService.submit(() -> addContentCollection(contentVOList, currentUser));
 
         try {
@@ -152,17 +155,25 @@ public class ContentService {
         }
     }
 
-    private void addContentUser(List<ContentVO> contentVOList) {
+    private void addContentUser(List<ContentVO> contentVOList,User currentUser) {
         var userIdList = contentVOList.stream()
                 .map(x -> x.getUser().getUserId())
                 .collect(Collectors.toList());
         var userList = userService.selectByUserIdBatch(userIdList);
 
+        var subscriptionList = subscriptionService.selectBatch(userIdList,currentUser.getUserId());
+
+        Map<Integer,Subscription> subscriptionMap = new HashMap<>();
+        for (var i : subscriptionList){
+            subscriptionMap.put(i.getAuthor().getUserId(),i);
+        }
         for (var i : contentVOList) {
             for (var j : userList) {
                 if (i.getUser().getUserId().equals(j.getUserId())) {
-                    UserVO userVO = UserVO.convert(j);
-                    i.setUser(userVO);
+                    AuthorVO authorVO = AuthorVO.convert(j);
+                    authorVO.setAttention(subscriptionMap.get(authorVO.getUserId()) != null);
+
+                    i.setUser(authorVO);
                     break;
                 }
             }
@@ -287,12 +298,16 @@ public class ContentService {
         if (user == null) {
             ErrorUtils.error(R.UNKNOWN_ERROR);
         }
-        UserVO userVO = UserVO.convert(user);
+        AuthorVO authorVO = AuthorVO.convert(user);
 
         ContentVO contentVO = new ContentVO();
         BeanUtils.copyProperties(content, contentVO);
-        contentVO.setUser(userVO);
+        contentVO.setUser(authorVO);
         return contentVO;
+    }
+
+    public Content selectRaw(Integer contentId){
+        return contentMapper.selectByPrimaryKey(contentId);
     }
 
     public Map<Integer, String> selectTitleBatch(List<Integer> contentIdList) {

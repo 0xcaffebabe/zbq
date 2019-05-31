@@ -1,18 +1,22 @@
 package wang.ismy.zbq.service.user;
 
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.user.UserStateVO;
 
+import javax.inject.Inject;
+
 /**
  * @author my
+ *
  */
 @Service
 public class UserStateService {
 
-    @Autowired
+    @Setter(onMethod_ = {@Inject})
     private UserService userService;
 
     public UserStateVO selectByUserId(Integer userId){

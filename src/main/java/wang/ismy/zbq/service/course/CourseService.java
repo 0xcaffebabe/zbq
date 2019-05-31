@@ -145,6 +145,7 @@ public class CourseService {
         return courseMapper.selectByPrimaryKey(courseId);
     }
 
+
     public void insertNew(CourseDTO courseDTO) {
 
         var currentUser = userService.getCurrentUser();

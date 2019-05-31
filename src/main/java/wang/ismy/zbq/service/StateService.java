@@ -194,6 +194,21 @@ public class StateService {
         return stateMapper.setInvisibleByPrimaryKey(stateId);
     }
 
+    public List<State> select(Integer userId, Page page) {
+        return stateMapper.selectStateByUserIdPaging(userId,page);
+    }
+
+    public List<State> selectBatch(List<Integer> stateIdList) {
+        if (stateIdList == null || stateIdList.size() == 0){
+            return List.of();
+        }
+        return stateMapper.selectBatch(stateIdList);
+    }
+
+    public State select(Integer stateId){
+        return stateMapper.selectByPrimaryKey(stateId);
+    }
+
     private List<Integer> getStateUserIdList(User currentUser) {
         var stateUserIdList = friendService.selectFriendListByUserId(currentUser.getUserId());
         stateUserIdList.add(currentUser.getUserId());
@@ -315,16 +330,7 @@ public class StateService {
 
     }
 
-    public List<State> select(Integer userId, Page page) {
-        return stateMapper.selectStateByUserIdPaging(userId,page);
-    }
 
-    public List<State> selectBatch(List<Integer> stateIdList) {
-        if (stateIdList == null || stateIdList.size() == 0){
-            return List.of();
-        }
-        return stateMapper.selectBatch(stateIdList);
-    }
 }
 
 

@@ -234,3 +234,10 @@ CREATE TABLE course_rating(
 )ENGINE=InnoDB CHARSET=utf8mb4;
 
 # 创建订阅关注表
+CREATE TABLE subscription(
+subscription_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+user INT NOT NULL,
+author INT NOT NULL,
+create_time DATETIME NOT NULL,
+update_time DATETIME
+)ENGINE=InnoDB CHARSET=utf8mb4;

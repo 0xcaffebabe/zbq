@@ -114,6 +114,11 @@ public class R {
 
     public static final String RATING_EXIST = "您已评分过了";
 
+    public static final String SUBSCRIPTION_EXIST = "已关注过了";
+
+    public static final String UNSUBSCRIBE_SUCCESS = "取消关注成功";
+
+    public static final String UNSUBSCRIBE = "还未关注";
 }
 
 

@@ -171,6 +171,39 @@ var content = new Vue({
                 }
             },{collectionType:1,contentId:content.contentId})
         }
+        ,
+        subscribeAuthor:function (author) {
+            var that = this;
+            common.ajax.put(common.data.subscribeAuthorUrl+author.userId,function (r) {
+                if (r.success){
+                    // 如果关注成功，则遍历本地所有content，这个author的关注状态全部设置为true
+                    that.contentList.forEach((e)=>{
+                        e.user.attention = true;
+                    })
+                }else{
+                    alert(r.msg);
+                }
+            });
+        }
+        ,
+        subscribeButtonHandler:function (author) {
+            if (author.attention){
+                var that = this;
+                common.ajax.delete(common.data.subscribeAuthorUrl+author.userId,function (r) {
+                    if (r.success){
+                        // 如果取消关注成功，则遍历本地所有content，这个author的关注状态全部设置为false
+                        that.contentList.forEach((e)=>{
+                            e.user.attention = false;
+                        })
+                    }else {
+                        alert(r.msg);
+                    }
+                })
+
+            }else{
+                this.subscribeAuthor(author);
+            }
+        }
 
     }
 });

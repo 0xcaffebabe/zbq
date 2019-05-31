@@ -180,7 +180,8 @@ function getCommonObject() {
             getCourseCommentListUrl:"/course/comment/",
             courseRatingUrl:"/course/rating",
             getCourseRatingListUrl:"/course/rating/",
-            getActionListUrl:"/user/action/"
+            getActionListUrl:"/user/action/",
+            subscribeAuthorUrl:"/subscription/"
 
 
         },

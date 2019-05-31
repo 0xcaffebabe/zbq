@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wang.ismy.zbq.dao.SubscriptionMapper">
+
+    <resultMap id="subscriptionMap" type="wang.ismy.zbq.model.entity.Subscription">
+        <id column="subscription_id" property="subscriptionId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <association property="author" javaType="wang.ismy.zbq.model.entity.user.User">
+            <id column="author" property="userId"/>
+        </association>
+        <association property="user" javaType="wang.ismy.zbq.model.entity.user.User">
+            <id column="user" property="userId"/>
+        </association>
+    </resultMap>
+
+    <insert id="insertNew">
+        INSERT INTO subscription(user,author,create_time)
+        VALUES (#{user.userId},#{author.userId},NOW())
+    </insert>
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM subscription
+        WHERE subscription_id = #{id}
+    </delete>
+
+    <select id="selectByUserAndAuthor" resultMap="subscriptionMap">
+        SELECT * FROM subscription
+        WHERE author = #{author} AND user = #{user}
+    </select>
+    <select id="selectByAuthorBatch" resultMap="subscriptionMap">
+        SELECT * FROM subscription
+        WHERE user = #{user}
+        AND author IN
+        <foreach collection="list" item="i" open="(" close=")" separator=",">
+            #{i}
+        </foreach>
+    </select>
+</mapper>

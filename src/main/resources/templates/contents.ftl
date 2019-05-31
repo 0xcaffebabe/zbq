@@ -31,6 +31,9 @@
             opacity: 0;
             transform: translateY(30px);
         }
+        .red{
+            color:red;
+        }
     </style>
 </head>
 
@@ -93,7 +96,10 @@
                         </div>
                         <div class="media-body">
                             <div style="float: right" class="btn btn-group">
-                                <a href="" style="color:red;font-weight: bold" @click.prevent="alert('暂未实现')">关注</a>
+                                <a href="" :class="{'red':!content.user.attention}" style="font-weight: bold" @click.prevent="subscribeButtonHandler(content.user)">
+                                    <span v-if="content.user.attention">已关注</span>
+                                    <span v-if="!content.user.attention">关注</span>
+                                </a>
 
                             </div>
                             <div style="margin-top: 15px;margin-left: 15px;">

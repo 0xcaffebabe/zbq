@@ -29,6 +29,7 @@ public class ControllerResultAspect {
             Result result = new Result();
             result.setSuccess(false);
             result.setMsg(throwable.getMessage());
+            throwable.printStackTrace();
             return result;
         }
     }

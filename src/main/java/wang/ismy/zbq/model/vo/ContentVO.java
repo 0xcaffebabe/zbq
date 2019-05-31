@@ -1,10 +1,14 @@
 package wang.ismy.zbq.model.vo;
 
 import lombok.Data;
+import wang.ismy.zbq.model.vo.user.AuthorVO;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author my
+ */
 @Data
 public class ContentVO {
     private Integer contentId;
@@ -13,7 +17,7 @@ public class ContentVO {
 
     private String content;
 
-    private UserVO user;
+    private AuthorVO user;
 
     private Long likeCount;
 

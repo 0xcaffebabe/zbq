@@ -53,6 +53,16 @@ public class UserAccountService {
         return accountMapper.selectByAccountTypeAndUserId(accountType.getCode(), userId);
     }
 
+    public String selectAccountName(UserAccountEnum accountType, Integer userId) {
+        var account = accountMapper.selectByAccountTypeAndUserId(accountType.getCode(), userId);
+        if (account == null)
+        {
+            return null;
+        }
+
+        return account.getAccountName();
+    }
+
     public void currentUserBindEmail(String email) {
         var currentUser = userService.getCurrentUser();
 

@@ -1,5 +1,7 @@
 package wang.ismy.zbq.service.user;
 
+import lombok.Data;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,12 +32,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author my
+ */
 @Service
+
 public class UserService {
 
 
     @Autowired
-    private UserMapper userMapper;
+    private UserMapper mapper;
 
     @Autowired
     private UserInfoService userInfoService;
@@ -70,7 +77,7 @@ public class UserService {
     public int createNewUser(RegisterDTO dto) {
         User user = generateUser(dto);
 
-        if (userMapper.selectByUsername(dto.getUsername()) != null) {
+        if (mapper.selectByUsername(dto.getUsername()) != null) {
             ErrorUtils.error(R.USERNAME_OCCUPY);
         }
         UserInfo userInfo = getDefaultUserInfo();
@@ -90,7 +97,7 @@ public class UserService {
         permissionService.insertPermission(userPermission);
         user.setUserPermission(userPermission);
 
-        int ret = userMapper.insert(user);
+        int ret = mapper.insert(user);
 
         // 插入一条登录权限
         if (loginACLService.insertNew(user.getUserId()) != 1) {
@@ -110,7 +117,7 @@ public class UserService {
         messageService.sendMessage(t, messageDTO);
         // 如果登录成功直接以当前用户登录
         if (ret == 1) {
-            User currentUser = userMapper.selectByUsername(dto.getUsername());
+            User currentUser = mapper.selectByUsername(dto.getUsername());
             setCurrentUser(currentUser);
         }
         return ret;
@@ -120,7 +127,7 @@ public class UserService {
 
     public void login(String username, String password,String ip) {
 
-        User user = userMapper.selectByUsername(username);
+        User user = mapper.selectByUsername(username);
         if (user == null) {
             ErrorUtils.error(R.USERNAME_NOT_EXIST);
         }
@@ -165,7 +172,7 @@ public class UserService {
     }
 
     public List<User> selectUserByUsernamePaging(String nickname, Page page) {
-        return userMapper.selectByNickNamePaging(nickname, page);
+        return mapper.selectByNickNamePaging(nickname, page);
     }
 
     public User selectByPrimaryKey(Integer userId) {
@@ -173,14 +180,14 @@ public class UserService {
         if (userId == null) {
             return null;
         }
-        return userMapper.selectByPrimaryKey(userId);
+        return mapper.selectByPrimaryKey(userId);
     }
 
     public List<User> selectByUserIdBatch(List<Integer> list) {
         if (list.size() == 0) {
             return List.of();
         }
-        return userMapper.selectByUserIdBatch(list);
+        return mapper.selectByUserIdBatch(list);
     }
 
     public boolean hasLogin() {
@@ -190,17 +197,17 @@ public class UserService {
     public void refreshCurrentUser() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-        User user = userMapper.selectByUsername(getCurrentUser().getUsername());
+        User user = mapper.selectByUsername(getCurrentUser().getUsername());
 
         request.getSession().setAttribute("user", user);
     }
 
     public List<User> selectAll() {
-        return userMapper.selectAll();
+        return mapper.selectAll();
     }
 
     public int update(User user){
-        return userMapper.update(user);
+        return mapper.update(user);
     }
 
     private User generateUser(RegisterDTO dto) {
@@ -217,13 +224,13 @@ public class UserService {
     }
 
     public User selectByUsername(String username){
-        return userMapper.selectByUsername(username);
+        return mapper.selectByUsername(username);
     }
     public void setCurrentUser(User user) {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         request.getSession().setAttribute("user", user);
 
-        executeService.submit(()-> userMapper.updateLastLogin(user.getUserId()));
+        executeService.submit(()-> mapper.updateLastLogin(user.getUserId()));
 
 
 
@@ -247,7 +254,7 @@ public class UserService {
 
     public long count() {
 
-        return userMapper.count();
+        return mapper.count();
     }
 
     public long countOnline(){
