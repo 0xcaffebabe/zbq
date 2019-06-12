@@ -1,8 +1,11 @@
 package wang.ismy.zbq.model.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+
+import lombok.NoArgsConstructor;
 import wang.ismy.zbq.model.vo.user.AuthorVO;
-import wang.ismy.zbq.model.vo.user.UserVO;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +13,11 @@ import java.time.LocalDateTime;
  * @author my
  */
 @Data
-public class ContentVO {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ContentVO  {
+
     private Integer contentId;
 
     private String title;

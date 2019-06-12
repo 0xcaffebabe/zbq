@@ -26,11 +26,6 @@ public class Page {
 
     }
 
-    @Override
-    public int hashCode(){
-        return 10*pageNumber+20*length;
-    }
-
     public static Page of(int pageNumber,int length){
 
         return new Page(pageNumber,length);

@@ -1,5 +1,7 @@
 package wang.ismy.zbq.service;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import wang.ismy.zbq.model.vo.CommentVO;
 import wang.ismy.zbq.model.vo.StateVO;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,22 +41,22 @@ import java.util.concurrent.Future;
 @Slf4j
 public class StateService {
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private UserService userService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private StateMapper stateMapper;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private FriendService friendService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private LikeService likeService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private CommentService commentService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private ExecuteService executeService;
 
 

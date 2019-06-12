@@ -1,6 +1,7 @@
 package wang.ismy.zbq.service;
 
 import freemarker.template.TemplateException;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.util.TimeUtils;
 
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,39 +40,29 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@Setter(onMethod_ = @Inject)
 public class CommentService {
 
-    @Autowired
     private CommentMapper mapper;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private ExecuteService executeService;
 
-    @Autowired
     private InformService informService;
 
-    @Autowired
     private StateService stateService;
 
-    @Autowired
     private ContentService contentService;
 
-    @Autowired
     private LessonService lessonService;
 
-    @Autowired
     private CourseService courseService;
 
-    @Autowired
     private TemplateEngineService templateEngineService;
 
-    @Autowired
     private EmailService emailService;
 
-    @Autowired
     private UserAccountService userAccountService;
 
     /**
@@ -82,7 +74,6 @@ public class CommentService {
      */
     public List<Comment> selectComments(CommentTypeEnum commentType,
                                         List<Integer> topicIds) {
-
         if (topicIds.size() == 0) {
             return List.of();
         }
@@ -199,28 +190,32 @@ public class CommentService {
             }
         }
 
-        informUser(comment, userService.getCurrentUser());
+        var currentUser = userService.getCurrentUser();
+        executeService.submit(() -> {
+            informUser(comment, currentUser);
+        });
+
         return mapper.insertNew(comment);
     }
 
     private void informUser(Comment comment, User commentUser) {
 
-        executeService.submit(() -> {
-
             switch (CommentTypeEnum.of(comment.getCommentType())) {
                 case STATE:
 
                     State state = stateService.select(comment.getTopicId());
-                    informUserComment(commentUser,
+
+                        informService.informUserComment(commentUser,
                             state.getUser().getUserId(),
                             comment, "笔圈动态",
                             state.getContent().length() >= 15 ?
                                     state.getContent().substring(0, 15) + "..." : state.getContent());
+
                     break;
                 case CONTENT:
 
                     Content content = contentService.selectRaw(comment.getTopicId());
-                    informUserComment(commentUser,
+                    informService.informUserComment(commentUser,
                             content.getUser().getUserId(),
                             comment, "转笔内容",
                             content.getTitle().length() >= 15 ?
@@ -236,58 +231,15 @@ public class CommentService {
 
                     var course = courseService.selectByPrimaryKey(lesson.getCourseId());
 
-                    informUserComment(commentUser,course.getPublisher().getUserId(),
+                    informService.informUserComment(commentUser,course.getPublisher().getUserId(),
                             comment,"课程",lesson.getLessonName());
 
                     break;
                 default:
             }
-        });
-    }
-
-    private void informUserComment(User commentUser, Integer authorUserId, Comment comment, String type, String content) {
-
-
-        var author = userService.selectByPrimaryKey(authorUserId);
-        if (author == null) {
-            log.error("评论通知用户不存在:{}", authorUserId);
-            return;
-        }
-
-        String commentContent = comment.getContent().length() >= 15 ?
-                comment.getContent().substring(0, 15) + "..." : comment.getContent();
-        String nickName = commentUser.getUserInfo().getNickName();
-
-        Map<String, Object> modelMap = Map.of("user", nickName,
-                "time", TimeUtils.getStrTime(),
-                "type", type,
-                "comment", commentContent,
-                "content", content);
-        // 系统通知用户
-        String msg = templateEngineService.parseStr(TemplateEngineService.COMMENT_TEMPLATE, modelMap);
-        informService.informUser(authorUserId, msg);
-
-        // 邮箱通知用户
-        String email = userAccountService.selectAccountName(UserAccountEnum.EMAIL, authorUserId);
-
-        if (email == null) {
-            log.info("用户没有绑定邮箱,取消发送:{}", authorUserId);
-            return;
-        }
-
-        try {
-            String html = templateEngineService.parseModel("email/commentInform.html",
-                    Map.of("username", nickName,
-                            "time", TimeUtils.getStrTime(),
-                            "type", type,
-                            "comment", commentContent,
-                            "content", content));
-            emailService.sendHtmlMail(email, "【转笔圈】评论通知", html);
-        } catch (IOException | TemplateException | MessagingException e) {
-            log.error("发送邮件时发生异常：{}", e.getMessage());
-        }
 
     }
+
 
     public List<Comment> select(Integer userId, Page page) {
 

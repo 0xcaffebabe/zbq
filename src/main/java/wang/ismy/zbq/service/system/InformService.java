@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service.system;
 
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,16 +8,21 @@ import org.springframework.transaction.annotation.Transactional;
 import wang.ismy.zbq.enums.InformTypeEnum;
 import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.model.dto.message.MessageDTO;
+import wang.ismy.zbq.model.entity.Comment;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.MessageService;
+import wang.ismy.zbq.service.TemplateEngineService;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserAccountService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
+import wang.ismy.zbq.util.TimeUtils;
 
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * 消息通知服务，此接口负责给用户下发消息
@@ -47,6 +53,9 @@ public class InformService {
 
     @Autowired
     private UserAccountService userAccountService;
+
+    @Autowired
+    private TemplateEngineService templateEngineService;
 
     @PostConstruct
     public void init() {
@@ -101,5 +110,49 @@ public class InformService {
             t.setUserId(0);
             messageService.sendMessage(t, messageDTO);
         });
+    }
+
+    public void informUserComment(User commentUser, Integer authorUserId,
+                                   Comment comment, String type, String content) {
+
+        var author = userService.selectByPrimaryKey(authorUserId);
+        if (author == null) {
+            log.error("评论通知用户不存在:{}", authorUserId);
+            return;
+        }
+
+        String commentContent = comment.getContent().length() >= 15 ?
+                comment.getContent().substring(0, 15) + "..." : comment.getContent();
+        String nickName = commentUser.getUserInfo().getNickName();
+
+        Map<String, Object> modelMap = Map.of("user", nickName,
+                "time", TimeUtils.getStrTime(),
+                "type", type,
+                "comment", commentContent,
+                "content", content);
+        // 系统通知用户
+        String msg = templateEngineService.parseStr(TemplateEngineService.COMMENT_TEMPLATE, modelMap);
+        informUser(authorUserId, msg);
+
+        // 邮箱通知用户
+        String email = userAccountService.selectAccountName(UserAccountEnum.EMAIL, authorUserId);
+
+        if (email == null) {
+            log.info("用户没有绑定邮箱,取消发送:{}", authorUserId);
+            return;
+        }
+
+        try {
+            String html = templateEngineService.parseModel("email/commentInform.html",
+                    Map.of("user", nickName,
+                            "time", TimeUtils.getStrTime(),
+                            "type", type,
+                            "comment", commentContent,
+                            "content", content));
+            emailService.sendHtmlMail(email, "【转笔圈】评论通知", html);
+        } catch (IOException | TemplateException | MessagingException e) {
+            log.error("发送邮件时发生异常：{}", e.getMessage());
+        }
+
     }
 }

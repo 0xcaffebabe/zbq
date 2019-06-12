@@ -1,6 +1,7 @@
 package wang.ismy.zbq.model.vo.user;
 
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 import wang.ismy.zbq.model.entity.user.User;
 
 /**

@@ -1,6 +1,7 @@
 package wang.ismy.zbq.service.user;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,42 +37,37 @@ import java.util.Map;
  * @author my
  */
 @Service
-
 public class UserService {
 
-
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private UserMapper mapper;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private UserInfoService userInfoService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private PermissionService permissionService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private LoginACLService loginACLService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private FriendService friendService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private MessageService messageService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private ExecuteService executeService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private UserLoginLogService userLoginLogService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private SessionListener sessionListener;
 
-    public void setTestUser(User testUser) {
-        this.testUser = testUser;
-    }
-
-    private User testUser;
+    @Setter(onMethod_ = @Inject)
+    private SessionService sessionService;
 
     @Transactional(rollbackFor = Exception.class)
     public int createNewUser(RegisterDTO dto) {
@@ -91,7 +87,6 @@ public class UserService {
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         user.setUserInfo(userInfo);
-
 
         UserPermission userPermission = getDefaultPermission();
         permissionService.insertPermission(userPermission);
@@ -123,9 +118,7 @@ public class UserService {
         return ret;
     }
 
-
-
-    public void login(String username, String password,String ip) {
+    public void login(String username, String password, String ip) {
 
         User user = mapper.selectByUsername(username);
         if (user == null) {
@@ -138,8 +131,7 @@ public class UserService {
 
         if (user.getPassword().equals(password)) {
             setCurrentUser(user);
-
-            UserLoginLog loginLog =new UserLoginLog();
+            UserLoginLog loginLog = new UserLoginLog();
             loginLog.setCreateTime(LocalDateTime.now());
             loginLog.setLoginIp(ip);
             loginLog.setLoginUser(user);
@@ -154,12 +146,7 @@ public class UserService {
     @MustLogin
     public User getCurrentUser() {
 
-        if (testUser != null){
-            return testUser;
-        }
-
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        Object user = request.getSession().getAttribute("user");
+        Object user = sessionService.getFromSession("user");
         if (user == null) {
             return null;
         }
@@ -195,19 +182,41 @@ public class UserService {
     }
 
     public void refreshCurrentUser() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
-        User user = mapper.selectByUsername(getCurrentUser().getUsername());
-
-        request.getSession().setAttribute("user", user);
+        sessionService.putInSession("user", mapper.selectByUsername(getCurrentUser().getUsername()));
     }
 
     public List<User> selectAll() {
         return mapper.selectAll();
     }
 
-    public int update(User user){
+    public int update(User user) {
         return mapper.update(user);
+    }
+
+    public User selectByUsername(String username) {
+        return mapper.selectByUsername(username);
+    }
+
+    public void setCurrentUser(User user) {
+        sessionService.putInSession("user", user);
+
+        executeService.submit(() -> mapper.updateLastLogin(user.getUserId()));
+
+    }
+
+    public long count() {
+        return mapper.count(); }
+
+    public long countOnline() {
+        return sessionListener.countOnLine();
+    }
+
+    public static Map<Integer, UserVO> userList2UserVOMap(List<User> userList) {
+        Map<Integer, UserVO> userVOMap = new HashMap<>();
+        userList.forEach(e -> {
+            userVOMap.put(e.getUserId(), UserVO.convert(e));
+        });
+        return userVOMap;
     }
 
     private User generateUser(RegisterDTO dto) {
@@ -223,18 +232,6 @@ public class UserService {
         return userPermission;
     }
 
-    public User selectByUsername(String username){
-        return mapper.selectByUsername(username);
-    }
-    public void setCurrentUser(User user) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        request.getSession().setAttribute("user", user);
-
-        executeService.submit(()-> mapper.updateLastLogin(user.getUserId()));
-
-
-
-    }
 
     private UserInfo getDefaultUserInfo() {
         UserInfo userInfo = new UserInfo();
@@ -250,23 +247,6 @@ public class UserService {
         userInfo.setUpdateTime(LocalDateTime.now());
 
         return userInfo;
-    }
-
-    public long count() {
-
-        return mapper.count();
-    }
-
-    public long countOnline(){
-        return sessionListener.countOnLine();
-    }
-
-    public static Map<Integer,UserVO> userList2UserVOMap(List<User> userList){
-        Map<Integer,UserVO> userVOMap = new HashMap<>();
-        userList.forEach(e->{
-            userVOMap.put(e.getUserId(),UserVO.convert(e));
-        });
-        return userVOMap;
     }
 
 

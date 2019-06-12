@@ -1,10 +1,21 @@
 package wang.ismy.zbq.model.entity.like;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import wang.ismy.zbq.model.entity.user.User;
 
 import java.time.LocalDateTime;
 
 
+/**
+ * @author my
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Like {
 
     private Integer likeId;
@@ -19,51 +30,4 @@ public class Like {
 
     private LocalDateTime updateTime;
 
-    public Integer getLikeId() {
-        return likeId;
-    }
-
-    public void setLikeId(Integer likeId) {
-        this.likeId = likeId;
-    }
-
-    public Integer getLikeType() {
-        return likeType;
-    }
-
-    public void setLikeType(Integer likeType) {
-        this.likeType = likeType;
-    }
-
-    public Integer getContentId() {
-        return contentId;
-    }
-
-    public void setContentId(Integer contentId) {
-        this.contentId = contentId;
-    }
-
-    public User getLikeUser() {
-        return likeUser;
-    }
-
-    public void setLikeUser(User likeUser) {
-        this.likeUser = likeUser;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
 }

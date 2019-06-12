@@ -29,8 +29,6 @@ public class CommentVO {
 
     private LocalDateTime updateTime;
 
-
-
     public static CommentVO convert(Comment comment){
         CommentVO commentVO = new CommentVO();
         BeanUtils.copyProperties(comment,commentVO);

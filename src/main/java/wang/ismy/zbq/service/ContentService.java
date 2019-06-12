@@ -1,5 +1,7 @@
 package wang.ismy.zbq.service;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import wang.ismy.zbq.model.vo.CommentVO;
 import wang.ismy.zbq.model.vo.ContentVO;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
+import javax.inject.Inject;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -36,27 +39,28 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+
 public class ContentService {
 
-    @Autowired
-    private ContentMapper contentMapper;
+    @Setter(onMethod_ = @Inject)
+    private ContentMapper mapper;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private UserService userService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private LikeService likeService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private CommentService commentService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private CollectionService collectionService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private ExecuteService executeService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private SubscriptionService subscriptionService;
 
     /**
@@ -70,7 +74,7 @@ public class ContentService {
         Content content = new Content();
         BeanUtils.copyProperties(contentDTO, content);
         content.setUser(currentUser);
-        if (contentMapper.insertNew(content) != 1) {
+        if (mapper.insertNew(content) != 1) {
             ErrorUtils.error(R.UNKNOWN_ERROR);
         }
     }
@@ -83,7 +87,7 @@ public class ContentService {
      */
     public List<ContentVO> pullContents(Page page) {
         long time = System.currentTimeMillis();
-        var contentList = contentMapper.selectContentListPaging(page);
+        var contentList = mapper.selectContentListPaging(page);
 
         List<ContentVO> contentVOList = new ArrayList<>();
         for (var i : contentList) {
@@ -93,12 +97,11 @@ public class ContentService {
             contentVOList.add(vo);
         }
 
-
         var currentUser = userService.getCurrentUser();
 
         var task1 = executeService.submit(() -> addContentLikes(contentVOList, currentUser));
         var task2 = executeService.submit(() -> addContentCommentCount(contentVOList));
-        var task3 = executeService.submit(() -> addContentUser(contentVOList,currentUser));
+        var task3 = executeService.submit(() -> addContentUser(contentVOList, currentUser));
         var task4 = executeService.submit(() -> addContentCollection(contentVOList, currentUser));
 
         try {
@@ -114,29 +117,6 @@ public class ContentService {
 
     }
 
-    private void addContentCollection(List<ContentVO> contentVOList, User currentUser) {
-        var contentIdList = contentVOList.stream()
-                .map(ContentVO::getContentId)
-                .collect(Collectors.toList());
-
-        var map = collectionService.selectCollectionCountBatchByType(CollectionTypeEnum.CONTENT,
-                contentIdList, currentUser.getUserId());
-
-        for (var i : contentVOList) {
-
-            var collectionCount = map.get(i.getContentId());
-
-            if (collectionCount != null) {
-                i.setCollectCount(collectionCount.getCollectionCount());
-                i.setHasCollect(collectionCount.getHasCollect());
-            } else {
-                i.setCollectCount(0L);
-                i.setHasCollect(false);
-            }
-
-        }
-    }
-
     public void currentUserCollectContent(CollectionDTO collectionDTO) {
 
         if (collectionService.selectByTypeAndContentId(CollectionTypeEnum.CONTENT,
@@ -145,53 +125,14 @@ public class ContentService {
             ErrorUtils.error(R.COLLECT_EXIST);
         }
 
-        if (collectionDTO.getCollectionType().equals(CollectionTypeEnum.CONTENT.getCode())) {
+        if (collectionDTO.getCollectionType()
+                .equals(CollectionTypeEnum.CONTENT.getCode())) {
             if (collectionService.currentUserAddCollection(collectionDTO) != 1) {
                 ErrorUtils.error(R.COLLECT_FAIL);
             }
 
         } else {
             ErrorUtils.error(R.TYPE_NOT_MATCH);
-        }
-    }
-
-    private void addContentUser(List<ContentVO> contentVOList,User currentUser) {
-        var userIdList = contentVOList.stream()
-                .map(x -> x.getUser().getUserId())
-                .collect(Collectors.toList());
-        var userList = userService.selectByUserIdBatch(userIdList);
-
-        var subscriptionList = subscriptionService.selectBatch(userIdList,currentUser.getUserId());
-
-        Map<Integer,Subscription> subscriptionMap = new HashMap<>();
-        for (var i : subscriptionList){
-            subscriptionMap.put(i.getAuthor().getUserId(),i);
-        }
-        for (var i : contentVOList) {
-            for (var j : userList) {
-                if (i.getUser().getUserId().equals(j.getUserId())) {
-                    AuthorVO authorVO = AuthorVO.convert(j);
-                    authorVO.setAttention(subscriptionMap.get(authorVO.getUserId()) != null);
-
-                    i.setUser(authorVO);
-                    break;
-                }
-            }
-        }
-    }
-
-    private void addContentCommentCount(List<ContentVO> contentVOList) {
-
-        var list = contentVOList.stream()
-                .map(ContentVO::getContentId)
-                .collect(Collectors.toList());
-
-        var map = commentService.selectCommentCount(CommentTypeEnum.CONTENT, list);
-
-        for (var i : contentVOList) {
-            if (map.get(i.getContentId()) != null) {
-                i.setCommentCount(map.get(i.getContentId()));
-            }
         }
     }
 
@@ -221,6 +162,126 @@ public class ContentService {
         return commentVOList;
 
     }
+
+
+    public ContentVO selectByPrimaryKey(Integer contentId) {
+        Content content = mapper.selectByPrimaryKey(contentId);
+
+        User user = userService.selectByPrimaryKey(content.getUser().getUserId());
+
+        if (user == null) {
+            ErrorUtils.error(R.UNKNOWN_ERROR);
+        }
+        AuthorVO authorVO = AuthorVO.convert(user);
+
+        ContentVO contentVO = new ContentVO();
+        BeanUtils.copyProperties(content, contentVO);
+        contentVO.setUser(authorVO);
+        return contentVO;
+    }
+
+    public Content selectRaw(Integer contentId) {
+        return mapper.selectByPrimaryKey(contentId);
+    }
+
+    public Map<Integer, String> selectTitleBatch(List<Integer> contentIdList) {
+        if (contentIdList == null || contentIdList.size() == 0) {
+            return Map.of();
+        }
+
+        var list = mapper.selectBatch(contentIdList);
+
+        Map<Integer, String> map = new HashMap<>();
+        for (var i : list) {
+            map.put(i.getContentId(), i.getTitle());
+        }
+
+        return map;
+    }
+
+    /**
+     * 根据用户ID分页查询
+     *
+     * @param userId 用户ID
+     * @param page   分页组件
+     * @return 内容列表
+     */
+    public List<Content> select(Integer userId, Page page) {
+
+        return mapper.selectByUserIdPaging(userId, page);
+    }
+
+    public List<Content> selectBatch(List<Integer> contentIdList) {
+        if (contentIdList == null || contentIdList.size() == 0) {
+            return List.of();
+        }
+        return mapper.selectBatch(contentIdList);
+    }
+
+    private void addContentCollection(List<ContentVO> contentVOList, User currentUser) {
+        var contentIdList = contentVOList.stream()
+                .map(ContentVO::getContentId)
+                .collect(Collectors.toList());
+
+        var map = collectionService.selectCollectionCountBatchByType(CollectionTypeEnum.CONTENT,
+                contentIdList, currentUser.getUserId());
+
+        for (var i : contentVOList) {
+
+            var collectionCount = map.get(i.getContentId());
+
+            if (collectionCount != null) {
+                i.setCollectCount(collectionCount.getCollectionCount());
+                i.setHasCollect(collectionCount.getHasCollect());
+            } else {
+                i.setCollectCount(0L);
+                i.setHasCollect(false);
+            }
+
+        }
+    }
+
+
+    private void addContentUser(List<ContentVO> contentVOList, User currentUser) {
+        var userIdList = contentVOList.stream()
+                .map(x -> x.getUser().getUserId())
+                .collect(Collectors.toList());
+        var userList = userService.selectByUserIdBatch(userIdList);
+
+        var subscriptionList = subscriptionService.selectBatch(userIdList, currentUser.getUserId());
+
+        Map<Integer, Subscription> subscriptionMap = new HashMap<>();
+        for (var i : subscriptionList) {
+            subscriptionMap.put(i.getAuthor().getUserId(), i);
+        }
+        for (var i : contentVOList) {
+            for (var j : userList) {
+                if (i.getUser().getUserId().equals(j.getUserId())) {
+                    AuthorVO authorVO = AuthorVO.convert(j);
+                    authorVO.setAttention(subscriptionMap.get(authorVO.getUserId()) != null);
+
+                    i.setUser(authorVO);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void addContentCommentCount(List<ContentVO> contentVOList) {
+
+        var list = contentVOList.stream()
+                .map(ContentVO::getContentId)
+                .collect(Collectors.toList());
+
+        var map = commentService.selectCommentCount(CommentTypeEnum.CONTENT, list);
+
+        for (var i : contentVOList) {
+            if (map.get(i.getContentId()) != null) {
+                i.setCommentCount(map.get(i.getContentId()));
+            }
+        }
+    }
+
 
     private void addContentCommentUser(List<CommentVO> commentVOList) {
 
@@ -254,8 +315,6 @@ public class ContentService {
     }
 
     private void addContentLikes(List<ContentVO> contentVOList, User currentUser) {
-
-
         List<Integer> contentIdList = new ArrayList<>();
 
         for (var i : contentVOList) {
@@ -290,57 +349,4 @@ public class ContentService {
     }
 
 
-    public ContentVO selectByPrimaryKey(Integer contentId) {
-        Content content = contentMapper.selectByPrimaryKey(contentId);
-
-        User user = userService.selectByPrimaryKey(content.getUser().getUserId());
-
-        if (user == null) {
-            ErrorUtils.error(R.UNKNOWN_ERROR);
-        }
-        AuthorVO authorVO = AuthorVO.convert(user);
-
-        ContentVO contentVO = new ContentVO();
-        BeanUtils.copyProperties(content, contentVO);
-        contentVO.setUser(authorVO);
-        return contentVO;
-    }
-
-    public Content selectRaw(Integer contentId){
-        return contentMapper.selectByPrimaryKey(contentId);
-    }
-
-    public Map<Integer, String> selectTitleBatch(List<Integer> contentIdList) {
-        if (contentIdList == null || contentIdList.size() == 0) {
-            return Map.of();
-        }
-
-        var list = contentMapper.selectBatch(contentIdList);
-
-        Map<Integer, String> map = new HashMap<>();
-        for (var i : list) {
-            map.put(i.getContentId(), i.getTitle());
-        }
-
-        return map;
-    }
-
-    /**
-     * 根据用户ID分页查询
-     *
-     * @param userId 用户ID
-     * @param page   分页组件
-     * @return 内容列表
-     */
-    public List<Content> select(Integer userId, Page page) {
-
-        return contentMapper.selectByUserIdPaging(userId,page);
-    }
-
-    public List<Content> selectBatch(List<Integer> contentIdList) {
-        if (contentIdList == null || contentIdList.size() == 0){
-            return List.of();
-        }
-        return contentMapper.selectBatch(contentIdList);
-    }
 }
