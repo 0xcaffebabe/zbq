@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service.course;
 
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.course.LearningMapper;
@@ -9,10 +10,12 @@ import wang.ismy.zbq.model.entity.course.Course;
 import wang.ismy.zbq.model.entity.course.Learning;
 import wang.ismy.zbq.model.entity.course.Lesson;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.course.LearningVO;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -22,19 +25,18 @@ import java.util.stream.Collectors;
  * @author my
  */
 @Service
+@Setter(onMethod_ = @Inject)
 public class LearningService {
 
-    @Autowired
     private LearningMapper learningMapper;
 
-    @Autowired
     private LessonService lessonService;
 
-    @Autowired
     private CourseService courseService;
 
-    @Autowired
     private UserService userService;
+
+    private ExecuteService executeService;
 
     /**
      * 以当前登录用户的身份创建一条学习记录
@@ -103,8 +105,7 @@ public class LearningService {
     public Learning selectSelfLearning(Integer lessonId) {
 
         var currentUser = userService.getCurrentUser();
-        Learning learning = learningMapper.selectByUserIdAndLessonId(currentUser.getUserId(), lessonId);
-        return learning;
+        return learningMapper.selectByUserIdAndLessonId(currentUser.getUserId(), lessonId);
     }
 
     /**
@@ -123,7 +124,11 @@ public class LearningService {
         return new BigDecimal(((double) learningCount) / lessonCount * 100).setScale(2, RoundingMode.HALF_DOWN);
     }
 
-
+    /**
+     * 批量计算当前登录用户课程学习进度
+     * @param courseIdList 课程ID列表
+     * @return 课程ID-进度表
+     */
     public Map<Integer, BigDecimal> calcCurrentUserLearningProgressInBatch(List<Integer> courseIdList) {
         var currentUser = userService.getCurrentUser();
 
@@ -167,12 +172,8 @@ public class LearningService {
 
         Map<Integer, Boolean> ret = new HashMap<>();
 
-        lessonIdList.stream().forEach(e -> {
-            ret.put(e, false);
-        });
-        list.forEach(e -> {
-            ret.put(e.getLessonId(), true);
-        });
+        lessonIdList.forEach(e -> ret.put(e, false));
+        list.forEach(e -> ret.put(e.getLessonId(), true));
         return ret;
     }
 
@@ -199,16 +200,12 @@ public class LearningService {
     public Map<Integer, Long> countLearningByUserIdAndCourseIdList(Integer userId, List<Integer> courseIdList) {
 
         var list = learningMapper.countLearningByUserIdAndCourseIdList(userId, courseIdList);
-
-
         Map<Integer, Long> ret = new HashMap<>();
 
         for (Integer integer : courseIdList) {
 
             ret.put(integer, 0L);
         }
-
-
         for (var i : list) {
             ret.put((Integer) i.get("course_id"), (Long) i.get("COUNT(1)"));
         }
@@ -245,6 +242,10 @@ public class LearningService {
         addLearningProgress(learningVOCourseMap);
 
         return new ArrayList<>(learningVOCourseMap.values());
+    }
+
+    public List<Learning> select(Integer userId, Page page) {
+        return learningMapper.selectByUserPaging(userId,page);
     }
 
     public Long countLearningByCourseId(Integer courseId){
@@ -284,8 +285,4 @@ public class LearningService {
 
     }
 
-
-    public List<Learning> select(Integer userId, Page page) {
-        return learningMapper.selectByUserPaging(userId,page);
-    }
 }

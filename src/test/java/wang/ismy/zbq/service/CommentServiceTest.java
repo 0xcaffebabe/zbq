@@ -14,7 +14,10 @@ import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.model.dto.CommentCountDTO;
 import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.Comment;
+import wang.ismy.zbq.model.entity.Content;
 import wang.ismy.zbq.model.entity.State;
+import wang.ismy.zbq.model.entity.course.Course;
+import wang.ismy.zbq.model.entity.course.Lesson;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.model.entity.user.UserInfo;
 import wang.ismy.zbq.resources.R;
@@ -175,37 +178,8 @@ class CommentServiceTest {
     class 用户通知测试集 {
 
         /**
-         * @see CommentService#informUserComment(User, Integer, Comment, String, String)
+         * @see CommentService#informUser(Comment, User)
          */
-        @Test
-        public void 测试通知发送() throws Throwable {
-            User commentUser = User.builder().userId(1).
-                    userInfo(UserInfo.builder().nickName("用户1").build()).build();
-            Integer authorId = 2;
-            Comment comment = Comment.builder().
-                    fromUser(commentUser).content("测试评论").build();
-            String type = "类型";
-            String content = "主题";
-
-            when(userService.selectByPrimaryKey(eq(authorId))).thenReturn(User.convert(authorId));
-            when(templateEngineService.parseStr(eq(TemplateEngineService.COMMENT_TEMPLATE), argThat(map ->
-                    map.size() == 5
-            ))).thenReturn("测试消息");
-            when(userAccountService.selectAccountName(eq(UserAccountEnum.EMAIL), eq(authorId)))
-                    .thenReturn("测试邮箱");
-            when(templateEngineService.parseModel(eq("email/commentInform.html"), argThat(map ->
-                    map.size() == 5
-            ))).thenReturn("测试模板");
-
-            var method = commentService.getClass().getDeclaredMethod("informUserComment", User.class,
-                    Integer.class, Comment.class, String.class, String.class);
-            method.setAccessible(true);
-            method.invoke(commentService, commentUser, authorId, comment, type, content);
-
-            verify(informService).informUser(eq(authorId), eq("测试消息"));
-            verify(emailService).sendHtmlMail(eq("测试邮箱"), eq("【转笔圈】评论通知"), eq("测试模板"));
-        }
-
         @Nested
         class 用户通知情况测试集 {
 
@@ -244,6 +218,71 @@ class CommentServiceTest {
 
                 assertEquals(comment.getFromUser(), commentUser);
                 verify(informService).informUserComment(eq(commentUser),eq(1),argThat(com->com == comment),eq("笔圈动态"),eq("测试动态"));
+            }
+            @Test
+            public void 测试内容评论通知() throws Throwable {
+
+                Comment comment = Comment.builder()
+                        .commentId(1)
+                        .content("测试评论")
+                        .fromUser(User.convert(1))
+                        .toUser(User.convert(2))
+                        .topicId(1)
+                        .commentType(CommentTypeEnum.CONTENT.getCode())
+                        .build();
+
+                User commentUser = User.builder()
+                        .userId(1)
+                        .userInfo(UserInfo.builder().nickName("用户1").build())
+                        .build();
+                when(contentService.selectRaw(eq(comment.getTopicId())))
+                        .thenReturn(
+                                Content.builder()
+                                        .user(User.convert(1))
+                                .content("测试内容")
+                                .title("测试标题")
+                                .build()
+                        );
+
+                var method = commentService.getClass().getDeclaredMethod("informUser", Comment.class, User.class);
+                method.setAccessible(true);
+                method.invoke(commentService, comment,commentUser);
+
+                assertEquals(comment.getFromUser(), commentUser);
+                verify(informService).informUserComment(eq(commentUser),eq(1),argThat(com->com == comment),eq("转笔内容"),eq("测试标题"));
+            }
+
+            @Test
+            public void 测试课程评论通知() throws Throwable {
+                Comment comment = Comment.builder()
+                        .commentId(1)
+                        .content("测试评论")
+                        .fromUser(User.convert(1))
+                        .toUser(User.convert(2))
+                        .topicId(1)
+                        .commentType(CommentTypeEnum.LESSON.getCode())
+                        .build();
+
+                User commentUser = User.builder()
+                        .userId(1)
+                        .userInfo(UserInfo.builder().nickName("用户1").build())
+                        .build();
+                when(lessonService.selectRawByPrimaryKey(eq(comment.getTopicId())))
+                        .thenReturn(
+                                Lesson.builder().lessonName("测试章节").courseId(1).build()
+                        );
+                when(courseService.selectByPrimaryKey(eq(1))).thenReturn(
+                        Course.builder().courseName("测试课程")
+                                .publisher(User.builder().userId(2).build())
+                                .build()
+                );
+
+                var method = commentService.getClass().getDeclaredMethod("informUser", Comment.class, User.class);
+                method.setAccessible(true);
+                method.invoke(commentService, comment,commentUser);
+
+                assertEquals(comment.getFromUser(), commentUser);
+                verify(informService).informUserComment(eq(commentUser),eq(2),argThat(com->com == comment),eq("课程"),eq("测试章节"));
             }
         }
     }

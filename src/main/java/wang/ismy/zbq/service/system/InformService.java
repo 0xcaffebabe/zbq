@@ -1,6 +1,7 @@
 package wang.ismy.zbq.service.system;
 
 import freemarker.template.TemplateException;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.util.TimeUtils;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Map;
@@ -32,29 +34,23 @@ import java.util.Map;
  */
 @Service
 @Slf4j
+@Setter(onMethod_ =@Inject)
 public class InformService {
 
     private static final String SYSTEM_ACCOUNT_USERNAME = "10000";
 
-    @Autowired
     private MessageService messageService;
 
-    @Autowired
     private FriendService friendService;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private ExecuteService executeService;
 
-    @Autowired
     private EmailService emailService;
 
-    @Autowired
     private UserAccountService userAccountService;
 
-    @Autowired
     private TemplateEngineService templateEngineService;
 
     @PostConstruct

@@ -37,6 +37,11 @@ public interface LearningMapper {
                                                                         @Param("courseId") Integer courseId,
                                                                         @Param("list") List<Integer> idList);
 
+    /**
+     * 根据课程ID列表批量查询学习人数
+     * @param courseIdList 课程ID列表
+     * @return 学习人数传输对象
+     */
     List<LearningNumberDTO> selectLearningNumberByCourseIdList(List<Integer> courseIdList);
 
     List<Map<String, Object>> countLearningByUserIdAndCourseIdList(@Param("userId") Integer userId,
