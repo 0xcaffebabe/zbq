@@ -10,6 +10,11 @@ public interface CourseMapper {
 
     Course selectByPrimaryKey(Integer courseId);
 
+    /**
+     * 获取某用户发布的课程列表
+     * @param userId 用户ID
+     * @return 课程列表
+     */
     List<Course> selectByUserId(Integer userId);
 
     int insertNew(Course course);

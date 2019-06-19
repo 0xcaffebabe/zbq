@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service.course;
 
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,89 +16,41 @@ import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * @author my
+ */
 @Service
+@Setter(onMethod_ =@Inject)
 public class CourseService {
 
-    @Autowired
-    private CourseMapper courseMapper;
+    private CourseMapper mapper;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private LessonService lessonService;
 
-    @Autowired
     private LearningService learningService;
 
-    @Autowired
     private CommentService commentService;
 
     public List<CourseVO> selectAll() {
-        var list = courseMapper.selectAll();
+        var list = mapper.selectAll();
 
-        List<CourseVO> ret = getCourseVOList(list);
-        return ret;
-    }
-
-    private List<CourseVO> getCourseVOList(List<Course> list) {
-        var userIdList = list.stream()
-                .map(i -> i.getPublisher().getUserId())
-                .collect(Collectors.toList());
-
-        var userList = userService.selectByUserIdBatch(userIdList);
-
-        List<CourseVO> ret = new ArrayList<>();
-        for (var i : list) {
-            for (var j : userList) {
-                if (j.equals(i.getPublisher())) {
-                    CourseVO courseVO = CourseVO.convert(i);
-                    UserVO userVO = UserVO.convert(j);
-                    courseVO.setPublisher(userVO);
-                    ret.add(courseVO);
-                    break;
-                }
-            }
-        }
-
-        addLearningNumber(ret);
-        addLearningProgress(ret);
-        return ret;
-    }
-
-    private void addLearningProgress(List<CourseVO> ret) {
-        var courseIdList = ret.stream()
-                .map(CourseVO::getCourseId)
-                .collect(Collectors.toList());
-        var map = learningService.calcCurrentUserLearningProgressInBatch(courseIdList);
-
-        ret.forEach(e->{
-            e.setCurrentProgress(map.get(e.getCourseId()));
-        });
-    }
-
-    private void addLearningNumber(List<CourseVO> ret) {
-        var courseIdList = ret.stream()
-                .map(CourseVO::getCourseId).collect(Collectors.toList());
-        var map = learningService.selectLearningNumberByCourseIdList(courseIdList);
-
-        for (CourseVO courseVO : ret) {
-
-            courseVO.setLearningNumber(map.get(courseVO.getCourseId()));
-        }
+        return getCourseVOList(list);
     }
 
     public CourseLessonVO selectCourseLessonByCourseId(Integer courseId) {
 
         var currentUser = userService.getCurrentUser();
 
-        Course course = courseMapper.selectByPrimaryKey(courseId);
+        Course course = mapper.selectByPrimaryKey(courseId);
 
         UserVO author = UserVO.convert(userService.selectByPrimaryKey(course.getPublisher().getUserId()));
         CourseLessonVO courseLessonVO = CourseLessonVO.convert(course);
@@ -112,19 +65,17 @@ public class CourseService {
 
         var map = learningService.selectLearningState(currentUser.getUserId(),courseId,lessonIdList);
 
-        list.stream().forEach(e->{
-            e.setHasLearn(map.get(e.getLessonId()));
-        });
+        list.forEach(e-> e.setHasLearn(map.get(e.getLessonId())));
 
         courseLessonVO.setLessonList(list);
 
         return courseLessonVO;
     }
 
-    public List<CourseVO> selectCurrentUserCourseListByUserId(){
+    public List<CourseVO> selectCurrentUserCourseList(){
         var currentUser = userService.getCurrentUser();
 
-        var list = courseMapper.selectByUserId(currentUser.getUserId());
+        var list = mapper.selectByUserId(currentUser.getUserId());
 
         var userVO = UserVO.convert(currentUser);
 
@@ -142,9 +93,8 @@ public class CourseService {
     }
 
     public Course selectByPrimaryKey(Integer courseId){
-        return courseMapper.selectByPrimaryKey(courseId);
+        return mapper.selectByPrimaryKey(courseId);
     }
-
 
     public void insertNew(CourseDTO courseDTO) {
 
@@ -153,7 +103,7 @@ public class CourseService {
         BeanUtils.copyProperties(courseDTO,course);
         course.setPublisher(currentUser);
 
-        if (courseMapper.insertNew(course) != 1){
+        if (mapper.insertNew(course) != 1){
             ErrorUtils.error(R.UNKNOWN_ERROR);
         }
 
@@ -165,12 +115,12 @@ public class CourseService {
             return List.of();
         }
 
-        return courseMapper.selectCourseListBatch(courseIdList);
+        return mapper.selectCourseListBatch(courseIdList);
     }
 
     public List<UserVO> selectClassmatesByCourseId(Integer courseId){
 
-        var userIdList = courseMapper.selectUserIdListByCourseId(courseId);
+        var userIdList = mapper.selectUserIdListByCourseId(courseId);
         var userList = userService.selectByUserIdBatch(userIdList);
         return userList
                 .stream()
@@ -181,7 +131,7 @@ public class CourseService {
 
     public List<CourseCommentVO> selectComment(Integer courseId, Page page){
 
-        if (courseMapper.selectByPrimaryKey(courseId) == null){
+        if (mapper.selectByPrimaryKey(courseId) == null){
             ErrorUtils.error(R.TARGET_COURSE_NOT_EXIST);
         }
 
@@ -222,6 +172,26 @@ public class CourseService {
         }
     }
 
+    private void addLearningProgress(List<CourseVO> ret) {
+        var courseIdList = ret.stream()
+                .map(CourseVO::getCourseId)
+                .collect(Collectors.toList());
+        var map = learningService.calcCurrentUserLearningProgressInBatch(courseIdList);
+
+        ret.forEach(e-> e.setCurrentProgress(map.get(e.getCourseId())));
+    }
+
+    private void addLearningNumber(List<CourseVO> ret) {
+        var courseIdList = ret.stream()
+                .map(CourseVO::getCourseId).collect(Collectors.toList());
+        var map = learningService.selectLearningNumberByCourseIdList(courseIdList);
+
+        for (CourseVO courseVO : ret) {
+
+            courseVO.setLearningNumber(map.get(courseVO.getCourseId()));
+        }
+    }
+
     private void addUserVO(List<CourseCommentVO> courseCommentVOList) {
 
         List<Integer> userIdList = new ArrayList<>();
@@ -250,5 +220,28 @@ public class CourseService {
 
     }
 
+    private List<CourseVO> getCourseVOList(List<Course> list) {
+        var userIdList = list.stream()
+                .map(i -> i.getPublisher().getUserId())
+                .collect(Collectors.toList());
 
+        var userList = userService.selectByUserIdBatch(userIdList);
+
+        List<CourseVO> ret = new ArrayList<>();
+        for (var i : list) {
+            for (var j : userList) {
+                if (j.equals(i.getPublisher())) {
+                    CourseVO courseVO = CourseVO.convert(i);
+                    UserVO userVO = UserVO.convert(j);
+                    courseVO.setPublisher(userVO);
+                    ret.add(courseVO);
+                    break;
+                }
+            }
+        }
+
+        addLearningNumber(ret);
+        addLearningProgress(ret);
+        return ret;
+    }
 }

@@ -68,6 +68,9 @@ class LearningServiceTest {
 
     }
 
+    /**
+     * @see LearningService#deleteLearning(Integer)
+     */
     @Test
     public void 测试删除学习记录() {
         when(learningMapper.selectByPrimaryKey(eq(1))).thenReturn(
@@ -81,6 +84,9 @@ class LearningServiceTest {
         learningService.deleteLearning(1);
     }
 
+    /**
+     * @see LearningService#calcLearningProgress(Integer)
+     */
     @Test
     public void 测试计算课程学习进度() {
         when(userService.getCurrentUser()).thenReturn(User.convert(1));
@@ -95,8 +101,11 @@ class LearningServiceTest {
         assertEquals(bd, learningService.calcLearningProgress(1));
     }
 
+    /**
+     * @see LearningService#calcCurrentUserLearningProgressInBatch(List)
+     */
     @Test
-    public void 测试批量计算课程学习进度() {
+    public void 测试批量计算当前用户课程学习进度() {
 
         var list = List.of(1, 2, 3);
         when(userService.getCurrentUser()).thenReturn(User.convert(1));
@@ -121,6 +130,9 @@ class LearningServiceTest {
 
     }
 
+    /**
+     * @see LearningService#selectLearningState(Integer, Integer, List)
+     */
     @Test
     public void 测试获取学习状态() {
         var idList = List.of(1, 2, 3);
@@ -139,6 +151,9 @@ class LearningServiceTest {
         assertEquals(false, map.get(3));
     }
 
+    /**
+     * @see LearningService#selectLearningNumberByCourseIdList(List)
+     */
     @Test
     public void 测试批量获取学习人数() {
         var idList = List.of(1, 2, 3);
@@ -157,6 +172,9 @@ class LearningServiceTest {
 
     }
 
+    /**
+     * @see LearningService#countLearningByUserIdAndCourseIdList(Integer, List)
+     */
     @Test
     public void 测试查询用户的学习进度() {
         var idList = List.of(1, 2, 3);
@@ -176,6 +194,9 @@ class LearningServiceTest {
 
     }
 
+    /**
+     * @see LearningService#selectCurrentUserLearningList()
+     */
     @Test
     public void 测试获取当前用户学习列表() {
         when(userService.getCurrentUser()).thenReturn(User.convert(1));
@@ -193,9 +214,9 @@ class LearningServiceTest {
                                 Course.builder().courseId(2).courseName("课程2").build())
                 );
 
-        when(lessonService.selectBatch(argThat(l->
-                l.size() == 2 && l.containsAll(List.of(1,2))
-                )))
+        when(lessonService.selectBatch(argThat(l ->
+                l.size() == 2 && l.containsAll(List.of(1, 2))
+        )))
                 .thenReturn(
                         List.of(
                                 Lesson.builder().lessonId(1).lessonName("章节1").build(),
@@ -203,17 +224,16 @@ class LearningServiceTest {
                         )
                 );
         when(lessonService.countLessonInBatch(anyList())).thenReturn(Map.of());
-        when(learningMapper.countLearningByUserIdAndCourseIdList(any(),anyList())).thenReturn(List.of());
+        when(learningMapper.countLearningByUserIdAndCourseIdList(any(), anyList())).thenReturn(List.of());
 
         var list = learningService.selectCurrentUserLearningList();
 
-        assertEquals(2,list.size());
-        assertEquals("课程1",list.get(0).getCourseName());
-        assertEquals("课程2",list.get(1).getCourseName());
+        assertEquals(2, list.size());
+        assertEquals("课程1", list.get(0).getCourseName());
+        assertEquals("课程2", list.get(1).getCourseName());
 
-        assertEquals("章节1",list.get(0).getLastLessonName());
-        assertEquals("章节2",list.get(1).getLastLessonName());
-
+        assertEquals("章节1", list.get(0).getLastLessonName());
+        assertEquals("章节2", list.get(1).getLastLessonName());
 
 
     }

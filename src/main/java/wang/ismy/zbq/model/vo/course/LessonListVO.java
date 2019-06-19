@@ -1,6 +1,9 @@
 package wang.ismy.zbq.model.vo.course;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import wang.ismy.zbq.model.entity.course.Lesson;
 
@@ -8,6 +11,9 @@ import wang.ismy.zbq.model.entity.course.Lesson;
  * @author my
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class LessonListVO {
 
     private Integer lessonId;
@@ -16,9 +22,7 @@ public class LessonListVO {
 
     private Boolean hasLearn;
 
-    public LessonListVO(){
 
-    }
 
     public LessonListVO(Integer lessonId){
         this.lessonId = lessonId;

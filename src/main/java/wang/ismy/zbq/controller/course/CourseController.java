@@ -45,7 +45,7 @@ public class CourseController {
     @GetMapping("/self")
     @MustLogin
     public Object selectSelfCourse(){
-        return courseService.selectCurrentUserCourseListByUserId();
+        return courseService.selectCurrentUserCourseList();
     }
 
     @PutMapping("")
