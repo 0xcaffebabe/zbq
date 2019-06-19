@@ -68,12 +68,9 @@ public class LikeService {
         return mapper.insertNew(like);
     }
 
-
-
     public int removeLikeRecord(LikeTypeEnum likeType, Integer contentId, User user) {
         return mapper.deleteLikeByLikeTypeAndContentIdAndUserId(likeType.getCode(), contentId, user.getUserId());
     }
-
 
     public List<Like> selectLikeListByLikeTypeAndContentId(LikeTypeEnum likeType, Integer contentId) {
         return mapper.selectLikeListByLikeTypeAndContentId(likeType.getCode(), contentId);

@@ -1,6 +1,6 @@
 package wang.ismy.zbq.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.MessageMapper;
 import wang.ismy.zbq.model.dto.message.MessageDTO;
@@ -15,19 +15,20 @@ import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.message.UnreadMessageVO;
 
+import javax.inject.Inject;
 import java.util.*;
 
+/**
+ * @author my
+ */
 @Service
+@Setter(onMethod_ = @Inject)
 public class MessageService {
 
+    private MessageMapper mapper;
 
-    @Autowired
-    private MessageMapper messageMapper;
-
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private FriendService friendService;
 
     public List<MessageVO> selectCurrentUserMessageListByFriendId(int friendId) {
@@ -39,7 +40,7 @@ public class MessageService {
 
         User friend = userService.selectByPrimaryKey(friendId);
 
-        var list = messageMapper.selectMessageListBy2User(friendId, user.getUserId());
+        var list = mapper.selectMessageListBy2User(friendId, user.getUserId());
 
         List<MessageVO> ret = convertToMessageVO(user, friend, list);
         // 当拉取所有消息之后，将friendId发送给用户与的所有设置为已读
@@ -48,36 +49,10 @@ public class MessageService {
 
     }
 
-    private List<MessageVO> convertToMessageVO(User user, User friend, List<Message> list) {
-        List<MessageVO> ret = new ArrayList<>();
-        for (var i : list) {
-            MessageVO messageVO = new MessageVO();
-                    messageVO.setSenderId(i.getFromUser().getUserId());
-                    messageVO.setSenderInfo(user.equals(i.getFromUser()) ? user.getUserInfo() : friend.getUserInfo());
-                    messageVO.setContent(i.getContent());
-                    messageVO.setSendTime(i.getCreateTime());
-            ret.add(messageVO);
-        }
-        return ret;
-    }
-
     public boolean currentUserSendMessage(MessageDTO messageDTO) {
 
         User user = userService.getCurrentUser();
-
-        if (!friendService.isFriend(messageDTO.getTo(), user.getUserId())) {
-            ErrorUtils.error(R.NOT_FRIEND);
-        }
-
-        User t = new User();
-        t.setUserId(messageDTO.getTo());
-        Message message = new Message();
-                message.setFromUser(user);
-                message.setToUser(t);
-                message.setContent(messageDTO.getContent());
-
-
-        return messageMapper.insert(message) == 1;
+        return sendMessage(user,messageDTO);
 
     }
 
@@ -92,14 +67,14 @@ public class MessageService {
                 message.setToUser(t);
                 message.setContent(messageDTO.getContent());
 
-        return messageMapper.insert(message) == 1;
+        return mapper.insert(message) == 1;
     }
 
     public List<UnreadMessageVO> selectCurrentUserUnreadMessageList() {
 
         User user = userService.getCurrentUser();
 
-        var list = messageMapper.selectUnreadMessageByUserId(user.getUserId());
+        var list = mapper.selectUnreadMessageByUserId(user.getUserId());
         List<Integer> userIdList = new ArrayList<>();
         for (var i : list) {
             userIdList.add(i.getFromUser());
@@ -116,12 +91,15 @@ public class MessageService {
 
     }
 
+    /**
+     * TODO 实现有问题，待修改重构
+     */
     public List<MessageListVO> selectCurrentUserMessageList() {
 
         User user = userService.getCurrentUser();
 
         // 查询出当前用户通信列表
-        var messageList = messageMapper.selectMessageListByUserId(user.getUserId());
+        var messageList = mapper.selectMessageListByUserId(user.getUserId());
         // 查询出当前用户未读消息列表
         var unreadList = selectCurrentUserUnreadMessageList();
         List<MessageListVO> ret = new ArrayList<>();
@@ -182,12 +160,26 @@ public class MessageService {
 
     public void updateHasRead(int userId, int friendId){
         if (friendService.isFriend(userId,friendId)){
-            messageMapper.updateHasRead(userId,friendId);
+            mapper.updateHasRead(userId,friendId);
         }else{
             ErrorUtils.error(R.NOT_FRIEND);
         }
 
     }
+
+    private List<MessageVO> convertToMessageVO(User user, User friend, List<Message> list) {
+        List<MessageVO> ret = new ArrayList<>();
+        for (var i : list) {
+            MessageVO messageVO = new MessageVO();
+            messageVO.setSenderId(i.getFromUser().getUserId());
+            messageVO.setSenderInfo(user.equals(i.getFromUser()) ? user.getUserInfo() : friend.getUserInfo());
+            messageVO.setContent(i.getContent());
+            messageVO.setSendTime(i.getCreateTime());
+            ret.add(messageVO);
+        }
+        return ret;
+    }
+
     private void copyProperties(List<UnreadMessageDTO> list, List<User> userList, List<UnreadMessageVO> ret) {
         for (var i : list) {
 

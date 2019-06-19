@@ -10,7 +10,6 @@ import wang.ismy.zbq.model.entity.user.UserInfo;
 @Data
 public class MessageListVO {
 
-
     private Integer oppositeSideId;
 
     private UserInfo oppositeSideUserInfo;
