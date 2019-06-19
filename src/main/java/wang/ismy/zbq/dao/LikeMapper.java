@@ -26,8 +26,23 @@ public interface LikeMapper {
 
     long countContentLikeByUserId(Integer userId);
 
+    /**
+     * 根据点赞类型及内容ID列表批量获取点赞数据
+     *
+     * @param likeType      点赞类型
+     * @param contentIdList 内容ID列表
+     * @return 内容点赞对象列表
+     */
     List<ContentLikeDTO> countLikeByLikeTypeAndContentIdBatch(@Param("likeType") Integer likeType, @Param("contentIdList") List<Integer> contentIdList);
 
+    /**
+     * 批量查询某一用户是否点赞某一内容
+     *
+     * @param likeType      点赞类型
+     * @param userId        用户ID
+     * @param contentIdList 内容ID列表
+     * @return 查询结果键值对列表
+     */
     List<Map<String, Object>> selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(@Param("likeType") Integer likeType, @Param("contentIdList") List<Integer> contentIdList, @Param("userId") Integer userId);
 
     /**

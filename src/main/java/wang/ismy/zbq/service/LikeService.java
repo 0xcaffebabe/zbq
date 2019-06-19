@@ -1,6 +1,7 @@
 package wang.ismy.zbq.service;
 
 import freemarker.template.TemplateException;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.LikeCountVO;
 import wang.ismy.zbq.util.TimeUtils;
 
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,35 +34,28 @@ import java.util.Map;
  */
 @Service
 @Slf4j
+@Setter(onMethod_ = @Inject)
 public class LikeService {
 
-    @Autowired
-    private LikeMapper likeMapper;
+    private LikeMapper mapper;
 
-    @Autowired
     private ExecuteService executeService;
 
-    @Autowired
     private StateService stateService;
 
-    @Autowired
     private InformService informService;
 
-    @Autowired
     private ContentService contentService;
 
-    @Autowired
     private TemplateEngineService templateEngineService;
 
-    @Autowired
     private UserAccountService userAccountService;
 
-    @Autowired
     private EmailService emailService;
 
     public int createLikeRecord(LikeTypeEnum likeType, Integer contentId, User user) {
 
-        if (likeMapper.selectLikeByLikeTypeAndContentIdAndUserId(likeType.getCode(), contentId, user.getUserId()) != null) {
+        if (mapper.selectLikeByLikeTypeAndContentIdAndUserId(likeType.getCode(), contentId, user.getUserId()) != null) {
             ErrorUtils.error(R.LIKE_FAIL);
         }
         Like like = new Like();
@@ -70,7 +65,74 @@ public class LikeService {
         // 通知被点赞的用户
         informUser(likeType, contentId, user);
 
-        return likeMapper.insertNew(like);
+        return mapper.insertNew(like);
+    }
+
+
+
+    public int removeLikeRecord(LikeTypeEnum likeType, Integer contentId, User user) {
+        return mapper.deleteLikeByLikeTypeAndContentIdAndUserId(likeType.getCode(), contentId, user.getUserId());
+    }
+
+
+    public List<Like> selectLikeListByLikeTypeAndContentId(LikeTypeEnum likeType, Integer contentId) {
+        return mapper.selectLikeListByLikeTypeAndContentId(likeType.getCode(), contentId);
+    }
+
+    public List<Like> selectLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
+        if (contentIdList.size() == 0) {
+            return List.of();
+        }
+        return mapper.selectLikeListByLikeTypeAndContentIdBatch(likeType.getCode(), contentIdList);
+    }
+
+    public Map<Integer, Long> countLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
+        if (contentIdList.size() == 0) {
+            return Map.of();
+        }
+        var list = mapper.countLikeByLikeTypeAndContentIdBatch(likeType.getCode(), contentIdList);
+        Map<Integer, Long> map = new HashMap<>();
+
+        for (var i : list) {
+
+            map.put(i.getId(), i.getCount());
+        }
+        return map;
+    }
+
+    public LikeCountVO countLike(Integer userId) {
+        LikeCountVO vo = new LikeCountVO();
+        long stateLike = mapper.countStateLikeByUserId(userId);
+        long contentLike = mapper.countContentLikeByUserId(userId);
+        vo.setStateLike(stateLike);
+        vo.setContentLike(contentLike);
+        vo.setTotal(stateLike + contentLike);
+        return vo;
+    }
+
+    public Map<Integer, Boolean> hasLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList
+            , Integer userId) {
+        if (contentIdList.size() == 0) {
+            return Map.of();
+        }
+        var list = mapper.selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(likeType.getCode(), contentIdList, userId);
+
+        Map<Integer, Boolean> map = new HashMap<>();
+        for (var i : list) {
+            if (i.get("content_id") != null) {
+                if ((Long) i.get("has_like") == 0) {
+                    map.put((Integer) i.get("content_id"), false);
+                } else {
+                    map.put((Integer) i.get("content_id"), true);
+                }
+
+            }
+        }
+        return map;
+    }
+
+    public List<Like> select(Integer userId, Page page) {
+        return mapper.selectLikeListByUserPaging(userId, page);
     }
 
     private void informUser(LikeTypeEnum likeType, Integer contentId, User user) {
@@ -91,71 +153,6 @@ public class LikeService {
             }
 
         });
-    }
-
-    public int removeLikeRecord(LikeTypeEnum likeType, Integer contentId, User user) {
-        return likeMapper.deleteLikeByLikeTypeAndContentIdAndUserId(likeType.getCode(), contentId, user.getUserId());
-    }
-
-
-    public List<Like> selectLikeListByLikeTypeAndContentId(LikeTypeEnum likeType, Integer contentId) {
-        return likeMapper.selectLikeListByLikeTypeAndContentId(likeType.getCode(), contentId);
-    }
-
-    public List<Like> selectLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
-        if (contentIdList.size() == 0) {
-            return List.of();
-        }
-        return likeMapper.selectLikeListByLikeTypeAndContentIdBatch(likeType.getCode(), contentIdList);
-    }
-
-    public Map<Integer, Long> countLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList) {
-        if (contentIdList.size() == 0) {
-            return Map.of();
-        }
-        var list = likeMapper.countLikeByLikeTypeAndContentIdBatch(likeType.getCode(), contentIdList);
-        Map<Integer, Long> map = new HashMap<>();
-
-        for (var i : list) {
-
-            map.put(i.getId(), i.getCount());
-        }
-        return map;
-    }
-
-    public LikeCountVO countLike(Integer userId) {
-        LikeCountVO vo = new LikeCountVO();
-        long stateLike = likeMapper.countStateLikeByUserId(userId);
-        long contentLike = likeMapper.countContentLikeByUserId(userId);
-        vo.setStateLike(stateLike);
-        vo.setContentLike(contentLike);
-        vo.setTotal(stateLike + contentLike);
-        return vo;
-    }
-
-    public Map<Integer, Boolean> hasLikeBatch(LikeTypeEnum likeType, List<Integer> contentIdList
-            , Integer userId) {
-        if (contentIdList.size() == 0) {
-            return Map.of();
-        }
-        var list = likeMapper.selectHasLikeByLikeTypeAndContentIdAndUserIdBatch(likeType.getCode(), contentIdList, userId);
-
-        Map<Integer, Boolean> map = new HashMap<>();
-        for (var i : list) {
-            if (i.get("content_id") != null) {
-                if ((Long) i.get("has_like") == 0) {
-                    map.put((Integer) i.get("content_id"), false);
-                } else {
-                    map.put((Integer) i.get("content_id"), true);
-                }
-
-            }
-        }
-        return map;
-    }
-
-    public List<Like> select(Integer userId, Page page) {
-        return likeMapper.selectLikeListByUserPaging(userId, page);
     }
 
     private void informUserContentLike(Integer contentId, User likeUser) {
