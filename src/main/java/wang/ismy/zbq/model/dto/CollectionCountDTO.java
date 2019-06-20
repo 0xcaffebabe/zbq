@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CollectionCountDTO {
 
-    private Integer collectionId;
+    private Integer contentId;
 
     private Long collectionCount;
 

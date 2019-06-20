@@ -36,7 +36,14 @@ public interface CollectionMapper {
     Collection selectByTypeAndContentIdAndUserId(@Param("type") Integer type,
                                                  @Param("contentId") Integer contentId, @Param("userId") Integer userId);
 
-
+    /**
+     * 批量获取内容点赞数
+     *
+     * @param typeEnum      类型
+     * @param contentIdList 内容ID列表
+     * @param userId        用户ID
+     * @return 点赞数传输对象列表
+     */
     List<CollectionCountDTO> selectCollectionCountBatchByType(@Param("type") Integer typeEnum,
                                                               @Param("list") List<Integer> contentIdList,
                                                               @Param("user") Integer userId);

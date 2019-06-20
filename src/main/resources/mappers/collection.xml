@@ -17,7 +17,7 @@
     </resultMap>
 
     <resultMap id="collectionCountMap" type="wang.ismy.zbq.model.dto.CollectionCountDTO">
-        <id column="i" property="collectionId"/>
+        <id column="i" property="contentId"/>
         <result column="count" property="collectionCount"/>
         <result column="has_collect" property="hasCollect"/>
     </resultMap>

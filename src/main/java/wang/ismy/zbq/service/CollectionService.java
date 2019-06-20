@@ -1,8 +1,8 @@
 package wang.ismy.zbq.service;
 
 import freemarker.template.TemplateException;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.CollectionMapper;
 import wang.ismy.zbq.enums.CollectionTypeEnum;
@@ -21,6 +21,7 @@ import wang.ismy.zbq.service.user.UserAccountService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.TimeUtils;
 
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,30 +35,23 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@Setter(onMethod_ = @Inject)
 public class CollectionService {
 
-    @Autowired
-    private CollectionMapper collectionMapper;
+    private CollectionMapper mapper;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private ContentService contentService;
 
-    @Autowired
     private ExecuteService executeService;
 
-    @Autowired
     private InformService informService;
 
-    @Autowired
     private EmailService emailService;
 
-    @Autowired
     private TemplateEngineService templateEngineService;
 
-    @Autowired
     private UserAccountService userAccountService;
 
     public int currentUserAddCollection(CollectionDTO collectionDTO) {
@@ -70,7 +64,65 @@ public class CollectionService {
         collection.setContentId(collectionDTO.getContentId());
 
         informUser(collectionDTO,currentUser);
-        return collectionMapper.insertNew(collection);
+        return mapper.insertNew(collection);
+    }
+
+
+    public Collection selectByTypeAndContentId(CollectionTypeEnum typeEnum, Integer contentId, Integer userId) {
+        return mapper.selectByTypeAndContentIdAndUserId(typeEnum.getCode(), contentId, userId);
+    }
+
+    public Map<Integer, CollectionCountDTO> selectCollectionCountBatchByType(
+            CollectionTypeEnum typeEnum,
+            List<Integer> contentIdList,
+            Integer userId) {
+
+        if (contentIdList == null || contentIdList.size() == 0) {
+            return Map.of();
+        }
+
+        var list = mapper.selectCollectionCountBatchByType(typeEnum.getCode(), contentIdList, userId);
+
+        Map<Integer, CollectionCountDTO> ret = new HashMap<>();
+        for (var i : list) {
+            ret.put(i.getContentId(), i);
+        }
+        return ret;
+    }
+
+    public List<CollectionVO> selectCurrentUserCollectionList(Page page) {
+        var currentUser = userService.getCurrentUser();
+
+        var collectionList = mapper.selectPaging(currentUser.getUserId(), page);
+
+        List<CollectionVO> collectionVOList = collectionList.stream()
+                .map(CollectionVO::convert)
+                .collect(Collectors.toList());
+
+        var contentIdList = collectionVOList.stream()
+                .map(CollectionVO::getContentId)
+                .collect(Collectors.toList());
+
+        var countMap = selectCollectionCountBatchByType(CollectionTypeEnum.CONTENT, contentIdList, currentUser.getUserId());
+
+        for (var i : collectionVOList) {
+
+            var countVO = countMap.get(i.getContentId());
+
+            if (countVO != null) {
+                i.setCollectCount(countVO.getCollectionCount());
+            }
+        }
+
+        addSummary(collectionVOList);
+
+        return collectionVOList;
+
+    }
+
+    public List<Collection> select(Integer userId, Page page) {
+
+        return mapper.selectPaging(userId, page);
     }
 
     private void informUser(CollectionDTO collectionDTO,User collectUser) {
@@ -95,6 +147,7 @@ public class CollectionService {
             }
         });
     }
+
 
     private void informUserCollect(User collectUser,Integer authorId,String type,String content){
 
@@ -132,58 +185,6 @@ public class CollectionService {
 
     }
 
-    public Collection selectByTypeAndContentId(CollectionTypeEnum typeEnum, Integer contentId, Integer userId) {
-        return collectionMapper.selectByTypeAndContentIdAndUserId(typeEnum.getCode(), contentId, userId);
-    }
-
-    public Map<Integer, CollectionCountDTO> selectCollectionCountBatchByType(
-            CollectionTypeEnum typeEnum,
-            List<Integer> contentIdList,
-            Integer userId) {
-
-        if (contentIdList == null || contentIdList.size() == 0) {
-            return Map.of();
-        }
-
-        var list = collectionMapper.selectCollectionCountBatchByType(typeEnum.getCode(), contentIdList, userId);
-
-        Map<Integer, CollectionCountDTO> ret = new HashMap<>();
-        for (var i : list) {
-            ret.put(i.getCollectionId(), i);
-        }
-        return ret;
-    }
-
-    public List<CollectionVO> selectCurrentUserCollectionList(Page page) {
-        var currentUser = userService.getCurrentUser();
-
-        var collectionList = collectionMapper.selectPaging(currentUser.getUserId(), page);
-
-        List<CollectionVO> collectionVOList = collectionList.stream()
-                .map(CollectionVO::convert)
-                .collect(Collectors.toList());
-
-        var contentIdList = collectionVOList.stream()
-                .map(CollectionVO::getContentId)
-                .collect(Collectors.toList());
-
-        var countMap = selectCollectionCountBatchByType(CollectionTypeEnum.CONTENT, contentIdList, currentUser.getUserId());
-
-        for (var i : collectionVOList) {
-
-            var countVO = countMap.get(i.getContentId());
-
-            if (countVO != null) {
-                i.setCollectCount(countVO.getCollectionCount());
-            }
-        }
-
-        addSummary(collectionVOList);
-
-        return collectionVOList;
-
-    }
-
     private void addSummary(List<CollectionVO> collectionVOList) {
 
         List<Integer> contentIdList = new ArrayList<>();
@@ -204,8 +205,5 @@ public class CollectionService {
         }
     }
 
-    public List<Collection> select(Integer userId, Page page) {
 
-        return collectionMapper.selectPaging(userId, page);
-    }
 }
