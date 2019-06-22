@@ -1,6 +1,7 @@
 package wang.ismy.zbq.service;
 
 import com.google.gson.Gson;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.BroadcastVO;
 import wang.ismy.zbq.model.vo.user.UserVO;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -31,15 +33,13 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@Setter(onMethod_ = @Inject)
 public class BroadcastService {
 
-    @Autowired
     private BroadcastMapper broadcastMapper;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private ExecuteService executeService;
 
     private List<WebSocketSession> onlineList = new LinkedList<>();
@@ -115,7 +115,6 @@ public class BroadcastService {
 
         BroadcastVO vo = BroadcastVO.convert(broadcast, UserVO.convert(userService.getCurrentUser()));
 
-
         String json = new Gson().toJson(vo);
         TextMessage message = new TextMessage(json);
 
@@ -124,6 +123,9 @@ public class BroadcastService {
         }));
     }
 
+    /**
+     * TODO 有点不好进行单元测试，等待重构
+     */
     public void userChanged() {
 
         List<HttpSession> tmpList = new ArrayList<>(sessionMap.values());
