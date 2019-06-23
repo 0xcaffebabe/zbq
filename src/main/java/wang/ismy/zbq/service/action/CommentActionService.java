@@ -1,6 +1,7 @@
 package wang.ismy.zbq.service.action;
 
 import com.google.gson.Gson;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import wang.ismy.zbq.service.StateService;
 import wang.ismy.zbq.service.course.LessonService;
 import wang.ismy.zbq.service.user.UserService;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,25 +27,19 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@Setter(onMethod_ = @Inject)
 public class CommentActionService {
 
-    @Autowired
     private CommentService commentService;
 
-    @Autowired
     private ContentService contentService;
 
-    @Autowired
     private LessonService lessonService;
 
-    @Autowired
     private StateService stateService;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
-    private Gson gson;
 
     public List<Action> pullActions(User user, Page page) {
 
