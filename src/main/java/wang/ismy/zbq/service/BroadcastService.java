@@ -33,13 +33,16 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-@Setter(onMethod_ = @Inject)
+
 public class BroadcastService {
 
+    @Setter(onMethod_ = @Inject)
     private BroadcastMapper broadcastMapper;
 
+    @Setter(onMethod_ = @Inject)
     private UserService userService;
 
+    @Setter(onMethod_ = @Inject)
     private ExecuteService executeService;
 
     private List<WebSocketSession> onlineList = new LinkedList<>();

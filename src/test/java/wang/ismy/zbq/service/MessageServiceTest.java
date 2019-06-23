@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service;
 
+import freemarker.template.TemplateException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +14,11 @@ import wang.ismy.zbq.model.entity.Message;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.model.entity.user.UserInfo;
 import wang.ismy.zbq.service.friend.FriendService;
+import wang.ismy.zbq.service.system.EmailService;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.user.UserService;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,9 +37,15 @@ class MessageServiceTest {
     @Mock
     FriendService friendService;
 
+    @Mock
+    ExecuteService executeService;
+
     @InjectMocks
     MessageService messageService;
 
+    @Mock TemplateEngineService templateEngineService;
+
+    @Mock EmailService emailService;
     /**
      * @see MessageService#selectCurrentUserMessageListByFriendId(int)
      */
@@ -83,6 +93,22 @@ class MessageServiceTest {
 
         assertTrue(messageService.sendMessage(currentUser, dto));
 
+    }
+
+    @Test
+    public void 测试发送消息时通知接收方() throws Throwable{
+
+        var fromUser = User.builder().userId(2).userInfo(UserInfo.builder().nickName("用户2").build()).build();
+        var msg = "我给你发了一条消息";
+
+        when(userService.selectByPrimaryKey(1)).thenReturn(User.convert(1));
+
+        when(templateEngineService.parseModel(eq("email/messageInform.html"),argThat(map-> map.get("user").equals("用户2")
+                && map.get("content").equals("我给你发了一条消息")))).thenReturn("测试模板");
+
+        messageService.messageInform(1,fromUser,msg);
+
+        verify(emailService).sendHtmlMail(eq(1),eq("【转笔圈】你有一条朋友消息"),eq("测试模板"));
     }
 
     /**

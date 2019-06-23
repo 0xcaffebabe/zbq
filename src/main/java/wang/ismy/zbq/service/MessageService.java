@@ -1,11 +1,17 @@
 package wang.ismy.zbq.service;
 
+import freemarker.template.TemplateException;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.MessageMapper;
+import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.model.dto.message.MessageDTO;
 import wang.ismy.zbq.model.dto.message.UnreadMessageDTO;
 import wang.ismy.zbq.service.friend.FriendService;
+import wang.ismy.zbq.service.system.EmailService;
+import wang.ismy.zbq.service.system.ExecuteService;
+import wang.ismy.zbq.service.user.UserAccountService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.model.vo.message.MessageListVO;
 import wang.ismy.zbq.model.vo.message.MessageVO;
@@ -14,8 +20,11 @@ import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.message.UnreadMessageVO;
+import wang.ismy.zbq.util.TimeUtils;
 
 import javax.inject.Inject;
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -23,6 +32,7 @@ import java.util.*;
  */
 @Service
 @Setter(onMethod_ = @Inject)
+@Slf4j
 public class MessageService {
 
     private MessageMapper mapper;
@@ -30,6 +40,12 @@ public class MessageService {
     private UserService userService;
 
     private FriendService friendService;
+
+    private ExecuteService executeService;
+
+    private TemplateEngineService templateEngineService;
+
+    private EmailService emailService;
 
     public List<MessageVO> selectCurrentUserMessageListByFriendId(int friendId) {
         User user = userService.getCurrentUser();
@@ -44,7 +60,7 @@ public class MessageService {
 
         List<MessageVO> ret = convertToMessageVO(user, friend, list);
         // 当拉取所有消息之后，将friendId发送给用户与的所有设置为已读
-        updateHasRead(user.getUserId(),friendId);
+        updateHasRead(user.getUserId(), friendId);
         return ret;
 
     }
@@ -52,22 +68,45 @@ public class MessageService {
     public boolean currentUserSendMessage(MessageDTO messageDTO) {
 
         User user = userService.getCurrentUser();
-        return sendMessage(user,messageDTO);
+        return sendMessage(user, messageDTO);
 
     }
 
-    public boolean sendMessage(User fromUser,MessageDTO messageDTO){
+    public boolean sendMessage(User fromUser, MessageDTO messageDTO) {
         if (!friendService.isFriend(messageDTO.getTo(), fromUser.getUserId())) {
             ErrorUtils.error(R.NOT_FRIEND);
         }
-        User t= new User();
+        User t = new User();
         t.setUserId(messageDTO.getTo());
         Message message = new Message();
-                message.setFromUser(fromUser);
-                message.setToUser(t);
-                message.setContent(messageDTO.getContent());
+        message.setFromUser(fromUser);
+        message.setToUser(t);
+        message.setContent(messageDTO.getContent());
 
+        // 给To发送一封邮件
+        executeService.submit(() -> messageInform(messageDTO.getTo(), fromUser, messageDTO.getContent()));
         return mapper.insert(message) == 1;
+    }
+
+    public void messageInform(Integer to, User fromUser, String msg) {
+        var toUser = userService.selectByPrimaryKey(to);
+        if (toUser == null) {
+            ErrorUtils.error(R.TARGET_USER_NOT_EXIST);
+        }
+
+
+        try {
+            String html = templateEngineService.parseModel("email/messageInform.html",
+                    Map.of(
+                            "user", fromUser.getUserInfo().getNickName(),
+                            "time", TimeUtils.getStrTime(),
+                            "content", msg
+                    ));
+            emailService.sendHtmlMail(to, "【转笔圈】你有一条朋友消息", html);
+        } catch (IOException | TemplateException | MessagingException e) {
+            log.error("发送邮件发送异常：{}", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public List<UnreadMessageVO> selectCurrentUserUnreadMessageList() {
@@ -141,15 +180,15 @@ public class MessageService {
             vo.setMsgCount(0);
             vo.setNewestMsg(i.getNewestMsg());
             ret.add(vo);
-            judgeMap.put(oppositeUser,user.getUserId());
+            judgeMap.put(oppositeUser, user.getUserId());
         }
 
         var userList = userService.selectByUserIdBatch(userIdList);
 
-        for (var i : userList){
-            for (var j : ret){
-                if (j.getOppositeSideUserInfo() == null){
-                    if (i.getUserId().equals(j.getOppositeSideId())){
+        for (var i : userList) {
+            for (var j : ret) {
+                if (j.getOppositeSideUserInfo() == null) {
+                    if (i.getUserId().equals(j.getOppositeSideId())) {
                         j.setOppositeSideUserInfo(i.getUserInfo());
                     }
                 }
@@ -158,10 +197,10 @@ public class MessageService {
         return ret;
     }
 
-    public void updateHasRead(int userId, int friendId){
-        if (friendService.isFriend(userId,friendId)){
-            mapper.updateHasRead(userId,friendId);
-        }else{
+    public void updateHasRead(int userId, int friendId) {
+        if (friendService.isFriend(userId, friendId)) {
+            mapper.updateHasRead(userId, friendId);
+        } else {
             ErrorUtils.error(R.NOT_FRIEND);
         }
 

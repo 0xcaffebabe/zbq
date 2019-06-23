@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service.user;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import wang.ismy.zbq.service.system.EmailService;
 import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.util.ErrorUtils;
 
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -24,19 +26,21 @@ import java.util.Map;
  */
 @Service
 @Slf4j
+
 public class UserAccountService {
 
     private static final String EMAIL_REGEX = "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$";
-    @Autowired
+
+    @Setter(onMethod_ = @Inject)
     private UserAccountMapper accountMapper;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private UserService userService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private EmailService emailService;
 
-    @Autowired
+    @Setter(onMethod_ = @Inject)
     private ExecuteService executeService;
 
     @Value("${config.host}")
@@ -63,6 +67,9 @@ public class UserAccountService {
         return account.getAccountName();
     }
 
+    /**
+     * TODO 需要重构
+     */
     public void currentUserBindEmail(String email) {
         var currentUser = userService.getCurrentUser();
 
