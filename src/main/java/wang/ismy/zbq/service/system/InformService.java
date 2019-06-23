@@ -34,23 +34,29 @@ import java.util.Map;
  */
 @Service
 @Slf4j
-@Setter(onMethod_ =@Inject)
 public class InformService {
 
     private static final String SYSTEM_ACCOUNT_USERNAME = "10000";
 
+    @Setter(onMethod_ =@Inject)
     private MessageService messageService;
 
+    @Setter(onMethod_ =@Inject)
     private FriendService friendService;
 
+    @Setter(onMethod_ =@Inject)
     private UserService userService;
 
+    @Setter(onMethod_ =@Inject)
     private ExecuteService executeService;
 
+    @Setter(onMethod_ =@Inject)
     private EmailService emailService;
 
+    @Setter(onMethod_ =@Inject)
     private UserAccountService userAccountService;
 
+    @Setter(onMethod_ =@Inject)
     private TemplateEngineService templateEngineService;
 
     @PostConstruct
