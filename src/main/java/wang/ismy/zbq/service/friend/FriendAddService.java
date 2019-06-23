@@ -1,5 +1,8 @@
 package wang.ismy.zbq.service.friend;
 
+import freemarker.template.TemplateException;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,31 +12,44 @@ import wang.ismy.zbq.model.dto.message.MessageDTO;
 import wang.ismy.zbq.model.entity.friend.FriendAdd;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.TemplateEngineService;
+import wang.ismy.zbq.service.system.EmailService;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.system.InformService;
 import wang.ismy.zbq.service.MessageService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
+import wang.ismy.zbq.util.TimeUtils;
 
+import javax.inject.Inject;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * @author my
+ */
 @Service
+@Slf4j
+@Setter(onMethod_ = @Inject)
 public class FriendAddService {
 
-    @Autowired
     private FriendAddMapper friendAddMapper;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private FriendService friendService;
 
-    @Autowired
     private MessageService messageService;
 
-    @Autowired
     private InformService informService;
+
+    private ExecuteService executeService;
+
+    private EmailService emailService;
+
+    private TemplateEngineService templateEngineService;
 
     public int insertNew(FriendAddDTO friendAddDTO) {
 
@@ -51,7 +67,28 @@ public class FriendAddService {
                 friendAdd.setFromUser(from);
                 friendAdd.setToUser(to);
                 friendAdd.setMsg(friendAddDTO.getMsg());
+
         return friendAddMapper.insertNew(friendAdd);
+    }
+
+    public void friendInform(Integer to, User fromUser, String msg) {
+        var toUser = userService.selectByPrimaryKey(to);
+
+        if (toUser == null){
+            ErrorUtils.error(R.TARGET_USER_NOT_EXIST);
+        }
+
+        try {
+            String html = templateEngineService.parseModel("email/friendInform.html", Map.of(
+                    "user",fromUser.getUserInfo().getNickName(),
+                    "time", TimeUtils.getStrTime(),
+                    "content",msg
+            ));
+            emailService.sendHtmlMail(to,"【转笔圈】有人申请添加你为笔友",html);
+        } catch (Exception e) {
+            log.error("发送邮件发生异常:{}",e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public FriendAdd selectFriendAddByFromUserAndToUser(Integer from, Integer to) {
@@ -145,6 +182,7 @@ public class FriendAddService {
             ErrorUtils.error(R.UNKNOWN_ERROR);
         }
     }
+
 
 
 }

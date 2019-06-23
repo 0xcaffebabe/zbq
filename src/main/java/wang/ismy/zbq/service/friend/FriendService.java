@@ -9,6 +9,7 @@ import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.friend.Friend;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
+import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.friend.FriendAddVO;
@@ -29,6 +30,9 @@ public class FriendService {
 
     @Autowired
     private FriendAddService friendAddService;
+
+    @Autowired
+    private ExecuteService executeService;
 
     public List<Friend> selectCurrentUserAllFriendPaging(Page page) {
         User user = userService.getCurrentUser();
@@ -52,7 +56,7 @@ public class FriendService {
                 .stream()
                 .map(RecommendFriendVO::convert)
                 .collect(Collectors.toList());
-        retList.forEach(e->e.setSource("热门用户"));
+        retList.forEach(e -> e.setSource("热门用户"));
 
 
         retList.addAll(
@@ -60,8 +64,8 @@ public class FriendService {
                         .stream().map(RecommendFriendVO::convert).collect(Collectors.toList())
         );
 
-        for (var i :retList){
-            if (StringUtils.isEmpty(i.getSource())){
+        for (var i : retList) {
+            if (StringUtils.isEmpty(i.getSource())) {
                 i.setSource("随机推荐");
             }
         }
@@ -99,6 +103,9 @@ public class FriendService {
         if (isFriend(friendAddDTO.getFromUser(), friendAddDTO.getToUser())) {
             ErrorUtils.error(R.FRIEND_RELATION_CREATED);
         }
+
+        // 发送一条消息给接收方
+        executeService.submit(() -> friendAddService.friendInform(friendAddDTO.getToUser(), user, friendAddDTO.getMsg()));
         return friendAddService.insertNew(friendAddDTO);
     }
 
