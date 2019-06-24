@@ -181,7 +181,8 @@ function getCommonObject() {
             courseRatingUrl:"/course/rating",
             getCourseRatingListUrl:"/course/rating/",
             getActionListUrl:"/user/action/",
-            subscribeAuthorUrl:"/subscription/"
+            subscribeAuthorUrl:"/subscription/",
+            getSelfSettingUrl:"/user/setting/self"
 
 
         },

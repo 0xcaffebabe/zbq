@@ -241,3 +241,10 @@ author INT NOT NULL,
 create_time DATETIME NOT NULL,
 update_time DATETIME
 )ENGINE=InnoDB CHARSET=utf8mb4;
+
+# 创建用户设置表
+CREATE TABLE user_setting(
+    setting_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    user INT NOT NULL ,
+    content TEXT NOT NULL 
+)ENGINE=InnoDB CHARSET=utf8mb4;

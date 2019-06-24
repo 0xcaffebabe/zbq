@@ -119,6 +119,8 @@ public class R {
     public static final String UNSUBSCRIBE_SUCCESS = "取消关注成功";
 
     public static final String UNSUBSCRIBE = "还未关注";
+
+    public static final String UPDATE_SUCCESS = "更新成功";
 }
 
 

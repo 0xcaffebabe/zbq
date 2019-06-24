@@ -2,19 +2,23 @@ package wang.ismy.zbq.controller.user;
 
 
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.model.dto.Page;
+import wang.ismy.zbq.model.dto.UserSettingObject;
 import wang.ismy.zbq.model.dto.user.LoginDTO;
 import wang.ismy.zbq.model.dto.user.RegisterDTO;
 import wang.ismy.zbq.model.dto.user.UserDTO;
 import wang.ismy.zbq.model.entity.user.User;
+import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.action.ActionService;
 import wang.ismy.zbq.service.user.UserLoginLogService;
 import wang.ismy.zbq.service.user.UserService;
+import wang.ismy.zbq.service.user.UserSettingService;
 import wang.ismy.zbq.service.user.UserStateService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +42,9 @@ public class UserController {
 
     @Autowired
     private ActionService actionService;
+
+    @Autowired
+    private UserSettingService userSettingService;
 
     @PutMapping("/register")
     @ResultTarget
@@ -140,5 +147,20 @@ public class UserController {
                          @RequestParam("page") Integer page,
                          @RequestParam("length") Integer length){
         return actionService.pullActions(userId,Page.of(page,length));
+    }
+
+    @GetMapping("/setting/self")
+    @ResultTarget
+    @MustLogin
+    public Object selfSetting(){
+        return new Gson().fromJson(userSettingService.selectCurrentUser().getContent(), UserSettingObject.class);
+    }
+
+    @PostMapping("/setting/self")
+    @ResultTarget
+    @MustLogin
+    public Object updateSelfSetting(@RequestBody @Valid UserSettingObject obj){
+        userSettingService.updateCurrentUser(obj);
+        return R.UPDATE_SUCCESS;
     }
 }
