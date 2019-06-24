@@ -137,12 +137,6 @@ public class InformService {
         informUser(authorUserId, msg);
 
         // 邮箱通知用户
-        String email = userAccountService.selectAccountName(UserAccountEnum.EMAIL, authorUserId);
-
-        if (email == null) {
-            log.info("用户没有绑定邮箱,取消发送:{}", authorUserId);
-            return;
-        }
 
         try {
             String html = templateEngineService.parseModel("email/commentInform.html",
@@ -151,7 +145,7 @@ public class InformService {
                             "type", type,
                             "comment", commentContent,
                             "content", content));
-            emailService.sendHtmlMail(email, "【转笔圈】评论通知", html);
+            emailService.sendHtmlMail(authorUserId, "【转笔圈】评论通知", html);
         } catch (IOException | TemplateException | MessagingException e) {
             log.error("发送邮件时发生异常：{}", e.getMessage());
         }

@@ -1,5 +1,6 @@
 package wang.ismy.zbq.service.system;
 
+import com.google.gson.Gson;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import wang.ismy.zbq.enums.UserAccountEnum;
+import wang.ismy.zbq.model.dto.UserSettingObject;
 import wang.ismy.zbq.service.user.UserAccountService;
 import wang.ismy.zbq.service.user.UserService;
+import wang.ismy.zbq.service.user.UserSettingService;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -35,6 +38,12 @@ public class EmailService {
 
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
+
+    @Autowired
+    private UserSettingService userSettingService;
+
+    @Autowired
+    private Gson gson;
 
     @Value("${spring.mail.username}")
     private String from;
@@ -65,7 +74,17 @@ public class EmailService {
 
     public void sendHtmlMail(Integer userId,String subject,String content) throws MessagingException {
 
+        // 如果用户设置不接收邮件通知，则返回
+        var setting = userSettingService.select(userId);
+        var settingObj = gson.fromJson(setting.getContent(), UserSettingObject.class);
+
+        if (!settingObj.getEmailInform()){
+            log.info("用户关闭了邮件通知，不发送");
+            return;
+        }
+
         var account = userAccountService.selectByAccountTypeAndUserId(UserAccountEnum.EMAIL,userId);
+
 
         if (account == null){
             log.warn("取消发送邮件，用户不存在或没有绑定邮箱：{}",userId);

@@ -157,7 +157,6 @@ class LikeServiceTest {
                     true
             ))).thenReturn("测试模板");
 
-            when(userAccountService.selectAccountName(eq(UserAccountEnum.EMAIL), eq(1))).thenReturn("测试邮箱");
             when(templateEngineService.parseModel(eq("email/likeInform.html"), argThat(map ->
                     true
             ))).thenReturn("邮箱模板");
@@ -166,7 +165,7 @@ class LikeServiceTest {
             method.invoke(likeService, 1, likeUser);
 
             verify(informService).informUser(eq(1), eq("测试模板"));
-            verify(emailService).sendHtmlMail(eq("测试邮箱"), eq("【转笔圈】有人给你的转笔内容点赞了"), eq("邮箱模板"));
+            verify(emailService).sendHtmlMail(eq(1), eq("【转笔圈】有人给你的转笔内容点赞了"), eq("邮箱模板"));
 
         }
 
@@ -186,7 +185,7 @@ class LikeServiceTest {
                     true
             ))).thenReturn("测试模板");
 
-            when(userAccountService.selectAccountName(eq(UserAccountEnum.EMAIL), eq(1))).thenReturn("测试邮箱");
+
             when(templateEngineService.parseModel(eq("email/likeInform.html"), argThat(map ->
                     true
             ))).thenReturn("邮箱模板");
@@ -195,7 +194,7 @@ class LikeServiceTest {
             method.invoke(likeService, 1, likeUser);
 
             verify(informService).informUser(eq(1), eq("测试模板"));
-            verify(emailService).sendHtmlMail(eq("测试邮箱"), eq("【转笔圈】有人给你的笔圈动态点赞了"), eq("邮箱模板"));
+            verify(emailService).sendHtmlMail(eq(1), eq("【转笔圈】有人给你的笔圈动态点赞了"), eq("邮箱模板"));
         }
 
     }

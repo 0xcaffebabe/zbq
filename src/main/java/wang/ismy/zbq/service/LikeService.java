@@ -200,15 +200,8 @@ public class LikeService {
 
         // 邮箱通知
 
-        String email = userAccountService.selectAccountName(UserAccountEnum.EMAIL, user.getUserId());
-
-        if (email == null) {
-            log.info("用户没有绑定邮箱:{},取消发送邮件", user.getUserId());
-            return;
-        }
-
         try {
-            emailService.sendHtmlMail(email, "【转笔圈】有人给你的"+type+"点赞了",
+            emailService.sendHtmlMail(user.getUserId(), "【转笔圈】有人给你的"+type+"点赞了",
                     templateEngineService.parseModel("email/likeInform.html",modelMap));
         } catch (MessagingException | IOException | TemplateException e) {
             log.warn("发送邮件发生异常:{}", e.getMessage());

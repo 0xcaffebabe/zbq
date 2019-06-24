@@ -63,8 +63,7 @@ class InformServiceTest {
         when(templateEngineService.parseStr(eq(TemplateEngineService.COMMENT_TEMPLATE), argThat(map ->
                 map.size() == 5
         ))).thenReturn("测试消息");
-        when(userAccountService.selectAccountName(eq(UserAccountEnum.EMAIL), eq(authorId)))
-                .thenReturn("测试邮箱");
+
         when(templateEngineService.parseModel(eq("email/commentInform.html"), argThat(map ->
                 map.size() == 5
         ))).thenReturn("测试模板");
@@ -72,7 +71,7 @@ class InformServiceTest {
         informService.informUserComment(commentUser, authorId, comment, type, content);
 
 
-        verify(emailService).sendHtmlMail(eq("测试邮箱"), eq("【转笔圈】评论通知"), eq("测试模板"));
+        verify(emailService).sendHtmlMail(eq(2), eq("【转笔圈】评论通知"), eq("测试模板"));
         verify(executeService).submit(any(Runnable.class));
     }
 }

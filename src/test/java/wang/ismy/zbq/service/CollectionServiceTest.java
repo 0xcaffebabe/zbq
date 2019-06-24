@@ -158,8 +158,7 @@ class CollectionServiceTest {
                 && map.get("type").equals("转笔内容")
                 && map.get("content").equals("测试内容")
                 ))).thenReturn("测试模板");
-        when(userAccountService.selectAccountName(eq(UserAccountEnum.EMAIL),eq(2)))
-                .thenReturn("测试邮箱");
+
         when(templateEngineService.parseModel(eq("email/collectInform.html"),argThat(map->
                 map.get("user").equals("用户1")
                         && map.get("type").equals("转笔内容")
@@ -171,7 +170,7 @@ class CollectionServiceTest {
         method.invoke(collectionService,currentUser,author,type,content);
 
         verify(informService).informUser(eq(2),eq("测试模板"));
-        verify(emailService).sendHtmlMail(eq("测试邮箱"),eq("【转笔圈】收藏通知"),eq("测试模板"));
+        verify(emailService).sendHtmlMail(eq(2),eq("【转笔圈】收藏通知"),eq("测试模板"));
     }
 
 }

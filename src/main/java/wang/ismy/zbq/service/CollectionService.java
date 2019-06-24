@@ -168,16 +168,11 @@ public class CollectionService {
         informService.informUser(authorId,msg);
 
         // 邮箱通知用户
-        String email = userAccountService.selectAccountName(UserAccountEnum.EMAIL,authorId);
 
-        if (email == null){
-            log.info("用户没有绑定邮箱,取消发送:{}",author);
-            return;
-        }
 
         try {
             String html = templateEngineService.parseModel("email/collectInform.html",map);
-            emailService.sendHtmlMail(email,"【转笔圈】收藏通知",html);
+            emailService.sendHtmlMail(authorId,"【转笔圈】收藏通知",html);
         } catch (IOException | TemplateException | MessagingException e) {
             log.error("发送邮件时发生异常：{}",e.getMessage());
         }
