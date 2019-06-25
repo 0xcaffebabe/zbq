@@ -92,6 +92,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/account.js?v=20190418"></script>
+<script src="/js/account.js?v=20190625"></script>
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import wang.ismy.zbq.dao.user.UserAccountMapper;
+import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.model.entity.user.UserAccount;
 import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.resources.R;
@@ -65,6 +66,14 @@ public class UserAccountService {
         }
 
         return account.getAccountName();
+    }
+
+    public User selectUser(UserAccountEnum accountEnum, String accountName){
+        var account = accountMapper.selectByAccountTypeAndAccountName(accountEnum.getCode(),accountName);
+        if (account != null){
+            return account.getUser();
+        }
+        return null;
     }
 
     /**
@@ -152,5 +161,12 @@ public class UserAccountService {
             }
         }
         return map;
+    }
+
+    public static boolean isEmail(String email){
+        if (email != null){
+            return email.matches(EMAIL_REGEX);
+        }
+        return false;
     }
 }

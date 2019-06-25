@@ -29,7 +29,9 @@ public interface UserAccountMapper {
 
     UserAccount selectByAccountTypeAndUserId(@Param("accountType") Integer accountType,@Param("user") Integer userId);
 
+
     int updateByAccountNameByAccountTypeAndUserId(@Param("accountType") Integer accountType,@Param("user") Integer userId,@Param("accountName") String accountName);
 
     List<UserAccount> selectByUser(Integer userId);
+
 }

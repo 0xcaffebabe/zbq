@@ -6,20 +6,20 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import wang.ismy.zbq.annotations.Limit;
 import wang.ismy.zbq.annotations.MustLogin;
 import wang.ismy.zbq.annotations.ResultTarget;
 import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.dto.UserSettingObject;
 import wang.ismy.zbq.model.dto.user.LoginDTO;
+import wang.ismy.zbq.model.dto.user.PasswordResetDTO;
 import wang.ismy.zbq.model.dto.user.RegisterDTO;
 import wang.ismy.zbq.model.dto.user.UserDTO;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.action.ActionService;
-import wang.ismy.zbq.service.user.UserLoginLogService;
-import wang.ismy.zbq.service.user.UserService;
-import wang.ismy.zbq.service.user.UserSettingService;
-import wang.ismy.zbq.service.user.UserStateService;
+import wang.ismy.zbq.service.user.*;
+import wang.ismy.zbq.util.ErrorUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -45,6 +45,9 @@ public class UserController {
 
     @Autowired
     private UserSettingService userSettingService;
+
+    @Autowired
+    private UserPasswordService userPasswordService;
 
     @PutMapping("/register")
     @ResultTarget
@@ -162,5 +165,26 @@ public class UserController {
     public Object updateSelfSetting(@RequestBody @Valid UserSettingObject obj){
         userSettingService.updateCurrentUser(obj);
         return R.UPDATE_SUCCESS;
+    }
+
+    @GetMapping("/password")
+    @ResultTarget
+    @Limit(maxRequestPerMinute = 5)
+    public Object generateRestPasswordCode(@RequestParam("email") String email){
+        if (!UserAccountService.isEmail(email)){
+            ErrorUtils.error(R.INCORRECT_EMAIL);
+        }
+
+        userPasswordService.generateCode(email);
+
+        return "验证码已经下发到邮箱，请登录邮箱获取";
+    }
+
+    @PostMapping("/password")
+    @ResultTarget
+    @Limit(maxRequestPerMinute = 3)
+    public Object resetPassword(@RequestBody @Valid PasswordResetDTO dto){
+        userPasswordService.resetPassword(dto);
+        return "密码重置成功";
     }
 }

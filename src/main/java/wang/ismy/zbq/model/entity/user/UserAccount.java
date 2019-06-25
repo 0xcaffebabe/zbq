@@ -1,6 +1,9 @@
 package wang.ismy.zbq.model.entity.user;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +11,9 @@ import java.time.LocalDateTime;
  * @author my
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAccount {
 
     private Integer userAccountId;

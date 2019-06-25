@@ -48,6 +48,18 @@ class UserAccountServiceTest {
         assertEquals("账户名",service.selectAccountName(UserAccountEnum.EMAIL,1));
     }
 
+    @Test
+    public void 测试根据账户名获取用户() {
+        when(accountMapper.selectByAccountTypeAndAccountName(eq(0),eq("test"))).thenReturn(
+                UserAccount.builder().accountName("test")
+                .user(User.convert(1))
+                .build()
+                );
+
+        var user = service.selectUser(UserAccountEnum.EMAIL,"test");
+        assertTrue(user.getUserId().equals(1));
+    }
+
     /**
      * @see UserAccountService#currentUserBindEmail(String)
      */

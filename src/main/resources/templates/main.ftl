@@ -37,7 +37,7 @@
                 </li>
 
                 <li :class="{active:url=='/account'}">
-                    <a href="javascript:jump('/account')"><i class="menu-icon fa fa-shield"></i>安全中心 </a>
+                    <a href="javascript:jump('/account')"><i class="menu-icon fa fa-gears"></i>设置中心 </a>
                 </li>
                 <li class="text-sm-center split">
                     社交

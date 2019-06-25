@@ -121,6 +121,8 @@ public class R {
     public static final String UNSUBSCRIBE = "还未关注";
 
     public static final String UPDATE_SUCCESS = "更新成功";
+
+    public static final String CODE_NOT_MATCH = "验证码不匹配";
 }
 
 
