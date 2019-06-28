@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>测试主页</title>
+    <title>课程中心</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -28,6 +28,9 @@
             height: 960px;
             width: 640px;
         }
+        [v-cloak]{
+            display: none;
+        }
     </style>
 </head>
 
@@ -37,7 +40,7 @@
 <div class="content">
     <!-- Animated -->
 
-    <div class="animated fadeIn" id="course">
+    <div class="animated fadeIn" id="course" v-cloak>
         <div>
             <strong>筛选:</strong>
             <div class="btn btn-group">

@@ -17,6 +17,9 @@
             background: url(/img/newb.jpg) no-repeat center top;
         }
 
+        [v-cloak]{
+            display: none;
+        }
 
     </style>
 </head>
@@ -24,7 +27,7 @@
 
 
 <!-- Static navbar -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation" id="nav">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation" id="nav" v-cloak>
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -52,14 +55,12 @@
 
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a>主页</a></li>
-            </ul>
+
         </div><!--/.nav-collapse -->
     </div>
 </div>
 
-<div id="space">
+<div id="space" v-cloak>
     <div id="headerwrap">
         <div class="container">
             <div class="row">

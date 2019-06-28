@@ -23,6 +23,36 @@
             opacity: 0;
             transform: translateY(30px);
         }
+
+        .dropdown-menu li {
+            padding: 3px;
+        }
+
+        .dropdown-menu {
+            border-radius: 5px;
+            box-shadow: 2px 2px 8px;
+        }
+
+        #friendsPane li:hover {
+            background-color: #3498db50;
+            border-radius: 5px;
+            cursor: pointer;
+
+        }
+
+        #friendsPane li {
+            padding-top: 10px;
+        }
+
+        .line-limit-length {
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+        }
     </style>
 
 </head>
@@ -40,6 +70,7 @@
             <div class="modal fade" id="searchFriendModal" tabindex="-1" role="dialog"
                  aria-labelledby="staticModalLabel"
                  aria-hidden="true">
+                <#--                搜索好友对话框开始-->
                 <div class="modal-dialog modal-lg" style="z-index: 99" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -74,9 +105,10 @@
                                         <td class="serial">{{stranger.friendUserId}}.</td>
                                         <td>
                                             <div class="round-img">
-                                                <a href="#" @click.prevent="visitFriend(stranger.friendUserId)"><img class="rounded-circle" width="48"
-                                                                 :src="stranger.friendUserInfo.profile"
-                                                                 alt=""></a>
+                                                <a href="#" @click.prevent="visitFriend(stranger.friendUserId)"><img
+                                                            class="rounded-circle" width="48"
+                                                            :src="stranger.friendUserInfo.profile"
+                                                            alt=""></a>
                                             </div>
                                         </td>
                                         <td><span class="name">{{stranger.friendUserInfo.nickName}}</span></td>
@@ -105,8 +137,10 @@
                         </div>
                     </div>
                 </div>
+                <#--                搜索好友对话框结束-->
             </div>
 
+            <#--            笔友列表开始-->
             <div class="col-md-7">
 
 
@@ -114,11 +148,10 @@
                     <div class="card-header">
                         <strong class="card-title">笔友列表</strong>
 
-
                         <div class="form-group form-inline" style="float: right">
                             <input type="text" class="form-control" placeholder="根据昵称模糊搜索" v-model="friendSearch">
                             <button class="btn btn-sm btn-success form-control" @click="searchFriend"><span
-                                    class="fa fa-search"></span>搜索好友
+                                        class="fa fa-search"></span>搜索好友
                             </button>
 
                         </div>
@@ -127,10 +160,11 @@
                     </div>
                     <div class="card-body">
 
-                        <ul class="media-list">
+                        <ul class="media-list" id="friendsPane">
                             <transition-group name="list">
-                                <li class="media" style="margin-top: 15px" v-for="(friend,index) in friendList"
-                                    :key="index">
+                                <li class="media" style="" v-for="(friend,index) in friendList"
+                                    :key="index" @click="chat(friend)">
+
                                     <div class="media-left">
                                         <a @click.prevent="visitFriend(friend.friendUserId)" href="#">
                                             <img class="media-object" :src="friend.friendUserInfo.profile" alt="..."
@@ -140,30 +174,31 @@
 
                                     <div class="media-body" style="margin-left: 15px;">
 
+                                        <span class="badge badge-danger" style="float: right"><i
+                                                    class="fa fa-heart"></i> {{friend.friendUserInfo.penYear}}年</span>
                                         <h4 class="media-heading">{{friend.friendUserInfo.nickName}}
-                                            <span class="badge badge-danger"><i class="fa fa-heart"></i> {{friend.friendUserInfo.penYear}}年</span>
+
                                         </h4>
 
-                                        <p>[在线]这个人很懒，没有留下什么</p>
-
+                                        <p class="line-limit-length" style="width: 80%">
+                                            [离线]{{friend.friendUserInfo.description}}</p>
 
                                     </div>
-                                    <button class="btn btn-sm btn-success" @click="chat" style="float: right"
-                                            :data-id="friend.friendUserId"><i class="fa fa-envelope"></i> 聊天
+
 
                                 </li>
                             </transition-group>
                         </ul>
 
                         <div class="row">
-                            <div class="col-md-8 col-xs-6 col-sm-6">共{{friendQuantity}}位笔友,当前第{{friendPage}}页</div>
-                            <div class="col-md-2 col-xs-3 col-sm-3">
+                            <div class="col-md-8 col-xs-12 col-sm-12">共{{friendQuantity}}位笔友,当前第{{friendPage}}页</div>
+                            <div class="col-md-2 col-xs-6 col-sm-6">
                                 <button class="btn  btn-primary btn-sm" @click="friendPrevPage"><span
-                                        class="fa fa-arrow-left"></span></button>
+                                            class="fa fa-arrow-left"></span></button>
                             </div>
-                            <div class="col-md-2 col-xs-3 col-sm-3">
+                            <div class="col-md-2 col-xs-6 col-sm-6">
                                 <button class="btn  btn-primary btn-sm" @click="friendNextPage"><span
-                                        class="fa fa-arrow-right"></span></button>
+                                            class="fa fa-arrow-right"></span></button>
                             </div>
                         </div>
                     </div> <!-- /.table-stats -->
@@ -193,7 +228,8 @@
                                     <div class="media-body" style="margin-left: 15px;">
 
                                         <h4 class="media-heading">{{friend.nickName}} <span
-                                                style="color:#878787;font-size: 16px;">来自：{{friend.source}}</span></h4>
+                                                    style="color:#878787;font-size: 16px;">来自：{{friend.source}}</span>
+                                        </h4>
 
                                         <span class="badge badge-primary" v-if="friend.gender == 1"
                                               title="男"><i class="fa fa-male"></i></span>
@@ -202,7 +238,7 @@
                                         <span class="badge badge-danger" v-if="friend.gender == -1"
                                               title="女"><i class="fa fa-female"></i></span>
                                         <span class="badge badge-info"><i
-                                                class="fa fa-globe"></i> {{friend.region}}</span>
+                                                    class="fa fa-globe"></i> {{friend.region}}</span>
                                         <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.penYear}}年</span>
 
                                     </div>
@@ -219,7 +255,10 @@
                 </div>
 
             </div>
+            <#--            笔友列表结束-->
 
+
+            <#--            好友添加列表开始-->
             <div class="col-md-5">
                 <div class="card">
                     <div class="card-header">
@@ -256,20 +295,20 @@
 
                                         <span v-if="!friend.visible" style="float: right">已失效</span>
                                         <h4 class="media-heading">{{friend.userInfo.nickName}} <span
-                                                style="color:#878787;font-size: 16px;">来自：查找</span></h4>
+                                                    style="color:#878787;font-size: 16px;">来自：查找</span></h4>
 
                                         <span class="badge badge-primary" v-if="friend.userInfo.gender == 1"
                                               title="男"><i
-                                                class="fa fa-male"></i></span>
+                                                    class="fa fa-male"></i></span>
                                         <span class="badge badge-warning" v-if="friend.userInfo.gender == 0" title="未知"><i
-                                                class="fa fa-transgender"></i></span>
+                                                    class="fa fa-transgender"></i></span>
                                         <span class="badge badge-danger" v-if="friend.userInfo.gender == -1"
                                               title="女"><i
-                                                class="fa fa-female"></i></span>
+                                                    class="fa fa-female"></i></span>
                                         <span class="badge badge-info"><i class="fa fa-globe"></i> {{friend.userInfo.region}}</span>
                                         <span class="badge badge-primary"><i class="fa fa-heart"></i> {{friend.userInfo.penYear}}年</span>
                                         <strong>验证消息:</strong><span
-                                            style="color: #878787;font-size: 16px">{{friend.msg}}</span>
+                                                style="color: #878787;font-size: 16px">{{friend.msg}}</span>
 
 
                                     </div>
@@ -282,14 +321,14 @@
                 </div>
 
             </div>
-
+            <#--            好友添加列表结束-->
 
         </div>
 
-    <#--modal-->
+        <#--modal-->
 
 
-    <#--modal-->
+        <#--modal-->
     </div><!-- .animated -->
 
 
@@ -297,7 +336,7 @@
 
 
 <#include "script.ftl"/>
-<script src="js/friends.js?v=20190412"></script>
+<script src="js/friends.js?v=20190628"></script>
 
 
 </body>

@@ -208,9 +208,8 @@ var friends = new Vue({
             })
         }
         ,
-        chat: function (event) {
-            var friendAddId = event.srcElement.dataset.id;
-            window.location = "/chat/" + friendAddId;
+        chat: function (friend) {
+            window.location = "/chat/" + friend.friendUserId;
         }
         ,
         visitFriend:function (id) {

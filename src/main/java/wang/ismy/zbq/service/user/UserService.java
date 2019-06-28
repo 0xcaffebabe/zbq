@@ -178,7 +178,14 @@ public class UserService {
     }
 
     public boolean hasLogin() {
-        return getCurrentUser() != null;
+        try {
+            if (getCurrentUser() != null){
+                return true;
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return false;
     }
 
     public void refreshCurrentUser() {

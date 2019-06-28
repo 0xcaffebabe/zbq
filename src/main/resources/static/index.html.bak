@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn88.oss-cn-beijing.aliyuncs.com/css/bootstrap.min.index.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="manifest" href="/manifest.json" />
+    <title>转笔圈 -- spin ,world</title>
+
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 1.5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+
+<!-- Static navbar -->
+
+<div id="nav" v-cloak="">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation" >
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">Zbq</a>
+
+
+                <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">
+                    <a href="/main">
+                        <img :src="profile"
+                             alt="" height="32" width="32" class="img-circle">
+                    </a>
+                </div>
+
+                <a class="navbar-brand">{{nickName==''?'未登录':nickName}}</a>
+                <div class="btn-group navbar navbar-btn" v-if="username == '未登录'">
+                    <a v-show="username == '未登录'" href="/login.html" class="btn btn-primary">登录</a>
+                    <a v-show="username == '未登录'" href="/register.html" class="btn btn-success">注册</a>
+                </div>
+
+
+
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="active">
+                        <a class="text-center">总PSER数:&nbsp;{{userCount}}<br><br>当前在线PSER:&nbsp;{{onlineCount}}</a>
+
+                    </li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+
+
+    <div id="headerwrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3">
+
+                    <div class="alert alert-success alert-dismissible" v-show="showQQPromot">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>提示:</strong> 检测你使用QQ内置浏览器访问本网站，为获得更好的浏览体验，建议使用系统浏览器。
+                    </div>
+                    <h1>SPIN,</br>WORLD</h1>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <! --/headerwrap -->
+
+    <section id="works"></section>
+    <div class="container">
+        <div class="row centered mt mb">
+            <h1>网站介绍</h1>
+
+            <p>Zbq是一个专属于PSER的社交网站</p>
+            <p>你可以分享你的fs，寻找志同道合的PSER，亦可以学习转笔课程，阅读转笔相关内容</p>
+            <p>如果你对转笔有较深的了解，也可以加入我们，输出转笔相关内容，一起促进这个圈子的良好发展</p>
+            <hr>
+            <h1>快速开始</h1>
+            <div class="col-lg-4 col-md-4 col-sm-4 gallery">
+                <a href="#"><img src="img/xs.jpg" class="img-responsive"></a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 gallery">
+                <a href="#"><img src="img/rm.jpg" class="img-responsive"></a>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 gallery">
+                <a href="#"><img src="img/jj.jpg" class="img-responsive"></a>
+            </div>
+
+        </div>
+        <! --/row -->
+    </div>
+</div>
+
+<div id="footerwrap">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-4">
+                <p>&copy2019 IM</p>
+            </div>
+
+            <div class="col-lg-4">
+                <p>In somewhere.</p>
+            </div>
+            <div class="col-lg-4">
+                <p>715711877@qq.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/vue.min.js"></script>
+<script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/jquery.min.js"></script>
+<script src="https://cdn88.oss-cn-beijing.aliyuncs.com/js/bootstrap.min.js"></script>
+<script src="js/common.js?v=20190410"></script>
+<script src="js/index.js?v=2019051401"></script>
+
+<script>
+
+</script>
+</html>

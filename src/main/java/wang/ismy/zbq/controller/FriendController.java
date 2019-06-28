@@ -14,6 +14,9 @@ import wang.ismy.zbq.service.friend.FriendService;
 
 import javax.validation.Valid;
 
+/**
+ * @author my
+ */
 @RestController
 @RequestMapping("/friend")
 public class FriendController {

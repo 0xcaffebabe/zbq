@@ -12,7 +12,9 @@
     <#include "css.ftl"/>
 
     <style>
-
+        [v-cloak]{
+            display: none;
+        }
     </style>
 </head>
 
@@ -24,7 +26,7 @@
 
     <!-- Animated -->
 
-    <div class="animated fadeIn" id="learning">
+    <div class="animated fadeIn" id="learning" v-cloak>
 
         <div style="height: 64px;"></div>
 

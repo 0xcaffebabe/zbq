@@ -24,6 +24,10 @@ public class RedirectController {
     @RequestMapping("/")
     @Limit(maxRequestPerMinute = 10)
     public String index(){
+        // 如果用户已经登陆，直接跳转到主页
+        if (userService.hasLogin()){
+            return "redirect:main";
+        }
         return "index.html";
     }
 

@@ -15,6 +15,9 @@
         .keyword{
             color:red;
         }
+        [v-cloak]{
+            display: none;
+        }
     </style>
 </head>
 
@@ -24,7 +27,7 @@
 <div class="content">
     <!-- Animated -->
 
-    <div class="animated fadeIn" id="videos">
+    <div class="animated fadeIn" id="videos" v-cloak>
 
         <div class=" form-group">
             <div class="col col-md-12">

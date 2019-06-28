@@ -22,6 +22,16 @@
             font-size: 16px;
             color:#607d8b;
         }
+
+        .line-limit-length {
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+        }
     </style>
 </head>
 
@@ -31,7 +41,7 @@
     <nav class="navbar navbar-expand-sm navbar-default" id="side">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li :class="{active:url.startsWith('/space${user.userId?c}')}"><a href="javascript:jump('/space/${user.userId?c}')"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
+                <li :class="{active:url.startsWith('/space/${user.userId?c}')}"><a href="javascript:jump('/space/${user.userId?c}')"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
                 <li :class="{active:url=='/home'}">
                     <a href="javascript:jump('/home')"><i class="menu-icon fa fa-user"></i>用户中心 </a>
                 </li>
@@ -151,7 +161,7 @@
                                     <div class="message media-body">
                                         <span class="name float-left">{{unread.fromUserInfo.nickName}}</span>
                                         <span class="time float-right">{{unread.sendTime}}</span>
-                                        <p>{{unread.newestMsg}}</p>
+                                        <p class="line-limit-length" style="width: 240px">{{unread.newestMsg}}</p>
                                     </div>
                                 </a>
                             </div>

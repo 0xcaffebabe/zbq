@@ -22,6 +22,16 @@
             background: #ccc;
             cursor: pointer;
         }
+        [v-cloak]{
+            display: none;
+        }
+
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+        }
     </style>
 </head>
 
@@ -31,7 +41,8 @@
     <!-- Animated -->
     <div class="animated fadeIn">
         <!-- Widgets  -->
-        <div class="row" id="dashboard" >
+
+        <div class="row" id="dashboard" v-cloak >
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6 dashboard" @click="jump('/friends')">
                 <div class="card">
                     <div class="card-body">
@@ -106,11 +117,12 @@
                 </div>
             </div>
         </div>
+
         <!-- /Widgets -->
         <div class="row">
 
             <div class="col-md-4">
-                <div class="card" id="quickStart">
+                <div class="card" id="quickStart" v-cloak>
                     <div class="card-header">
                         <strong>快速开始</strong>
                     </div>
@@ -133,7 +145,7 @@
             </div>
 
             <div class="col-md-8">
-                <div class="card" id="userCard">
+                <div class="card" id="userCard" v-cloak>
                     <div class="card-header">
                         <button class="btn btn-success btn-sm" style="float:right" @click="saveUserInfo">保存资料</button>
                         <strong class="card-title mb-3">资料卡</strong>
