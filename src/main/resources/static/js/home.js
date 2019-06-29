@@ -2,7 +2,42 @@
 var quickStatrt = new Vue({
    el:"#quickStart",
    data:{
-       welcome:''
+       welcome:'',
+       userCount: 0,
+       onlineCount: 0
+   }
+   ,
+    created:function () {
+
+       this.countUser();
+       
+       this.countOnline();
+    }
+   ,
+   methods:{
+       countUser: function () {
+
+           var that = this;
+           common.ajax.get(common.data.countUserUrl, function (r) {
+               if (r.success) {
+                   that.userCount = r.data;
+               } else {
+                   alert(r.msg);
+               }
+           })
+       }
+       ,
+       countOnline: function () {
+
+           var that = this;
+           common.ajax.get(common.data.countOnlineUserUrl, function (r) {
+               if (r.success) {
+                   that.onlineCount = r.data;
+               } else {
+                   alert(r.msg);
+               }
+           })
+       }
    }
 });
 

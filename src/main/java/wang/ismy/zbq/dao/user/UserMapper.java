@@ -11,10 +11,16 @@ public interface UserMapper {
 
     User selectByUsername(String username);
 
-    List<User> selectByNickNamePaging(@Param("nickName") String nickName, @Param("page")Page page);
+    List<User> selectByNickNamePaging(@Param("nickName") String nickName, @Param("page") Page page);
 
     int insert(User user);
 
+    /**
+     * 根据用户ID查询
+     *
+     * @param userId 用户ID
+     * @return 用户实体
+     */
     User selectByPrimaryKey(Integer userId);
 
     List<User> selectByUserIdBatch(List<Integer> list);
@@ -24,8 +30,9 @@ public interface UserMapper {
     int update(User user);
 
     /**
-    * 查询用户数
-    * @return 用户总数
-    */
+     * 查询用户数
+     *
+     * @return 用户总数
+     */
     long count();
 }

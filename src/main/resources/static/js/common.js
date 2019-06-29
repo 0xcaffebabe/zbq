@@ -183,7 +183,8 @@ function getCommonObject() {
             getActionListUrl:"/user/action/",
             subscribeAuthorUrl:"/subscription/",
             getSelfSettingUrl:"/user/setting/self",
-            userRestPasswordUrl:"/user/password"
+            userRestPasswordUrl:"/user/password",
+            getFriendInfoUrl:"/friend/",
 
 
         },

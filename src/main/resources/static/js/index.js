@@ -35,8 +35,8 @@ var app = new Vue({
             });
         }
 
-        if (navigator.userAgent.indexOf("TBS") != -1){
-            if(navigator.userAgent.indexOf("MQQBrowser") != -1){
+        if (navigator.userAgent.indexOf("TBS") !== -1){
+            if(navigator.userAgent.indexOf("MQQBrowser") !== -1){
                 this.showQQPromot = true;
             }
         }

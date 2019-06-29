@@ -27,38 +27,38 @@
 
 
 <!-- Static navbar -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation" id="nav" v-cloak>
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand">Zbq</a>
+<#--<div class="navbar navbar-default navbar-fixed-top" role="navigation" id="nav" v-cloak>-->
+<#--    <div class="container">-->
+<#--        <div class="navbar-header">-->
+<#--            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">-->
+<#--                <span class="sr-only">Toggle navigation</span>-->
+<#--                <span class="icon-bar"></span>-->
+<#--                <span class="icon-bar"></span>-->
+<#--                <span class="icon-bar"></span>-->
+<#--            </button>-->
+<#--            <a class="navbar-brand">Zbq</a>-->
 
 
-            <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">
-                <a href="/main" @click.prevent="jumpMain">
-                    <img :src="profile"
-                         alt="" height="32" width="32" class="img-circle">
-                </a>
-            </div>
+<#--            <div class="btn-group navbar navbar-btn navbar-right" v-if="username != '未登录'">-->
+<#--                <a href="/main" @click.prevent="jumpMain">-->
+<#--                    <img :src="profile"-->
+<#--                         alt="" height="32" width="32" class="img-circle">-->
+<#--                </a>-->
+<#--            </div>-->
 
-            <a class="navbar-brand">{{nickName==''?'未登录':nickName}}</a>
-            <div class="btn-group navbar navbar-btn" v-if="username == '未登录'">
-                <a v-show="username == '未登录'" href="/login.html" class="btn btn-primary">登录</a>
-                <a v-show="username == '未登录'" href="/register.html" class="btn btn-success">注册</a>
-            </div>
+<#--            <a class="navbar-brand">{{nickName==''?'未登录':nickName}}</a>-->
+<#--            <div class="btn-group navbar navbar-btn" v-if="username == '未登录'">-->
+<#--                <a v-show="username == '未登录'" href="/login.html" class="btn btn-primary">登录</a>-->
+<#--                <a v-show="username == '未登录'" href="/register.html" class="btn btn-success">注册</a>-->
+<#--            </div>-->
 
 
-        </div>
-        <div class="navbar-collapse collapse">
+<#--        </div>-->
+<#--        <div class="navbar-collapse collapse">-->
 
-        </div><!--/.nav-collapse -->
-    </div>
-</div>
+<#--        </div><!--/.nav-collapse &ndash;&gt;-->
+<#--    </div>-->
+<#--</div>-->
 
 <div id="space" v-cloak>
     <div id="headerwrap">
@@ -137,7 +137,7 @@
 </body>
 
 <#include "script.ftl"/>
-<script src="/js/index.js?v=20190423"></script>
+<#--<script src="/js/index.js?v=20190423"></script>-->
 <script src="/js/space.js?v=20190524"></script>
 
 <script>

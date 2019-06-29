@@ -143,7 +143,6 @@ public class UserService {
         }
     }
 
-    @MustLogin
     public User getCurrentUser() {
 
         Object user = sessionService.getFromSession("user");
@@ -178,14 +177,7 @@ public class UserService {
     }
 
     public boolean hasLogin() {
-        try {
-            if (getCurrentUser() != null){
-                return true;
-            }
-        }catch (Exception e){
-            return false;
-        }
-        return false;
+        return getCurrentUser() != null;
     }
 
     public void refreshCurrentUser() {

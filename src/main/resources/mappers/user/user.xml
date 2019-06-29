@@ -15,13 +15,17 @@
             <id property="userInfoId" column="user_info_id"/>
             <result property="nickName" column="nick_name"/>
             <result property="profile" column="profile"/>
+            <result property="description" column="description"/>
+            <result property="birthday" column="birthday"/>
             <result property="region" column="region"/>
             <result property="gender" column="gender"/>
             <result property="penYear" column="pen_year"/>
+            <result property="createTime" column="create_time"/>
         </association>
     </resultMap>
 
-    <insert id="insert" parameterType="wang.ismy.zbq.model.entity.user.User" useGeneratedKeys="true" keyProperty="userId">
+    <insert id="insert" parameterType="wang.ismy.zbq.model.entity.user.User" useGeneratedKeys="true"
+            keyProperty="userId">
         INSERT INTO user (username, password, user_info, permission, create_time, update_time)
         VALUES (#{username}, #{password}, #{userInfo.userInfoId}, #{userPermission.userPermissionId}, NOW(), NOW())
     </insert>
@@ -55,41 +59,50 @@
         FROM user
     </select>
     <select id="selectByUsername" resultMap="userMap">
-        SELECT
-            user.user_id,
-            user.username,
-            user.password,
-            user.permission,
-            user_info.user_info_id,
-            user_info.nick_name,
-            user_info.profile,
-            user_info.region,
-            user_info.pen_year
-        FROM user, user_info
-        WHERE user.username = #{username} AND user_info.user_info_id = user.user_info
+        SELECT user.user_id,
+               user.username,
+               user.password,
+               user.permission,
+               user_info.user_info_id,
+               user_info.nick_name,
+               user_info.profile,
+               user_info.region,
+               user_info.pen_year
+        FROM user,
+             user_info
+        WHERE user.username = #{username}
+          AND user_info.user_info_id = user.user_info
     </select>
     <select id="selectByNickNamePaging" resultMap="userMap">
-        SELECT
-            user.user_id,
-            user_info.nick_name,
-            user.permission,
-            user_info.profile,
-            user_info.region,
-            user_info.gender
-        FROM user, user_info
-        WHERE user_info.nick_name LIKE '%' #{nickName} '%' AND user_info.user_info_id = user.user_info
+        SELECT user.user_id,
+               user_info.nick_name,
+               user.permission,
+               user_info.profile,
+               user_info.region,
+               user_info.gender
+        FROM user,
+             user_info
+        WHERE user_info.nick_name LIKE '%' #{nickName} '%'
+          AND user_info.user_info_id = user.user_info
     </select>
     <select id="selectByPrimaryKey" resultMap="userMap">
-        SELECT
-            user.user_id,
-            user.username,
-            user.password,
-            user.permission,
-            user_info.user_info_id,
-            user_info.nick_name,
-            user_info.profile
-        FROM user, user_info
-        WHERE user.user_id = #{userId} AND user_info.user_info_id = user.user_info
+        SELECT user.user_id,
+               user.username,
+               user.password,
+               user.permission,
+               user_info.user_info_id,
+               user_info.nick_name,
+               user_info.profile,
+               user_info.description,
+               user_info.region,
+               user_info.birthday,
+               user_info.pen_year,
+               user_info.gender,
+               user_info.create_time
+        FROM user,
+             user_info
+        WHERE user.user_id = #{userId}
+          AND user_info.user_info_id = user.user_info
     </select>
     <select id="selectByUserIdBatch" resultMap="userMap">
         SELECT
@@ -109,6 +122,7 @@
         AND user_info.user_info_id = user.user_info
     </select>
     <select id="count" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM user
+        SELECT COUNT(1)
+        FROM user
     </select>
 </mapper>

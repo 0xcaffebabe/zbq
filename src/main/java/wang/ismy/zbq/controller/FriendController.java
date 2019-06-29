@@ -113,4 +113,11 @@ public class FriendController {
         friendAddService.rejectFriendAdd(friendAddId);
         return "操作完成";
     }
+
+    @GetMapping("/{friendId}")
+    @ResultTarget
+    @MustLogin
+    public Object getFriendInfo(@PathVariable("friendId") Integer friendId){
+        return friendService.getFriendInfo(friendId);
+    }
 }

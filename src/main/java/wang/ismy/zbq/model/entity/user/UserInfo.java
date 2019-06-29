@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * @author my
+ */
 @Builder
 @Data
 @AllArgsConstructor
@@ -26,6 +29,11 @@ public class UserInfo {
 
     private String region;
 
+    /**
+     * 1代表男
+     * -1代表女
+     * 0代表未知
+     */
     private Integer gender;
 
     private String description;

@@ -11,6 +11,9 @@ import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserService;
 
+/**
+ * @author my
+ */
 @Controller
 public class RedirectController {
 
@@ -26,9 +29,16 @@ public class RedirectController {
     public String index(){
         // 如果用户已经登陆，直接跳转到主页
         if (userService.hasLogin()){
-            return "redirect:main";
+            return "main";
+
         }
         return "index.html";
+    }
+
+    @RequestMapping("")
+    @Limit(maxRequestPerMinute = 10)
+    public String index1(){
+        return index();
     }
 
     @RequestMapping("/home")
@@ -191,5 +201,11 @@ public class RedirectController {
         return "collections";
     }
 
+    @RequestMapping("/user/id/{id}")
+    @MustLogin
+    @ErrorPage
+    public Object userId(){
+        return "userId";
+    }
 
 }

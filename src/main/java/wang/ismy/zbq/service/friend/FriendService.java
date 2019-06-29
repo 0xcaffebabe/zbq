@@ -1,5 +1,8 @@
 package wang.ismy.zbq.service.friend;
 
+import lombok.Setter;
+import org.apache.ibatis.scripting.xmltags.WhereSqlNode;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -8,6 +11,7 @@ import wang.ismy.zbq.model.dto.FriendAddDTO;
 import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.model.entity.friend.Friend;
 import wang.ismy.zbq.model.entity.user.User;
+import wang.ismy.zbq.model.vo.friend.FriendVO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.system.ExecuteService;
 import wang.ismy.zbq.service.user.UserService;
@@ -15,40 +19,42 @@ import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.friend.FriendAddVO;
 import wang.ismy.zbq.model.vo.friend.RecommendFriendVO;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author my
+ */
 @Service
+@Setter(onMethod_ = @Inject)
 public class FriendService {
 
-    @Autowired
-    private FriendMapper friendMapper;
 
-    @Autowired
+    private FriendMapper mapper;
+
     private UserService userService;
 
-    @Autowired
     private FriendAddService friendAddService;
 
-    @Autowired
     private ExecuteService executeService;
 
     public List<Friend> selectCurrentUserAllFriendPaging(Page page) {
         User user = userService.getCurrentUser();
-        return friendMapper.selectFriendByUserIdPaging(user.getUserId(), page);
+        return mapper.selectFriendByUserIdPaging(user.getUserId(), page);
     }
 
     public List<Friend> selectCurrentUserFriendByNickName(String nickName) {
         User user = userService.getCurrentUser();
-        return friendMapper.selectFriendByUserIdAndNickname(user.getUserId(), nickName);
+        return mapper.selectFriendByUserIdAndNickname(user.getUserId(), nickName);
     }
 
     public List<RecommendFriendVO> selectCurrentUserRecommendFriend() {
         User user = userService.getCurrentUser();
 
         // 查询出好友数量前2的用户
-        List<Integer> hotUserId = friendMapper.selectTop2ByUserIdOrderByFriendCount(user.getUserId());
+        List<Integer> hotUserId = mapper.selectTop2ByUserIdOrderByFriendCount(user.getUserId());
 
         var hotUser = userService.selectByUserIdBatch(hotUserId);
 
@@ -60,7 +66,7 @@ public class FriendService {
 
 
         retList.addAll(
-                friendMapper.selectRecommendFriendByUserId(user.getUserId())
+                mapper.selectRecommendFriendByUserId(user.getUserId())
                         .stream().map(RecommendFriendVO::convert).collect(Collectors.toList())
         );
 
@@ -130,22 +136,50 @@ public class FriendService {
     }
 
     public int insertNewRelation(Integer user1, Integer user2) {
-        return friendMapper.insert(user1, user2);
+        return mapper.insert(user1, user2);
     }
 
     public boolean isFriend(Integer user1, Integer user2) {
-        return friendMapper.selectFriendBy2User(user1, user2) != null;
+        return mapper.selectFriendBy2User(user1, user2) != null;
     }
 
 
     public int countCurrentUserFriend() {
         User user = userService.getCurrentUser();
 
-        return friendMapper.countByUserId(user.getUserId());
+        return mapper.countByUserId(user.getUserId());
     }
 
     public List<Integer> selectFriendListByUserId(Integer userId) {
 
-        return friendMapper.selectFriendListByUserId(userId);
+        return mapper.selectFriendListByUserId(userId);
+    }
+
+    /**
+     * 获取朋友信息
+     *
+     * @param friendId 朋友ID
+     * @return 朋友视图对象
+     */
+    public FriendVO getFriendInfo(Integer friendId) {
+        var currentUser = userService.getCurrentUser();
+
+        if (!isFriend(currentUser.getUserId(),friendId) ){
+            ErrorUtils.error(R.NOT_FRIEND);
+        }
+
+        var friend = userService.selectByPrimaryKey(friendId);
+
+        if (friend != null){
+            FriendVO vo = new FriendVO();
+            vo.setUserId(friendId);
+            BeanUtils.copyProperties(friend.getUserInfo(),vo);
+            vo.setJoinDate(friend.getUserInfo().getCreateTime().toLocalDate());
+            return vo;
+        }else{
+            ErrorUtils.error(R.USERNAME_NOT_EXIST);
+            return null;
+        }
+
     }
 }

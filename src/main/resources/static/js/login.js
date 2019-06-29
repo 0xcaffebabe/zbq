@@ -3,13 +3,17 @@ var app = new Vue({
     data: {
         username: '',
         password: '',
-        isAutoLogin:false
+        isAutoLogin:false,
+        showQQPromot:false,
+        userCount: 0,
+        onlineCount: 0
     }
     ,
     created: function () {
 
         this.autoLogin();
-
+        this.countUser();
+        this.countOnline();
         // service worker 注册
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function () {
@@ -27,8 +31,8 @@ var app = new Vue({
             });
         }
 
-        if (navigator.userAgent.indexOf("TBS") != -1){
-            if(navigator.userAgent.indexOf("MQQBrowser") != -1){
+        if (navigator.userAgent.indexOf("TBS") !== -1){
+            if(navigator.userAgent.indexOf("MQQBrowser") !== -1){
                 this.showQQPromot = true;
             }
         }
@@ -93,6 +97,30 @@ var app = new Vue({
             console.log("save login state");
             localStorage.setItem("username", this.username);
             localStorage.setItem("password", hex_md5(this.password));
+        }
+        ,
+        countUser: function () {
+
+            var that = this;
+            common.ajax.get(common.data.countUserUrl, function (r) {
+                if (r.success) {
+                    that.userCount = r.data;
+                } else {
+                    alert(r.msg);
+                }
+            })
+        }
+        ,
+        countOnline: function () {
+
+            var that = this;
+            common.ajax.get(common.data.countOnlineUserUrl, function (r) {
+                if (r.success) {
+                    that.onlineCount = r.data;
+                } else {
+                    alert(r.msg);
+                }
+            })
         }
     }
 });

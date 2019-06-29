@@ -120,6 +120,7 @@
         <div class="top-right">
             <div class="header-menu">
                 <div class="header-left">
+
                     <button class="search-trigger"><i class="fa fa-search"></i></button>
                     <div class="form-inline">
                         <form class="search-form">

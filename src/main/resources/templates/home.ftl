@@ -121,12 +121,13 @@
         <!-- /Widgets -->
         <div class="row">
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="card" id="quickStart" v-cloak>
                     <div class="card-header">
                         <strong>快速开始</strong>
                     </div>
                     <div class="card-body">
+                        <p class="text-sm-center"><span class="fa fa-"></span>笔圈人数：{{userCount}}，在线人数：{{onlineCount}}</p>
                         <p class="text-sm-center">
                             {{welcome}}
                         </p>
@@ -144,7 +145,7 @@
                 </div><!-- /.card -->
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="card" id="userCard" v-cloak>
                     <div class="card-header">
                         <button class="btn btn-success btn-sm" style="float:right" @click="saveUserInfo">保存资料</button>
@@ -232,7 +233,7 @@
 
 
 <#include "script.ftl"/>
-<script src="js/home.js?v=20190504"></script>
+<script src="js/home.js?v=20190630"></script>
 
 
 </body>

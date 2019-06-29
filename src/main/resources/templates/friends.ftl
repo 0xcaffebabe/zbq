@@ -163,7 +163,9 @@
                         <ul class="media-list" id="friendsPane">
                             <transition-group name="list">
                                 <li class="media" style="" v-for="(friend,index) in friendList"
-                                    :key="index" @click="chat(friend)">
+                                    :key="index" @click="chat(friend)"
+
+                                >
 
                                     <div class="media-left">
                                         <a @click.prevent="visitFriend(friend.friendUserId)" href="#">
@@ -293,7 +295,7 @@
                                             </button>
                                         </div>
 
-                                        <span v-if="!friend.visible" style="float: right">已失效</span>
+                                        <span v-if="!friend.visible" style="float: right">已处理</span>
                                         <h4 class="media-heading">{{friend.userInfo.nickName}} <span
                                                     style="color:#878787;font-size: 16px;">来自：查找</span></h4>
 
@@ -336,7 +338,7 @@
 
 
 <#include "script.ftl"/>
-<script src="js/friends.js?v=20190628"></script>
+<script src="js/friends.js?v=2019062901"></script>
 
 
 </body>
