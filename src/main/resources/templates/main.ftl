@@ -41,7 +41,11 @@
     <nav class="navbar navbar-expand-sm navbar-default" id="side">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
+
+
                 <li :class="{active:url.startsWith('/space/${user.userId?c}')}"><a href="javascript:jump('/space/${user.userId?c}')"><i class="menu-icon fa fa-home"></i>我的主页 </a></li>
+
+
                 <li :class="{active:url=='/home'}">
                     <a href="javascript:jump('/home')"><i class="menu-icon fa fa-user"></i>用户中心 </a>
                 </li>
@@ -49,10 +53,12 @@
                 <li :class="{active:url=='/account'}">
                     <a href="javascript:jump('/account')"><i class="menu-icon fa fa-gears"></i>设置中心 </a>
                 </li>
+
+
                 <li class="text-sm-center split">
                     社交
-                </li>
 
+                </li>
 
                 <li :class="{active:url == '/friends'}"><a href="javascript:jump('/friends')"> <i
                         class="menu-icon fa fa-users"></i>我的笔友 </a></li>

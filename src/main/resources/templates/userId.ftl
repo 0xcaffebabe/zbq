@@ -74,7 +74,7 @@
                                         设置
                                     </button>
                                     <ul class="dropdown-menu" style="margin-left: -100px">
-                                        <li><a href="#" class="btn btn-block btn-outline-danger">删除</a></li>
+                                        <li><a href="#" class="btn btn-block btn-outline-danger" @click.prevent="deleteFriend">删除</a></li>
 
                                     </ul>
                                 </div>
@@ -89,7 +89,7 @@
 
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <a href="#"> <i class="fa fa-location-arrow" style="color:#3498db"></i> {{info.region}} </a>
+                                <a href="#"> <i class="fa fa-map-marker" style="color:#3498db"></i> {{info.region}} </a>
                             </li>
                             <li class="list-group-item">
                                 <a href="#"> <i class="fa fa-birthday-cake" style="color:#f1c40f"></i> {{info.birthday}} </a>
@@ -202,6 +202,20 @@
             ,
             space:function () {
                 location= "/space/"+id;
+            }
+            ,
+            deleteFriend:function () {
+
+                if (confirm("确定要删除"+this.info.nickName+"？")){
+                    common.ajax.delete(common.data.getFriendInfoUrl+id,(r)=>{
+                        if (r.success){
+                            alert(r.data);
+                            window.history.back();
+                        }else{
+                            alert(r.msg);
+                        }
+                    });
+                }
             }
 
         }

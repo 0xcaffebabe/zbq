@@ -182,4 +182,26 @@ public class FriendService {
         }
 
     }
+
+    /**
+     * 解除两个用户之间的好友关系
+     * @param user1 用户1
+     * @param user2 用户2
+     */
+    public void releaseFriend(Integer user1,Integer user2){
+
+        // 如果某一方是系统通知账号，则拒绝删除
+        if (user1 == 0 || user2 == 0){
+            ErrorUtils.error(R.CAN_NOT_DELETE_SYSTEM_ACCOUNT);
+        }
+
+        if (!isFriend(user1,user2)){
+            ErrorUtils.error(R.NOT_FRIEND);
+        }
+
+        if (mapper.deleteBy2User(user1,user2) != 2){
+            ErrorUtils.error(R.UNKNOWN_ERROR);
+        }
+
+    }
 }

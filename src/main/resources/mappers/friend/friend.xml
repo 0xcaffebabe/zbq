@@ -19,76 +19,83 @@
         INSERT INTO friend (friend_id, user_id, create_time, update_time)
         VALUES (#{user1}, #{user2}, NOW(), NOW())
     </insert>
+    <delete id="deleteBy2User">
+        DELETE
+        FROM friend
+        WHERE (friend_id = #{user1} AND user_id = #{user2})
+           OR (user_id = #{user1} AND friend_id = #{user2})
+    </delete>
     <select id="selectFriendByUserIdPaging" resultMap="friendMap">
-        SELECT
-            friend.friend_id,
-            user_info.nick_name,
-            user_info.profile,
-            user_info.pen_year,
-            user_info.description
-        FROM friend, user, user_info
+        SELECT friend.friend_id,
+               user_info.nick_name,
+               user_info.profile,
+               user_info.pen_year,
+               user_info.description
+        FROM friend,
+             user,
+             user_info
         WHERE friend.friend_id = user.user_id
-              AND user.user_info = user_info.user_info_id
-              AND (friend.user_id = #{userId})
+          AND user.user_info = user_info.user_info_id
+          AND (friend.user_id = #{userId})
 
     </select>
     <select id="selectRecommendFriendByUserId" resultMap="friendMap">
-        SELECT
-            user.user_id friend_id,
-            user_info.nick_name,
-            user_info.profile,
-            user_info.pen_year,
-            user_info.region,
-            user_info.gender
-        FROM
-            user, user_info
+        SELECT user.user_id friend_id,
+               user_info.nick_name,
+               user_info.profile,
+               user_info.pen_year,
+               user_info.region,
+               user_info.gender
+        FROM user,
+             user_info
         WHERE user.user_info = user_info.user_info_id
-              AND user_id NOT IN
-                  (
-                      SELECT friend.friend_id
-                      FROM friend
-                      WHERE friend.user_id = #{userId}
-                  )
-              AND user_id != #{userId}
+          AND user_id NOT IN
+              (
+                  SELECT friend.friend_id
+                  FROM friend
+                  WHERE friend.user_id = #{userId}
+              )
+          AND user_id != #{userId}
         ORDER BY RAND()
         LIMIT 5
     </select>
     <select id="selectFriendByUserIdAndNickname" resultMap="friendMap">
-        SELECT
-            friend.friend_id,
-            user_info.nick_name,
-            user_info.profile,
-            user_info.pen_year
-        FROM friend, user, user_info
+        SELECT friend.friend_id,
+               user_info.nick_name,
+               user_info.profile,
+               user_info.pen_year
+        FROM friend,
+             user,
+             user_info
         WHERE friend.friend_id = user.user_id
-              AND user.user_info = user_info.user_info_id
-              AND (friend.user_id = #{userId})
-              AND user_info.nick_name LIKE '%' #{nickName} '%'
+          AND user.user_info = user_info.user_info_id
+          AND (friend.user_id = #{userId})
+          AND user_info.nick_name LIKE '%' #{nickName} '%'
     </select>
     <select id="selectFriendBy2User" resultMap="friendMap">
         SELECT friend_id
         FROM friend
-        WHERE
-            (friend_id = #{user1} AND user_id = #{user2}) OR (friend_id = #{user2} AND user_id = #{user1})
+        WHERE (friend_id = #{user1} AND user_id = #{user2})
+           OR (friend_id = #{user2} AND user_id = #{user1})
         LIMIT 1
     </select>
     <select id="countByUserId" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM friend WHERE user_id = #{userId}
+        SELECT COUNT(1)
+        FROM friend
+        WHERE user_id = #{userId}
     </select>
     <select id="selectFriendListByUserId" resultType="java.lang.Integer">
-        SELECT friend_id FROM friend WHERE user_id = #{userId}
+        SELECT friend_id
+        FROM friend
+        WHERE user_id = #{userId}
     </select>
     <select id="selectTop2ByUserIdOrderByFriendCount" resultType="integer">
-        SELECT
-            user_id
-        FROM
-            friend
-        WHERE 	user_id NOT IN ( SELECT friend.friend_id FROM friend WHERE friend.user_id = #{id} )
-                 AND user_id != #{id}
-        GROUP BY
-            user_id
-        ORDER BY
-            count(1) DESC,user_id
+        SELECT user_id
+        FROM friend
+        WHERE user_id NOT IN (SELECT friend.friend_id FROM friend WHERE friend.user_id = #{id})
+          AND user_id != #{id}
+        GROUP BY user_id
+        ORDER BY count(1) DESC, user_id
         LIMIT 2
     </select>
 

@@ -48,4 +48,13 @@ class FriendServiceTest {
 
         assertEquals("用户2",vo.getNickName());
     }
+
+    @Test
+    public void 测试删除朋友关系() {
+        when(mapper.selectFriendBy2User(eq(1),eq(2))).thenReturn(new Friend());
+
+        when(mapper.deleteBy2User(eq(1),eq(2))).thenReturn(2);
+
+        friendService.releaseFriend(1,2);
+    }
 }

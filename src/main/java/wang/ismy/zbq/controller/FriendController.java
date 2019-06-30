@@ -11,6 +11,7 @@ import wang.ismy.zbq.model.dto.Page;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.friend.FriendAddService;
 import wang.ismy.zbq.service.friend.FriendService;
+import wang.ismy.zbq.service.user.UserService;
 
 import javax.validation.Valid;
 
@@ -26,6 +27,9 @@ public class FriendController {
 
     @Autowired
     private FriendAddService friendAddService;
+
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping("/self")
@@ -119,5 +123,13 @@ public class FriendController {
     @MustLogin
     public Object getFriendInfo(@PathVariable("friendId") Integer friendId){
         return friendService.getFriendInfo(friendId);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResultTarget
+    @MustLogin
+    public Object releaseFriend(@PathVariable("id") Integer friendId){
+        friendService.releaseFriend(userService.getCurrentUser().getUserId(),friendId);
+        return R.RELEASE_SUCCESS;
     }
 }

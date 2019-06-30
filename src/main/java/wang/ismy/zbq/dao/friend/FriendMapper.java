@@ -31,6 +31,18 @@ public interface FriendMapper {
 
     /**
      * 查询出好友数量前2的用户
+     *
+     * @param userId 上下文环境用户
+     * @return 用户ID列表
      */
     List<Integer> selectTop2ByUserIdOrderByFriendCount(Integer userId);
+
+    /**
+     * 根据双方ID删除好友关系
+     *
+     * @param user1 用户1
+     * @param user2 用户2
+     * @return 受影响行数
+     */
+    int deleteBy2User(@Param("user1") Integer user1, @Param("user2") Integer user2);
 }

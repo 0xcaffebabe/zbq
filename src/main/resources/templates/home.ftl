@@ -127,11 +127,12 @@
                         <strong>快速开始</strong>
                     </div>
                     <div class="card-body">
-                        <p class="text-sm-center"><span class="fa fa-"></span>笔圈人数：{{userCount}}，在线人数：{{onlineCount}}</p>
+
                         <p class="text-sm-center">
                             {{welcome}}
                         </p>
 
+                        <p class="text-sm-center"><span class="fa fa-"></span>笔圈人数：{{userCount}}，在线人数：{{onlineCount}}</p>
 
                         <button class="btn btn-success btn-block" onclick="location.hash='userCard'"><span class="fa fa-user"></span>&nbsp;完善个人信息</button>
                         <button class="btn btn-primary btn-block" onclick="location='/courses'"><span class="fa fa-list"></span>&nbsp;学习转笔课程</button>

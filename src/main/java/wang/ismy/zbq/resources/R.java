@@ -92,7 +92,7 @@ public class R {
 
     public static final String EMAIL_REPEAT_BIND = "您已绑定";
 
-    public static final String EMAIL_VALID_ERROR ="邮箱绑定验证错误" ;
+    public static final String EMAIL_VALID_ERROR = "邮箱绑定验证错误";
 
     public static final String BROADCAST_FAIL = "发送广播消息失败";
 
@@ -123,6 +123,10 @@ public class R {
     public static final String UPDATE_SUCCESS = "更新成功";
 
     public static final String CODE_NOT_MATCH = "验证码不匹配";
+
+    public static final String CAN_NOT_DELETE_SYSTEM_ACCOUNT = "系统通知账号，无法删除！";
+
+    public static final String RELEASE_SUCCESS = "解除好友关系成功";
 }
 
 
