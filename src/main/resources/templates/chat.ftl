@@ -45,6 +45,19 @@
             cursor: pointer;
         }
 
+        .current{
+            background-color: #ccc;
+        }
+
+        .line-limit-length {
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+        }
     </style>
 </head>
 
@@ -64,43 +77,7 @@
 
             <div class="row">
 
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title box-title">消息列表</h4>
-                            <div class="card-content">
-                                <table class="table ">
-                                    <tr v-for="message in userMessageList" >
-                                        <td :onclick="'chat.chat('+message.oppositeSideId+')'">
 
-                                            <div class="media" >
-                                                <div class="media-left" >
-                                                    <div class="round-img">
-                                                        <a href="#"><img class="rounded-circle"
-                                                                         :src="message.oppositeSideUserInfo.profile"
-                                                                         width="64" alt=""></a>
-                                                    </div>
-                                                </div>
-                                                <div class="media-body" style="margin-left: 15px;">
-                                                    <div class="text-left" style="font-size: 20px;font-weight: bold">
-                                                        {{message.oppositeSideUserInfo.nickName}}
-                                                        <span v-show="message.msgCount > 0" style="float:right;border-radius: 50px;font-size: 14px"
-                                                              class="badge badge-primary">{{message.msgCount}}</span>
-                                                    </div>
-
-                                                    <p style="font-size: 12px">{{message.newestMsg}}</p>
-                                                </div>
-                                            </div>
-
-
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </div>
-                        </div> <!-- /.card-body -->
-                    </div><!-- /.card -->
-                </div>
 
 
                 <div class="col-md-8">
@@ -159,6 +136,43 @@
                 </div>
 
 
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title box-title">消息列表</h4>
+                            <div class="card-content">
+                                <table class="table ">
+                                    <tr v-for="message in userMessageList" :class="{current:message.oppositeSideId == friendId}">
+                                        <td :onclick="'chat.chat('+message.oppositeSideId+')'">
+
+                                            <div class="media" >
+                                                <div class="media-left" >
+                                                    <div class="round-img">
+                                                        <a href="#"><img class="rounded-circle"
+                                                                         :src="message.oppositeSideUserInfo.profile"
+                                                                         width="64" alt=""></a>
+                                                    </div>
+                                                </div>
+                                                <div class="media-body" style="margin-left: 15px;">
+                                                    <div class="text-left" style="font-size: 20px;font-weight: bold">
+                                                        {{message.oppositeSideUserInfo.nickName}}
+                                                        <span v-show="message.msgCount > 0 &&    message.oppositeSideId != friendId" style="float:right;border-radius: 50px;font-size: 14px"
+                                                              class="badge badge-primary">{{message.msgCount}}</span>
+                                                    </div>
+
+                                                    <p style="font-size: 12px;">{{message.newestMsg}}</p>
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div> <!-- /.card-body -->
+                    </div><!-- /.card -->
+                </div>
             </div>
 
             <div class="clearfix"></div>

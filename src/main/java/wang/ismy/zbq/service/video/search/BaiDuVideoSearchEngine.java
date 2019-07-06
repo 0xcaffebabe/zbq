@@ -9,6 +9,7 @@ import wang.ismy.zbq.model.Video;
 import wang.ismy.zbq.model.dto.Page;
 
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +23,10 @@ public class BaiDuVideoSearchEngine implements VideoFetch{
     private Spider spider;
     @Override
     public List<Video> fetch(String kw, Page page) throws Exception {
-        kw = URLEncoder.encode(kw,"utf8");
+        kw = URLEncoder.encode(kw, StandardCharsets.UTF_8);
         Request request = new Request();
-        request.url("https://www.baidu.com/sf/vsearch?pd=video&tn=vsearch&ie=utf-8&wrsv_spt=10&wd="+kw+"&async=1&pn=20");
+        int pageNumber = page.getPageNumber()*20;
+        request.url("https://www.baidu.com/sf/vsearch?pd=video&tn=vsearch&ie=utf-8&wrsv_spt=10&wd="+kw+"&async=1&pn="+pageNumber);
 
         List<Video> videoList = new ArrayList<>();
         spider.request(request,response -> {

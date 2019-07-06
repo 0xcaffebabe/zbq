@@ -5,7 +5,9 @@ import wang.ismy.zbq.model.dto.message.MessageListDTO;
 import wang.ismy.zbq.model.dto.message.UnreadMessageDTO;
 import wang.ismy.zbq.model.entity.Message;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface MessageMapper {
 
@@ -28,7 +30,22 @@ public interface MessageMapper {
      */
     List<UnreadMessageDTO> selectUnreadMessageByUserId(@Param("userId") Integer userId);
 
-    List<MessageListDTO> selectMessageListByUserId(@Param("userId") Integer userId);
+    /**
+     * 查询出用户最近聊天列表
+     *
+     * @param userId 用户ID
+     * @param list   朋友ID列表
+     * @return 消息列表视图对象列表
+     */
+    List<MessageListDTO> selectRecentMessageList(@Param("userId") Integer userId, @Param("list") List<Integer> list);
 
     int updateHasRead(@Param("userId") int userId, @Param("friendId") int friendId);
+
+    /**
+     * 查询出用户最近聊天的用户，根据时间排序
+     *
+     * @param user 用户ID
+     * @return 哈希表列表
+     */
+    List<Map<String, Integer>> selectRecentMessageUser(@Param("user") Integer user);
 }

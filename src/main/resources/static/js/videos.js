@@ -7,7 +7,8 @@ var video = new Vue({
         length: 20,
         engine: {},
         engineList: [],
-        hotKw:[]
+        hotKw: [],
+        enginePage: {}
     }
     ,
     created: function () {
@@ -22,15 +23,22 @@ var video = new Vue({
                 var that = this;
                 common.ajax.get(common.data.searchVideoUrl, function (r) {
                     if (r.success) {
-                        that.videoList = r.data;
+                        var list = r.data;
+
+                        if (list.length == 0) {
+                            alert("没有更多数据");
+                            return;
+                        }
+
+                        that.videoList = that.videoList.concat(list);
                     } else {
                         alert(r.msg);
                     }
                 }, {
                     kw: this.kw,
                     engine: this.engine.code,
-                    page:this.page,
-                    length:this.length
+                    page: this.page,
+                    length: this.length
                 });
             } else {
                 alert("关键词不得为空");
@@ -52,22 +60,31 @@ var video = new Vue({
         ,
         changeEngine: function (engine) {
             this.engine = engine;
+            this.videoList = [];
+            this.page =1;
+
         }
         ,
-        getHotKw:function () {
+        getHotKw: function () {
 
             var that = this;
-            common.ajax.get(common.data.getHotKwUrl,function (r) {
-                if (r.success){
+            common.ajax.get(common.data.getHotKwUrl, function (r) {
+                if (r.success) {
                     that.hotKw = r.data;
-                }else{
+                } else {
                     alert(r.msg);
                 }
             })
         }
         ,
-        changeKw:function (kw) {
+        changeKw: function (kw) {
             this.kw = kw;
+        }
+        ,
+        getMore: function () {
+            this.page++;
+            this.searchVideo();
+
         }
     }
 });

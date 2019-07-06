@@ -26,7 +26,7 @@ public class SoGouVideoSearchEngine implements VideoFetch {
 
         kw = URLEncoder.encode(kw,"utf8");
 
-        String url = "https://v.sogou.com/v?query="+kw+"&ie=utf8&tcc=1&tn=0&len=20&page=1";
+        String url = "https://v.sogou.com/v?query="+kw+"&ie=utf8&tcc=1&tn=0&len=20&page="+page.getPageNumber();
 
         Request request = new Request();
         request.setUrl(url);

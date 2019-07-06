@@ -3,15 +3,15 @@ package wang.ismy.zbq.service;
 import freemarker.template.TemplateException;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import wang.ismy.zbq.dao.MessageMapper;
-import wang.ismy.zbq.enums.UserAccountEnum;
 import wang.ismy.zbq.model.dto.message.MessageDTO;
 import wang.ismy.zbq.model.dto.message.UnreadMessageDTO;
+import wang.ismy.zbq.model.vo.user.UserVO;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.system.EmailService;
 import wang.ismy.zbq.service.system.ExecuteService;
-import wang.ismy.zbq.service.user.UserAccountService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.model.vo.message.MessageListVO;
 import wang.ismy.zbq.model.vo.message.MessageVO;
@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author my
@@ -137,65 +138,53 @@ public class MessageService {
 
         User user = userService.getCurrentUser();
 
-        // 查询出当前用户通信列表
-        var messageList = mapper.selectMessageListByUserId(user.getUserId());
-        // 查询出当前用户未读消息列表
-        var unreadList = selectCurrentUserUnreadMessageList();
+        List<Integer> friendIdList = getFriendIdList(user.getUserId());
+        Map<Integer, UserVO> userVOMap = UserService.userList2UserVOMap(userService.selectByUserIdBatch(friendIdList));
+
+        var messageList = mapper.selectRecentMessageList(user.getUserId(), friendIdList);
+        var unreadMessageList = selectCurrentUserUnreadMessageList();
+
         List<MessageListVO> ret = new ArrayList<>();
+        Map<Integer,Boolean> contactUserMap = new HashMap<>();
 
-        // 该map的作用是防止同一对用户被重复加入
-        Map<Integer, Integer> judgeMap = new HashMap<>();
-
-        // 先把所有未读消息插入到结果中
-        for (var i : unreadList) {
-            judgeMap.put(i.getFromUserId(), user.getUserId());
+        for (var i :unreadMessageList){
             MessageListVO vo = new MessageListVO();
             vo.setOppositeSideId(i.getFromUserId());
-            vo.setOppositeSideUserInfo(i.getFromUserInfo());
-            vo.setMsgCount(i.getMsgCount());
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(i.getFromUserInfo(),userVO);
+            vo.setOppositeSideUserInfo(userVO);
             vo.setNewestMsg(i.getNewestMsg());
+            vo.setMsgCount(i.getMsgCount());
             ret.add(vo);
+            contactUserMap.put(i.getFromUserId(),true);
         }
-
-        List<Integer> userIdList = new ArrayList<>();
-
 
         for (var i : messageList) {
-            // 如果发送方为当前登录用户，则对方为toUser
-            Integer oppositeUser = null;
-            if (i.getFromUser().equals(user.getUserId())) {
-                oppositeUser = i.getToUser();
-            } else {
-                oppositeUser = i.getFromUser();
-            }
-            userIdList.add(oppositeUser);
-
-
-            // 如果judgeMap当中查找不到oppositeUser与当前登录用户的映射关系，则将这条消息加入到结果中
-            if (judgeMap.get(oppositeUser) != null) {
-                continue;
-            }
             MessageListVO vo = new MessageListVO();
-            vo.setOppositeSideId(oppositeUser);
-            vo.setMsgCount(0);
-            vo.setNewestMsg(i.getNewestMsg());
-            ret.add(vo);
-            judgeMap.put(oppositeUser, user.getUserId());
-        }
+            if (!i.getFromUser().equals(user.getUserId())) {
 
-        var userList = userService.selectByUserIdBatch(userIdList);
-
-        for (var i : userList) {
-            for (var j : ret) {
-                if (j.getOppositeSideUserInfo() == null) {
-                    if (i.getUserId().equals(j.getOppositeSideId())) {
-                        j.setOppositeSideUserInfo(i.getUserInfo());
-                    }
-                }
+                vo.setOppositeSideId(i.getFromUser());
+                vo.setOppositeSideUserInfo(userVOMap.get(i.getFromUser()));
+            }else{
+                vo.setOppositeSideId(i.getToUser());
+                vo.setOppositeSideUserInfo(userVOMap.get(i.getToUser()));
             }
+            vo.setNewestMsg(i.getNewestMsg());
+            if (contactUserMap.get(vo.getOppositeSideId()) == null){
+                ret.add(vo);
+                contactUserMap.put(vo.getOppositeSideId(),true);
+            }
+
         }
-        return ret;
+
+        // 对结果进行排序
+        return ret.stream()
+                .sorted(Comparator.comparingInt(e -> friendIdList.indexOf(e.getOppositeSideId())))
+                .collect(Collectors.toList());
+
     }
+
+
 
     public void updateHasRead(int userId, int friendId) {
         if (friendService.isFriend(userId, friendId)) {
@@ -236,5 +225,26 @@ public class MessageService {
                 }
             }
         }
+    }
+
+    private List<Integer> getFriendIdList(Integer userId) {
+        var list = mapper.selectRecentMessageUser(userId);
+        List<Integer> ret = new ArrayList<>();
+
+        for (var map : list) {
+            var fromUser = map.get("from_user");
+
+            if (!fromUser.equals(userId)) {
+                if (!ret.contains(fromUser)) {
+                    ret.add(fromUser);
+                }
+            } else {
+                var toUser = map.get("to_user");
+                if (!ret.contains(toUser)) {
+                    ret.add(toUser);
+                }
+            }
+        }
+        return ret;
     }
 }

@@ -2,6 +2,7 @@ package wang.ismy.zbq.model.vo.message;
 
 import lombok.Data;
 import wang.ismy.zbq.model.entity.user.UserInfo;
+import wang.ismy.zbq.model.vo.user.UserVO;
 
 
 /**
@@ -12,9 +13,11 @@ public class MessageListVO {
 
     private Integer oppositeSideId;
 
-    private UserInfo oppositeSideUserInfo;
+    private UserVO oppositeSideUserInfo;
 
     private Integer msgCount;
 
     private String newestMsg;
+
+
 }

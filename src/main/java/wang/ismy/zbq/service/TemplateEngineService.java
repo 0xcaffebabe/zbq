@@ -28,6 +28,8 @@ public class TemplateEngineService {
     public static final String COLLECT_TEMPLATE =
             "用户【@@{user}】收藏了你的@@{type}【@@{content}】[@@{time}]";
 
+    public static final String CONTENT_TEMPLATE = "【@@{user}】发布了新的转笔内容【@@{content}】，快去看看吧[@@{time}]";
+
 
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;

@@ -13,6 +13,7 @@ import wang.ismy.zbq.model.entity.Comment;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.MessageService;
+import wang.ismy.zbq.service.SubscriptionService;
 import wang.ismy.zbq.service.TemplateEngineService;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.user.UserAccountService;
@@ -58,6 +59,9 @@ public class InformService {
 
     @Setter(onMethod_ =@Inject)
     private TemplateEngineService templateEngineService;
+
+    @Setter(onMethod_ =@Inject)
+    private SubscriptionService subscriptionService;
 
     @PostConstruct
     public void init() {
@@ -151,4 +155,51 @@ public class InformService {
         }
 
     }
+
+    public void informUserContent(Integer authorUserId,String content){
+        var author = userService.selectByPrimaryKey(authorUserId);
+        if (author == null) {
+            log.error("评论通知用户不存在:{}", authorUserId);
+            return;
+        }
+
+        Map<String, Object> modelMap = Map.of("user", author.getUserInfo().getNickName(),
+                "time", TimeUtils.getStrTime(),
+                "content", content);
+
+        var subscripters = subscriptionService.selectSubscriperAll(authorUserId);
+
+        // 系统通知用户
+        String msg = templateEngineService.parseStr(TemplateEngineService.CONTENT_TEMPLATE, modelMap);
+
+        executeService.submit(()->{
+            log.info("正在给{}位用户推送消息通知",subscripters.size());
+            for (var i : subscripters){
+                informUser(i, msg);
+            }
+
+        });
+
+
+        // 邮箱通知用户
+        try {
+            String html = templateEngineService.parseModel("email/contentInform.html",
+                    modelMap);
+            executeService.submit(()->{{
+                log.info("正在给{}位用户推送邮件通知",subscripters.size());
+                for (var i : subscripters){
+                    try {
+                        emailService.sendHtmlMail(i, "【转笔圈】你关注的人发布新内容了", html);
+                    } catch (MessagingException e) {
+                        log.error("发送邮件时发生异常：{}", e.getMessage());
+                    }
+                }
+
+            }});
+
+        } catch (IOException | TemplateException e) {
+            log.error("模板发生异常：{}", e.getMessage());
+        }
+    }
+
 }

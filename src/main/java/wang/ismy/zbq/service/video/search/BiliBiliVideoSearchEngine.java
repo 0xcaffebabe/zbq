@@ -30,7 +30,7 @@ public class BiliBiliVideoSearchEngine implements VideoFetch {
         kw = URLEncoder.encode(kw,"utf8");
         String url =
                 "https://api.bilibili.com/x/web-interface/search/type?jsonp=jsonp&search_type=video&highlight=1&keyword="+
-                        kw+"&from_source=banner_search&page=1";
+                        kw+"&from_source=banner_search&page="+page.getPageNumber();
 
         Request request = new Request();
         request.setUrl(url);

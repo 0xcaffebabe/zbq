@@ -28,7 +28,7 @@ public class YouKuVideoSearchEngine implements VideoFetch {
 
         String url =
                 "https://www.soku.com/nt/search/q_"+
-                        kw+"_orderby_1_limitdate_0?spm=a2h0k.8191414.0.0&site=14&page=1";
+                        kw+"_orderby_1_limitdate_0?spm=a2h0k.8191414.0.0&site=14&page="+page.getPageNumber();
 
         Request request = new Request();
         request.setUrl(url);

@@ -9,10 +9,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import wang.ismy.zbq.dao.MessageMapper;
 import wang.ismy.zbq.model.dto.message.MessageDTO;
+import wang.ismy.zbq.model.dto.message.MessageListDTO;
 import wang.ismy.zbq.model.dto.message.UnreadMessageDTO;
 import wang.ismy.zbq.model.entity.Message;
 import wang.ismy.zbq.model.entity.user.User;
 import wang.ismy.zbq.model.entity.user.UserInfo;
+import wang.ismy.zbq.model.vo.course.LessonListVO;
+import wang.ismy.zbq.model.vo.message.MessageListVO;
 import wang.ismy.zbq.service.friend.FriendService;
 import wang.ismy.zbq.service.system.EmailService;
 import wang.ismy.zbq.service.system.ExecuteService;
@@ -20,6 +23,7 @@ import wang.ismy.zbq.service.user.UserService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -43,9 +47,12 @@ class MessageServiceTest {
     @InjectMocks
     MessageService messageService;
 
-    @Mock TemplateEngineService templateEngineService;
+    @Mock
+    TemplateEngineService templateEngineService;
 
-    @Mock EmailService emailService;
+    @Mock
+    EmailService emailService;
+
     /**
      * @see MessageService#selectCurrentUserMessageListByFriendId(int)
      */
@@ -96,19 +103,19 @@ class MessageServiceTest {
     }
 
     @Test
-    public void 测试发送消息时通知接收方() throws Throwable{
+    public void 测试发送消息时通知接收方() throws Throwable {
 
         var fromUser = User.builder().userId(2).userInfo(UserInfo.builder().nickName("用户2").build()).build();
         var msg = "我给你发了一条消息";
 
         when(userService.selectByPrimaryKey(1)).thenReturn(User.convert(1));
 
-        when(templateEngineService.parseModel(eq("email/messageInform.html"),argThat(map-> map.get("user").equals("用户2")
+        when(templateEngineService.parseModel(eq("email/messageInform.html"), argThat(map -> map.get("user").equals("用户2")
                 && map.get("content").equals("我给你发了一条消息")))).thenReturn("测试模板");
 
-        messageService.messageInform(1,fromUser,msg);
+        messageService.messageInform(1, fromUser, msg);
 
-        verify(emailService).sendHtmlMail(eq(1),eq("【转笔圈】你有一条朋友消息"),eq("测试模板"));
+        verify(emailService).sendHtmlMail(eq(1), eq("【转笔圈】你有一条朋友消息"), eq("测试模板"));
     }
 
     /**
@@ -126,7 +133,7 @@ class MessageServiceTest {
                 )
         );
 
-        when(userService.selectByUserIdBatch(argThat(l->l.containsAll(List.of(1,2,3)))))
+        when(userService.selectByUserIdBatch(argThat(l -> l.containsAll(List.of(1, 2, 3)))))
                 .thenReturn(
                         List.of(
                                 User.builder().userId(1).userInfo(UserInfo.builder().nickName("用户1").build()).build(),
@@ -136,11 +143,61 @@ class MessageServiceTest {
                 );
         var list = messageService.selectCurrentUserUnreadMessageList();
 
-        assertEquals(3,list.size());
-        assertEquals("消息1",list.get(0).getNewestMsg());
-        assertEquals("用户1",list.get(0).getFromUserInfo().getNickName());
+        assertEquals(3, list.size());
+        assertEquals("消息1", list.get(0).getNewestMsg());
+        assertEquals("用户1", list.get(0).getFromUserInfo().getNickName());
 
     }
 
 
+    @Test
+    public void 测试拉取用户最近聊天列表() {
+        when(userService.getCurrentUser()).thenReturn(User.convert(1));
+
+        when(mapper.selectRecentMessageUser(eq(1))).thenReturn(
+                List.of(
+                        Map.of("from_user", 1, "to_user", 2),
+                        Map.of("from_user", 1, "to_user", 3),
+                        Map.of("from_user", 1, "to_user", 4),
+                        Map.of("from_user", 1, "to_user", 5)
+                )
+        );
+
+
+        when(mapper.selectUnreadMessageByUserId(eq(1))).thenReturn(
+                List.of(
+                        UnreadMessageDTO.builder().fromUser(2).newestMsg("未读消息1").msgCount(1).build(),
+                        UnreadMessageDTO.builder().fromUser(3).newestMsg("未读消息2").msgCount(2).build(),
+                        UnreadMessageDTO.builder().fromUser(4).newestMsg("未读消息3").msgCount(3).build()
+                )
+        );
+
+        when(userService.selectByUserIdBatch(argThat(l -> l.containsAll(List.of(2, 3, 4)))))
+                .thenReturn(
+                        List.of(
+                                User.builder().userId(4).userInfo(UserInfo.builder().nickName("用户4").build()).build(),
+                                User.builder().userId(2).userInfo(UserInfo.builder().nickName("用户2").build()).build(),
+                                User.builder().userId(3).userInfo(UserInfo.builder().nickName("用户3").build()).build()
+                        )
+                );
+
+        when(mapper.selectRecentMessageList(eq(1), argThat(l -> l.containsAll(List.of(2, 3, 4, 5))))).thenReturn(
+                List.of(
+                        MessageListDTO.builder().fromUser(2).newestMsg("消息2").build(),
+                        MessageListDTO.builder().fromUser(3).newestMsg("消息3").build(),
+                        MessageListDTO.builder().fromUser(4).newestMsg("消息4").build(),
+                        MessageListDTO.builder().fromUser(5).newestMsg("消息5").build()
+                )
+        );
+
+        var list = messageService.selectCurrentUserMessageList();
+
+        assertEquals(4, list.size());
+        assertEquals("未读消息1", list.get(0).getNewestMsg());
+        assertEquals(1, (int) list.get(0).getMsgCount());
+        assertEquals("未读消息3", list.get(2).getNewestMsg());
+        assertEquals(3, (int) list.get(2).getMsgCount());
+        assertEquals("消息5", list.get(3).getNewestMsg());
+        assertNull(list.get(3).getMsgCount());
+    }
 }

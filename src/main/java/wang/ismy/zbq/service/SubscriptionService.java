@@ -50,6 +50,10 @@ public class SubscriptionService {
         return subscriptionMapper.selectByAuthorBatch(authorIdList,userId);
     }
 
+    public List<Integer> selectSubscriperAll(Integer author){
+        return subscriptionMapper.selectSubscriperAll(author);
+    }
+
     public void currentUserUnsubscribe(Integer author){
         var currentUser = userService.getCurrentUser();
         Subscription subscription = subscriptionMapper.selectByUserAndAuthor(currentUser.getUserId(),author);

@@ -96,7 +96,7 @@
         </div>
 
         <div class="text-center">
-            <button class="btn btn-primary" v-show="kw">加载更多</button>
+            <button class="btn btn-primary" v-show="kw && this.videoList.length != 0" @click="getMore">加载更多</button>
         </div>
     </div>
 
@@ -107,6 +107,6 @@
 <div class="clearfix"></div>
 
 <#include "script.ftl"/>
-<script src="/js/videos.js?v=20190501"></script>
+<script src="/js/videos.js?v=20190703"></script>
 </body>
 </html>

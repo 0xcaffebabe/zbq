@@ -38,4 +38,7 @@
             #{i}
         </foreach>
     </select>
+    <select id="selectSubscriperAll" resultType="java.lang.Integer">
+        SELECT user FROM subscription WHERE author = #{authod}
+    </select>
 </mapper>

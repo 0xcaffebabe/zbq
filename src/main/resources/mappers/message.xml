@@ -24,50 +24,70 @@
     </insert>
     <update id="updateHasRead">
         UPDATE message
-        SET has_read = TRUE WHERE from_user = #{friendId} AND to_user= #{userId}
+        SET has_read = TRUE
+        WHERE from_user = #{friendId}
+          AND to_user = #{userId}
     </update>
 
     <select id="selectMessageListBy2User" resultMap="messageMap">
         SELECT *
         FROM message
-        WHERE
-            (from_user = #{user1} AND to_user = #{user2})
-            OR (from_user = #{user2} AND to_user = #{user1})
+        WHERE (from_user = #{user1} AND to_user = #{user2})
+           OR (from_user = #{user2} AND to_user = #{user1})
 
     </select>
     <select id="selectUnreadMessageByUserId" resultType="wang.ismy.zbq.model.dto.message.UnreadMessageDTO">
-        SELECT
-            message.from_user,
-            COUNT(*) msg_count,
-            (
-                SELECT m.content
-                FROM message m
-                WHERE m.from_user = message.from_user AND m.to_user = #{userId}
-                ORDER BY m.create_time DESC
-                LIMIT 1
-            )        newest_msg,
-            message.create_time send_time
+        SELECT message.from_user,
+               COUNT(*)            msg_count,
+               (
+                   SELECT m.content
+                   FROM message m
+                   WHERE m.from_user = message.from_user
+                     AND m.to_user = #{userId}
+                   ORDER BY m.create_time DESC
+                   LIMIT 1
+               )                   newest_msg,
+               message.create_time send_time
         FROM message
-        WHERE message.to_user = #{userId} AND message.has_read = FALSE
+        WHERE message.to_user = #{userId}
+          AND message.has_read = FALSE
         GROUP BY message.from_user
         ORDER BY message.create_time DESC
     </select>
-    <select id="selectMessageListByUserId" resultType="wang.ismy.zbq.model.dto.message.MessageListDTO">
-        SELECT
-            message.from_user,
-            message.to_user,
-            (
-                SELECT m.content
-                FROM message m
-                WHERE (m.to_user = #{userId} OR m.from_user = #{userId}) AND
-                      (m.from_user = message.from_user AND m.to_user = message.to_user)
-                ORDER BY m.create_time DESC
-                LIMIT 1
-            ) newest_msg
-        FROM message
-        WHERE (message.to_user = #{userId} OR message.from_user = #{userId})
-        GROUP BY message.from_user, message.to_user
+    <select id="selectRecentMessageList" resultType="wang.ismy.zbq.model.dto.message.MessageListDTO">
+        SELECT from_user,to_user,
+        (
+        SELECT m.content
+        FROM message m
+        WHERE (m.to_user = #{userId} OR m.from_user = #{userId}) AND
+        (m.from_user = message.from_user AND m.to_user = message.to_user)
+        ORDER BY m.create_time DESC
+        LIMIT 1
+        ) newest_msg
+
+        FROM
+        message WHERE (from_user IN
+        <foreach collection="list" item="i" separator="," open="(" close=")">
+            #{i}
+        </foreach>
+
+        AND to_user = #{userId})
+        OR (to_user IN
+
+        <foreach collection="list" item="i" separator="," open="(" close=")">
+            #{i}
+        </foreach>
+
+        AND from_user = #{userId})
+        GROUP BY from_user,to_user
         ORDER BY create_time DESC
-        LIMIT 7
+    </select>
+    <select id="selectRecentMessageUser" resultType="java.util.HashMap">
+
+        SELECT from_user, to_user
+        FROM message
+        WHERE from_user = 2
+           OR to_user = 2
+        ORDER BY create_time DESC
     </select>
 </mapper>

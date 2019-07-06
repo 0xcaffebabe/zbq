@@ -23,6 +23,7 @@ import wang.ismy.zbq.enums.PermissionEnum;
 import wang.ismy.zbq.model.vo.user.AuthorVO;
 import wang.ismy.zbq.resources.R;
 import wang.ismy.zbq.service.system.ExecuteService;
+import wang.ismy.zbq.service.system.InformService;
 import wang.ismy.zbq.service.user.UserService;
 import wang.ismy.zbq.util.ErrorUtils;
 import wang.ismy.zbq.model.vo.CommentVO;
@@ -39,29 +40,24 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-
+@Setter(onMethod_ = @Inject)
 public class ContentService {
 
-    @Setter(onMethod_ = @Inject)
     private ContentMapper mapper;
 
-    @Setter(onMethod_ = @Inject)
     private UserService userService;
 
-    @Setter(onMethod_ = @Inject)
     private LikeService likeService;
 
-    @Setter(onMethod_ = @Inject)
     private CommentService commentService;
 
-    @Setter(onMethod_ = @Inject)
     private CollectionService collectionService;
 
-    @Setter(onMethod_ = @Inject)
     private ExecuteService executeService;
 
-    @Setter(onMethod_ = @Inject)
     private SubscriptionService subscriptionService;
+
+    private InformService informService;
 
     /**
      * 以当前登录用户身份发布内容，需要有PUBLISH_CONTENT权限
@@ -77,6 +73,9 @@ public class ContentService {
         if (mapper.insertNew(content) != 1) {
             ErrorUtils.error(R.UNKNOWN_ERROR);
         }
+
+        executeService.submit(()-> informService.informUserContent(currentUser.getUserId(),contentDTO.getTitle()));
+
     }
 
     /**
