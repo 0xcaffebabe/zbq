@@ -22,8 +22,8 @@ public class ObjectStorageService {
 
     public String uploadImg(byte[] bytes, String format, String folder) {
         String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
-        String accessKeyId = "LTAItmWponXWvipx";
-        String accessKeySecret = "QAoqNFyNMN9F4M15JVUDSnYsxzXazN";
+        String accessKeyId = "LTAI4Fp73MyJHygGhmM1cHJC";
+        String accessKeySecret = "z7Pf3zld8OvA1ctSrEAKEE3nEIdv9F";
         String bucketName = "zbq88";
 
 
