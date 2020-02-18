@@ -31,6 +31,7 @@ public class SoGouVideoSearchEngine implements VideoFetch {
         Request request = new Request();
         request.setUrl(url);
 
+
         List<Video> videoList = new ArrayList<>();
         spider.request(request,response -> {
 
